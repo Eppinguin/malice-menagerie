@@ -36,7 +36,21 @@
       selectedMaliceFeatureIds: [],
       maliceSelectionInitialized: false
     },
-    ui: { view: 'builder', role: 'all', search: '', maliceLibraryOpen: false }
+    ui: {
+      view: 'builder',
+      role: 'all',
+      search: '',
+      maliceLibraryOpen: false,
+      sort: 'name',
+      filtersOpen: false,
+      roles: [],
+      sizes: [],
+      keywords: [],
+      levelMin: null,
+      levelMax: null,
+      evMin: null,
+      evMax: null
+    }
   });
 
   let state = loadState();
@@ -47,6 +61,7 @@
   let conditionCatalog = [];
   let expandedMaliceFeatures = new Set();
   let openConditionPickerFor = null;
+  let previewPath = null;
   let sourceLoading = true;
   let sourceError = '';
   let hydratedCount = 0;
@@ -82,6 +97,27 @@
     roundOneMalice: $('roundOneMalice'),
     monsterSearch: $('monsterSearch'),
     roleFilters: $('roleFilters'),
+    filtersToggle: $('filtersToggle'),
+    filterCount: $('filterCount'),
+    sortSelect: $('sortSelect'),
+    filtersPanel: $('filtersPanel'),
+    clearFilters: $('clearFilters'),
+    roleFacet: $('roleFacet'),
+    sizeFacet: $('sizeFacet'),
+    keywordFacet: $('keywordFacet'),
+    levelMin: $('levelMin'),
+    levelMax: $('levelMax'),
+    levelFill: $('levelFill'),
+    levelRangeLabel: $('levelRangeLabel'),
+    evMin: $('evMin'),
+    evMax: $('evMax'),
+    evFill: $('evFill'),
+    evRangeLabel: $('evRangeLabel'),
+    previewBackdrop: $('previewBackdrop'),
+    previewDrawer: $('previewDrawer'),
+    previewClose: $('previewClose'),
+    previewBody: $('previewBody'),
+    previewFoot: $('previewFoot'),
     dataStatus: $('dataStatus'),
     monsterLibrary: $('monsterLibrary'),
     addPrepGroup: $('addPrepGroup'),
@@ -135,6 +171,16 @@
     if (typeof state.combat.maliceSelectionInitialized !== 'boolean') state.combat.maliceSelectionInitialized = false;
     if (!state.ui) state.ui = defaultState().ui;
     if (typeof state.ui.maliceLibraryOpen !== 'boolean') state.ui.maliceLibraryOpen = false;
+    const uiDefaults = defaultState().ui;
+    if (typeof state.ui.sort !== 'string') state.ui.sort = uiDefaults.sort;
+    if (typeof state.ui.filtersOpen !== 'boolean') state.ui.filtersOpen = false;
+    for (const key of ['roles', 'sizes', 'keywords']) {
+      if (!Array.isArray(state.ui[key])) state.ui[key] = [];
+    }
+    for (const key of ['levelMin', 'levelMax', 'evMin', 'evMax']) {
+      if (state.ui[key] !== null && !Number.isFinite(state.ui[key])) state.ui[key] = null;
+      if (state.ui[key] === undefined) state.ui[key] = null;
+    }
     if (!Array.isArray(state.encounter)) state.encounter = [];
   }
 
@@ -687,21 +733,184 @@
     ].filter(Boolean).join(' ').toLowerCase();
   }
 
+  function normalizeToken(value) {
+    return String(value ?? '').trim().toLowerCase();
+  }
+
+  // Facet option lists derived from the hydrated catalog, so we never show
+  // filters that match nothing.
+  function facetOptions() {
+    const roles = new Map();
+    const sizes = new Map();
+    const keywords = new Map();
+    for (const entry of catalog) {
+      const m = entry.monster;
+      if (!m) continue;
+      if (m.role) roles.set(normalizeToken(m.role), m.role);
+      if (m.size && m.size !== '—') sizes.set(normalizeToken(m.size), String(m.size));
+      for (const keyword of m.keywords || []) {
+        if (keyword) keywords.set(normalizeToken(keyword), keyword);
+      }
+    }
+    const asSorted = map => [...map.entries()].sort((a, b) => a[1].localeCompare(b[1], undefined, { numeric: true }));
+    return { roles: asSorted(roles), sizes: asSorted(sizes), keywords: asSorted(keywords) };
+  }
+
+  // Data-driven min/max for the Level and EV sliders. Recomputed only when the
+  // hydrated count changes, so slider bounds settle as data loads in.
+  let boundsCache = null;
+  let boundsCacheKey = -1;
+  function catalogBounds() {
+    if (boundsCache && boundsCacheKey === hydratedCount) return boundsCache;
+    let levelMin = Infinity, levelMax = -Infinity, evMin = Infinity, evMax = -Infinity;
+    for (const entry of catalog) {
+      const m = entry.monster;
+      if (!m) continue;
+      levelMin = Math.min(levelMin, m.level);
+      levelMax = Math.max(levelMax, m.level);
+      evMin = Math.min(evMin, m.ev);
+      evMax = Math.max(evMax, m.ev);
+    }
+    if (!Number.isFinite(levelMin)) { levelMin = 0; levelMax = 10; }
+    if (!Number.isFinite(evMin)) { evMin = 0; evMax = 60; }
+    boundsCache = { level: [levelMin, levelMax], ev: [evMin, evMax] };
+    boundsCacheKey = hydratedCount;
+    return boundsCache;
+  }
+
+  function activeFilterCount() {
+    const ui = state.ui;
+    return (ui.role !== 'all' ? 1 : 0) + hiddenFilterCount();
+  }
+
+  // Active filters that live inside the collapsible "More" panel (everything
+  // except Type, which is always visible in the bar).
+  function hiddenFilterCount() {
+    const ui = state.ui;
+    let count = ui.roles.length + ui.sizes.length + ui.keywords.length;
+    if (ui.levelMin !== null || ui.levelMax !== null) count += 1;
+    if (ui.evMin !== null || ui.evMax !== null) count += 1;
+    return count;
+  }
+
+  function monsterMatchesFilters(m) {
+    const ui = state.ui;
+    if (ui.role !== 'all' && normalizeToken(m.organization) !== normalizeToken(ui.role)) return false;
+    if (ui.roles.length && !ui.roles.includes(normalizeToken(m.role))) return false;
+    if (ui.sizes.length && !ui.sizes.includes(normalizeToken(m.size))) return false;
+    if (ui.keywords.length) {
+      const owned = new Set((m.keywords || []).map(normalizeToken));
+      if (!ui.keywords.some(keyword => owned.has(keyword))) return false;
+    }
+    if (ui.levelMin !== null && m.level < ui.levelMin) return false;
+    if (ui.levelMax !== null && m.level > ui.levelMax) return false;
+    if (ui.evMin !== null && m.ev < ui.evMin) return false;
+    if (ui.evMax !== null && m.ev > ui.evMax) return false;
+    return true;
+  }
+
+  function needsMonsterData() {
+    const ui = state.ui;
+    return ui.role !== 'all'
+      || ui.roles.length > 0
+      || ui.sizes.length > 0
+      || ui.keywords.length > 0
+      || ui.levelMin !== null || ui.levelMax !== null
+      || ui.evMin !== null || ui.evMax !== null
+      || ui.sort !== 'name';
+  }
+
   function filteredCatalog() {
     const search = state.ui.search.trim().toLowerCase();
-    const role = state.ui.role;
-    return catalog.filter(entry => {
+    const requiresData = needsMonsterData();
+    const matches = catalog.filter(entry => {
       if (search && !catalogSearchText(entry).includes(search)) return false;
-      if (role !== 'all') {
+      if (requiresData) {
         if (!entry.monster) return false;
-        if (String(entry.monster.organization).toLowerCase() !== role.toLowerCase()) return false;
+        if (!monsterMatchesFilters(entry.monster)) return false;
       }
       return true;
     });
+    return sortCatalog(matches);
+  }
+
+  function sortCatalog(entries) {
+    const sort = state.ui.sort;
+    if (sort === 'name') return entries;
+    const sorted = entries.slice();
+    if (sort === 'level') {
+      sorted.sort((a, b) => (a.monster?.level ?? 0) - (b.monster?.level ?? 0) || a.derivedName.localeCompare(b.derivedName));
+    } else if (sort === 'ev') {
+      sorted.sort((a, b) => (a.monster?.ev ?? 0) - (b.monster?.ev ?? 0) || a.derivedName.localeCompare(b.derivedName));
+    }
+    return sorted;
+  }
+
+  function facetChipHtml(facetKey, options, selected) {
+    if (!options.length) return '<span class="facet-empty">Loading…</span>';
+    const selectedSet = new Set(selected);
+    return options.map(([value, label]) =>
+      `<button class="chip facet-chip ${selectedSet.has(value) ? 'active' : ''}" data-facet-key="${escapeHtml(facetKey)}" data-facet-value="${escapeHtml(value)}">${escapeHtml(label)}</button>`
+    ).join('');
+  }
+
+  // Sync one dual-range slider: bounds, thumb positions, filled track, label.
+  function syncDualRange(key, bounds, minEl, maxEl, fillEl, labelEl) {
+    const ui = state.ui;
+    const [lo, hi] = bounds;
+    const lowActive = ui[`${key}Min`] !== null ? ui[`${key}Min`] : lo;
+    const highActive = ui[`${key}Max`] !== null ? ui[`${key}Max`] : hi;
+    for (const el of [minEl, maxEl]) {
+      el.min = lo;
+      el.max = hi;
+      el.step = 1;
+    }
+    if (document.activeElement !== minEl) minEl.value = lowActive;
+    if (document.activeElement !== maxEl) maxEl.value = highActive;
+    const span = hi - lo || 1;
+    const leftPct = ((lowActive - lo) / span) * 100;
+    const rightPct = ((highActive - lo) / span) * 100;
+    fillEl.style.left = `${leftPct}%`;
+    fillEl.style.right = `${100 - rightPct}%`;
+    const constrained = ui[`${key}Min`] !== null || ui[`${key}Max`] !== null;
+    labelEl.textContent = constrained ? `${lowActive}–${highActive}` : `${lo}–${hi}`;
+    labelEl.classList.toggle('range-value-active', constrained);
+  }
+
+  function renderFilters() {
+    const ui = state.ui;
+    if (els.sortSelect.value !== ui.sort) els.sortSelect.value = ui.sort;
+
+    // Type chips live in the always-visible bar, so keep them in sync always.
+    [...els.roleFilters.querySelectorAll('[data-role]')].forEach(item =>
+      item.classList.toggle('active', item.dataset.role === ui.role));
+
+    // The "More" badge reflects only the filters hidden inside the panel.
+    const hidden = hiddenFilterCount();
+    els.filterCount.textContent = hidden;
+    els.filterCount.hidden = hidden === 0;
+    els.clearFilters.hidden = activeFilterCount() === 0;
+    els.filtersToggle.classList.toggle('has-filters', hidden > 0);
+    els.filtersToggle.classList.toggle('open', ui.filtersOpen);
+    els.filtersToggle.setAttribute('aria-expanded', String(ui.filtersOpen));
+    els.filtersPanel.hidden = !ui.filtersOpen;
+
+    // Only build the panel contents when it's actually visible.
+    if (!ui.filtersOpen) return;
+
+    const options = facetOptions();
+    els.roleFacet.innerHTML = facetChipHtml('roles', options.roles, ui.roles);
+    els.sizeFacet.innerHTML = facetChipHtml('sizes', options.sizes, ui.sizes);
+    els.keywordFacet.innerHTML = facetChipHtml('keywords', options.keywords, ui.keywords);
+
+    const bounds = catalogBounds();
+    syncDualRange('level', bounds.level, els.levelMin, els.levelMax, els.levelFill, els.levelRangeLabel);
+    syncDualRange('ev', bounds.ev, els.evMin, els.evMax, els.evFill, els.evRangeLabel);
   }
 
   function renderLibrary() {
     renderPrepGroups();
+    renderFilters();
     if (sourceError) {
       els.monsterLibrary.innerHTML = `<div class="source-error"><strong>Could not load SteelCompendium.</strong><span>${escapeHtml(sourceError)}</span><button class="secondary" data-retry-source>Retry</button></div>`;
       return;
@@ -713,16 +922,20 @@
 
     const matches = filteredCatalog();
     const visible = matches.slice(0, MAX_LIBRARY_RESULTS);
+    const stillLoading = hydratedCount < catalog.length;
     if (!visible.length) {
-      const note = state.ui.role !== 'all' && hydratedCount < catalog.length
-        ? 'Matching organization data is still loading.'
-        : 'No matching monsters.';
-      els.monsterLibrary.innerHTML = `<div class="empty-state">${note}</div>`;
+      const note = activeFilterCount() && stillLoading
+        ? 'No matches yet — statblock data is still loading.'
+        : activeFilterCount()
+          ? 'No monsters match these filters.'
+          : 'No matching monsters.';
+      els.monsterLibrary.innerHTML = `<div class="empty-state">${note}${activeFilterCount() ? '<button class="secondary" data-clear-filters>Clear filters</button>' : ''}</div>`;
       return;
     }
 
+    const loadingNote = needsMonsterData() && stillLoading ? '<span class="results-loading">loading more…</span>' : '';
     els.monsterLibrary.innerHTML = `
-      <div class="library-results-bar"><span>${matches.length} result${matches.length === 1 ? '' : 's'}</span>${matches.length > MAX_LIBRARY_RESULTS ? `<span>Showing first ${MAX_LIBRARY_RESULTS}</span>` : ''}</div>
+      <div class="library-results-bar"><span>${matches.length} result${matches.length === 1 ? '' : 's'}${loadingNote}</span>${matches.length > MAX_LIBRARY_RESULTS ? `<span>Showing first ${MAX_LIBRARY_RESULTS}</span>` : ''}</div>
       ${visible.map(entry => renderMonsterCard(entry)).join('')}
     `;
   }
@@ -745,12 +958,13 @@
 
     const preview = m.features.slice(0, 3).map(feature => feature.name).filter(Boolean).join(' · ');
     return `<article class="monster-card" data-drag-source-path="${escapeHtml(entry.path)}">
-      <div class="monster-main">
+      <div class="monster-main preview-target" data-preview-monster="${escapeHtml(entry.path)}" title="Click to preview statblock">
         <div class="monster-title-row"><span class="card-drag-handle" aria-hidden="true">⠿</span><h3>${escapeHtml(m.name)}</h3><span class="tag">${escapeHtml(m.organization)}</span></div>
-        <div class="monster-meta"><span>Level <b>${fmt(m.level)}</b></span><span>${escapeHtml(m.role || '—')}</span><span>EV <b>${escapeHtml(m.evLabel)}</b></span><span>${escapeHtml(m.ancestry)}</span></div>
-        <div class="monster-preview">${escapeHtml(preview || familyLabel(m.familyPath))}</div>
+        <div class="monster-meta"><span>Level <b>${fmt(m.level)}</b></span><span>${escapeHtml(m.role || '—')}</span><span>EV <b>${escapeHtml(m.evLabel)}</b></span><span>${escapeHtml(m.size)}</span></div>
+        <div class="monster-preview">${escapeHtml(preview || m.ancestry || familyLabel(m.familyPath))}</div>
       </div>
       <div class="add-controls">
+        <button class="preview-button" data-preview-monster="${escapeHtml(entry.path)}" title="Preview statblock" aria-label="Preview ${escapeHtml(m.name)}">👁</button>
         <div class="qty-control"><button data-qty-minus="${escapeHtml(entry.path)}">−</button><input data-qty-input="${escapeHtml(entry.path)}" value="${qty}" inputmode="numeric"><button data-qty-plus="${escapeHtml(entry.path)}">+</button></div>
         <button class="primary" data-add-monster="${escapeHtml(entry.path)}">Add</button>
       </div>
@@ -1540,6 +1754,88 @@
     </div>`;
   }
 
+  // A non-interactive statblock for the library preview drawer (no roll or
+  // malice-spend buttons, which only make sense during a live encounter).
+  function renderStatblockPreview(m) {
+    return `<div class="statblock-body">
+      ${m.features.map(feature => {
+        const isTrait = String(feature.feature_type || '').toLowerCase() === 'trait';
+        const meta = featureMeta(feature);
+        if (isTrait) {
+          return `<section class="trait-block"><div class="feature-title"><strong>${escapeHtml(feature.name || 'Trait')}</strong></div>${(feature.effects || []).map(effect => `<p>${richText(effect.effect || '')}</p>`).join('')}</section>`;
+        }
+        return `<section class="ability-block">
+          <div class="feature-title"><strong>${escapeHtml(feature.name || 'Ability')}</strong><span>${escapeHtml(featureLabel(feature))}</span></div>
+          ${meta ? `<div class="feature-meta">${escapeHtml(meta)}</div>` : ''}
+          <div class="feature-effects">${(feature.effects || []).map(effect => renderPreviewEffect(effect)).join('')}</div>
+        </section>`;
+      }).join('')}
+      <a class="source-link" href="${escapeHtml(m.source)}" target="_blank" rel="noreferrer">SteelCompendium source ↗</a>
+    </div>`;
+  }
+
+  function renderPreviewEffect(effect) {
+    const roll = effect.roll ? `<div class="roll-line"><strong>${escapeHtml(effect.roll)}</strong></div>` : '';
+    const tiers = ['tier1', 'tier2', 'tier3'].filter(key => effect[key])
+      .map((key, index) => `<div><b>${index + 1}</b><span>${richText(effect[key])}</span></div>`).join('');
+    const text = effect.effect ? `<p>${richText(effect.effect)}</p>` : '';
+    return `${roll}${tiers ? `<div class="tiers">${tiers}</div>` : ''}${text}`;
+  }
+
+  async function openPreview(path) {
+    previewPath = path;
+    let m = monsterCache.get(path);
+    if (!m) {
+      els.previewBody.innerHTML = '<div class="lane-loading">Loading statblock…</div>';
+      els.previewFoot.innerHTML = '';
+      showPreviewDrawer();
+      try {
+        m = await loadMonster(path);
+      } catch {
+        if (previewPath !== path) return;
+        els.previewBody.innerHTML = '<div class="empty-state">Could not load this statblock.</div>';
+        return;
+      }
+      if (previewPath !== path) return; // a newer preview was requested meanwhile
+    } else {
+      showPreviewDrawer();
+    }
+    renderPreviewContents(m);
+  }
+
+  function renderPreviewContents(m) {
+    els.previewBody.innerHTML = `<section class="preview-statblock">${renderLaneHeader(m)}${renderStatblockPreview(m)}</section>`;
+    const qty = qtyDrafts.get(m.path) || m.defaultQty || 1;
+    els.previewFoot.innerHTML = `
+      <div class="qty-control"><button data-qty-minus="${escapeHtml(m.path)}">−</button><input data-qty-input="${escapeHtml(m.path)}" value="${qty}" inputmode="numeric"><button data-qty-plus="${escapeHtml(m.path)}">+</button></div>
+      <button class="primary wide" data-add-monster="${escapeHtml(m.path)}">Add to encounter</button>`;
+  }
+
+  function showPreviewDrawer() {
+    els.previewDrawer.hidden = false;
+    els.previewBackdrop.hidden = false;
+    els.previewDrawer.setAttribute('aria-hidden', 'false');
+    // next frame so the transition runs
+    requestAnimationFrame(() => {
+      els.previewDrawer.classList.add('open');
+      els.previewBackdrop.classList.add('open');
+    });
+    document.body.classList.add('preview-open');
+  }
+
+  function closePreview() {
+    previewPath = null;
+    els.previewDrawer.classList.remove('open');
+    els.previewBackdrop.classList.remove('open');
+    els.previewDrawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('preview-open');
+    const drawer = els.previewDrawer;
+    const backdrop = els.previewBackdrop;
+    setTimeout(() => {
+      if (!drawer.classList.contains('open')) { drawer.hidden = true; backdrop.hidden = true; }
+    }, 200);
+  }
+
   function useMaliceFeature(featureId) {
     const feature = maliceFeatures.find(item => item.id === featureId);
     if (!feature) return;
@@ -1683,8 +1979,103 @@
     const button = event.target.closest('[data-role]');
     if (!button) return;
     state.ui.role = button.dataset.role;
-    [...els.roleFilters.querySelectorAll('[data-role]')].forEach(item => item.classList.toggle('active', item === button));
     saveState();
+    renderLibrary();
+  });
+
+  function clearAllFilters() {
+    const ui = state.ui;
+    ui.role = 'all';
+    ui.roles = [];
+    ui.sizes = [];
+    ui.keywords = [];
+    ui.levelMin = ui.levelMax = ui.evMin = ui.evMax = null;
+    saveState();
+    renderLibrary();
+  }
+
+  function toggleFacetValue(key, value) {
+    const list = state.ui[key];
+    const index = list.indexOf(value);
+    if (index === -1) list.push(value);
+    else list.splice(index, 1);
+    saveState();
+    renderLibrary();
+  }
+
+  // Handle a dual-slider thumb moving. Thumbs can't cross; a thumb resting on
+  // its bound means "no constraint" on that side (stored as null).
+  function handleRangeInput(key, movedEl, minEl, maxEl) {
+    const bounds = catalogBounds()[key];
+    const [lo, hi] = bounds;
+    let minVal = Number(minEl.value);
+    let maxVal = Number(maxEl.value);
+    if (movedEl === minEl && minVal > maxVal) { minVal = maxVal; minEl.value = minVal; }
+    if (movedEl === maxEl && maxVal < minVal) { maxVal = minVal; maxEl.value = maxVal; }
+    state.ui[`${key}Min`] = minVal <= lo ? null : minVal;
+    state.ui[`${key}Max`] = maxVal >= hi ? null : maxVal;
+    saveState();
+    renderLibrary();
+  }
+
+  els.filtersToggle.addEventListener('click', () => {
+    state.ui.filtersOpen = !state.ui.filtersOpen;
+    saveState();
+    renderLibrary();
+  });
+
+  els.sortSelect.addEventListener('change', () => {
+    state.ui.sort = els.sortSelect.value;
+    saveState();
+    renderLibrary();
+  });
+
+  els.clearFilters.addEventListener('click', clearAllFilters);
+
+  els.filtersPanel.addEventListener('click', event => {
+    const chip = event.target.closest('[data-facet-key]');
+    if (!chip) return;
+    toggleFacetValue(chip.dataset.facetKey, chip.dataset.facetValue);
+  });
+
+  els.levelMin.addEventListener('input', () => handleRangeInput('level', els.levelMin, els.levelMin, els.levelMax));
+  els.levelMax.addEventListener('input', () => handleRangeInput('level', els.levelMax, els.levelMin, els.levelMax));
+  els.evMin.addEventListener('input', () => handleRangeInput('ev', els.evMin, els.evMin, els.evMax));
+  els.evMax.addEventListener('input', () => handleRangeInput('ev', els.evMax, els.evMin, els.evMax));
+
+  // Preview drawer controls
+  els.previewClose.addEventListener('click', closePreview);
+  els.previewBackdrop.addEventListener('click', closePreview);
+  window.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && previewPath) closePreview();
+  });
+
+  els.previewFoot.addEventListener('click', async event => {
+    const add = event.target.closest('[data-add-monster]');
+    const plus = event.target.closest('[data-qty-plus]');
+    const minus = event.target.closest('[data-qty-minus]');
+    if (add) {
+      await addToEncounter(add.dataset.addMonster, qtyDrafts.get(add.dataset.addMonster) || 1);
+      return;
+    }
+    if (plus || minus) {
+      const path = (plus || minus).dataset[plus ? 'qtyPlus' : 'qtyMinus'];
+      const next = plus
+        ? Math.min(30, (qtyDrafts.get(path) || 1) + 1)
+        : Math.max(1, (qtyDrafts.get(path) || 1) - 1);
+      qtyDrafts.set(path, next);
+      const m = monsterCache.get(path);
+      if (m) renderPreviewContents(m);
+      renderLibrary();
+    }
+  });
+
+  els.previewFoot.addEventListener('change', event => {
+    const input = event.target.closest('[data-qty-input]');
+    if (!input) return;
+    qtyDrafts.set(input.dataset.qtyInput, clampInt(input.value, 1, 30));
+    const m = monsterCache.get(input.dataset.qtyInput);
+    if (m) renderPreviewContents(m);
     renderLibrary();
   });
 
@@ -1731,6 +2122,10 @@
     if (Date.now() < suppressPrepClickUntil) return;
     const retry = event.target.closest('[data-retry-source]');
     if (retry) { loadSource(); return; }
+    const clear = event.target.closest('[data-clear-filters]');
+    if (clear) { clearAllFilters(); return; }
+    const preview = event.target.closest('[data-preview-monster]');
+    if (preview) { openPreview(preview.dataset.previewMonster); return; }
     const add = event.target.closest('[data-add-monster]');
     const plus = event.target.closest('[data-qty-plus]');
     const minus = event.target.closest('[data-qty-minus]');

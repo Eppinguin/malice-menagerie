@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#0f120f" />
   <title>Steel Table — Draw Steel encounter board</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div class="app-shell">
@@ -45,13 +45,60 @@
               <div><h2>Monster library</h2><span class="source-status" id="dataStatus">Connecting to SteelCompendium…</span></div>
               <label class="search"><span>⌕</span><input id="monsterSearch" placeholder="Search monsters"></label>
             </div>
-            <div class="filter-row" id="roleFilters">
-              <button class="chip active" data-role="all">All</button>
-              <button class="chip" data-role="Horde">Horde</button>
-              <button class="chip" data-role="Minion">Minion</button>
-              <button class="chip" data-role="Elite">Elite</button>
-              <button class="chip" data-role="Leader">Leader</button>
-              <button class="chip" data-role="Solo">Solo</button>
+            <div class="filter-bar">
+              <div class="filter-row primary-filters" id="roleFilters">
+                <button class="chip active" data-role="all">All</button>
+                <button class="chip" data-role="Horde">Horde</button>
+                <button class="chip" data-role="Minion">Minion</button>
+                <button class="chip" data-role="Elite">Elite</button>
+                <button class="chip" data-role="Leader">Leader</button>
+                <button class="chip" data-role="Solo">Solo</button>
+              </div>
+              <div class="filter-tools">
+                <button class="text-button" id="clearFilters" hidden>Clear all</button>
+                <button class="chip filter-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filtersPanel">
+                  More<i class="filter-count" id="filterCount" hidden>0</i><span class="filter-toggle-caret" aria-hidden="true">▾</span>
+                </button>
+                <label class="sort-control"><span>Sort</span>
+                  <select id="sortSelect" aria-label="Sort monsters">
+                    <option value="name">Name</option>
+                    <option value="level">Level</option>
+                    <option value="ev">EV</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div class="filters-panel panel" id="filtersPanel" hidden>
+              <div class="facet-ranges">
+                <div class="range-facet">
+                  <p class="facet-label">Level <span class="range-value" id="levelRangeLabel"></span></p>
+                  <div class="dual-range" id="levelRange">
+                    <div class="dual-range-track"><span class="dual-range-fill" id="levelFill"></span></div>
+                    <input type="range" id="levelMin" aria-label="Minimum level">
+                    <input type="range" id="levelMax" aria-label="Maximum level">
+                  </div>
+                </div>
+                <div class="range-facet">
+                  <p class="facet-label">EV <span class="range-value" id="evRangeLabel"></span></p>
+                  <div class="dual-range" id="evRange">
+                    <div class="dual-range-track"><span class="dual-range-fill" id="evFill"></span></div>
+                    <input type="range" id="evMin" aria-label="Minimum EV">
+                    <input type="range" id="evMax" aria-label="Maximum EV">
+                  </div>
+                </div>
+              </div>
+              <div class="facet" data-facet="role">
+                <p class="facet-label">Role</p>
+                <div class="facet-chips" id="roleFacet"></div>
+              </div>
+              <div class="facet" data-facet="size">
+                <p class="facet-label">Size</p>
+                <div class="facet-chips" id="sizeFacet"></div>
+              </div>
+              <div class="facet" data-facet="keywords">
+                <p class="facet-label">Keywords</p>
+                <div class="facet-chips" id="keywordFacet"></div>
+              </div>
             </div>
             <div class="monster-library panel" id="monsterLibrary"></div>
           </section>
@@ -106,8 +153,18 @@
     </main>
   </div>
 
+  <div class="preview-backdrop" id="previewBackdrop" hidden></div>
+  <aside class="preview-drawer" id="previewDrawer" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Monster statblock preview">
+    <header class="preview-drawer-head">
+      <span class="preview-drawer-eyebrow">Statblock preview</span>
+      <button class="icon-button" id="previewClose" title="Close preview" aria-label="Close preview">×</button>
+    </header>
+    <div class="preview-drawer-body" id="previewBody"></div>
+    <footer class="preview-drawer-foot" id="previewFoot"></footer>
+  </aside>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <footer>Steel Table is an independent product published under the DRAW STEEL Creator License and is not affiliated with MCDM Productions, LLC. DRAW STEEL © 2026 MCDM Productions, LLC. Game data is loaded from SteelCompendium/data-unified.</footer>
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
