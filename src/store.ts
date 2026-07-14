@@ -706,6 +706,25 @@ export function nextRound(): void {
   toast(`Round ${combat.round} · +${state.value.party.heroes + combat.round} Malice`);
 }
 
+/**
+ * Undo an accidental {@link nextRound}: step back one round and remove the Malice
+ * that advancing into the current round granted (heroes + currentRound). Effects that
+ * `nextRound` expired can't be recovered, so this is a best-effort misclick undo.
+ */
+export function previousRound(): void {
+  if (state.value.combat.round <= 1) return;
+  mutate((draft) => {
+    const undoneGain = draft.party.heroes + draft.combat.round;
+    draft.combat.malice = Math.max(0, draft.combat.malice - undoneGain);
+    draft.combat.round -= 1;
+    draft.combat.instances.forEach((instance) => {
+      instance.acted = false;
+    });
+  });
+  const combat = state.value.combat;
+  toast(`Round ${combat.round} · −${state.value.party.heroes + (combat.round + 1)} Malice`);
+}
+
 export function adjustMalice(delta: number): void {
   mutate((draft) => {
     draft.combat.malice = Math.max(0, draft.combat.malice + delta);

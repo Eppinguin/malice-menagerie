@@ -1,4 +1,4 @@
-import { adjustMalice, clearEncounter, nextRound, resetApp, setView, startCombat, state } from '../store.ts';
+import { adjustMalice, clearEncounter, nextRound, previousRound, resetApp, setView, startCombat, state } from '../store.ts';
 import { BuilderView } from './builder/BuilderView.tsx';
 import { CombatView } from './combat/CombatView.tsx';
 import { PreviewDrawer } from './PreviewDrawer.tsx';
@@ -30,9 +30,16 @@ function CombatControls() {
   const acted = combat.instances.filter(instance => instance.acted).length;
   const total = combat.instances.length;
   const nextGain = state.value.party.heroes + combat.round + 1;
+  const undoGain = state.value.party.heroes + combat.round;
+  const atStart = combat.round <= 1;
   return (
     <div class="combat-controls">
-      <button class="secondary compact-button" onClick={() => setView('builder')}>← Prep</button>
+      <button
+        class="secondary compact-button"
+        disabled={atStart}
+        title={atStart ? 'Already on round 1' : `Undo last round · −${undoGain} Malice`}
+        onClick={previousRound}
+      >← Prev round</button>
       <div class="malice-counter" title={`Next round +${nextGain}`}>
         <span class="malice-counter-label">MALICE</span>
         <button class="square" aria-label="Decrease Malice" onClick={() => adjustMalice(-1)}>−</button>
@@ -40,7 +47,10 @@ function CombatControls() {
         <button class="square" aria-label="Increase Malice" onClick={() => adjustMalice(1)}>+</button>
       </div>
       <div class="round-progress">
-        <span>{acted}/{total} marked</span>
+        <div class={`acted-tally ${total > 0 && acted === total ? 'complete' : ''}`} title={`${acted} of ${total} creatures have acted`}>
+          <span class="acted-tally-label">ACTED</span>
+          <strong>{acted}<i>/{total}</i></strong>
+        </div>
         <button class="primary" onClick={nextRound}>Next round →</button>
       </div>
     </div>

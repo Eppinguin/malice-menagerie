@@ -233,10 +233,45 @@ h3 {
   align-items: center;
   gap: 10px;
 }
-.round-progress span {
-  color: var(--muted);
-  font-size: 11px;
-  white-space: nowrap;
+.acted-tally {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-2);
+  line-height: 1;
+}
+.acted-tally-label {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+.acted-tally strong {
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.acted-tally strong i {
+  color: var(--faint);
+  font-style: normal;
+  font-weight: 700;
+}
+.acted-tally.complete {
+  border-color: var(--acid);
+  background: var(--acid-soft);
+}
+.acted-tally.complete strong,
+.acted-tally.complete .acted-tally-label {
+  color: var(--acid);
+}
+.acted-tally.complete strong i {
+  color: var(--acid);
+  opacity: 0.7;
 }
 button.primary,
 button.secondary,
