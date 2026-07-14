@@ -60,6 +60,7 @@ export interface UIState {
   view: ViewName;
   role: string;
   search: string;
+  maliceDockOpen: boolean;
   maliceLibraryOpen: boolean;
   sort: SortKey;
   filtersOpen: boolean;

@@ -4,7 +4,6 @@ import { plainText, richText } from '../../lib/text.ts';
 import {
   addMaliceSelection,
   allRelevantMaliceFeatures,
-  autoPickMalice,
   ensureMaliceSelection,
   expandedMaliceFeatures,
   lastMaliceRolls,
@@ -129,10 +128,6 @@ export function MaliceDock() {
   return (
     <>
       <section class="malice-selection-shell">
-        <header class="malice-selection-heading">
-          <div><strong>Encounter Malice</strong><span>{selected.length} selected</span></div>
-          <button class="secondary compact-button" title="Choose a balanced 3–4 feature set" onClick={autoPickMalice}>Auto pick 3–4</button>
-        </header>
         {selected.length ? (
           <div class="malice-selected-grid">
             {selected.map(feature => <MaliceCard key={feature.id} feature={feature} />)}

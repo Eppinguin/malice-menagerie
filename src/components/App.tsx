@@ -1,4 +1,4 @@
-import { clearEncounter, resetApp, setView, startCombat, state } from '../store.ts';
+import { adjustMalice, clearEncounter, nextRound, resetApp, setView, startCombat, state } from '../store.ts';
 import { BuilderView } from './builder/BuilderView.tsx';
 import { CombatView } from './combat/CombatView.tsx';
 import { PreviewDrawer } from './PreviewDrawer.tsx';
@@ -25,13 +25,35 @@ function Sidebar() {
   );
 }
 
+function CombatControls() {
+  const combat = state.value.combat;
+  const acted = combat.instances.filter(instance => instance.acted).length;
+  const total = combat.instances.length;
+  const nextGain = state.value.party.heroes + combat.round + 1;
+  return (
+    <div class="combat-controls">
+      <button class="secondary compact-button" onClick={() => setView('builder')}>← Prep</button>
+      <div class="malice-counter" title={`Next round +${nextGain}`}>
+        <span class="malice-counter-label">MALICE</span>
+        <button class="square" aria-label="Decrease Malice" onClick={() => adjustMalice(-1)}>−</button>
+        <strong>{combat.malice}</strong>
+        <button class="square" aria-label="Increase Malice" onClick={() => adjustMalice(1)}>+</button>
+      </div>
+      <div class="round-progress">
+        <span>{acted}/{total} marked</span>
+        <button class="primary" onClick={nextRound}>Next round →</button>
+      </div>
+    </div>
+  );
+}
+
 function Topbar() {
   const combat = state.value.combat;
   const isBuilder = state.value.ui.view === 'builder';
   return (
     <header class="topbar">
       <div>
-        <p class="eyebrow">{isBuilder ? 'ENCOUNTER' : 'COMBAT'}</p>
+        <p class="eyebrow">{isBuilder ? 'ENCOUNTER' : `COMBAT · +${state.value.party.heroes + combat.round + 1} malice next round`}</p>
         <h1>{isBuilder ? 'Prep' : `Round ${combat.round}`}</h1>
       </div>
       <div class="top-actions">
@@ -40,7 +62,9 @@ function Topbar() {
             <button class="secondary" onClick={clearEncounter}>Clear</button>
             <button class="primary" disabled={!state.value.encounter.length} onClick={() => void startCombat()}>Run encounter</button>
           </>
-        ) : null}
+        ) : (
+          <CombatControls />
+        )}
       </div>
     </header>
   );

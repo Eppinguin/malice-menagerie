@@ -60,6 +60,7 @@ function defaultState(): AppState {
       view: "builder",
       role: "all",
       search: "",
+      maliceDockOpen: true,
       maliceLibraryOpen: false,
       sort: "name",
       filtersOpen: false,
@@ -186,6 +187,7 @@ function sanitizeState(value: unknown): AppState {
       view: view === "combat" ? "combat" : "builder",
       role: asString(ui["role"], "all"),
       search: asString(ui["search"], ""),
+      maliceDockOpen: asBool(ui["maliceDockOpen"], true),
       maliceLibraryOpen: asBool(ui["maliceLibraryOpen"], false),
       sort: sort === "level" || sort === "ev" ? sort : "name",
       filtersOpen: asBool(ui["filtersOpen"], false),
@@ -1008,6 +1010,12 @@ export function toggleMaliceExpanded(featureId: string): void {
 export function toggleMaliceLibrary(): void {
   mutate((draft) => {
     draft.ui.maliceLibraryOpen = !draft.ui.maliceLibraryOpen;
+  });
+}
+
+export function toggleMaliceDock(): void {
+  mutate((draft) => {
+    draft.ui.maliceDockOpen = !draft.ui.maliceDockOpen;
   });
 }
 

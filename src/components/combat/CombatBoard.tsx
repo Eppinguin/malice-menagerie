@@ -8,6 +8,7 @@ import {
   removeCondition,
   removeInstance,
   renameInstance,
+  setGroupFilter,
   setInstanceGroup,
   state,
   toggleActed,
@@ -111,6 +112,34 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
   );
 }
 
+function GroupFilterBar() {
+  const combat = state.value.combat;
+  if (state.value.groups.length < 2) return null;
+  return (
+    <div class="group-filter-bar panel">
+      <span class="group-filter-label">GROUPS</span>
+      <div class="combat-group-rail">
+        {state.value.groups.map(group => {
+          const members = combat.instances.filter(instance => instance.groupId === group.id);
+          const acted = members.filter(instance => instance.acted).length;
+          const active = combat.activeGroupFilter === group.id;
+          const complete = members.length > 0 && acted === members.length;
+          return (
+            <button
+              key={group.id}
+              class={`combat-group-button ${active ? 'active' : ''} ${complete ? 'complete' : ''}`}
+              onClick={() => setGroupFilter(active ? null : group.id)}
+            >
+              <strong>{group.name}</strong><span>{acted}/{members.length}</span>
+            </button>
+          );
+        })}
+      </div>
+      <button class={`secondary compact-button ${!combat.activeGroupFilter ? 'active' : ''}`} onClick={() => setGroupFilter(null)}>All</button>
+    </div>
+  );
+}
+
 export function CombatBoard() {
   void monstersVersion.value; // subscribe: lanes render once statblocks are cached
   const combat = state.value.combat;
@@ -119,23 +148,26 @@ export function CombatBoard() {
   }
   const filter = combat.activeGroupFilter;
   return (
-    <div class="combat-board" id="combatBoard">
-      {groupInstancesByMonster().map(([path, instances]) => {
-        const monster = monsterCache.get(path);
-        if (!monster) {
-          return <section class="monster-lane panel" key={path}><div class="lane-loading">Loading statblock…</div></section>;
-        }
-        const laneRelevant = !filter || instances.some(instance => instance.groupId === filter);
-        return (
-          <section class={`monster-lane panel ${laneRelevant ? '' : 'lane-dimmed'}`} key={path}>
-            <LaneHeader monster={monster} />
-            <div class="instance-stack">
-              {instances.map(instance => <InstanceCard key={instance.id} instance={instance} monster={monster} filter={filter} />)}
-            </div>
-            <StatblockBody monster={monster} interactive={true} />
-          </section>
-        );
-      })}
-    </div>
+    <>
+      <GroupFilterBar />
+      <div class="combat-board" id="combatBoard">
+        {groupInstancesByMonster().map(([path, instances]) => {
+          const monster = monsterCache.get(path);
+          if (!monster) {
+            return <section class="monster-lane panel" key={path}><div class="lane-loading">Loading statblock…</div></section>;
+          }
+          const laneRelevant = !filter || instances.some(instance => instance.groupId === filter);
+          return (
+            <section class={`monster-lane panel ${laneRelevant ? '' : 'lane-dimmed'}`} key={path}>
+              <LaneHeader monster={monster} />
+              <div class="instance-stack">
+                {instances.map(instance => <InstanceCard key={instance.id} instance={instance} monster={monster} filter={filter} />)}
+              </div>
+              <StatblockBody monster={monster} interactive={true} />
+            </section>
+          );
+        })}
+      </div>
+    </>
   );
 }

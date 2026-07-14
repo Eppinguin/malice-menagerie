@@ -1,62 +1,11 @@
 import {
-  adjustMalice,
-  nextRound,
+  autoPickMalice,
   removeActiveEffect,
-  setGroupFilter,
-  setView,
-  state
+  state,
+  toggleMaliceDock
 } from '../../store.ts';
 import { MaliceDock } from './MaliceDock.tsx';
 import { CombatBoard } from './CombatBoard.tsx';
-
-function CombatToolbar() {
-  const combat = state.value.combat;
-  const acted = combat.instances.filter(instance => instance.acted).length;
-  const nextGain = state.value.party.heroes + combat.round + 1;
-  return (
-    <div class="combat-toolbar panel">
-      <button class="secondary" onClick={() => setView('builder')}>← Prep</button>
-      <div class="round-block"><span>ROUND</span><strong>{combat.round}</strong></div>
-      <div class="malice-block">
-        <div><span>MALICE</span><small>Next round +{nextGain}</small></div>
-        <button class="square" onClick={() => adjustMalice(-1)}>−</button>
-        <strong>{combat.malice}</strong>
-        <button class="square" onClick={() => adjustMalice(1)}>+</button>
-      </div>
-      <div class="round-next">
-        <span>{acted}/{combat.instances.length} marked</span>
-        <button class="primary" onClick={nextRound}>Next round →</button>
-      </div>
-    </div>
-  );
-}
-
-function GroupRail() {
-  const combat = state.value.combat;
-  return (
-    <div class="dock-row group-dock">
-      <div class="dock-label"><span>GROUPS</span></div>
-      <div class="combat-group-rail">
-        {state.value.groups.map(group => {
-          const members = combat.instances.filter(instance => instance.groupId === group.id);
-          const acted = members.filter(instance => instance.acted).length;
-          const active = combat.activeGroupFilter === group.id;
-          const complete = members.length > 0 && acted === members.length;
-          return (
-            <button
-              key={group.id}
-              class={`combat-group-button ${active ? 'active' : ''} ${complete ? 'complete' : ''}`}
-              onClick={() => setGroupFilter(group.id)}
-            >
-              <strong>{group.name}</strong><span>{acted}/{members.length}</span>
-            </button>
-          );
-        })}
-      </div>
-      <button class={`secondary compact-button ${!combat.activeGroupFilter ? 'active' : ''}`} onClick={() => setGroupFilter(null)}>All</button>
-    </div>
-  );
-}
 
 function ActiveEffects() {
   return (
@@ -72,16 +21,27 @@ function ActiveEffects() {
 }
 
 export function CombatView({ active }: { active: boolean }) {
+  const maliceOpen = state.value.ui.maliceDockOpen;
+  const selectedCount = state.value.combat.selectedMaliceFeatureIds.length;
   return (
     <section class={`view ${active ? 'active' : ''}`}>
-      <CombatToolbar />
-      <div class="encounter-dock panel">
-        <GroupRail />
-        <div class="dock-row malice-dock">
-          <div class="dock-label"><span>MALICE</span></div>
-          <div class="malice-feature-row"><MaliceDock /></div>
-        </div>
-        <ActiveEffects />
+      <div class={`encounter-dock panel malice-dock ${maliceOpen ? 'open' : 'closed'}`}>
+        <header class="malice-dock-header">
+          <button class="malice-dock-toggle" aria-expanded={maliceOpen} onClick={toggleMaliceDock}>
+            <b class="malice-dock-caret" aria-hidden="true">{maliceOpen ? '▾' : '▸'}</b>
+            <strong>Encounter Malice</strong>
+            <span>{selectedCount} selected</span>
+          </button>
+          {maliceOpen ? (
+            <button class="secondary compact-button" title="Choose a balanced 3–4 feature set" onClick={autoPickMalice}>Auto pick 3–4</button>
+          ) : null}
+        </header>
+        {maliceOpen ? (
+          <>
+            <MaliceDock />
+            <ActiveEffects />
+          </>
+        ) : null}
       </div>
       <CombatBoard />
     </section>

@@ -200,6 +200,44 @@ h3 {
   flex-wrap: wrap;
   justify-content: flex-end;
 }
+
+/* Combat controls integrated into the topbar */
+.combat-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.malice-counter {
+  display: grid;
+  grid-template-columns: auto 34px 44px 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel-2);
+}
+.malice-counter-label {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+.malice-counter > strong {
+  text-align: center;
+  font-size: 24px;
+  line-height: 1;
+}
+.round-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.round-progress span {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
 button.primary,
 button.secondary,
 .chip,
@@ -902,53 +940,6 @@ select {
 .remove-entry {
   color: var(--danger);
 }
-.combat-toolbar {
-  padding: 12px 14px;
-  display: grid;
-  grid-template-columns: auto 78px minmax(280px, 1fr) auto;
-  gap: 14px;
-  align-items: center;
-  margin-bottom: 12px;
-  position: sticky;
-  top: 113px;
-  z-index: 20;
-}
-.round-block {
-  display: grid;
-  gap: 1px;
-  padding-left: 13px;
-  border-left: 1px solid var(--border);
-}
-.round-block span,
-.malice-block span,
-.dock-label span {
-  color: var(--faint);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  font-weight: 800;
-}
-.round-block strong {
-  font-size: 30px;
-  line-height: 1;
-}
-.malice-block {
-  display: grid;
-  grid-template-columns: minmax(110px, 1fr) 34px 48px 34px;
-  align-items: center;
-  gap: 6px;
-}
-.malice-block > div {
-  display: grid;
-  gap: 3px;
-}
-.malice-block small {
-  color: var(--muted);
-  font-size: 11px;
-}
-.malice-block > strong {
-  text-align: center;
-  font-size: 27px;
-}
 .square {
   width: 34px;
   height: 34px;
@@ -956,34 +947,25 @@ select {
   border-color: var(--border);
   font-size: 18px;
 }
-.round-next {
+.encounter-dock {
+  margin-bottom: 12px;
+  padding: 8px 10px;
+}
+/* Group filter bar: A / B / All lives with the statblocks, above the lane row. */
+.group-filter-bar {
+  margin-bottom: 12px;
+  padding: 8px 10px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.round-next span {
-  color: var(--muted);
-  font-size: 11px;
-  white-space: nowrap;
+.group-filter-label {
+  color: var(--faint);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  font-weight: 800;
 }
-.encounter-dock {
-  margin-bottom: 12px;
-  padding: 8px 10px;
-  display: grid;
-  gap: 7px;
-  position: sticky;
-  top: 184px;
-  z-index: 19;
-}
-.dock-row {
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) auto;
-  gap: 8px;
-  align-items: center;
-}
-.combat-group-rail,
-.malice-feature-row {
+.combat-group-rail {
   display: flex;
   gap: 6px;
   min-width: 0;
@@ -1513,14 +1495,9 @@ footer {
     border-left: 0;
     border-top: 1px solid var(--border);
   }
-  .combat-toolbar {
-    grid-template-columns: auto 70px 1fr;
-  }
-  .round-next {
-    grid-column: 1 / -1;
+  .combat-controls {
+    flex-wrap: wrap;
     justify-content: flex-end;
-    border-top: 1px solid var(--border);
-    padding-top: 8px;
   }
 }
 @media (max-width: 900px) {
@@ -1567,7 +1544,6 @@ footer {
   .monster-library {
     max-height: 600px;
   }
-  .combat-toolbar,
   .encounter-dock {
     position: static;
   }
@@ -1576,7 +1552,7 @@ footer {
   .topbar {
     align-items: flex-start;
   }
-  .top-actions .secondary {
+  .top-actions > .secondary {
     display: none;
   }
   .party-strip {
@@ -1595,17 +1571,13 @@ footer {
   .add-controls {
     grid-template-columns: 1fr 1fr;
   }
-  .combat-toolbar {
-    grid-template-columns: 1fr 65px;
+  .combat-controls {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
   }
-  .malice-block {
-    grid-column: 1 / -1;
-  }
-  .dock-row {
-    grid-template-columns: 48px minmax(0, 1fr);
-  }
-  .dock-row > .compact-button {
-    grid-column: 1 / -1;
+  .group-filter-bar {
+    flex-wrap: wrap;
   }
   .monster-lane {
     flex-basis: min(88vw, 350px);
@@ -1902,12 +1874,6 @@ body.is-dragging-roster .prep-trash-drop {
 }
 
 /* Malice cards open as a top-aligned shelf. */
-.malice-dock {
-  align-items: start;
-}
-.malice-dock .dock-label {
-  padding-top: 11px;
-}
 .malice-feature-row {
   align-items: flex-start;
 }
@@ -2088,9 +2054,56 @@ body.dragging-encounter-entry .monster-library.drop-remove-active::before {
   color: #ffd7cc;
 }
 
-/* Rules-aware Malice layout: grouped by source instead of one endless horizontal shelf. */
+/* Collapsible Malice dock: the whole "Encounter Malice" panel (selected features +
+   available library) collapses under one header toggle. When open the selected
+   features are height-capped and scroll internally so the combat board stays on screen. */
 .malice-dock {
-  grid-template-columns: 58px minmax(0, 1fr);
+  display: grid;
+  gap: 8px;
+}
+.malice-dock.closed {
+  gap: 0;
+}
+.malice-dock-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.malice-dock-toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.malice-dock-caret {
+  align-self: center;
+  color: var(--faint);
+  font-size: 11px;
+  font-weight: 700;
+}
+.malice-dock-toggle strong {
+  font-size: 12px;
+}
+.malice-dock-toggle span {
+  color: var(--faint);
+  font-size: 10px;
+}
+.malice-dock-toggle:hover strong,
+.malice-dock-toggle:hover .malice-dock-caret {
+  color: var(--text);
+}
+.malice-dock.open .malice-selected-grid {
+  max-height: min(46vh, 460px);
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 .malice-feature-row {
   display: grid;
@@ -2178,12 +2191,6 @@ body.dragging-encounter-entry .monster-library.drop-remove-active::before {
 }
 
 @media (max-width: 900px) {
-  .malice-dock {
-    grid-template-columns: 1fr;
-  }
-  .malice-dock .dock-label {
-    padding-top: 0;
-  }
   .malice-group-grid {
     grid-template-columns: 1fr;
   }
@@ -2204,30 +2211,6 @@ body.dragging-encounter-entry .monster-library.drop-remove-active::before {
   border-radius: 9px;
   background: rgba(0, 0, 0, 0.08);
   overflow: hidden;
-}
-.malice-selection-heading {
-  min-height: 40px;
-  padding: 7px 9px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.018);
-}
-.malice-selection-heading > div {
-  min-width: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.malice-selection-heading strong {
-  font-size: 12px;
-}
-.malice-selection-heading span {
-  color: var(--faint);
-  font-size: 10px;
 }
 .malice-selected-grid {
   padding: 8px;
@@ -2426,9 +2409,6 @@ body.dragging-encounter-entry .monster-library.drop-remove-active::before {
 @media (max-width: 900px) {
   .malice-selected-grid {
     grid-template-columns: 1fr;
-  }
-  .malice-selection-heading {
-    align-items: flex-start;
   }
   .malice-library-item {
     grid-template-columns: 38px minmax(0, 1fr) auto 28px;
