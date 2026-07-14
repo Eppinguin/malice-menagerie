@@ -107,19 +107,17 @@ h3 {
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
-  letter-spacing: 0.08em;
-  font-size: 14px;
+  min-width: 0;
+  padding: 2px 0;
 }
-.brand-mark {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  color: var(--on-accent);
-  background: var(--accent);
-  font-weight: 950;
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+/* Full wordmark: "Malice" (horned-M emblem) over "Menagerie", baked as
+   a single transparent SVG so alignment/metrics need no tuning. */
+.brand-wordmark {
+  display: block;
+  width: 100%;
+  max-width: 178px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(75, 184, 171, 0.22));
 }
 .sidebar nav {
   display: grid;
@@ -1543,9 +1541,11 @@ footer {
     display: flex;
     margin-left: auto;
   }
-  .text-button,
-  .brand strong {
+  .text-button {
     display: none;
+  }
+  .brand-wordmark {
+    max-width: 150px;
   }
   .nav-button {
     grid-template-columns: auto auto auto;

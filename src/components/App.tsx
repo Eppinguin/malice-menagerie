@@ -9,7 +9,9 @@ function Sidebar() {
   const combatCount = state.value.combat.instances.length;
   return (
     <aside class="sidebar">
-      <div class="brand"><span class="brand-mark">ST</span><strong>STEEL TABLE</strong></div>
+      <div class="brand">
+        <img class="brand-wordmark" src="/malice-menagerie-wordmark.svg" alt="Malice Menagerie" />
+      </div>
       <nav>
         <button class={`nav-button ${view === 'builder' ? 'active' : ''}`} onClick={() => setView('builder')}>
           <span>01</span><b>Prep</b>
@@ -59,7 +61,7 @@ export function App() {
       <PreviewDrawer />
       <Toast />
       <footer>
-        Steel Table is an independent product published under the DRAW STEEL Creator License and is not affiliated with
+        Malice Menagerie is an independent product published under the DRAW STEEL Creator License and is not affiliated with
         MCDM Productions, LLC. DRAW STEEL © 2026 MCDM Productions, LLC. Game data is loaded from SteelCompendium/data-unified.
       </footer>
     </>

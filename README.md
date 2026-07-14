@@ -1,4 +1,4 @@
-# Steel Table prototype
+# Malice Menagerie
 
 Director-first Draw Steel encounter board inspired by the glanceable encounter model of FreshCutGrass.
 
