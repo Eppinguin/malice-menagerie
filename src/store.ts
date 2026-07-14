@@ -428,7 +428,7 @@ export function needsMonsterData(ui: UIState): boolean {
 }
 
 export function filteredCatalog(): CatalogEntry[] {
-  monstersVersion.value; // subscribe: matches change as statblocks hydrate
+  void monstersVersion.value; // subscribe: matches change as statblocks hydrate
   const ui = state.value.ui;
   const search = ui.search.trim().toLowerCase();
   const requiresData = needsMonsterData(ui);
@@ -608,7 +608,7 @@ export interface EncounterTotals {
 }
 
 export function encounterTotals(): EncounterTotals {
-  monstersVersion.value; // EV settles as statblocks hydrate
+  void monstersVersion.value; // subscribe: EV settles as statblocks hydrate
   let count = 0;
   let ev = 0;
   for (const item of state.value.encounter) {
@@ -823,7 +823,7 @@ interface FamilyInfo {
 }
 
 function activeMonsterFamilies(): Map<string, FamilyInfo> {
-  monstersVersion.value;
+  void monstersVersion.value; // subscribe: families settle as statblocks hydrate
   const families = new Map<string, FamilyInfo>();
   for (const instance of state.value.combat.instances) {
     const monster = monsterCache.get(instance.sourcePath);

@@ -302,7 +302,7 @@ export function conditionInfo(name: string): ConditionEntry | null {
 // ---------- Derived catalog data ----------
 
 export const catalogBounds = computed(() => {
-  monstersVersion.value; // subscribe: bounds settle as data loads in
+  void monstersVersion.value; // subscribe: bounds settle as data loads in
   let levelMin = Infinity;
   let levelMax = -Infinity;
   let evMin = Infinity;
@@ -331,7 +331,7 @@ export type FacetOption = readonly [value: string, label: string];
 // Facet option lists derived from the hydrated catalog, so we never show
 // filters that match nothing.
 export const facetOptions = computed(() => {
-  monstersVersion.value;
+  void monstersVersion.value; // subscribe: options settle as data loads in
   const roles = new Map<string, string>();
   const sizes = new Map<string, string>();
   const keywords = new Map<string, string>();

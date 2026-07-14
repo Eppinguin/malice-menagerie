@@ -107,7 +107,7 @@ function RosterGroup({ group }: { group: Group }) {
 }
 
 export function EncounterColumn() {
-  monstersVersion.value; // roster names/EV settle as statblocks hydrate
+  void monstersVersion.value; // subscribe: roster names/EV settle as statblocks hydrate
   const { count } = encounterTotals();
   const hasEncounter = state.value.encounter.length > 0;
   return (

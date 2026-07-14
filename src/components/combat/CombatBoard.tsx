@@ -85,6 +85,7 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
         <button class="icon-button" title="Remove creature" onClick={() => removeInstance(instance.id)}>×</button>
       </div>
       <div class="stamina-row">
+        <div class="stamina-meter"><i style={{ width: `${pct}%` }} /></div>
         <label class="stamina-field">
           <input
             class="stamina-command"
@@ -111,7 +112,7 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
 }
 
 export function CombatBoard() {
-  monstersVersion.value; // lanes render once statblocks are cached
+  void monstersVersion.value; // subscribe: lanes render once statblocks are cached
   const combat = state.value.combat;
   if (!combat.instances.length) {
     return <div class="combat-board" id="combatBoard"><div class="combat-empty panel">Build an encounter in Prep.</div></div>;

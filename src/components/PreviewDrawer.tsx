@@ -6,7 +6,7 @@ import { QtyControl } from "./QtyControl.tsx";
 
 export function PreviewDrawer() {
   const path = previewPath.value;
-  monstersVersion.value; // re-render once the previewed statblock loads
+  void monstersVersion.value; // subscribe: re-render once the previewed statblock loads
 
   // The drawer content lags the signal so the slide-out transition can play:
   // renderedPath keeps the last path mounted while `open` animates to false.
