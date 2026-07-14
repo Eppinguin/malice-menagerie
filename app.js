@@ -769,13 +769,13 @@
   }
 
   function difficultyFor(ev, partyES) {
-    if (!ev) return { label: 'Trivial', help: 'Add monsters to build the encounter.' };
+    if (!ev) return { label: 'Trivial', tier: 'trivial', help: 'Add monsters to build the encounter.' };
     const ratio = partyES ? ev / partyES : 0;
-    if (ratio < 0.5) return { label: 'Easy', help: 'Well below the party encounter strength.' };
-    if (ratio < 0.85) return { label: 'Standard', help: 'A moderate encounter for this party.' };
-    if (ratio < 1.15) return { label: 'Hard', help: 'Near the party encounter strength.' };
-    if (ratio < 1.5) return { label: 'Extreme', help: 'Above the party encounter strength.' };
-    return { label: 'Deadly', help: 'Far above the party encounter strength.' };
+    if (ratio < 0.5) return { label: 'Easy', tier: 'easy', help: 'Well below the party encounter strength.' };
+    if (ratio < 0.85) return { label: 'Standard', tier: 'standard', help: 'A moderate encounter for this party.' };
+    if (ratio < 1.15) return { label: 'Hard', tier: 'hard', help: 'Near the party encounter strength.' };
+    if (ratio < 1.5) return { label: 'Extreme', tier: 'extreme', help: 'Above the party encounter strength.' };
+    return { label: 'Deadly', tier: 'deadly', help: 'Far above the party encounter strength.' };
   }
 
   function renderEncounter() {
@@ -785,6 +785,8 @@
     els.enemyCountPill.textContent = `${totals.count} ${totals.count === 1 ? 'enemy' : 'enemies'}`;
     els.currentEV.textContent = fmt(totals.ev);
     els.difficultyLabel.textContent = difficulty.label;
+    els.difficultyLabel.dataset.tier = difficulty.tier;
+    els.budgetFill.dataset.tier = difficulty.tier;
     els.difficultyHelp.textContent = difficulty.help;
     els.budgetFill.style.width = `${Math.min(100, party.partyES ? (totals.ev / (party.partyES * 1.5)) * 100 : 0)}%`;
     els.esMarker.style.left = `${Math.min(100, party.partyES ? (party.partyES / (party.partyES * 1.5)) * 100 : 0)}%`;
