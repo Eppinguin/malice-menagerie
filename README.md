@@ -35,14 +35,26 @@ Predefined conditions are also discovered from `en/unified/json/condition/*.json
 - Power-roll bonuses resolve numeric modifiers, named characteristics, and expressions such as `Power Roll + highest characteristic` from the active monster statblock.
 - Any power roll highlights the resolved tier row in place.
 
+## Stack
+
+The app is a Preact + TypeScript single-page app built with Vite 8 (Rolldown/oxc). State is held in `@preact/signals` and persisted to `localStorage`. There is no backend — SteelCompendium is fetched live from GitHub at runtime, so the app needs network access.
+
+Source layout:
+
+- `src/lib/` — pure helpers (text, repo/fetch, rules, malice parsing), no DOM.
+- `src/data.ts` — source-index loading, hydration, and derived catalog signals.
+- `src/store.ts` — persisted `AppState`, sanitizer, and all mutations/actions.
+- `src/dnd.ts` — pointer-based drag & drop for the Prep view.
+- `src/components/` — Preact views (builder, combat, shared statblock/preview).
+
 ## Running
 
-Open `index.html` in a modern browser with internet access. The app needs network access to GitHub because SteelCompendium is the live data source.
-
-For local development, a static server is still recommended:
+Requires [Bun](https://bun.sh).
 
 ```bash
-python3 -m http.server 8000
+bun install
+bun run dev        # start the dev server
+bun run build      # production build to dist/
+bun run preview    # serve the production build
+bun run typecheck  # tsc --noEmit
 ```
-
-Then open `http://localhost:8000`.
