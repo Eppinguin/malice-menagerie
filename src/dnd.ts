@@ -10,12 +10,12 @@
 import { escapeHtml } from "./lib/text.ts";
 import { flushDataSignals, renderGate } from "./data.ts";
 import {
+  activeEncounter,
   addToEncounterInGroup,
   createGroupForDrop,
   moveEncounterEntryToGroup,
   removeEncounterEntry,
   selectPrepGroup,
-  state,
   toast,
 } from "./store.ts";
 
@@ -184,11 +184,11 @@ async function commitDrop(target: DropTarget | null, payload: DragPayload): Prom
     if (payload.kind === "library") {
       await addToEncounterInGroup(payload.sourcePath, payload.count, target.groupId);
     } else {
-      const item = state.value.encounter.find((entry) => entry.id === payload.itemId);
+      const item = activeEncounter().items.find((entry) => entry.id === payload.itemId);
       const changed = Boolean(item && item.groupId !== target.groupId);
       if (changed) {
         moveEncounterEntryToGroup(payload.itemId, target.groupId);
-        const group = state.value.groups.find((entry) => entry.id === target.groupId);
+        const group = activeEncounter().groups.find((entry) => entry.id === target.groupId);
         toast(`Moved to ${group?.name || "group"}`);
       }
     }

@@ -1,6 +1,8 @@
+import { monstersVersion } from "../data.ts";
 import { qtyFor, setQtyDraft } from "../store.ts";
 
 export function QtyControl({ path }: { path: string }) {
+  void monstersVersion.value; // subscribe: defaultQty settles as the statblock hydrates
   const qty = qtyFor(path);
   return (
     <div class="qty-control">

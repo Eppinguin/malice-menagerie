@@ -1,6 +1,6 @@
 import { fmt, numberFrom, richText, signed } from "../lib/text.ts";
 import { effectiveSpeed } from "../lib/rules.ts";
-import { lastRolls, rollFeature, spendAbilityMalice, state } from "../store.ts";
+import { activeEncounter, lastRolls, rollFeature, spendAbilityMalice } from "../store.ts";
 import type { FeatureEffect, Monster, MonsterFeature } from "../types.ts";
 
 function featureLabel(feature: MonsterFeature): string {
@@ -21,7 +21,7 @@ function featureMeta(feature: MonsterFeature): string {
 }
 
 export function LaneHeader({ monster }: { monster: Monster }) {
-  const speed = effectiveSpeed(monster, state.value.combat.activeEffects);
+  const speed = effectiveSpeed(monster, activeEncounter().combat.activeEffects);
   return (
     <header class="lane-header">
       <div>

@@ -1,14 +1,16 @@
 import { catalogByPath, monsterCache, monstersVersion } from '../../data.ts';
 import {
+  activeEncounter,
   addGroup,
   changeEncounterCount,
   encounterTotals,
   removeEncounterEntry,
   removeGroup,
   renameGroup,
+  resetActiveEncounter,
+  resumeCombat,
   selectPrepGroup,
-  startCombat,
-  state
+  startCombat
 } from '../../store.ts';
 import { beginPrepDrag, shouldSuppressClick } from '../../dnd.ts';
 import { difficultyFor, partyMath } from '../../lib/rules.ts';
@@ -23,7 +25,7 @@ function nameForPath(sourcePath: string): string {
 
 function BalanceCard() {
   const totals = encounterTotals();
-  const party = partyMath(state.value.party);
+  const party = partyMath(activeEncounter().party);
   const difficulty = difficultyFor(totals.ev, party.partyES);
   const fillPct = Math.min(100, party.partyES ? (totals.ev / (party.partyES * 1.5)) * 100 : 0);
   const markerPct = Math.min(100, party.partyES ? (party.partyES / (party.partyES * 1.5)) * 100 : 0);
@@ -71,8 +73,8 @@ function RosterItem({ item }: { item: EncounterItem }) {
 }
 
 function RosterGroup({ group }: { group: Group }) {
-  const items = state.value.encounter.filter(item => item.groupId === group.id);
-  const selected = group.id === state.value.activePrepGroupId;
+  const items = activeEncounter().items.filter(item => item.groupId === group.id);
+  const selected = group.id === activeEncounter().activePrepGroupId;
   const total = items.reduce((sum, item) => sum + item.count, 0);
   return (
     <section
@@ -109,7 +111,9 @@ function RosterGroup({ group }: { group: Group }) {
 export function EncounterColumn() {
   void monstersVersion.value; // subscribe: roster names/EV settle as statblocks hydrate
   const { count } = encounterTotals();
-  const hasEncounter = state.value.encounter.length > 0;
+  const combat = activeEncounter().combat;
+  const hasEncounter = activeEncounter().items.length > 0;
+  const combatActive = combat.active && combat.instances.length > 0;
   return (
     <aside class="encounter-column panel">
       <div class="panel-heading">
@@ -117,16 +121,26 @@ export function EncounterColumn() {
         <div class="panel-heading-actions">
           <span class="count-pill">{count} {count === 1 ? 'enemy' : 'enemies'}</span>
           <button class="secondary compact-button" onClick={addGroup}>+ Group</button>
+          <button
+            class="secondary compact-button"
+            disabled={!hasEncounter}
+            title="Empty the roster and reset groups"
+            onClick={resetActiveEncounter}
+          >Clear</button>
         </div>
       </div>
       <BalanceCard />
       <div id="rosterGroups" class="roster-groups">
-        {state.value.groups.map(group => <RosterGroup key={group.id} group={group} />)}
+        {activeEncounter().groups.map(group => <RosterGroup key={group.id} group={group} />)}
       </div>
       <div class="prep-new-group-drop" id="prepNewGroupDrop" aria-label="Drop here to create a new group">
         <span>＋</span><strong>New group</strong>
       </div>
-      <button class="primary wide" disabled={!hasEncounter} onClick={() => void startCombat()}>Run this encounter</button>
+      {combatActive ? (
+        <button class="primary wide" onClick={resumeCombat}>Resume combat</button>
+      ) : (
+        <button class="primary wide" disabled={!hasEncounter} onClick={() => void startCombat()}>Run this encounter</button>
+      )}
     </aside>
   );
 }

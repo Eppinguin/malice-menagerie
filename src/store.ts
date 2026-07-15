@@ -21,6 +21,8 @@ import type {
   CatalogEntry,
   CombatInstance,
   CombatState,
+  Encounter,
+  EncounterItem,
   FacetKey,
   Group,
   MaliceFeature,
@@ -32,38 +34,55 @@ import type {
   ViewName,
 } from "./types.ts";
 
-export const STORAGE_KEY = "steel-table-v6";
+export const STORAGE_KEY = "steel-table-v7";
 export const MAX_LIBRARY_RESULTS = 120;
 
 // ---------- State construction, sanitizing, persistence ----------
 
-function defaultState(): AppState {
+function defaultCombat(): CombatState {
   return {
+    active: false,
+    round: 1,
+    malice: 0,
+    instances: [],
+    activeGroupFilter: null,
+    activeEffects: [],
+    selectedMaliceFeatureIds: [],
+    maliceSelectionInitialized: false,
+  };
+}
+
+function newEncounter(name = "Untitled encounter"): Encounter {
+  return {
+    id: uid("enc"),
+    name,
+    updatedAt: Date.now(),
+    view: "builder",
     party: { heroes: 5, level: 1, victories: 0, bonusMalice: 0 },
     groups: [
-      { id: "group-a", name: "A" },
-      { id: "group-b", name: "B" },
+      { id: uid("group"), name: "A" },
+      { id: uid("group"), name: "B" },
     ],
-    activePrepGroupId: "group-a",
-    encounter: [],
-    combat: {
-      active: false,
-      round: 1,
-      malice: 0,
-      instances: [],
-      activeGroupFilter: null,
-      activeEffects: [],
-      selectedMaliceFeatureIds: [],
-      maliceSelectionInitialized: false,
-    },
+    activePrepGroupId: "",
+    items: [],
+    combat: defaultCombat(),
+  };
+}
+
+function defaultState(): AppState {
+  const first = newEncounter("New encounter");
+  first.activePrepGroupId = (first.groups[0] as Group).id;
+  return {
+    encounters: [first],
+    activeEncounterId: first.id,
     ui: {
-      view: "builder",
       role: "all",
       search: "",
       maliceDockOpen: true,
       maliceLibraryOpen: false,
       sort: "name",
       filtersOpen: false,
+      sidebarCollapsed: false,
       roles: [],
       sizes: [],
       keywords: [],
@@ -84,10 +103,18 @@ const asStringArray = (value: unknown): string[] =>
 const asNullableNumber = (value: unknown): number | null =>
   typeof value === "number" && Number.isFinite(value) ? value : null;
 
-/** Rebuild a guaranteed-valid AppState from whatever was persisted. */
-function sanitizeState(value: unknown): AppState {
-  const base = defaultState();
-  if (!isRecord(value)) return base;
+/** Rebuild one guaranteed-valid Encounter from whatever was persisted. */
+function sanitizeEncounter(value: unknown, index: number): Encounter {
+  const base = newEncounter(`Encounter ${index + 1}`);
+  if (!isRecord(value)) {
+    base.activePrepGroupId = (base.groups[0] as Group).id;
+    return base;
+  }
+
+  base.id = asString(value["id"], base.id);
+  base.name = asString(value["name"], base.name).trim() || base.name;
+  base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
+  base.view = value["view"] === "combat" ? "combat" : "builder";
 
   if (isRecord(value["party"])) {
     const party = value["party"];
@@ -110,17 +137,22 @@ function sanitizeState(value: unknown): AppState {
       .filter((group): group is Group => group !== null);
     if (groups.length) base.groups = groups;
   }
+  base.activePrepGroupId = asString(value["activePrepGroupId"], (base.groups[0] as Group).id);
 
-  if (Array.isArray(value["encounter"])) {
-    base.encounter = value["encounter"].filter(isRecord).flatMap((item) => {
-      const id = item["id"];
-      const sourcePath = item["sourcePath"];
-      const groupId = item["groupId"];
-      if (typeof id !== "string" || typeof sourcePath !== "string" || typeof groupId !== "string")
-        return [];
-      return [{ id, sourcePath, groupId, count: clampInt(item["count"], 1, 99) }];
-    });
-  }
+  // `items` is the new field name; `encounter` is the legacy v6 field name.
+  const rawItems = Array.isArray(value["items"])
+    ? value["items"]
+    : Array.isArray(value["encounter"])
+      ? value["encounter"]
+      : [];
+  base.items = rawItems.filter(isRecord).flatMap((item) => {
+    const id = item["id"];
+    const sourcePath = item["sourcePath"];
+    const groupId = item["groupId"];
+    if (typeof id !== "string" || typeof sourcePath !== "string" || typeof groupId !== "string")
+      return [];
+    return [{ id, sourcePath, groupId, count: clampInt(item["count"], 1, 99) }];
+  });
 
   if (isRecord(value["combat"])) {
     const combat = value["combat"];
@@ -151,7 +183,7 @@ function sanitizeState(value: unknown): AppState {
           ];
         })
       : [];
-    const combatState: CombatState = {
+    base.combat = {
       active: asBool(combat["active"], false),
       round: clampInt(combat["round"], 1, 999),
       malice: Math.max(0, Number(combat["malice"]) || 0),
@@ -176,21 +208,55 @@ function sanitizeState(value: unknown): AppState {
       selectedMaliceFeatureIds: asStringArray(combat["selectedMaliceFeatureIds"]),
       maliceSelectionInitialized: asBool(combat["maliceSelectionInitialized"], false),
     };
-    base.combat = combatState;
+  }
+
+  return base;
+}
+
+/** Rebuild a guaranteed-valid AppState from whatever was persisted. */
+function sanitizeState(value: unknown): AppState {
+  const base = defaultState();
+  if (!isRecord(value)) return base;
+
+  // New shape: a library of encounters. Legacy v6 shape: a single encounter
+  // stored flat at the top level (party/groups/encounter/combat).
+  const rawEncounters = Array.isArray(value["encounters"])
+    ? value["encounters"]
+    : "party" in value || "encounter" in value || "combat" in value
+      ? [value]
+      : [];
+  const encounters = rawEncounters.map((raw, index) => sanitizeEncounter(raw, index));
+  if (encounters.length) {
+    base.encounters = encounters;
+    base.activeEncounterId = asString(
+      value["activeEncounterId"],
+      (encounters[0] as Encounter).id,
+    );
+  }
+
+  // Legacy migration: `view` used to be a single global `ui.view`. Seed the
+  // active encounter's per-encounter view from it when the encounter record
+  // itself didn't carry one.
+  const legacyView = isRecord(value["ui"]) ? value["ui"]["view"] : undefined;
+  if (legacyView === "combat" || legacyView === "builder") {
+    const active = base.encounters.find((enc) => enc.id === base.activeEncounterId);
+    const activeRaw = rawEncounters.find(
+      (raw): raw is Record<string, unknown> => isRecord(raw) && raw["id"] === active?.id,
+    );
+    if (active && activeRaw && !("view" in activeRaw)) active.view = legacyView;
   }
 
   if (isRecord(value["ui"])) {
     const ui = value["ui"];
     const sort = ui["sort"];
-    const view = ui["view"];
-    const uiState: UIState = {
-      view: view === "combat" ? "combat" : "builder",
+    base.ui = {
       role: asString(ui["role"], "all"),
       search: asString(ui["search"], ""),
       maliceDockOpen: asBool(ui["maliceDockOpen"], true),
       maliceLibraryOpen: asBool(ui["maliceLibraryOpen"], false),
       sort: sort === "level" || sort === "ev" ? sort : "name",
       filtersOpen: asBool(ui["filtersOpen"], false),
+      sidebarCollapsed: asBool(ui["sidebarCollapsed"], false),
       roles: asStringArray(ui["roles"]),
       sizes: asStringArray(ui["sizes"]),
       keywords: asStringArray(ui["keywords"]),
@@ -199,28 +265,39 @@ function sanitizeState(value: unknown): AppState {
       evMin: asNullableNumber(ui["evMin"]),
       evMax: asNullableNumber(ui["evMax"]),
     };
-    base.ui = uiState;
   }
 
   ensureIntegrity(base);
   return base;
 }
 
-function ensureIntegrity(draft: AppState): void {
-  if (!draft.groups.length) draft.groups = [{ id: uid("group"), name: "A" }];
-  const firstGroup = draft.groups[0] as Group;
-  if (!draft.groups.some((group) => group.id === draft.activePrepGroupId))
-    draft.activePrepGroupId = firstGroup.id;
-  const validGroupIds = new Set(draft.groups.map((group) => group.id));
-  for (const item of draft.encounter) {
+/** Keep an encounter's internal references (group ids) self-consistent. */
+function ensureEncounterIntegrity(enc: Encounter): void {
+  if (!enc.groups.length) enc.groups = [{ id: uid("group"), name: "A" }];
+  const firstGroup = enc.groups[0] as Group;
+  if (!enc.groups.some((group) => group.id === enc.activePrepGroupId))
+    enc.activePrepGroupId = firstGroup.id;
+  const validGroupIds = new Set(enc.groups.map((group) => group.id));
+  for (const item of enc.items) {
     if (!validGroupIds.has(item.groupId)) item.groupId = firstGroup.id;
   }
-  for (const instance of draft.combat.instances) {
+  for (const instance of enc.combat.instances) {
     if (!validGroupIds.has(instance.groupId)) instance.groupId = firstGroup.id;
   }
-  if (draft.combat.activeGroupFilter && !validGroupIds.has(draft.combat.activeGroupFilter)) {
-    draft.combat.activeGroupFilter = null;
+  if (enc.combat.activeGroupFilter && !validGroupIds.has(enc.combat.activeGroupFilter)) {
+    enc.combat.activeGroupFilter = null;
   }
+}
+
+function ensureIntegrity(draft: AppState): void {
+  if (!draft.encounters.length) {
+    const fresh = newEncounter("New encounter");
+    fresh.activePrepGroupId = (fresh.groups[0] as Group).id;
+    draft.encounters = [fresh];
+  }
+  if (!draft.encounters.some((enc) => enc.id === draft.activeEncounterId))
+    draft.activeEncounterId = (draft.encounters[0] as Encounter).id;
+  for (const enc of draft.encounters) ensureEncounterIntegrity(enc);
 }
 
 function loadState(): AppState {
@@ -233,20 +310,110 @@ function loadState(): AppState {
 
 export const state = signal<AppState>(loadState());
 
-/** Apply a mutation to the app state, persist it, and notify subscribers. */
-export function mutate(fn: (draft: AppState) => void): void {
-  const draft = state.value;
-  fn(draft);
-  ensureIntegrity(draft);
+/** The currently active encounter document. */
+export function activeEncounter(): Encounter {
+  const { encounters, activeEncounterId } = state.value;
+  return encounters.find((enc) => enc.id === activeEncounterId) ?? (encounters[0] as Encounter);
+}
+
+/**
+ * A flat view over the active encounter + global UI, matching the field layout
+ * mutations were originally written against (`draft.party`, `draft.encounter`,
+ * `draft.combat`, `draft.ui`, …). Reads and writes pass straight through to the
+ * underlying active encounter, so existing mutation bodies work unchanged.
+ */
+export interface MutableDraft {
+  view: ViewName;
+  party: AppState["encounters"][number]["party"];
+  groups: AppState["encounters"][number]["groups"];
+  activePrepGroupId: string;
+  encounter: AppState["encounters"][number]["items"];
+  combat: CombatState;
+  ui: UIState;
+}
+
+function draftView(app: AppState, enc: Encounter): MutableDraft {
+  return {
+    get view() {
+      return enc.view;
+    },
+    set view(value) {
+      enc.view = value;
+    },
+    get party() {
+      return enc.party;
+    },
+    set party(value) {
+      enc.party = value;
+    },
+    get groups() {
+      return enc.groups;
+    },
+    set groups(value) {
+      enc.groups = value;
+    },
+    get activePrepGroupId() {
+      return enc.activePrepGroupId;
+    },
+    set activePrepGroupId(value) {
+      enc.activePrepGroupId = value;
+    },
+    get encounter() {
+      return enc.items;
+    },
+    set encounter(value) {
+      enc.items = value;
+    },
+    get combat() {
+      return enc.combat;
+    },
+    set combat(value) {
+      enc.combat = value;
+    },
+    get ui() {
+      return app.ui;
+    },
+    set ui(value) {
+      app.ui = value;
+    },
+  };
+}
+
+/**
+ * Apply a mutation against the active encounter (and global UI), stamp its
+ * updated-at time, persist, and notify subscribers.
+ */
+export function mutate(fn: (draft: MutableDraft) => void): void {
+  const app = state.value;
+  const enc = activeEncounter();
+  fn(draftView(app, enc));
+  enc.updatedAt = Date.now();
+  ensureIntegrity(app);
+  persist(app);
+  state.value = { ...app };
+}
+
+/** Apply a mutation to the whole app state (encounter library, active id). */
+export function mutateApp(fn: (draft: AppState) => void): void {
+  const app = state.value;
+  fn(app);
+  ensureIntegrity(app);
+  persist(app);
+  state.value = { ...app };
+}
+
+function persist(app: AppState): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(app));
   } catch {
     // Persistence is best-effort; private windows may reject writes.
   }
-  state.value = { ...draft };
 }
 
 // ---------- Ephemeral (non-persisted) UI state ----------
+
+/** Whether the off-canvas mobile navigation drawer is open. Ephemeral. */
+export const mobileNavOpen = signal<boolean>(false);
 
 export const expandedMaliceFeatures = signal<ReadonlySet<string>>(new Set());
 export const openConditionPickerFor = signal<string | null>(null);
@@ -296,10 +463,11 @@ export async function initApp(): Promise<void> {
 }
 
 async function hydrateSavedStateSources(): Promise<void> {
-  const needed = new Set([
-    ...state.value.encounter.map((item) => item.sourcePath),
-    ...state.value.combat.instances.map((item) => item.sourcePath),
-  ]);
+  const needed = new Set<string>();
+  for (const enc of state.value.encounters) {
+    for (const item of enc.items) needed.add(item.sourcePath);
+    for (const instance of enc.combat.instances) needed.add(instance.sourcePath);
+  }
   await Promise.allSettled([...needed].map(loadMonster));
 }
 
@@ -311,8 +479,19 @@ export function retrySource(): void {
 
 export function setView(view: ViewName): void {
   mutate((draft) => {
-    draft.ui.view = view;
+    draft.view = view;
   });
+}
+
+/** Collapse/expand the desktop sidebar (persisted preference). */
+export function toggleSidebar(): void {
+  mutate((draft) => {
+    draft.ui.sidebarCollapsed = !draft.ui.sidebarCollapsed;
+  });
+}
+
+export function setMobileNav(open: boolean): void {
+  mobileNavOpen.value = open;
 }
 
 export function updateParty(values: {
@@ -329,9 +508,96 @@ export function updateParty(values: {
   });
 }
 
-export function resetApp(): void {
-  localStorage.removeItem(STORAGE_KEY);
-  state.value = defaultState();
+// ---------- Encounter library ----------
+
+/** A concise, unique default name for a freshly created encounter. */
+function defaultEncounterName(existing: Encounter[]): string {
+  const used = new Set(existing.map((enc) => enc.name.trim().toLowerCase()));
+  for (let n = existing.length + 1; ; n += 1) {
+    const candidate = `Encounter ${n}`;
+    if (!used.has(candidate.toLowerCase())) return candidate;
+  }
+}
+
+/** Create a fresh empty encounter, make it active, and switch to Prep. */
+export function createEncounter(): string {
+  let newId = "";
+  mutateApp((draft) => {
+    const enc = newEncounter(defaultEncounterName(draft.encounters));
+    enc.activePrepGroupId = (enc.groups[0] as Group).id;
+    draft.encounters.push(enc);
+    draft.activeEncounterId = enc.id;
+    newId = enc.id;
+  });
+  toast("New encounter");
+  return newId;
+}
+
+/** Switch the active encounter. Each encounter restores its own last view. */
+export function selectEncounter(encounterId: string): void {
+  if (state.value.activeEncounterId === encounterId) return;
+  mutateApp((draft) => {
+    if (!draft.encounters.some((enc) => enc.id === encounterId)) return;
+    draft.activeEncounterId = encounterId;
+  });
+  void hydrateSavedStateSources();
+}
+
+export function renameEncounter(encounterId: string, name: string): void {
+  mutateApp((draft) => {
+    const enc = draft.encounters.find((item) => item.id === encounterId);
+    if (enc) {
+      enc.name = name.trim() || enc.name;
+      enc.updatedAt = Date.now();
+    }
+  });
+}
+
+/** Deep-copy an encounter under a new id and make the copy active. */
+export function duplicateEncounter(encounterId: string): void {
+  mutateApp((draft) => {
+    const source = draft.encounters.find((item) => item.id === encounterId);
+    if (!source) return;
+    const copy: Encounter = structuredClone(source);
+    copy.id = uid("enc");
+    copy.name = `${source.name} (copy)`;
+    copy.updatedAt = Date.now();
+    const index = draft.encounters.indexOf(source);
+    draft.encounters.splice(index + 1, 0, copy);
+    draft.activeEncounterId = copy.id;
+  });
+  toast("Encounter duplicated");
+}
+
+export function deleteEncounter(encounterId: string): void {
+  if (state.value.encounters.length === 1) {
+    toast("At least one encounter is required.");
+    return;
+  }
+  mutateApp((draft) => {
+    const index = draft.encounters.findIndex((item) => item.id === encounterId);
+    if (index === -1) return;
+    draft.encounters.splice(index, 1);
+    if (draft.activeEncounterId === encounterId) {
+      const fallback = draft.encounters[Math.max(0, index - 1)] as Encounter;
+      draft.activeEncounterId = fallback.id;
+    }
+  });
+  toast("Encounter deleted");
+}
+
+/** Clear the active encounter back to empty (party params preserved). */
+export function resetActiveEncounter(): void {
+  mutate((draft) => {
+    draft.groups = [
+      { id: uid("group"), name: "A" },
+      { id: uid("group"), name: "B" },
+    ];
+    draft.activePrepGroupId = (draft.groups[0] as Group).id;
+    draft.encounter = [];
+    draft.combat = defaultCombat();
+    draft.view = "builder";
+  });
   toast("Encounter reset");
 }
 
@@ -465,7 +731,7 @@ function sortCatalog(entries: CatalogEntry[], sort: SortKey): CatalogEntry[] {
 
 // ---------- Groups & encounter ----------
 
-function createGroupRecord(draft: AppState): Group {
+function createGroupRecord(draft: MutableDraft): Group {
   const used = new Set(draft.groups.map((group) => group.name.trim().toUpperCase()));
   let name = "";
   for (let code = 65; code <= 90; code += 1) {
@@ -498,7 +764,7 @@ export function createGroupForDrop(): Group {
 }
 
 export function removeGroup(groupId: string): void {
-  if (state.value.groups.length === 1) {
+  if (activeEncounter().groups.length === 1) {
     toast("At least one group is required.");
     return;
   }
@@ -552,6 +818,7 @@ export async function addToEncounterInGroup(
         draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: amount });
       draft.activePrepGroupId = targetGroupId;
     });
+    reconcileCombat();
     if (announce) toast(`Added ${Math.max(1, Math.min(30, Number(count) || 1))} × ${monster.name}`);
     return true;
   } catch {
@@ -561,7 +828,7 @@ export async function addToEncounterInGroup(
 }
 
 export async function addToEncounter(sourcePath: string, count: number): Promise<boolean> {
-  return addToEncounterInGroup(sourcePath, count, state.value.activePrepGroupId);
+  return addToEncounterInGroup(sourcePath, count, activeEncounter().activePrepGroupId);
 }
 
 export function changeEncounterCount(itemId: string, delta: number): void {
@@ -571,12 +838,14 @@ export function changeEncounterCount(itemId: string, delta: number): void {
     item.count += delta;
     if (item.count <= 0) draft.encounter = draft.encounter.filter((entry) => entry.id !== itemId);
   });
+  reconcileCombat();
 }
 
 export function removeEncounterEntry(itemId: string): void {
   mutate((draft) => {
     draft.encounter = draft.encounter.filter((item) => item.id !== itemId);
   });
+  reconcileCombat();
 }
 
 export function moveEncounterEntryToGroup(itemId: string, groupId: string): void {
@@ -595,12 +864,14 @@ export function moveEncounterEntryToGroup(itemId: string, groupId: string): void
       item.groupId = groupId;
     }
   });
+  reconcileCombat();
 }
 
 export function clearEncounter(): void {
   mutate((draft) => {
     draft.encounter = [];
   });
+  reconcileCombat();
   toast("Encounter cleared");
 }
 
@@ -613,7 +884,7 @@ export function encounterTotals(): EncounterTotals {
   void monstersVersion.value; // subscribe: EV settles as statblocks hydrate
   let count = 0;
   let ev = 0;
-  for (const item of state.value.encounter) {
+  for (const item of activeEncounter().items) {
     count += item.count;
     const monster = monsterCache.get(item.sourcePath);
     if (monster) ev += monster.ev * item.count;
@@ -623,8 +894,57 @@ export function encounterTotals(): EncounterTotals {
 
 // ---------- Combat ----------
 
+function isMinion(m: Monster): boolean {
+  return m.organization.toLowerCase() === "minion";
+}
+
+/** Build the fresh combat instances one prep entry expands into. `ordinal`
+    numbers instances of the same monster across the whole roster, so names
+    stay unique. Minions collapse into a single squad; other creatures spawn
+    one instance each. */
+function buildInstancesForEntry(
+  entry: EncounterItem,
+  m: Monster,
+  nextOrdinal: () => number,
+): CombatInstance[] {
+  if (isMinion(m)) {
+    const n = nextOrdinal();
+    return [
+      {
+        id: uid("enemy"),
+        sourcePath: entry.sourcePath,
+        groupId: entry.groupId,
+        kind: "minion-squad",
+        count: entry.count,
+        name: `${m.name} Squad${n > 1 ? ` ${n}` : ""}`,
+        currentStamina: m.stamina * entry.count,
+        maxStamina: m.stamina * entry.count,
+        acted: false,
+        conditions: [],
+      },
+    ];
+  }
+  const instances: CombatInstance[] = [];
+  for (let index = 0; index < entry.count; index += 1) {
+    const n = nextOrdinal();
+    instances.push({
+      id: uid("enemy"),
+      sourcePath: entry.sourcePath,
+      groupId: entry.groupId,
+      kind: "creature",
+      count: 1,
+      name: `${m.name}${n > 1 ? ` ${n}` : ""}`,
+      currentStamina: m.stamina,
+      maxStamina: m.stamina,
+      acted: false,
+      conditions: [],
+    });
+  }
+  return instances;
+}
+
 export async function startCombat(): Promise<void> {
-  const encounter = state.value.encounter;
+  const encounter = activeEncounter().items;
   if (!encounter.length) return;
   const paths = [...new Set(encounter.map((item) => item.sourcePath))];
   const loaded = await Promise.allSettled(paths.map(loadMonster));
@@ -634,43 +954,16 @@ export async function startCombat(): Promise<void> {
   }
 
   const counters = new Map<string, number>();
+  const bump = (path: string) => {
+    const next = (counters.get(path) || 0) + 1;
+    counters.set(path, next);
+    return next;
+  };
   const instances: CombatInstance[] = [];
   for (const entry of encounter) {
     const m = monsterCache.get(entry.sourcePath);
     if (!m) continue;
-    if (m.organization.toLowerCase() === "minion") {
-      const current = (counters.get(entry.sourcePath) || 0) + 1;
-      counters.set(entry.sourcePath, current);
-      instances.push({
-        id: uid("enemy"),
-        sourcePath: entry.sourcePath,
-        groupId: entry.groupId,
-        kind: "minion-squad",
-        count: entry.count,
-        name: `${m.name} Squad${current > 1 ? ` ${current}` : ""}`,
-        currentStamina: m.stamina * entry.count,
-        maxStamina: m.stamina * entry.count,
-        acted: false,
-        conditions: [],
-      });
-    } else {
-      for (let index = 0; index < entry.count; index += 1) {
-        const current = (counters.get(entry.sourcePath) || 0) + 1;
-        counters.set(entry.sourcePath, current);
-        instances.push({
-          id: uid("enemy"),
-          sourcePath: entry.sourcePath,
-          groupId: entry.groupId,
-          kind: "creature",
-          count: 1,
-          name: `${m.name}${current > 1 ? ` ${current}` : ""}`,
-          currentStamina: m.stamina,
-          maxStamina: m.stamina,
-          acted: false,
-          conditions: [],
-        });
-      }
-    }
+    instances.push(...buildInstancesForEntry(entry, m, () => bump(entry.sourcePath)));
   }
 
   mutate((draft) => {
@@ -684,13 +977,115 @@ export async function startCombat(): Promise<void> {
       selectedMaliceFeatureIds: [],
       maliceSelectionInitialized: false,
     };
-    draft.ui.view = "combat";
+    draft.view = "combat";
   });
-  toast(`Combat started · ${state.value.combat.malice} Malice`);
+  toast(`Combat started · ${activeEncounter().combat.malice} Malice`);
+}
+
+/** Jump to the Run view for an already-active combat without rebuilding it,
+    so in-progress stamina/conditions/malice are preserved. */
+export function resumeCombat(): void {
+  mutate((draft) => {
+    draft.view = "combat";
+  });
+}
+
+/**
+ * Reconcile the live combat roster with the current prep roster after a prep
+ * edit, preserving the state (stamina, conditions, acted, custom names) of
+ * instances that should survive. Only spawns/removes the delta:
+ *
+ * - A minion squad tracks one prep entry; its `count` and `maxStamina` follow
+ *   the entry's count, and current stamina rescales proportionally so a
+ *   half-dead squad stays half-dead.
+ * - Non-minion creatures spawn one instance per count. Raising the count adds
+ *   fresh instances; lowering it removes the highest-ordinal (newest) ones,
+ *   keeping the creatures already in play. Removing a prep entry (or dropping
+ *   its count to zero) removes its instances.
+ *
+ * No-op unless combat is active, so plain prep editing before "Run" is
+ * unaffected. `mutate`'s own draft would fight a nested `mutate`, so this must
+ * be called on its own, not from inside another mutation.
+ */
+export function reconcileCombat(): void {
+  if (!activeEncounter().combat.active) return;
+  mutate((draft) => {
+    const existing = draft.combat.instances;
+    const kept: CombatInstance[] = [];
+    // Ordinal counter per monster, spanning surviving + newly spawned, so
+    // added instances get names that don't collide with the survivors.
+    const counters = new Map<string, number>();
+    const bump = (path: string) => {
+      const next = (counters.get(path) || 0) + 1;
+      counters.set(path, next);
+      return next;
+    };
+
+    // Bucket existing instances by the prep entry they belong to.
+    const byEntry = new Map<string, CombatInstance[]>();
+    for (const instance of existing) {
+      const key = `${instance.sourcePath}|${instance.groupId}`;
+      const list = byEntry.get(key);
+      if (list) list.push(instance);
+      else byEntry.set(key, [instance]);
+    }
+
+    for (const entry of draft.encounter) {
+      const m = monsterCache.get(entry.sourcePath);
+      if (!m) continue;
+      const key = `${entry.sourcePath}|${entry.groupId}`;
+      const current = byEntry.get(key) ?? [];
+      byEntry.delete(key); // consumed; whatever's left is orphaned and dropped
+
+      if (isMinion(m)) {
+        const squad = current[0];
+        if (squad) {
+          const nextMax = m.stamina * entry.count;
+          // Rescale current stamina to the new squad size, keeping the
+          // wounded fraction. A living squad never drops to 0 from resizing.
+          const fraction = squad.maxStamina > 0 ? squad.currentStamina / squad.maxStamina : 1;
+          squad.count = entry.count;
+          squad.maxStamina = nextMax;
+          squad.currentStamina =
+            squad.currentStamina <= 0 ? 0 : Math.max(1, Math.min(nextMax, Math.round(nextMax * fraction)));
+          bump(entry.sourcePath);
+          kept.push(squad);
+        } else {
+          kept.push(...buildInstancesForEntry(entry, m, () => bump(entry.sourcePath)));
+        }
+        continue;
+      }
+
+      // Non-minion: keep up to `count` existing instances (lowest ordinals
+      // first — those are the ones that entered play earliest), spawn the rest.
+      const survivors = current.slice(0, entry.count);
+      for (const survivor of survivors) {
+        bump(entry.sourcePath);
+        kept.push(survivor);
+      }
+      for (let i = survivors.length; i < entry.count; i += 1) {
+        const n = bump(entry.sourcePath);
+        kept.push({
+          id: uid("enemy"),
+          sourcePath: entry.sourcePath,
+          groupId: entry.groupId,
+          kind: "creature",
+          count: 1,
+          name: `${m.name}${n > 1 ? ` ${n}` : ""}`,
+          currentStamina: m.stamina,
+          maxStamina: m.stamina,
+          acted: false,
+          conditions: [],
+        });
+      }
+    }
+
+    draft.combat.instances = kept;
+  });
 }
 
 export function nextRound(): void {
-  if (!state.value.combat.instances.length) return;
+  if (!activeEncounter().combat.instances.length) return;
   mutate((draft) => {
     const endingRound = draft.combat.round;
     draft.combat.activeEffects = draft.combat.activeEffects.filter(
@@ -702,8 +1097,8 @@ export function nextRound(): void {
       instance.acted = false;
     });
   });
-  const combat = state.value.combat;
-  toast(`Round ${combat.round} · +${state.value.party.heroes + combat.round} Malice`);
+  const combat = activeEncounter().combat;
+  toast(`Round ${combat.round} · +${activeEncounter().party.heroes + combat.round} Malice`);
 }
 
 /**
@@ -712,7 +1107,7 @@ export function nextRound(): void {
  * `nextRound` expired can't be recovered, so this is a best-effort misclick undo.
  */
 export function previousRound(): void {
-  if (state.value.combat.round <= 1) return;
+  if (activeEncounter().combat.round <= 1) return;
   mutate((draft) => {
     const undoneGain = draft.party.heroes + draft.combat.round;
     draft.combat.malice = Math.max(0, draft.combat.malice - undoneGain);
@@ -721,8 +1116,8 @@ export function previousRound(): void {
       instance.acted = false;
     });
   });
-  const combat = state.value.combat;
-  toast(`Round ${combat.round} · −${state.value.party.heroes + (combat.round + 1)} Malice`);
+  const combat = activeEncounter().combat;
+  toast(`Round ${combat.round} · −${activeEncounter().party.heroes + (combat.round + 1)} Malice`);
 }
 
 export function adjustMalice(delta: number): void {
@@ -807,7 +1202,7 @@ export function removeActiveEffect(effectId: string): void {
 
 export function groupInstancesByMonster(): [string, CombatInstance[]][] {
   const map = new Map<string, CombatInstance[]>();
-  for (const instance of state.value.combat.instances) {
+  for (const instance of activeEncounter().combat.instances) {
     const list = map.get(instance.sourcePath);
     if (list) list.push(instance);
     else map.set(instance.sourcePath, [instance]);
@@ -846,7 +1241,7 @@ interface FamilyInfo {
 function activeMonsterFamilies(): Map<string, FamilyInfo> {
   void monstersVersion.value; // subscribe: families settle as statblocks hydrate
   const families = new Map<string, FamilyInfo>();
-  for (const instance of state.value.combat.instances) {
+  for (const instance of activeEncounter().combat.instances) {
     const monster = monsterCache.get(instance.sourcePath);
     if (!monster) continue;
     const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
@@ -871,7 +1266,7 @@ function familyDisplayLabel(family: string): string {
 }
 
 export function relevantMaliceGroups(): MaliceGroup[] {
-  if (!state.value.combat.instances.length) return [];
+  if (!activeEncounter().combat.instances.length) return [];
   const groups: MaliceGroup[] = [];
   const features = maliceFeatures.value;
   const basic = dedupeMaliceFeatures(
@@ -970,10 +1365,10 @@ export function suggestedMaliceFeatureIds(groups: MaliceGroup[]): string[] {
 export function ensureMaliceSelection(groups: MaliceGroup[]): void {
   if (maliceLoading.value || !groups.length) return;
   const availableIds = new Set(allRelevantMaliceFeatures(groups).map((feature) => feature.id));
-  const current = state.value.combat.selectedMaliceFeatureIds;
+  const current = activeEncounter().combat.selectedMaliceFeatureIds;
   const filtered = current.filter((id) => availableIds.has(id));
 
-  if (!state.value.combat.maliceSelectionInitialized && availableIds.size) {
+  if (!activeEncounter().combat.maliceSelectionInitialized && availableIds.size) {
     const suggested = suggestedMaliceFeatureIds(groups);
     mutate((draft) => {
       draft.combat.selectedMaliceFeatureIds = suggested;
@@ -1041,7 +1436,7 @@ export function toggleMaliceDock(): void {
 export function useMaliceFeature(featureId: string): void {
   const feature = maliceFeatures.value.find((item) => item.id === featureId);
   if (!feature) return;
-  if (feature.cost > state.value.combat.malice) {
+  if (feature.cost > activeEncounter().combat.malice) {
     toast(`Need ${feature.cost} Malice.`);
     return;
   }
@@ -1070,7 +1465,7 @@ export function useMaliceFeature(featureId: string): void {
 }
 
 export function spendAbilityMalice(cost: number, name: string): void {
-  if (cost > state.value.combat.malice) {
+  if (cost > activeEncounter().combat.malice) {
     toast(`Need ${cost} Malice.`);
     return;
   }

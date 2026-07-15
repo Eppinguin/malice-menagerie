@@ -2,6 +2,7 @@ import { maliceLoading } from '../../data.ts';
 import { featureText } from '../../lib/malice.ts';
 import { plainText, richText } from '../../lib/text.ts';
 import {
+  activeEncounter,
   addMaliceSelection,
   allRelevantMaliceFeatures,
   ensureMaliceSelection,
@@ -54,7 +55,7 @@ function MaliceEffect({ feature, effect, effectIndex }: { feature: MaliceFeature
 
 function MaliceCard({ feature }: { feature: MaliceFeature }) {
   const expanded = expandedMaliceFeatures.value.has(feature.id);
-  const disabled = feature.cost > state.value.combat.malice;
+  const disabled = feature.cost > activeEncounter().combat.malice;
   const meta = [feature.distance, feature.target].filter(Boolean).join(' · ');
   return (
     <article class={`malice-card ${expanded ? 'expanded' : 'collapsed'}`}>
@@ -113,7 +114,7 @@ export function MaliceDock() {
   }
 
   ensureMaliceSelection(groups);
-  const selectedIds = state.value.combat.selectedMaliceFeatureIds;
+  const selectedIds = activeEncounter().combat.selectedMaliceFeatureIds;
   const featureMap = new Map(allRelevantMaliceFeatures(groups).map(feature => [feature.id, feature]));
   const selected = selectedIds
     .map(id => featureMap.get(id))

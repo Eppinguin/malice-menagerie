@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Malice Menagerie logo</title>
+  <desc id="desc">A dark rounded-square app icon with an off-white letter M, teal horns and creature accents, and glowing teal eyes.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#15191B"/>
+      <stop offset="1" stop-color="#0E1113"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67D3C5"/>
+      <stop offset="1" stop-color="#4BB8AB"/>
+    </linearGradient>
+    <linearGradient id="ivory" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F1F2F2"/>
+      <stop offset="1" stop-color="#B6BDBF"/>
+    </linearGradient>
+    <filter id="eyeGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="170" fill="url(#bg)"/>
+
+  <!-- Horns -->
+  <path d="M422 423
+           C375 376 321 352 300 304
+           C281 260 300 213 329 170
+           C288 191 253 227 242 271
+           C228 328 256 376 311 409
+           C327 419 339 431 346 446
+           C360 430 381 420 400 425
+           L422 423Z"
+        fill="url(#teal)"/>
+
+  <path d="M602 423
+           C649 376 703 352 724 304
+           C743 260 724 213 695 170
+           C736 191 771 227 782 271
+           C796 328 768 376 713 409
+           C697 419 685 431 678 446
+           C664 430 643 420 624 425
+           L602 423Z"
+        fill="url(#teal)"/>
+
+  <!-- Side creature tufts -->
+  <path d="M228 433
+           C218 474 190 505 146 519
+           L199 518
+           L169 560
+           C190 549 209 544 225 544
+           C208 576 195 610 196 648
+           C197 687 208 720 225 744
+           C221 704 233 667 255 640
+           C244 690 250 736 268 773
+           C287 724 293 671 286 617
+           L286 451
+           C265 457 245 451 228 433Z"
+        fill="url(#teal)" opacity="0.9"/>
+
+  <path d="M796 433
+           C806 474 834 505 878 519
+           L825 518
+           L855 560
+           C834 549 815 544 799 544
+           C816 576 829 610 828 648
+           C827 687 816 720 799 744
+           C803 704 791 667 769 640
+           C780 690 774 736 756 773
+           C737 724 731 671 738 617
+           L738 451
+           C759 457 779 451 796 433Z"
+        fill="url(#teal)" opacity="0.9"/>
+
+  <!-- Eyes -->
+  <path d="M390 438 C427 449 454 470 467 500 C435 490 410 469 390 438Z"
+        fill="#67D3C5" filter="url(#eyeGlow)"/>
+  <path d="M634 438 C597 449 570 470 557 500 C589 490 614 469 634 438Z"
+        fill="#67D3C5" filter="url(#eyeGlow)"/>
+
+  <!-- Main M -->
+  <path fill="url(#ivory)" d="
+    M170 286
+    L302 356
+    L512 695
+    L722 356
+    L854 286
+    L773 398
+    L773 757
+    C773 811 795 841 837 861
+    L650 861
+    C691 841 712 811 712 757
+    L712 552
+    L512 839
+    L312 552
+    L312 757
+    C312 811 333 841 374 861
+    L187 861
+    C229 841 251 811 251 757
+    L251 398
+    Z"/>
+</svg>

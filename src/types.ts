@@ -57,13 +57,13 @@ export type SortKey = "name" | "level" | "ev";
 export type FacetKey = "roles" | "sizes" | "keywords";
 
 export interface UIState {
-  view: ViewName;
   role: string;
   search: string;
   maliceDockOpen: boolean;
   maliceLibraryOpen: boolean;
   sort: SortKey;
   filtersOpen: boolean;
+  sidebarCollapsed: boolean;
   roles: string[];
   sizes: string[];
   keywords: string[];
@@ -73,12 +73,27 @@ export interface UIState {
   evMax: number | null;
 }
 
-export interface AppState {
+/**
+ * A single saved encounter document: party parameters, monster roster,
+ * groups, and any in-progress combat. The app holds a library of these
+ * and points at one active encounter at a time.
+ */
+export interface Encounter {
+  id: string;
+  name: string;
+  updatedAt: number;
+  /** The view (Prep/Run) this encounter was last left on. */
+  view: ViewName;
   party: Party;
   groups: Group[];
   activePrepGroupId: string;
-  encounter: EncounterItem[];
+  items: EncounterItem[];
   combat: CombatState;
+}
+
+export interface AppState {
+  encounters: Encounter[];
+  activeEncounterId: string;
   ui: UIState;
 }
 

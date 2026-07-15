@@ -1,4 +1,5 @@
 import {
+  activeEncounter,
   autoPickMalice,
   removeActiveEffect,
   state,
@@ -10,7 +11,7 @@ import { CombatBoard } from './CombatBoard.tsx';
 function ActiveEffects() {
   return (
     <div class="active-effects">
-      {state.value.combat.activeEffects.map(effect => (
+      {activeEncounter().combat.activeEffects.map(effect => (
         <span class="effect-chip" key={effect.id}>
           <strong>{effect.name}</strong>
           <button onClick={() => removeActiveEffect(effect.id)}>×</button>
@@ -22,9 +23,9 @@ function ActiveEffects() {
 
 export function CombatView({ active }: { active: boolean }) {
   const maliceOpen = state.value.ui.maliceDockOpen;
-  const selectedCount = state.value.combat.selectedMaliceFeatureIds.length;
+  const selectedCount = activeEncounter().combat.selectedMaliceFeatureIds.length;
   return (
-    <section class={`view ${active ? 'active' : ''}`}>
+    <section class={`view combat-view ${active ? 'active' : ''}`}>
       <div class={`encounter-dock panel malice-dock ${maliceOpen ? 'open' : 'closed'}`}>
         <header class="malice-dock-header">
           <button class="malice-dock-toggle" aria-expanded={maliceOpen} onClick={toggleMaliceDock}>

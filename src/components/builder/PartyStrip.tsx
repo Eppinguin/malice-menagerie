@@ -1,8 +1,8 @@
 import { partyMath } from '../../lib/rules.ts';
-import { state, updateParty } from '../../store.ts';
+import { activeEncounter, updateParty } from '../../store.ts';
 
 export function PartyStrip() {
-  const party = state.value.party;
+  const party = activeEncounter().party;
   const values = partyMath(party);
   const commit = (patch: Partial<Record<'heroes' | 'level' | 'victories' | 'bonusMalice', unknown>>) => {
     updateParty({

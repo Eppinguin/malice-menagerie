@@ -1,6 +1,7 @@
 import { conditionCatalog, conditionInfo, monsterCache, monstersVersion } from '../../data.ts';
 import { fmt } from '../../lib/text.ts';
 import {
+  activeEncounter,
   addCondition,
   applyStaminaCommand,
   groupInstancesByMonster,
@@ -10,7 +11,6 @@ import {
   renameInstance,
   setGroupFilter,
   setInstanceGroup,
-  state,
   toggleActed,
   toggleConditionPicker
 } from '../../store.ts';
@@ -54,8 +54,36 @@ function ConditionRow({ instance }: { instance: CombatInstance }) {
   );
 }
 
+type ColorStop = { at: number; rgb: [number, number, number] };
+
+/** Single solid stamina colour that shifts red → gold → teal as the bar fills.
+    Interpolates across a few anchor stops so the whole bar reads as one health hue. */
+function staminaColor(pct: number): string {
+  const stops: ColorStop[] = [
+    { at: 0, rgb: [236, 112, 89] }, // critical red   (#ec7059)
+    { at: 35, rgb: [232, 165, 107] }, // wounded orange (#e8a56b)
+    { at: 65, rgb: [224, 201, 138] }, // caution gold   (#e0c98a)
+    { at: 100, rgb: [52, 201, 184] }, // healthy teal   (--accent #34c9b8)
+  ];
+  const clamped = Math.max(0, Math.min(100, pct));
+  let lo = stops[0]!;
+  let hi = stops[stops.length - 1]!;
+  for (let i = 0; i < stops.length - 1; i++) {
+    const a = stops[i]!;
+    const b = stops[i + 1]!;
+    if (clamped >= a.at && clamped <= b.at) {
+      lo = a;
+      hi = b;
+      break;
+    }
+  }
+  const t = (clamped - lo.at) / (hi.at - lo.at || 1);
+  const mix = (i: number) => Math.round(lo.rgb[i]! + (hi.rgb[i]! - lo.rgb[i]!) * t);
+  return `rgb(${mix(0)}, ${mix(1)}, ${mix(2)})`;
+}
+
 function InstanceCard({ instance, monster, filter }: { instance: CombatInstance; monster: Monster; filter: string | null }) {
-  const group = state.value.groups.find(item => item.id === instance.groupId);
+  const group = activeEncounter().groups.find(item => item.id === instance.groupId);
   const dimmed = filter && filter !== instance.groupId;
   const pct = instance.maxStamina > 0 ? Math.max(0, Math.min(100, (instance.currentStamina / instance.maxStamina) * 100)) : 0;
   const remaining = instance.kind === 'minion-squad' && monster.stamina > 0 ? Math.ceil(instance.currentStamina / monster.stamina) : null;
@@ -81,12 +109,20 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
           value={instance.groupId}
           onChange={event => setInstanceGroup(instance.id, event.currentTarget.value)}
         >
-          {state.value.groups.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
+          {activeEncounter().groups.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}
         </select>
         <button class="icon-button" title="Remove creature" onClick={() => removeInstance(instance.id)}>×</button>
       </div>
       <div class="stamina-row">
-        <div class="stamina-meter"><i style={{ width: `${pct}%` }} /></div>
+        <div
+          class="stamina-meter"
+          role="progressbar"
+          aria-valuenow={Math.round(pct)}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <i style={{ width: `${pct}%`, background: staminaColor(pct) }} />
+        </div>
         <label class="stamina-field">
           <input
             class="stamina-command"
@@ -113,13 +149,13 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
 }
 
 function GroupFilterBar() {
-  const combat = state.value.combat;
-  if (state.value.groups.length < 2) return null;
+  const combat = activeEncounter().combat;
+  if (activeEncounter().groups.length < 2) return null;
   return (
     <div class="group-filter-bar panel">
       <span class="group-filter-label">GROUPS</span>
       <div class="combat-group-rail">
-        {state.value.groups.map(group => {
+        {activeEncounter().groups.map(group => {
           const members = combat.instances.filter(instance => instance.groupId === group.id);
           const acted = members.filter(instance => instance.acted).length;
           const active = combat.activeGroupFilter === group.id;
@@ -142,7 +178,7 @@ function GroupFilterBar() {
 
 export function CombatBoard() {
   void monstersVersion.value; // subscribe: lanes render once statblocks are cached
-  const combat = state.value.combat;
+  const combat = activeEncounter().combat;
   if (!combat.instances.length) {
     return <div class="combat-board" id="combatBoard"><div class="combat-empty panel">Build an encounter in Prep.</div></div>;
   }
