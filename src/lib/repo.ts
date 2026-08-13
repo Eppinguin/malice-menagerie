@@ -6,7 +6,7 @@ export const REPO = {
 
 export const API_ROOT = `https://api.github.com/repos/${REPO.owner}/${REPO.name}`;
 export const RAW_ROOT = `https://raw.githubusercontent.com/${REPO.owner}/${REPO.name}/${REPO.ref}/`;
-export const BLOB_ROOT = `https://github.com/${REPO.owner}/${REPO.name}/blob/${REPO.ref}/`;
+export const SOURCE_ROOT = "https://steelcompendium.io/v2/Browse/";
 export const STATBLOCK_RE = /^en\/(unified)\/json\/monster\/(.+?)\/statblock\/([^/]+)\.json$/i;
 export const CONDITION_RE = /^en\/unified\/json\/condition\/([^/]+)\.json$/i;
 
@@ -29,7 +29,15 @@ export function pathTokens(path: string): string[] {
 }
 
 export function sourceUrl(path: string): string {
-  return BLOB_ROOT + path.split("/").map(encodeURIComponent).join("/").replace(/%2F/g, "/");
+  const route = path
+    .replace(/^en\/unified\/json\//i, "")
+    .replace(/\/statblock\//i, "/")
+    .replace(/\.json$/i, "")
+    .split("/")
+    .filter(Boolean)
+    .map(encodeURIComponent)
+    .join("/");
+  return `${SOURCE_ROOT}${route}/`;
 }
 
 export function rawUrl(path: string): string {
