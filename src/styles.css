@@ -2264,9 +2264,67 @@ footer {
     flex-basis: 100%;
     width: 100%;
   }
-  .monster-lane > .statblock-body,
+  .monster-lane,
   .malice-dock.open .malice-selected-grid {
     overscroll-behavior-y: contain;
+  }
+}
+
+/* Card scrolling on small screens and short viewports (laptops, tablets, mobile)
+   as well as when the Malice dock is open.
+   On large screens, keeping the header pinned while scrolling features internally is
+   nice, but on constrained viewports the features section gets squeezed into an
+   unusable slit. Instead, make the entire card scroll as a single unit with no pinned
+   elements. */
+@media (max-width: 1024px), (max-height: 950px) {
+  .monster-lane {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+    overscroll-behavior-y: contain;
+  }
+  .monster-lane::-webkit-scrollbar {
+    width: 8px;
+  }
+  .monster-lane::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+  }
+  .monster-lane::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
+  .monster-lane > .statblock-body {
+    flex: 0 0 auto;
+    overflow-y: visible;
+    max-height: none;
+    min-height: auto;
+  }
+}
+
+@media (max-height: 1200px) {
+  .combat-view:has(.malice-dock.open) .monster-lane {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+    overscroll-behavior-y: contain;
+  }
+  .combat-view:has(.malice-dock.open) .monster-lane::-webkit-scrollbar {
+    width: 8px;
+  }
+  .combat-view:has(.malice-dock.open) .monster-lane::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 999px;
+  }
+  .combat-view:has(.malice-dock.open) .monster-lane::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+  }
+  .combat-view:has(.malice-dock.open) .monster-lane > .statblock-body {
+    flex: 0 0 auto;
+    overflow-y: visible;
+    max-height: none;
+    min-height: auto;
   }
 }
 
