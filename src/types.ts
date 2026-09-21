@@ -267,7 +267,11 @@ export interface PowerRollResult {
   tier: 1 | 2 | 3;
   bonus: number;
   label: string;
+  edge: EdgeState;
+  dice: [number, number];
 }
+
+export type EdgeState = "double-bane" | "bane" | "normal" | "edge" | "double-edge";
 
 export interface ParsedEv {
   unit: number;

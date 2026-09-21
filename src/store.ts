@@ -1,6 +1,12 @@
 import { signal } from "@preact/signals";
 import { clampInt, normalizeToken, uid } from "./lib/text.ts";
-import { makePowerRoll, partyMath } from "./lib/rules.ts";
+import {
+  clickEdgeOverride,
+  makeCharacteristicRoll,
+  makePowerRoll,
+  partyMath,
+} from "./lib/rules.ts";
+import type { CharacteristicKey } from "./lib/rules.ts";
 import { dedupeMaliceFeatures, featureText, isPriorMaliceGateway } from "./lib/malice.ts";
 import {
   catalog,
@@ -21,6 +27,7 @@ import type {
   CatalogEntry,
   CombatInstance,
   CombatState,
+  EdgeState,
   Encounter,
   EncounterItem,
   FacetKey,
@@ -1212,21 +1219,71 @@ export function groupInstancesByMonster(): [string, CombatInstance[]][] {
 
 // ---------- Rolls ----------
 
-export function rollFeature(monsterPath: string, featureIndex: number, effectIndex: number): void {
+export type ClickMods = {
+  shiftKey?: boolean;
+  ctrlKey?: boolean;
+  metaKey?: boolean;
+  altKey?: boolean;
+};
+
+/**
+ * Explicit edge (longpress menu pick) or click-modifier edge
+ * (⌘/Ctrl+click edge, ⌥+click bane, +⇧ doubles); otherwise a normal roll.
+ * There is no armed/sticky state: every roll is self-contained.
+ */
+export type EdgeInput = EdgeState | ClickMods;
+
+function takeEdge(input?: EdgeInput): EdgeState {
+  if (typeof input === "string") return input;
+  return clickEdgeOverride(input ?? {}) ?? "normal";
+}
+
+export function rollFeature(
+  monsterPath: string,
+  featureIndex: number,
+  effectIndex: number,
+  input?: EdgeInput,
+): void {
   const m = monsterCache.get(monsterPath);
   const effect = m?.features[featureIndex]?.effects?.[effectIndex];
   if (!m || !effect?.roll) return;
+  const key = `${m.id}|${featureIndex}|${effectIndex}`;
   const next = new Map(lastRolls.value);
-  next.set(`${m.id}|${featureIndex}|${effectIndex}`, makePowerRoll(effect.roll, m));
+  // Map.set keeps an existing key's position: delete first so insertion
+  // order always reflects recency (readers pick the "latest" roll by order).
+  next.delete(key);
+  next.set(key, makePowerRoll(effect.roll, m, takeEdge(input)));
   lastRolls.value = next;
 }
 
-export function rollMaliceFeature(featureId: string, effectIndex: number): void {
+export function rollCharacteristic(
+  monsterPath: string,
+  key: CharacteristicKey,
+  input?: EdgeInput,
+): void {
+  const m = monsterCache.get(monsterPath);
+  if (!m) return;
+  const rollKey = `${m.id}|char|${key}`;
+  const next = new Map(lastRolls.value);
+  // See rollFeature: delete first so a re-roll moves to the end (recency).
+  next.delete(rollKey);
+  next.set(rollKey, makeCharacteristicRoll(m, key, takeEdge(input)));
+  lastRolls.value = next;
+}
+
+export function rollMaliceFeature(
+  featureId: string,
+  effectIndex: number,
+  input?: EdgeInput,
+): void {
   const feature = maliceFeatures.value.find((item) => item.id === featureId);
   const effect = feature?.effects[effectIndex];
   if (!feature || !effect || !(effect.tier1 || effect.tier2 || effect.tier3)) return;
+  const key = `${feature.id}|${effectIndex}`;
   const next = new Map(lastMaliceRolls.value);
-  next.set(`${feature.id}|${effectIndex}`, makePowerRoll(effect.roll || "Power Roll"));
+  // See rollFeature: delete first so a re-roll moves to the end (recency).
+  next.delete(key);
+  next.set(key, makePowerRoll(effect.roll || "Power Roll", null, takeEdge(input)));
   lastMaliceRolls.value = next;
 }
 

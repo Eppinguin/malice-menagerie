@@ -1764,16 +1764,19 @@ select:focus {
   border-top: 1px solid var(--border);
 }
 .lane-core-stats span,
-.lane-characteristics span {
+.lane-characteristics span,
+.lane-characteristics .char-roll {
   padding: 7px 3px;
   text-align: center;
 }
 .lane-core-stats span + span,
-.lane-characteristics span + span {
+.lane-characteristics span + span,
+.lane-characteristics .char-roll + .char-roll {
   border-left: 1px solid var(--border);
 }
 .lane-core-stats b,
-.lane-characteristics b {
+.lane-characteristics b,
+.lane-characteristics .char-roll b {
   display: block;
   margin-top: 4px;
   font-size: 15px;
@@ -3283,4 +3286,95 @@ body.preview-open {
   .facet-ranges {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- Edge/bane longpress menu ---------- */
+.edge-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+.edge-menu {
+  position: fixed;
+  z-index: 91;
+  width: 200px;
+  padding: 5px;
+  display: grid;
+  gap: 2px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--panel-2);
+  box-shadow: var(--shadow);
+}
+.edge-menu-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+.edge-menu-option:hover {
+  background: var(--panel-3);
+  border-color: var(--border);
+}
+.edge-menu-option strong {
+  font-weight: 650;
+}
+.edge-menu-option span {
+  color: var(--faint);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Clickable characteristic checks (tap to roll, hold for edge/bane menu) */
+.lane-characteristics .char-roll {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 7px 3px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+  /* Longpress rolls: no callout/selection, no double-tap zoom delay. */
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.roll-line button,
+.malice-roll-line button {
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.lane-characteristics .char-roll:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.lane-characteristics .char-roll:hover b {
+  color: var(--accent-bright);
+}
+.char-roll-result {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px 8px;
+  border-top: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.14);
+  font-size: 11px;
+  color: var(--muted);
+}
+.char-roll-result strong {
+  color: var(--accent-bright);
+  font-variant-numeric: tabular-nums;
 }

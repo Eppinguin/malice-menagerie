@@ -16,7 +16,8 @@ import {
   toggleMaliceLibrary,
   useMaliceFeature
 } from '../../store.ts';
-import type { FeatureEffect, MaliceFeature, MaliceGroup } from '../../types.ts';
+import type { EdgeState, FeatureEffect, MaliceFeature, MaliceGroup } from '../../types.ts';
+import { rollPress } from './EdgeMenu.tsx';
 
 function costLabel(feature: MaliceFeature): string {
   return (feature.costText || String(feature.cost || '—')).replace(/\s*Malice/i, '');
@@ -30,7 +31,15 @@ function MaliceEffect({ feature, effect, effectIndex }: { feature: MaliceFeature
       {effect.effect ? <p dangerouslySetInnerHTML={{ __html: richText(effect.effect) }} /> : null}
       {tierKeys.length ? (
         <div class="malice-roll-line">
-          <button onClick={() => rollMaliceFeature(feature.id, effectIndex)}>Roll</button>
+          <button
+            title="Roll — tap, or hold for edge/bane menu"
+            {...rollPress(
+              (event) => rollMaliceFeature(feature.id, effectIndex, event),
+              (edge: EdgeState) => rollMaliceFeature(feature.id, effectIndex, edge),
+            )}
+          >
+            Roll
+          </button>
           <strong>{effect.roll || 'Power Roll'}</strong>
           {lastRoll ? <span>{lastRoll.label}</span> : null}
         </div>

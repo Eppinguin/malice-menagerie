@@ -1,6 +1,15 @@
 import { fmt, numberFrom, richText, signed } from "../lib/text.ts";
+import { characteristicLabel, edgeTag, type CharacteristicKey } from "../lib/rules.ts";
 import { effectiveSpeed } from "../lib/rules.ts";
-import { activeEncounter, lastRolls, rollFeature, spendAbilityMalice } from "../store.ts";
+import {
+  activeEncounter,
+  lastRolls,
+  rollCharacteristic,
+  rollFeature,
+  spendAbilityMalice,
+} from "../store.ts";
+import type { EdgeState } from "../types.ts";
+import { rollPress } from "./combat/EdgeMenu.tsx";
 import type { FeatureEffect, Monster, MonsterFeature } from "../types.ts";
 
 function featureLabel(feature: MonsterFeature): string {
@@ -22,6 +31,14 @@ function featureMeta(feature: MonsterFeature): string {
 
 export function LaneHeader({ monster }: { monster: Monster }) {
   const speed = effectiveSpeed(monster, activeEncounter().combat.activeEffects);
+  const charKeys = ["M", "A", "R", "I", "P"] as const;
+  let lastCharKey: CharacteristicKey | null = null;
+  for (const key of lastRolls.value.keys()) {
+    if (key.startsWith(`${monster.id}|char|`)) {
+      lastCharKey = key.slice(`${monster.id}|char|`.length) as CharacteristicKey;
+    }
+  }
+  const lastCharRoll = lastCharKey ? lastRolls.value.get(`${monster.id}|char|${lastCharKey}`) : undefined;
   return (
     <header class="lane-header">
       <div>
@@ -58,13 +75,29 @@ export function LaneHeader({ monster }: { monster: Monster }) {
         </span>
       </div>
       <div class="lane-characteristics">
-        {Object.entries(monster.chars).map(([key, value]) => (
-          <span key={key}>
+        {charKeys.map((key) => (
+          <button
+            key={key}
+            class="char-roll"
+            title={`${characteristicLabel(key)} check — tap to roll, hold for edge/bane menu`}
+            {...rollPress(
+              (event) => rollCharacteristic(monster.path, key, event),
+              (edge: EdgeState) => rollCharacteristic(monster.path, key, edge),
+            )}
+          >
             <small>{key}</small>
-            <b>{signed(value)}</b>
-          </span>
+            <b>{signed(monster.chars[key])}</b>
+          </button>
         ))}
       </div>
+      {lastCharRoll && lastCharKey ? (
+        <div class="char-roll-result" aria-live="polite">
+          <span>
+            {characteristicLabel(lastCharKey)} {edgeTag(lastCharRoll.edge) ? `· ${edgeTag(lastCharRoll.edge)}` : ""}
+          </span>
+          <strong>{lastCharRoll.label}</strong>
+        </div>
+      ) : null}
     </header>
   );
 }
@@ -109,7 +142,13 @@ function EffectBlock({
         <div class="roll-line">
           <strong>{effect.roll}</strong>
           {interactive ? (
-            <button onClick={() => rollFeature(monster.path, featureIndex, effectIndex)}>
+            <button
+              title="Roll — tap, or hold for edge/bane menu"
+              {...rollPress(
+                (event) => rollFeature(monster.path, featureIndex, effectIndex, event),
+                (edge: EdgeState) => rollFeature(monster.path, featureIndex, effectIndex, edge),
+              )}
+            >
               Roll
             </button>
           ) : null}

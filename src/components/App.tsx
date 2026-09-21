@@ -16,6 +16,7 @@ import {
 import type { ViewName } from '../types.ts';
 import { BuilderView } from './builder/BuilderView.tsx';
 import { CombatView } from './combat/CombatView.tsx';
+import { EdgeMenu } from './combat/EdgeMenu.tsx';
 import { EncounterSwitcher } from './EncounterSwitcher.tsx';
 import { PreviewDrawer } from './PreviewDrawer.tsx';
 import { Toast } from './Toast.tsx';
@@ -269,6 +270,7 @@ export function App() {
         </main>
       </div>
       <PreviewDrawer />
+      <EdgeMenu />
       <Toast />
     </>
   );
