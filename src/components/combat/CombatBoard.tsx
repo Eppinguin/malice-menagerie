@@ -17,25 +17,25 @@ import {
 import { LaneHeader, StatblockBody } from '../Statblock.tsx';
 import type { CombatInstance, Monster } from '../../types.ts';
 
-function ConditionRow({ instance }: { instance: CombatInstance }) {
-  const picking = openConditionPickerFor.value === instance.id;
+function ConditionRow({ instanceId, conditions }: { instanceId: string; conditions: string[] }) {
+  const picking = openConditionPickerFor.value === instanceId;
   return (
     <>
       <div class="condition-row">
-        {instance.conditions.map(condition => {
+        {conditions.map(condition => {
           const info = conditionInfo(condition);
           return (
             <button
               key={condition}
               class="condition-chip"
               title={info?.description || 'Loading condition description…'}
-              onClick={() => removeCondition(instance.id, condition)}
+              onClick={() => removeCondition(instanceId, condition)}
             >
               {condition} ×
             </button>
           );
         })}
-        <button class="condition-add" aria-expanded={picking} onClick={() => toggleConditionPicker(instance.id)}>+ condition</button>
+        <button class="condition-add" aria-expanded={picking} onClick={() => toggleConditionPicker(instanceId)}>+ condition</button>
       </div>
       {picking ? (
         <div class="condition-picker">
@@ -43,7 +43,7 @@ function ConditionRow({ instance }: { instance: CombatInstance }) {
             <button
               key={condition.slug}
               title={condition.description || 'Loading condition description…'}
-              onClick={() => addCondition(instance.id, condition.name)}
+              onClick={() => addCondition(instanceId, condition.name)}
             >
               {condition.name}
             </button>
@@ -142,7 +142,7 @@ function InstanceCard({ instance, monster, filter }: { instance: CombatInstance;
         </label>
         {remaining !== null ? <strong class="minion-count">{remaining}/{instance.count}</strong> : null}
       </div>
-      <ConditionRow instance={instance} />
+      <ConditionRow instanceId={instance.id} conditions={instance.conditions} />
       {group ? <span class="group-corner">{group.name}</span> : null}
     </article>
   );
