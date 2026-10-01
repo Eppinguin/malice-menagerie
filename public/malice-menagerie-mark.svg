@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">Malice Menagerie</title>
+  <!-- Spine plate: the flat black of the app's spine, cut square. -->
+  <rect width="1024" height="1024" rx="120" fill="#141414"/>
+  <!-- The wordmark's horned M (font units, baseline y=0), centred on the plate. -->
+  <g transform="translate(166 930) scale(0.806)">
+    <g fill="#e2584d">
+      <path d="M337-550C250-637 150-682 111-771C76-852 111-938 165-1018C89-979 25-912 4-831C-22-726 30-637 132-576C162-557 184-535 196-508C222-538 261-556 296-546L337-550Z"/>
+      <path d="M507-550C594-637 694-682 732-771C768-852 732-938 679-1018C755-979 820-912 840-831C866-726 814-637 713-576C683-557 661-535 647-508C621-538 583-556 547-546L507-550Z"/>
+    </g>
+    <path fill="#f7f7f5" d="M-12-716L160-630L422-233L683-630L856-716L763-581L763-128C763-62 788-25 837 0L541 0C591-25 615-62 615-128L615-243L455 0L388 0L228-243L228-128C228-62 253-25 302 0L6 0C55-25 80-62 80-128L80-581Z"/>
+    <g fill="#f4dc4f">
+      <path d="M243-545C316-523 370-481 395-422C332-441 282-483 243-545Z"/>
+      <path d="M600-545C528-523 473-481 449-422C512-441 561-483 600-545Z"/>
+    </g>
+  </g>
+</svg>

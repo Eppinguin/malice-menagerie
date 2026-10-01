@@ -29,6 +29,22 @@ export interface PressMods {
 }
 
 /**
+ * The one press in flight. It lives at module level, not in the rollPress
+ * closure: roll buttons re-render constantly (statblocks hydrating, rolls
+ * landing), and a re-render between pointerdown and pointerup swaps in fresh
+ * handlers. A per-closure timer would then be invisible to the new
+ * pointerup's cancel, and a plain tap would open the edge/bane menu.
+ */
+const press = { timer: undefined as number | undefined, startX: 0, startY: 0, firedAt: 0 };
+
+function cancelPress(): void {
+  if (press.timer !== undefined) {
+    clearTimeout(press.timer);
+    press.timer = undefined;
+  }
+}
+
+/**
  * Tap-or-hold press handling for roll buttons. A quick tap calls `onTap`
  * (with the click modifiers, so ⌘/Ctrl+click etc. keep working); holding
  * still for HOLD_MS opens the edge/bane menu, and the release click after a
@@ -39,41 +55,32 @@ export function rollPress(
   onTap: (event: PressMods) => void,
   onPick: (edge: EdgeState) => void,
 ) {
-  let timer: number | undefined;
-  let startX = 0;
-  let startY = 0;
-  let firedAt = 0;
-  const cancel = (): void => {
-    if (timer !== undefined) {
-      clearTimeout(timer);
-      timer = undefined;
-    }
-  };
   return {
     onPointerDown: (event: PointerEvent): void => {
       if (event.pointerType === "mouse" && event.button !== 0) return;
-      startX = event.clientX;
-      startY = event.clientY;
-      cancel();
+      cancelPress();
       const x = event.clientX;
       const y = event.clientY;
-      timer = window.setTimeout(() => {
-        timer = undefined;
-        firedAt = Date.now();
+      press.startX = x;
+      press.startY = y;
+      press.timer = window.setTimeout(() => {
+        press.timer = undefined;
+        press.firedAt = Date.now();
         openEdgeMenu(x, y, onPick);
       }, HOLD_MS);
     },
     onPointerMove: (event: PointerEvent): void => {
       if (
-        timer !== undefined &&
-        Math.hypot(event.clientX - startX, event.clientY - startY) > MOVE_TOLERANCE_PX
+        press.timer !== undefined &&
+        Math.hypot(event.clientX - press.startX, event.clientY - press.startY) > MOVE_TOLERANCE_PX
       )
-        cancel();
+        cancelPress();
     },
-    onPointerUp: (): void => cancel(),
-    onPointerCancel: (): void => cancel(),
+    onPointerUp: (): void => cancelPress(),
+    onPointerCancel: (): void => cancelPress(),
+    onPointerLeave: (): void => cancelPress(),
     onClick: (event: MouseEvent): void => {
-      if (Date.now() - firedAt < 750) return;
+      if (Date.now() - press.firedAt < 750) return;
       onTap(event);
     },
     // Mobile browsers fire a callout/magnifier on longpress; these buttons

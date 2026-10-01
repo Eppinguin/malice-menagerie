@@ -1,6 +1,7 @@
 import { batch, computed, signal } from "@preact/signals";
 import {
   CONDITION_RE,
+  HERO_SIDE_FAMILY_RE,
   STATBLOCK_RE,
   fetchJson,
   fetchRepositoryTree,
@@ -15,6 +16,7 @@ import {
   parseEv,
   plainText,
   slugToLabel,
+  WORD_NUMBERS,
 } from "./lib/text.ts";
 import { flattenMalicePayload, isMaliceCandidatePath } from "./lib/malice.ts";
 import { isRecord } from "./types.ts";
@@ -92,6 +94,7 @@ function queueFlush(): void {
 function buildCatalogEntry(path: string): CatalogEntry | null {
   const match = path.match(STATBLOCK_RE);
   if (!match?.[1] || !match[2] || !match[3]) return null;
+  if (HERO_SIDE_FAMILY_RE.test(match[2])) return null;
   return {
     path,
     book: match[1],
@@ -108,11 +111,32 @@ function normalizeFeatures(value: unknown): MonsterFeature[] {
   return value.filter(isRecord) as MonsterFeature[];
 }
 
+function stringList(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((item) => String(item ?? "").trim()).filter(Boolean);
+}
+
+/** "The lich can take two turns each round" / "Ajax takes up to three turns
+    each round": every solo states its turns in this one sentence. */
+const TURNS_RE = /\b(?:can take|takes?)(?: up to)? (\w+) turns each round\b/i;
+
+function turnsPerRound(features: readonly MonsterFeature[]): number {
+  for (const feature of features) {
+    for (const effect of feature.effects ?? []) {
+      const word = TURNS_RE.exec(effect.effect ?? "")?.[1]?.toLowerCase();
+      const turns = word ? Number(word) || WORD_NUMBERS[word] : 0;
+      if (turns && turns > 1) return turns;
+    }
+  }
+  return 1;
+}
+
 function normalizeMonster(raw: RawStatblock, path: string): Monster {
   const match = path.match(STATBLOCK_RE);
   const ev = parseEv(raw.ev, raw.organization);
   const keywords = Array.isArray(raw.keywords) ? raw.keywords.filter(Boolean).map(String) : [];
   const familyPath = match?.[2] || "";
+  const features = normalizeFeatures(raw.features);
   return {
     id: path,
     path,
@@ -133,7 +157,11 @@ function normalizeMonster(raw: RawStatblock, path: string): Monster {
     stamina: Math.max(0, numberFrom(raw.stamina, 0)),
     stability: raw.stability ?? "—",
     freeStrike: raw.free_strike ?? raw.freeStrike ?? "—",
-    movement: raw.movement || "—",
+    movement: raw.movement && raw.movement !== "—" ? raw.movement : "",
+    immunities: stringList(raw.immunities),
+    weaknesses: stringList(raw.weaknesses),
+    withCaptain: raw.with_captain?.trim() || "",
+    turnsPerRound: turnsPerRound(features),
     chars: {
       M: raw.might ?? 0,
       A: raw.agility ?? 0,
@@ -141,7 +169,7 @@ function normalizeMonster(raw: RawStatblock, path: string): Monster {
       I: raw.intuition ?? 0,
       P: raw.presence ?? 0,
     },
-    features: normalizeFeatures(raw.features),
+    features,
     source: sourceUrl(path),
     raw,
   };

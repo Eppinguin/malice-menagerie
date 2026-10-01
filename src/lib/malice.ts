@@ -138,6 +138,16 @@ function inferMaliceRollLabel(item: RawMaliceItem): string {
   return test?.[1] ? `${test[1]} test` : item.power_roll?.roll || "Power Roll";
 }
 
+/** Comparison key for "is this the same rules text", ignoring spacing, case
+    and a printed lead-in label such as "**Effect:**". */
+function sameText(text: string | undefined): string {
+  return (text ?? "")
+    .replace(/^\s*\*\*[^*]+:\*\*/, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
 function maliceEffectsFromItem(item: RawMaliceItem): FeatureEffect[] {
   const effects: FeatureEffect[] = Array.isArray(item.effects)
     ? item.effects.map((effect) => ({ ...effect }))
@@ -148,6 +158,47 @@ function maliceEffectsFromItem(item: RawMaliceItem): FeatureEffect[] {
   const introText = [item.intro, item.body].filter((text): text is string => Boolean(text));
 
   const tiers = item.power_roll?.tiers;
+  // Unified records repeat themselves: `body`/`intro` and `power_roll` restate
+  // what `effects` already holds. When structured effects exist they are the
+  // source of truth; only text they don't already carry is appended.
+  if (effects.length) {
+    const known = new Set<string>();
+    const deduped = effects.filter((effect) => {
+      const tiered = Boolean(effect.tier1 || effect.tier2 || effect.tier3);
+      const key = sameText(effect.effect);
+      if (!tiered && key && known.has(key)) return false;
+      [effect.effect, effect.tier1, effect.tier2, effect.tier3].forEach((text) => {
+        const textKey = sameText(text);
+        if (textKey) known.add(textKey);
+      });
+      if (tiered && !effect.roll) effect.roll = inferMaliceRollLabel(item);
+      return true;
+    });
+    // `body` is often every effect paragraph joined with blank lines, so it is
+    // compared paragraph by paragraph and only paragraphs not yet carried are kept.
+    [...introText, ...sections].forEach((text) => {
+      const fresh = text
+        .split(/\n\s*\n/)
+        .filter((paragraph) => {
+          const key = sameText(paragraph);
+          return key && !known.has(key);
+        })
+        .join("\n\n");
+      const key = sameText(fresh);
+      if (!key) return;
+      known.add(key);
+      deduped.push({ effect: fresh });
+    });
+    const hasTiers = deduped.some((effect) => effect.tier1 || effect.tier2 || effect.tier3);
+    if (tiers && !hasTiers) {
+      const tierEffect: FeatureEffect = { roll: inferMaliceRollLabel(item) };
+      if (tiers.low != null) tierEffect.tier1 = tiers.low;
+      if (tiers.mid != null) tierEffect.tier2 = tiers.mid;
+      if (tiers.high != null) tierEffect.tier3 = tiers.high;
+      deduped.push(tierEffect);
+    }
+    return deduped;
+  }
   if (tiers) {
     // A first section often contains the trigger/setup for the test and belongs before the tiers.
     if (sections.length && !introText.length) {
@@ -178,6 +229,7 @@ export function flattenMalicePayload(raw: RawMaliceRecord, path: string): Malice
       name: item.name || "",
       cost,
       costText: costText || (cost ? `${cost} Malice` : ""),
+      icon: item.icon || "",
       effects,
       distance: item.distance || "",
       target: item.target || "",

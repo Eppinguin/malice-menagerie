@@ -1,0 +1,1096 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-30T08:31:26+00:00",
+  "title": "Design System: Malice Menagerie",
+  "extensions": {
+    "colorMeta": {
+      "white-stock": {
+        "role": "neutral",
+        "displayName": "White Stock",
+        "cssVar": "--page",
+        "night": "#1a1815",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252524",
+          "#424241",
+          "#616160",
+          "#828281",
+          "#a5a5a4",
+          "#c9c9c8",
+          "#eeeeed"
+        ]
+      },
+      "sheet": {
+        "role": "neutral",
+        "displayName": "Sheet",
+        "cssVar": "--sheet",
+        "night": "#211e1a",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "panel-grey": {
+        "role": "neutral",
+        "displayName": "Panel Grey",
+        "cssVar": "--tint",
+        "night": "#27231e",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252524",
+          "#424240",
+          "#616160",
+          "#828281",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#eeeeec"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Field",
+        "cssVar": "--field",
+        "night": "#14120f",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "primary",
+        "displayName": "Ink",
+        "cssVar": "--ink",
+        "night": "#ece5d6",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "ink-secondary": {
+        "role": "primary",
+        "displayName": "Ink Secondary",
+        "cssVar": "--ink-2",
+        "night": "#c3baa9",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252523",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#efefec"
+        ]
+      },
+      "ink-tertiary": {
+        "role": "primary",
+        "displayName": "Ink Tertiary",
+        "cssVar": "--ink-3",
+        "night": "#9b9283",
+        "tonalRamp": [
+          "#0b0b08",
+          "#252522",
+          "#42423e",
+          "#61615d",
+          "#83837e",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefea"
+        ]
+      },
+      "ink-hover": {
+        "role": "primary",
+        "displayName": "Ink Hover",
+        "cssVar": "--ink-hover",
+        "night": "#fff8ea",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252523",
+          "#424240",
+          "#61615f",
+          "#828280",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#efefec"
+        ]
+      },
+      "hairline-rule": {
+        "role": "neutral",
+        "displayName": "Hairline Rule",
+        "cssVar": "--rule",
+        "night": "#38332c",
+        "tonalRamp": [
+          "#0b0b09",
+          "#252522",
+          "#42423f",
+          "#61615e",
+          "#82827f",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefeb"
+        ]
+      },
+      "strong-rule": {
+        "role": "neutral",
+        "displayName": "Strong Rule",
+        "cssVar": "--rule-strong",
+        "night": "#5e564b",
+        "tonalRamp": [
+          "#0b0b09",
+          "#252522",
+          "#42423f",
+          "#61615e",
+          "#83837f",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefea"
+        ]
+      },
+      "tab-black": {
+        "role": "primary",
+        "displayName": "Tab Black",
+        "cssVar": "--band",
+        "night": "#0c0b09",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "on-tab": {
+        "role": "primary",
+        "displayName": "On Tab",
+        "cssVar": "--on-band",
+        "night": "#efe8da",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252524",
+          "#424240",
+          "#616160",
+          "#828281",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#eeeeec"
+        ]
+      },
+      "ballpoint-pen": {
+        "role": "secondary",
+        "displayName": "Ballpoint Pen",
+        "cssVar": "--pen",
+        "night": "#93b4f0",
+        "tonalRamp": [
+          "#000234",
+          "#011f5a",
+          "#173d84",
+          "#305db0",
+          "#4b7fdd",
+          "#73a4fc",
+          "#9bc9ff",
+          "#c5f0ff"
+        ]
+      },
+      "pen-wash": {
+        "role": "secondary",
+        "displayName": "Pen Wash",
+        "cssVar": "--pen-wash",
+        "night": "rgba(147, 180, 240, 0.12)"
+      },
+      "pen-line": {
+        "role": "secondary",
+        "displayName": "Pen Line",
+        "cssVar": "--pen-line",
+        "night": "rgba(147, 180, 240, 0.45)"
+      },
+      "highlighter": {
+        "role": "tertiary",
+        "displayName": "Highlighter",
+        "cssVar": "--hl",
+        "night": "#e6c73e",
+        "tonalRamp": [
+          "#160800",
+          "#332300",
+          "#534000",
+          "#766000",
+          "#9a8200",
+          "#bba61f",
+          "#ddcb61",
+          "#fff195"
+        ]
+      },
+      "on-highlighter": {
+        "role": "tertiary",
+        "displayName": "On Highlighter",
+        "cssVar": "--on-hl",
+        "night": "#16140f",
+        "tonalRamp": [
+          "#0d0b07",
+          "#282420",
+          "#45413d",
+          "#64615c",
+          "#86827c",
+          "#a8a49f",
+          "#cdc8c3",
+          "#f2eee8"
+        ]
+      },
+      "malice-crimson": {
+        "role": "tertiary",
+        "displayName": "Malice Crimson",
+        "cssVar": "--malice",
+        "night": "#b8302a",
+        "tonalRamp": [
+          "#2b0000",
+          "#520000",
+          "#7c1211",
+          "#a7322b",
+          "#d45046",
+          "#f67b6e",
+          "#ffa597",
+          "#ffcfc1"
+        ]
+      },
+      "malice-ink": {
+        "role": "tertiary",
+        "displayName": "Malice Ink",
+        "cssVar": "--malice-ink",
+        "night": "#ef7a6e",
+        "tonalRamp": [
+          "#280000",
+          "#4e0002",
+          "#761d19",
+          "#a13b33",
+          "#cc594e",
+          "#ee8175",
+          "#ffaa9d",
+          "#ffd3c7"
+        ]
+      },
+      "on-malice": {
+        "role": "tertiary",
+        "displayName": "On Malice",
+        "cssVar": "--on-malice",
+        "night": "#fff1ea",
+        "tonalRamp": [
+          "#0f0a06",
+          "#2a241f",
+          "#47403c",
+          "#67605a",
+          "#89817b",
+          "#aca39e",
+          "#d0c7c1",
+          "#f5ede7"
+        ]
+      },
+      "down-ink": {
+        "role": "neutral",
+        "displayName": "Down Ink",
+        "cssVar": "--down",
+        "night": "#ece5d6",
+        "tonalRamp": [
+          "#0d0b07",
+          "#282420",
+          "#45413d",
+          "#64615c",
+          "#86827c",
+          "#a8a49f",
+          "#cdc8c3",
+          "#f2eee8"
+        ]
+      },
+      "diff-trivial": {
+        "role": "difficulty",
+        "displayName": "Difficulty Trivial",
+        "cssVar": "--diff-trivial",
+        "night": "#9a9180",
+        "tonalRamp": [
+          "#0f0a05",
+          "#2a241c",
+          "#484136",
+          "#686054",
+          "#8a8173",
+          "#aca496",
+          "#d0c8bb",
+          "#f5ede2"
+        ]
+      },
+      "diff-easy": {
+        "role": "difficulty",
+        "displayName": "Difficulty Easy",
+        "cssVar": "--diff-easy",
+        "night": "#8fc39c",
+        "tonalRamp": [
+          "#001003",
+          "#0f2c18",
+          "#294b32",
+          "#456c4e",
+          "#638f6d",
+          "#88b191",
+          "#afd4b7",
+          "#d7f9de"
+        ]
+      },
+      "diff-standard": {
+        "role": "difficulty",
+        "displayName": "Difficulty Standard",
+        "cssVar": "--diff-standard",
+        "night": "#bfc97a",
+        "tonalRamp": [
+          "#080e00",
+          "#212901",
+          "#3d471a",
+          "#5b6834",
+          "#7b8a50",
+          "#9ead77",
+          "#c2d19f",
+          "#e8f5c8"
+        ]
+      },
+      "diff-hard": {
+        "role": "difficulty",
+        "displayName": "Difficulty Hard",
+        "cssVar": "--diff-hard",
+        "night": "#e0a94a",
+        "tonalRamp": [
+          "#1d0300",
+          "#3d1b00",
+          "#613700",
+          "#865500",
+          "#ad7522",
+          "#ce9a56",
+          "#f0bf83",
+          "#ffe6b0"
+        ]
+      },
+      "diff-extreme": {
+        "role": "difficulty",
+        "displayName": "Difficulty Extreme",
+        "cssVar": "--diff-extreme",
+        "night": "#d49a52",
+        "tonalRamp": [
+          "#180600",
+          "#371f00",
+          "#583c11",
+          "#7c5a2b",
+          "#a17a47",
+          "#c29e6f",
+          "#e5c398",
+          "#ffe9c2"
+        ]
+      },
+      "diff-deadly": {
+        "role": "difficulty",
+        "displayName": "Difficulty Deadly",
+        "cssVar": "--diff-deadly",
+        "night": "#fff8ea",
+        "tonalRamp": [
+          "#0d0b07",
+          "#282420",
+          "#45413d",
+          "#64615c",
+          "#86827c",
+          "#a8a49f",
+          "#cdc8c3",
+          "#f2eee8"
+        ]
+      },
+      "tincture-ochre": {
+        "role": "tincture",
+        "displayName": "Tincture Ochre",
+        "cssVar": "--g0",
+        "night": "#d9a653",
+        "tonalRamp": [
+          "#1b0400",
+          "#3b1d00",
+          "#5d3900",
+          "#82571b",
+          "#a97738",
+          "#ca9b63",
+          "#ecc08e",
+          "#ffe7b9"
+        ]
+      },
+      "tincture-vert": {
+        "role": "tincture",
+        "displayName": "Tincture Vert",
+        "cssVar": "--g1",
+        "night": "#7fbf8e",
+        "tonalRamp": [
+          "#001100",
+          "#032e12",
+          "#1e4d2b",
+          "#396f47",
+          "#579264",
+          "#7eb489",
+          "#a6d8af",
+          "#cffcd7"
+        ]
+      },
+      "tincture-purpure": {
+        "role": "tincture",
+        "displayName": "Tincture Purpure",
+        "cssVar": "--g2",
+        "night": "#bd93dd",
+        "tonalRamp": [
+          "#150024",
+          "#331346",
+          "#532f6b",
+          "#754c93",
+          "#9a6bbb",
+          "#bb90db",
+          "#deb6fc",
+          "#ffdeff"
+        ]
+      },
+      "tincture-teal": {
+        "role": "tincture",
+        "displayName": "Tincture Teal",
+        "cssVar": "--g3",
+        "night": "#6cc0cf",
+        "tonalRamp": [
+          "#000f17",
+          "#002b35",
+          "#0c4a55",
+          "#2a6b78",
+          "#478e9d",
+          "#72b1be",
+          "#9cd4e1",
+          "#c6f9ff"
+        ]
+      },
+      "tincture-sanguine": {
+        "role": "tincture",
+        "displayName": "Tincture Sanguine",
+        "cssVar": "--g4",
+        "night": "#e09572",
+        "tonalRamp": [
+          "#1f0100",
+          "#401604",
+          "#65321d",
+          "#8b4f36",
+          "#b36e52",
+          "#d59379",
+          "#f7b9a1",
+          "#ffe0ca"
+        ]
+      },
+      "tincture-slate": {
+        "role": "tincture",
+        "displayName": "Tincture Slate",
+        "cssVar": "--g5",
+        "night": "#a3aec0",
+        "tonalRamp": [
+          "#060b14",
+          "#1e2530",
+          "#3a4350",
+          "#586272",
+          "#778395",
+          "#9ba6b7",
+          "#c0cada",
+          "#e6effe"
+        ]
+      },
+      "spine-black": {
+        "role": "neutral",
+        "displayName": "Spine Black",
+        "cssVar": "--cloth",
+        "night": "#0f0e0c",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "spine-raised": {
+        "role": "neutral",
+        "displayName": "Spine Raised",
+        "cssVar": "--cloth-2",
+        "night": "#1d1b18",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "spine-line": {
+        "role": "neutral",
+        "displayName": "Spine Line",
+        "cssVar": "--cloth-line",
+        "night": "#2e2a25",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "on-spine": {
+        "role": "neutral",
+        "displayName": "On Spine",
+        "cssVar": "--on-cloth",
+        "night": "#e6dfd0",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252524",
+          "#424240",
+          "#616160",
+          "#828281",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#eeeeec"
+        ]
+      },
+      "on-spine-dim": {
+        "role": "neutral",
+        "displayName": "On Spine Dim",
+        "cssVar": "--on-cloth-dim",
+        "night": "#978e80",
+        "tonalRamp": [
+          "#0b0b09",
+          "#252522",
+          "#42423f",
+          "#61615e",
+          "#83837f",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefea"
+        ]
+      },
+      "brand-horn": {
+        "role": "brand",
+        "displayName": "Horn Crimson",
+        "cssVar": "--brand-horn",
+        "night": "#e8665a",
+        "tonalRamp": [
+          "#1f0000",
+          "#4b0304",
+          "#7c1110",
+          "#af2521",
+          "#d74e44",
+          "#f87a6d",
+          "#fbb5ab",
+          "#fee9e6"
+        ],
+        "purpose": "Horns of the horned M (spine, collapsed rail, favicon) only; a lifted crimson that holds on spine black."
+      },
+      "brand-eye": {
+        "role": "brand",
+        "displayName": "Glare Yellow",
+        "cssVar": "--brand-eye",
+        "night": "#f2d85a",
+        "tonalRamp": [
+          "#0e0b00",
+          "#2c2500",
+          "#4c4205",
+          "#6e6216",
+          "#938320",
+          "#bba620",
+          "#e2ca38",
+          "#fff19e"
+        ],
+        "purpose": "Eyes of the horned M only."
+      }
+    },
+    "typographyMeta": {
+      "running-head": {
+        "displayName": "Running Head",
+        "purpose": "\"Round 3\", \"Prep\" at the top of the page, mixed case; 32px on phones."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Prep section headings; party line title at 21px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Creature names in the statblock header panel and the Encounter box heading; 19px in the library."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Ability, trait and Malice feature names; the bold kind beside them is 14px 700."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "Malice pool (30px on phones); same weight at 40px encounter EV, 24px acted tally, 21px pen stamina."
+      },
+      "stat-value": {
+        "displayName": "Stat Value",
+        "purpose": "Stat row numbers above their bold labels; characteristic values at 16px."
+      },
+      "stat-label": {
+        "displayName": "Stat Label",
+        "purpose": "Bold normal-case stat names (Size, Speed, Stamina); characteristic names at 12.5px with a 15px glyph first letter."
+      },
+      "pen-hand": {
+        "displayName": "Pen Hand",
+        "purpose": "Director-written text in pen blue: instance names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Trait and effect prose."
+      },
+      "rules-line": {
+        "displayName": "Rules Line",
+        "purpose": "Keyword + action and distance + target lines under an ability name."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Keyword line under the name, EV line, library meta (italic in library ability lists)."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Primary buttons (16px for Next round), secondary 14px, compact 13px, nav tabs 17px. Normal case."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Chips (600), Roll and Malice use buttons (700), text and spine buttons (600); 13px mini/add, 14px sort select, 12.5px health notes."
+      },
+      "tab-label": {
+        "displayName": "Tab Label",
+        "purpose": "Poppins small capitals in ink-tertiary: field labels, spine heading, filter/sort/group labels, party metric captions, acted and Malice labels (13px)."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "MALICE on the spine, opened by the horned M (an authored SVG initial, ~12% over size, feet on the baseline)."
+      },
+      "glyph": {
+        "displayName": "Draw Steel Glyphs",
+        "purpose": "Tier badges 27px; ability icons 16px / 13px; characteristic blocks 15px; potency blocks 1.05em. MCDM, CC BY-SA 4.0."
+      },
+      "wordmark-sub": {
+        "displayName": "Wordmark Sub",
+        "purpose": "MENAGERIE beneath, tracked to the same measure as MALICE."
+      }
+    },
+    "fonts": [
+      {
+        "name": "Bitter Variable",
+        "source": "@fontsource-variable/bitter (roman + wght-italic)",
+        "role": "The one voice: statblock and chrome, normal case."
+      },
+      {
+        "name": "Poppins",
+        "source": "@fontsource/poppins 600/700/800",
+        "role": "Capitals only: wordmark, tags, small label group."
+      },
+      {
+        "name": "Draw Steel Glyphs",
+        "source": "src/assets/fonts/DrawSteelGlyphs-Regular.otf",
+        "license": "CC BY-SA 4.0, MCDM Productions; credited in the footer",
+        "role": "Tier badges (! @ #), ability icons (ICON_GLYPHS in Statblock.tsx), distance/target marks, characteristic blocks, Malice skull (d), potency blocks (richText in src/lib/text.ts).",
+        "fontDisplay": "block"
+      }
+    ],
+    "typeScale": {
+      "live": [
+        "10.5px",
+        "11px",
+        "11.5px",
+        "12px",
+        "12.5px",
+        "13px",
+        "13.5px",
+        "14px",
+        "14.5px",
+        "15px",
+        "16px",
+        "17px",
+        "18px",
+        "19px",
+        "20px",
+        "21px",
+        "24px",
+        "26px",
+        "27px",
+        "30px",
+        "32px",
+        "34px",
+        "40px",
+        "clamp(30px, 3vw, 40px)",
+        "1.05em"
+      ],
+      "overriddenDeclarations": [
+        "10px",
+        "25px",
+        "31px",
+        "36px",
+        "clamp(26px, 2.5vw, 34px)",
+        "clamp(34px, 3.4vw, 48px)"
+      ],
+      "belowFloor": [
+        "8.5px (.tag)",
+        "9px (.nav-button i count badge)",
+        "10px (.prep-drag-ghost span)"
+      ],
+      "floor": "10.5px"
+    },
+    "radii": [
+      {
+        "name": "hairline",
+        "value": "1px",
+        "purpose": "Tincture swatches, stamina meter."
+      },
+      {
+        "name": "print",
+        "value": "2px",
+        "cssVar": "--radius",
+        "purpose": "Every control, card, tag, the Malice counter."
+      },
+      {
+        "name": "panel",
+        "value": "6px",
+        "purpose": "Statblock header panel (top corners) and the Encounter box."
+      },
+      {
+        "name": "highlighter",
+        "value": "2px 10px 4px 6px / 6px 4px 8px 3px",
+        "purpose": "Rolled-tier swipe only, with rotate(-0.5deg) skewX(-4deg)."
+      },
+      {
+        "name": "scroll-thumb",
+        "value": "9px",
+        "purpose": "Scrollbar thumb."
+      }
+    ],
+    "dividers": [
+      {
+        "name": "v-notch-rule",
+        "value": "1px solid var(--rule-strong) with a 10px rotated square (right+bottom borders, page fill) centred at bottom:-6px",
+        "purpose": "Closes the statblock header panel, ability and trait blocks, the party line."
+      },
+      {
+        "name": "running-head-rule",
+        "value": "3px double var(--ink)",
+        "purpose": "Under running heads and drawer heads."
+      },
+      {
+        "name": "malice-strip-rule",
+        "value": "2px solid var(--malice)",
+        "purpose": "Top of the Encounter Malice strip."
+      }
+    ],
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 1px 2px rgba(40, 30, 20, 0.12), 0 8px 24px -6px rgba(40, 30, 20, 0.22)",
+        "night": "0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px -8px rgba(0, 0, 0, 0.6)",
+        "purpose": "Lifted things only: drag ghost, edge menu, toast."
+      },
+      {
+        "name": "drawer",
+        "value": "0 12px 48px rgba(20, 15, 10, 0.35)",
+        "night": "0 12px 48px rgba(0, 0, 0, 0.6)",
+        "purpose": "Preview drawer over a 45% ink backdrop."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 2px var(--pen-wash)",
+        "purpose": "Focused input, paired with a pen border."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for movement: spine collapse, drawer, meters, pen stroke."
+      },
+      {
+        "name": "pen-stroke",
+        "value": "@keyframes pen-stroke { from { clip-path: inset(0 100% 0 0) } to { clip-path: inset(0 0 0 0) } }",
+        "purpose": "The only mark animation: acted tick (0.28s) and rolled-tier highlight (0.42s), left to right."
+      },
+      {
+        "name": "state-fast",
+        "value": "0.12s–0.14s ease",
+        "purpose": "Colour, background and border changes on controls."
+      },
+      {
+        "name": "panel",
+        "value": "0.24s–0.3s var(--ease-out)",
+        "purpose": "Spine collapse, drawer slide, stamina meter, budget ruler."
+      },
+      {
+        "name": "menu-in",
+        "value": "0.16s var(--ease-out)",
+        "purpose": "Edge menu and drag ghost entrance."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation/transition-duration: 0.01ms",
+        "purpose": "prefers-reduced-motion: reduce collapses everything."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "party-wrap",
+        "value": "1280px"
+      },
+      {
+        "name": "prep-narrow",
+        "value": "1100px"
+      },
+      {
+        "name": "lane-scroll",
+        "value": "max-width 1024px or max-height 950px"
+      },
+      {
+        "name": "spine-to-menu",
+        "value": "900px"
+      },
+      {
+        "name": "phone",
+        "value": "620px"
+      },
+      {
+        "name": "board-lanes",
+        "value": "container: 680px 50% / 1040px 33.33% / 1440px 25% / 1840px 20%"
+      }
+    ],
+    "layout": {
+      "spineWidth": "244px",
+      "spineCollapsed": "68px",
+      "viewPadding": "28px 36px 48px",
+      "laneGutter": "18px",
+      "abilityIconColumn": "22px",
+      "abilityIndent": "26px",
+      "tierBadgeColumn": "40px",
+      "runningHeadRule": "3px double var(--ink)"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one committing action: solid ink, bold serif, normal case.",
+      "html": "<button class=\"ds-btn-primary\">Next round</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border:1px solid var(--band,#141414);border-radius:2px;background:var(--band,#141414);color:var(--on-band,#f7f7f5);font:700 15px/1 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer;transition:background .14s ease,border-color .14s ease}.ds-btn-primary:hover{background:var(--ink-hover,#3a3a38);border-color:var(--ink-hover,#3a3a38)}.ds-btn-primary:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-btn-primary:disabled{background:transparent;border-color:var(--rule,#c9c9c5);color:var(--ink-3,#62625e);cursor:not-allowed}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Outlined serif button for every non-committing action; active fills ink.",
+      "html": "<div style=\"display:flex;gap:8px\"><button class=\"ds-btn-secondary\">Prev round</button><button class=\"ds-btn-secondary is-active\">More</button></div>",
+      "css": ".ds-btn-secondary{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border:1px solid var(--rule-strong,#8c8c88);border-radius:2px;background:transparent;color:var(--ink,#141414);font:700 14px/1 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer;transition:background .14s ease,border-color .14s ease}.ds-btn-secondary:hover{background:var(--tint,#efefed);border-color:var(--ink-2,#3b3b39)}.ds-btn-secondary:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-btn-secondary.is-active{background:var(--ink,#141414);border-color:var(--ink,#141414);color:var(--page,#fbfbfa)}"
+    },
+    {
+      "name": "Filter Chips and Tags",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Serif filter chips (active is solid ink) beside a Poppins capital tag.",
+      "html": "<div style=\"display:flex;gap:6px;align-items:center\"><button class=\"ds-chip is-active\">All</button><button class=\"ds-chip\">Horde</button><button class=\"ds-chip\">Minion</button><span class=\"ds-tag\">Minion</span></div>",
+      "css": ".ds-chip{padding:7px 12px;border:1px solid var(--rule-strong,#8c8c88);border-radius:2px;background:transparent;color:var(--ink-2,#3b3b39);font:600 13.5px/1 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer;transition:background .14s ease,color .14s ease,border-color .14s ease}.ds-chip:hover{color:var(--ink,#141414);border-color:var(--ink-2,#3b3b39);background:var(--tint,#efefed)}.ds-chip:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-chip.is-active{background:var(--ink,#141414);border-color:var(--ink,#141414);color:var(--page,#fbfbfa)}.ds-tag{display:inline-flex;padding:2px 6px 1px;border:1px solid var(--rule-strong,#8c8c88);border-radius:2px;color:var(--ink-2,#3b3b39);font:600 10.5px/1.3 Poppins,ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase}"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Party and search inputs: field well, strong-rule border, pen focus; the label is a Poppins tab label.",
+      "html": "<label class=\"ds-field\"><span>Heroes</span><input value=\"5\"></label>",
+      "css": ".ds-field{display:grid;gap:6px;width:160px}.ds-field span{font:600 10.5px/1 Poppins,ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3,#62625e)}.ds-field input{padding:9px 11px;border:1px solid var(--rule-strong,#8c8c88);border-radius:2px;background:var(--field,#fff);color:var(--pen,#1d4ea8);font:700 21px/1 \"Bitter Variable\",Bitter,Georgia,serif;transition:border-color .14s ease,box-shadow .14s ease}.ds-field input:hover{border-color:var(--ink-2,#3b3b39)}.ds-field input:focus{outline:none;border-color:var(--pen,#1d4ea8);box-shadow:0 0 0 2px var(--pen-wash,rgba(29,78,168,.1))}"
+    },
+    {
+      "name": "Spine Navigation",
+      "kind": "nav",
+      "refersTo": "spine-tab-active",
+      "description": "Flat black spine opened by the horned-M wordmark; the active tab is cut from page stock with inverted corners.",
+      "html": "<nav class=\"ds-spine\"><div class=\"ds-wordmark\" role=\"img\" aria-label=\"Malice Menagerie\"><span class=\"ds-wm-malice\"><svg class=\"ds-m\" viewBox=\"-12 -1018 868 1018\" aria-hidden=\"true\"><g fill=\"var(--brand-horn,#e2584d)\"><path d=\"M337-550C250-637 150-682 111-771C76-852 111-938 165-1018C89-979 25-912 4-831C-22-726 30-637 132-576C162-557 184-535 196-508C222-538 261-556 296-546L337-550Z\"/><path d=\"M507-550C594-637 694-682 732-771C768-852 732-938 679-1018C755-979 820-912 840-831C866-726 814-637 713-576C683-557 661-535 647-508C621-538 583-556 547-546L507-550Z\"/></g><path fill=\"currentColor\" d=\"M-12-716L160-630L422-233L683-630L856-716L763-581L763-128C763-62 788-25 837 0L541 0C591-25 615-62 615-128L615-243L455 0L388 0L228-243L228-128C228-62 253-25 302 0L6 0C55-25 80-62 80-128L80-581Z\"/><g fill=\"var(--brand-eye,#f4dc4f)\"><path d=\"M243-545C316-523 370-481 395-422C332-441 282-483 243-545Z\"/><path d=\"M600-545C528-523 473-481 449-422C512-441 561-483 600-545Z\"/></g></svg>ALICE</span><span class=\"ds-wm-sub\">Menagerie</span></div><a class=\"ds-tab\" href=\"#\">Prep</a><a class=\"ds-tab is-active\" href=\"#\">Run <i>4</i></a></nav>",
+      "css": ".ds-wordmark{display:grid;justify-items:start;gap:5px;margin:0 14px 16px 2px;font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-weight:800;text-transform:uppercase;color:var(--on-cloth,#f7f7f5)}.ds-wm-malice{display:flex;align-items:baseline;margin-bottom:-.16em;font-size:34px;line-height:1;letter-spacing:.03em}.ds-m{display:block;flex:0 0 auto;width:.972em;height:1.14em;overflow:visible}.ds-wm-sub{margin-right:-.39em;font-size:15px;line-height:1;letter-spacing:.39em}.ds-spine{display:grid;gap:4px;width:220px;padding:18px 0 18px 14px;background:var(--cloth,#141414)}.ds-tab{position:relative;display:flex;justify-content:space-between;align-items:center;padding:10px 14px 10px 10px;border-radius:2px 0 0 2px;color:var(--on-cloth-dim,#a8a8a4);font:700 17px/1 \"Bitter Variable\",Bitter,Georgia,serif;text-decoration:none;transition:background .14s ease,color .14s ease}.ds-tab:hover{background:var(--cloth-2,#262626);color:var(--on-cloth,#f7f7f5)}.ds-tab:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:-2px}.ds-tab.is-active{background:var(--page,#fbfbfa);color:var(--ink,#141414)}.ds-tab.is-active::before,.ds-tab.is-active::after{content:\"\";position:absolute;right:0;width:6px;height:6px}.ds-tab.is-active::after{top:-6px;background:radial-gradient(circle at 0 0,transparent 5.5px,var(--page,#fbfbfa) 6px)}.ds-tab.is-active::before{bottom:-6px;background:radial-gradient(circle at 0 100%,transparent 5.5px,var(--page,#fbfbfa) 6px)}.ds-tab i{padding:3px 5px 2px;border:1px solid currentColor;border-radius:2px;font:700 10.5px/1 Poppins,ui-sans-serif,system-ui,sans-serif;font-style:normal;opacity:.8}"
+    },
+    {
+      "name": "Statblock Head",
+      "kind": "card",
+      "refersTo": "statblock-panel",
+      "description": "Flat grey header panel with V-notch, then number-over-label stats and \"Might +5\" characteristics.",
+      "html": "<article class=\"ds-sb\"><header class=\"ds-sb-head\"><div class=\"ds-sb-row\"><h2>Ajax the Invincible</h2><b>Level 11 Solo</b></div><div class=\"ds-sb-row ds-sb-keys\"><span>Human, Humanoid</span><span>EV 156</span></div></header><div class=\"ds-sb-stats\"><span><b>1L</b><small>Size</small></span><span><b>7</b><small>Speed</small></span><span><b>700</b><small>Stamina</small></span><span><b>2</b><small>Stability</small></span><span><b>11</b><small>Free Strike</small></span></div><div class=\"ds-sb-chars\"><span><small><i>M</i>ight</small><b>+5</b></span><span><small><i>A</i>gility</small><b>+4</b></span><span><small><i>R</i>eason</small><b>+5</b></span><span><small><i>I</i>ntuition</small><b>+5</b></span><span><small><i>P</i>resence</small><b>+4</b></span></div></article>",
+      "css": ".ds-sb{width:360px;font-family:\"Bitter Variable\",Bitter,Georgia,serif;color:var(--ink,#141414);background:var(--page,#fbfbfa)}.ds-sb-head{position:relative;padding:9px 12px;border-radius:6px 6px 0 0;border-bottom:1px solid var(--rule-strong,#8c8c88);background:var(--tint,#efefed)}.ds-sb-head::after{content:\"\";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;border-right:1px solid var(--rule-strong,#8c8c88);border-bottom:1px solid var(--rule-strong,#8c8c88);background:var(--page,#fbfbfa);transform:translateX(-50%) rotate(45deg)}.ds-sb-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.ds-sb-row h2{margin:0;font:700 21px/1.15 \"Bitter Variable\",Bitter,Georgia,serif}.ds-sb-row b{font-size:14px}.ds-sb-keys{font-size:13.5px;color:var(--ink-2,#3b3b39)}.ds-sb-stats,.ds-sb-chars{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--rule-strong,#8c8c88);text-align:center;font-variant-numeric:tabular-nums lining-nums}.ds-sb-stats{margin-top:8px}.ds-sb-stats span,.ds-sb-chars span{display:grid;gap:2px;padding:6px 1px 8px}.ds-sb-stats b{font-size:20px;font-weight:400}.ds-sb-stats small{font-size:13px;font-weight:700}.ds-sb-chars{grid-template-columns:repeat(5,1fr)}.ds-sb-chars small{font-size:12.5px;font-weight:700}.ds-sb-chars small i{display:inline-block;margin-right:1px;padding:0 3px;border-radius:2px;background:var(--ink,#141414);color:var(--page,#fbfbfa);font-style:normal}.ds-sb-chars b{font-size:16px;font-weight:400}"
+    },
+    {
+      "name": "Malice Counter",
+      "kind": "custom",
+      "refersTo": "malice-counter",
+      "description": "Crimson ink, not a filled block: outlined counter, outlined steps that fill on hover, serif numeral.",
+      "html": "<div class=\"ds-malice\"><span class=\"ds-malice-label\">Malice</span><button class=\"ds-malice-step\" aria-label=\"Decrease Malice\"><svg viewBox=\"0 0 24 24\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M5 12h14\"/></svg></button><strong>6</strong><button class=\"ds-malice-step\" aria-label=\"Increase Malice\"><svg viewBox=\"0 0 24 24\" width=\"15\" height=\"15\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></button><span class=\"ds-malice-next\">+7 next</span></div>",
+      "css": ".ds-malice{display:inline-grid;grid-template-columns:auto 32px minmax(48px,auto) 32px auto;align-items:center;gap:4px;min-height:50px;padding:4px 12px 4px 14px;border:1px solid var(--malice,#a8231f);border-radius:2px;background:transparent;color:var(--malice-ink,#8e1c19)}.ds-malice-label{margin-right:6px;font:600 13px/1 Poppins,ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase}.ds-malice strong{min-width:48px;text-align:center;font:700 32px/1 \"Bitter Variable\",Bitter,Georgia,serif;font-variant-numeric:tabular-nums lining-nums}.ds-malice-step{width:32px;height:32px;display:grid;place-items:center;padding:0;border:1px solid var(--malice,#a8231f);border-radius:2px;background:transparent;color:var(--malice-ink,#8e1c19);cursor:pointer;transition:background .12s ease}.ds-malice-step:hover{background:var(--malice,#a8231f);color:var(--on-malice,#fbf2ec)}.ds-malice-step:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-malice-next{margin-left:8px;padding-left:10px;border-left:1px solid var(--malice,#a8231f);font:600 13.5px/1 \"Bitter Variable\",Bitter,Georgia,serif;white-space:nowrap}"
+    },
+    {
+      "name": "Ability Block with Rolled Tier",
+      "kind": "custom",
+      "refersTo": "rolled-tier",
+      "description": "Name + kind, keywords + action, distance + target; pen Roll and result; tier rows with the rolled one circled twice in ballpoint blue. Tier badges are glyphs in the build; shown here as outlined text.",
+      "html": "<section class=\"ds-ab\"><div class=\"ds-ab-line ds-ab-title\"><strong>Blade of the Gol King</strong><b>Signature Ability</b></div><div class=\"ds-ab-line\"><span>Charge, Melee, Strike, Weapon</span><span>Main action</span></div><div class=\"ds-ab-line\"><span>Melee 1</span><span>Two creatures or objects</span></div><div class=\"ds-roll\"><strong>Power Roll + 5</strong><button>Roll</button><span>4+7+5 = 16 · T2</span></div><div class=\"ds-tiers\"><div><i>≤11</i><span>16 damage; <em>M&lt;4</em> the target loses 1d3 Recoveries</span></div><div class=\"is-rolled\"><svg class=\"ds-loop\" viewBox=\"0 0 100 20\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M8 3C30 0 80 0 94 4C101 7 99 15 90 17C65 21 25 21 8 17C0 15 0 6 12 3C35 -1 75 1 96 6\"/></svg><i>12–16</i><span>22 damage; <em>M&lt;5</em> the target loses 1d3 Recoveries</span></div><div><i>17+</i><span>26 damage; <em>M&lt;6</em> prone</span></div></div></section>",
+      "css": ".ds-ab{position:relative;width:360px;padding:12px 0 13px;border-bottom:1px solid var(--rule-strong,#8c8c88);font:400 14px/1.45 \"Bitter Variable\",Bitter,Georgia,serif;color:var(--ink,#141414)}.ds-ab::after{content:\"\";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;border-right:1px solid var(--rule-strong,#8c8c88);border-bottom:1px solid var(--rule-strong,#8c8c88);background:var(--page,#fbfbfa);transform:translateX(-50%) rotate(45deg)}.ds-ab-line{display:flex;justify-content:space-between;gap:12px;padding-left:26px}.ds-ab-title strong{font-size:16px;font-weight:700;line-height:1.25}.ds-ab-title b{font-size:14px}.ds-roll{display:flex;align-items:center;gap:8px;margin:8px 0 6px 26px}.ds-roll strong{font-size:17px}.ds-roll button{padding:4px 11px 3px;border:1px solid var(--pen,#1d4ea8);border-radius:2px;background:transparent;color:var(--pen,#1d4ea8);font:700 13.5px/1 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer;transition:background .12s ease,color .12s ease}.ds-roll button:hover{background:var(--pen,#1d4ea8);color:var(--field,#fff)}.ds-roll button:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-roll span{font-size:16px;font-weight:700;color:var(--pen,#1d4ea8);font-variant-numeric:tabular-nums}.ds-tiers{display:grid;gap:2px;margin-left:26px}.ds-tiers>div{position:relative;isolation:isolate;display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:baseline;padding:1px 4px 1px 0}.ds-tiers i{justify-self:start;padding:0 4px;border:1.5px solid currentColor;border-radius:2px 6px 6px 2px;font:700 11px/1.4 \"Bitter Variable\",Bitter,Georgia,serif;font-style:normal}.ds-tiers em{padding:0 3px;border-radius:2px;background:var(--ink,#141414);color:var(--page,#fbfbfa);font-style:normal;font-size:.9em}.ds-tiers .is-rolled i{color:var(--pen,#1d4ea8)}.ds-loop{position:absolute;z-index:-1;top:-4px;left:-15px;width:calc(100% + 17px);height:calc(100% + 9px);overflow:visible;transform:rotate(-.4deg);pointer-events:none}.ds-loop path{fill:none;stroke:var(--pen,#1d4ea8);stroke-width:1.6;stroke-linecap:round;vector-effect:non-scaling-stroke}.ds-loop{animation:ds-pen-stroke .72s cubic-bezier(.45,.05,.3,1) .1s both}@keyframes ds-pen-stroke{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}"
+    },
+    {
+      "name": "Condition Chips and Health Notes",
+      "kind": "chip",
+      "refersTo": "condition-chip",
+      "description": "Director-applied conditions in pen; danger in heavy ink, never red.",
+      "html": "<div style=\"display:flex;gap:6px;align-items:center;flex-wrap:wrap\"><button class=\"ds-cond\">Grabbed ×</button><button class=\"ds-cond ds-cond-add\">+ Condition</button><span class=\"ds-health\">Winded</span><span class=\"ds-health ds-down\">Down</span></div>",
+      "css": ".ds-cond{display:inline-flex;align-items:center;gap:5px;padding:3px 7px 2px 8px;border:1px solid var(--pen-line,rgba(29,78,168,.42));border-radius:2px;background:var(--pen-wash,rgba(29,78,168,.1));color:var(--pen,#1d4ea8);font:600 14px/1.3 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer}.ds-cond:hover{background:var(--pen,#1d4ea8);color:var(--field,#fff)}.ds-cond:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-cond-add{border-style:dashed;border-color:var(--rule-strong,#8c8c88);background:transparent;color:var(--ink-3,#62625e)}.ds-cond-add:hover{border-color:var(--pen,#1d4ea8);background:transparent;color:var(--pen,#1d4ea8)}.ds-health{display:inline-block;padding:2px 6px 1px;border:1px solid var(--ink,#141414);border-radius:2px;font:700 12.5px/1.2 \"Bitter Variable\",Bitter,Georgia,serif;color:var(--ink,#141414)}.ds-down{background:var(--ink,#141414);color:var(--page,#fbfbfa)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Bestiary Page",
+    "overview": "The app is the Draw Steel Monsters book lying open on the Director's table, set in the book's own statblock grammar. Everything printed is black ink on white stock. Each statblock opens with a flat grey header panel carrying the creature's name in a bold slab serif. Below it, a row of stats prints the number above its bold label, characteristics read as \"Might +5\" with a glyph block for the first letter, and abilities are laid out line by line as the book prints them. Draw Steel's own glyphs mark tiers, ability types, distance and target, and potency. The chrome uses the statblock's bold serif too, in normal case: \"Round 1\", \"Next round\", \"Roll\". Geometric capitals survive only on the wordmark, tags and the smallest labels, as the book keeps its sans for the page tab.\n\nEverything the Director does is written on top of that print in a second hand, in ballpoint blue. Values the Director enters (names, Stamina, quantities) are typeset in blue Bitter, never a handwriting face, because they must read at a glance mid-combat. The marks they make are drawn by hand over the print: the rolled tier circled twice, the roll worked out as a sum with its answer ruled off twice, a turn ticked, a downed creature crossed through, a condition ringed and crossed off. Malice is crimson ink: an outlined counter in the running head, never a filled block. A flat black spine binds the page on the left, and the active tab is cut from the page stock.\n\nDensity is the density of a rulebook, not a dashboard. Structure comes from thin rules, V-notched dividers and a 3px double rule under the running head, not from floating cards. Statblocks sit side by side on the board as whole pages divided by vertical rules. Colour is law rather than decoration: each hue has one meaning. The same book also exists as a night page (charcoal stock, bone ink, the same roles), a user toggle persisted in `localStorage` that defaults to `prefers-color-scheme`. The world refuses the dark SaaS dashboard of boxed cards and a single neon accent.",
+    "keyCharacteristics": [
+      "Printed ink and the Director's pen are two separate layers, and the palette keeps them apart.",
+      "Flat grey header panels with slab-serif names open every statblock and the Encounter box.",
+      "One voice: bold Bitter sets the statblock and the chrome, in normal case. Poppins capitals are for the wordmark, tags and small labels only.",
+      "Draw Steel Glyphs carry the book's own symbols.",
+      "Thin rules with a centred V-notch carry structure. Boxes are the exception.",
+      "Crimson appears only where Malice is, as ink and outline.",
+      "Print is crisp and controls stay printed; game state is marked by hand on top.",
+      "One motion: marks are drawn on left to right like a pen stroke."
+    ],
+    "rules": [
+      {
+        "name": "The Malice Is Crimson Rule",
+        "body": "Crimson (`--malice`) means Malice and nothing else. A crimson element that does not show, change or spend the Malice pool is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Crimson Ink Rule",
+        "body": "Malice is written in crimson ink and outline on the page: the counter, its steps and the use buttons are transparent with a 1px crimson border and crimson text, and fill solid crimson only on hover.",
+        "section": "colors"
+      },
+      {
+        "name": "The Horned Initial Rule",
+        "body": "The wordmark's horned M is the one place crimson and yellow appear outside their laws: the horns are the \"Malice\" in the name, the eyes glare from the notch. They stay on the mark (spine, collapsed rail, favicon) and never travel into the page as decoration.",
+        "section": "colors"
+      },
+      {
+        "name": "The Director's Pen Rule",
+        "body": "Anything the Director writes, marks or rolls is set in ballpoint blue. Printed book content is never blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Hand-Mark Rule",
+        "body": "Hand-drawn strokes mark game state, never controls. Buttons, inputs, selects, focus rings and rules text stay printed and crisp. A mark is thin (1.2–2.1px), seeded so it keeps its shape across re-renders, and drawn on once when the state it records begins. Words and numbers inside or beside a mark stay typeset in Bitter. A mark must carry state the Director needs and cannot already read elsewhere: no struck-out history, no tally of what a heading already says.",
+        "section": "colors"
+      },
+      {
+        "name": "The Circled Roll Rule",
+        "body": "The rolled tier is circled in ballpoint blue never filled or highlighted. The roll result stays on the Roll line: the working is trimmed before the line is allowed to wrap. The printed result under the loop stays ink, so it reads exactly as the book prints it. Highlighter yellow is left to native text selection.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heavy Ink Rule",
+        "body": "Danger, removal, Down and DEADLY are set in heavy ink (an ink cross over a downed slip, a bold underline, an ink outline on hover), never in red, because red already means Malice.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tincture Rule",
+        "body": "Group tinctures tag activation groups only. They never signal status, difficulty or emphasis.",
+        "section": "colors"
+      },
+      {
+        "name": "The Same Roles At Night Rule",
+        "body": "The night page swaps values, not meanings. Every role token has a night value, and components reference roles, never literals.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Voice Rule",
+        "body": "Bold Bitter in normal case speaks for the statblock and the chrome alike: names, stats, labels, rules text, the running head, buttons, chips, navigation, Roll and Malice controls. Poppins capitals are allowed only on the wordmark, tags and the small label group.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glyph Rule",
+        "body": "Draw Steel Glyphs sets only the book's own symbols: tier badges (`!` `@` `#` for ≤11 / 12–16 / 17+), ability icons mapped from the data's emoji, distance and target marks, characteristic letter blocks, the Malice skull and potency blocks such as \"M<4\". A glyph is always `aria-hidden` beside real text, or carries `role=\"img\"` with a spoken label (\"Might less than 4\").",
+        "section": "typography"
+      },
+      {
+        "name": "The Column-Keeping Rule",
+        "body": "Every number that changes in place uses `tabular-nums lining-nums`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glance Budget Rule",
+        "body": "On the Run board, vertical space above the first creature slip is the scarcest thing on the page. New chrome joins an existing line before it takes a new one, and a row that has nothing to say is not rendered.",
+        "section": "layout"
+      },
+      {
+        "name": "The Whole Statblock Rule",
+        "body": "The board never shows a partial statblock at rest. Lane widths are even fractions of the board.",
+        "section": "layout"
+      },
+      {
+        "name": "The Number Over Label Rule",
+        "body": "Stats print the value above a bold normal-case label (\"109 / Stamina\"). Characteristics print the name with its glyph first letter above the signed value (\"Might / +5\").",
+        "section": "layout"
+      },
+      {
+        "name": "The Rules Not Boxes Rule",
+        "body": "Separate printed content with rules: 1px strong rules under header panels, stat rows, abilities and traits, a V-notch at the centre of each divider, and a 3px double rule under running heads and drawer heads. Enclosing boxes are only for Director-writable surfaces (instance cards, inputs), the Malice counter and the Encounter box.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Pen-Stroke Rule",
+        "body": "Marks the Director makes are drawn on as a pen stroke traced along its own path (a stroke-dashoffset draw, ease-out `cubic-bezier(0.16, 1, 0.3, 1)`): about 0.3s for strikes and ticks, 0.45s for rings, 0.72s for the two-lap tier loop, with multi-stroke marks (the Down cross, the answer rules) drawing one stroke after the other. Typeset pen text is revealed left to right with a clip-path (`inset(0 100% 0 0)` to `inset(0 0 0 0)`). The roll tally writes itself in order: kites, sum, rules. Nothing else uses these animations. Everything else is a short transition: 0.12–0.2s for colour, 0.24–0.3s for the spine collapse, drawer slide, meters and budget ruler, and a 0.16s menu-in. `prefers-reduced-motion` collapses all of it.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** open every statblock and the Encounter box with the flat panel-grey header (`--tint`), a 1px strong-rule bottom edge, and a Bitter 700 name in normal case.",
+      "**Do** set stats as number over bold label, characteristics as \"Might +5\" with a glyph first letter, and abilities as icon + name + kind / keywords + action / distance + target.",
+      "**Do** close statblock sections, abilities and traits with a 1px strong rule and its centred V-notch.",
+      "**Do** use Draw Steel Glyphs for tier badges, ability icons, distance and target marks, characteristic blocks, the Malice skull and potency blocks, with accessible text beside or on them.",
+      "**Do** set the running head, buttons, chips, navigation and controls in bold Bitter, normal case.",
+      "**Do** set every Director-entered or rolled value in ballpoint blue (`--pen`).",
+      "**Do** write Malice in crimson ink and outline (`--malice` border, `--malice-ink` text), filling crimson only on hover.",
+      "**Do** mark danger and removal with heavy ink: an ink cross over a downed slip, an underline on DEADLY, an ink outline on remove hover.",
+      "**Do** keep 2px print corners on controls, 6px on header panels, and tabular numerals on anything that changes.",
+      "**Do** give every new colour role a night value and reference it by token."
+    ],
+    "donts": [
+      "**Don't** put a gradient or a black band on a statblock or panel header; header panels are flat panel grey.",
+      "**Don't** set Poppins or uppercase anywhere but the wordmark, tags and the small label group; the one serif exception is the capitalised difficulty word (DEADLY) under the Heavy Ink Rule.",
+      "**Don't** set any text below 10.5px.",
+      "**Don't** render the data's emoji icons; map them to the glyph font, and fall back to no icon.",
+      "**Don't** fill the Malice counter solid crimson at rest.",
+      "**Don't** use crimson or any red for errors, deletion, danger or \"deadly\"; red means Malice.",
+      "**Don't** use highlighter yellow for anything but native text selection (and the horned M's eyes, under the Horned Initial Rule).",
+      "**Don't** use group tinctures for status, emphasis or difficulty.",
+      "**Don't** set printed book content (stats, ability text, labels) in pen blue.",
+      "**Don't** add a second animation grammar or reuse the pen stroke for non-mark UI.",
+      "**Don't** put shadows on statblocks or panels; shadows are only for lifted things.",
+      "**Don't** hardcode colour literals in components; the night page depends on role tokens."
+    ]
+  }
+}

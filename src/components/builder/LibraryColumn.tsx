@@ -32,6 +32,7 @@ import { beginPrepDrag, shouldSuppressClick } from "../../dnd.ts";
 import { familyLabel, fmt } from "../../lib/text.ts";
 import type { CatalogEntry, FacetKey, SortKey } from "../../types.ts";
 import { QtyControl } from "../QtyControl.tsx";
+import { CaretIcon, GripIcon, SearchIcon } from "../Icons.tsx";
 
 const ROLE_CHIPS = ["all", "Horde", "Minion", "Elite", "Leader", "Solo"] as const;
 
@@ -80,9 +81,7 @@ function FilterBar() {
           <i class="filter-count" hidden={hidden === 0}>
             {hidden}
           </i>
-          <span class="filter-toggle-caret" aria-hidden="true">
-            ▾
-          </span>
+          <CaretIcon class="filter-toggle-caret" />
         </button>
         <label class="sort-control">
           <span>Sort</span>
@@ -287,9 +286,7 @@ function MonsterCard({ entry }: { entry: CatalogEntry }) {
       >
         <div class="monster-main">
           <div class="monster-title-row">
-            <span class="card-drag-handle" aria-hidden="true">
-              ⠿
-            </span>
+            <GripIcon class="card-drag-handle" />
             <h3>{entry.derivedName}</h3>
             <span class="tag">{familyLabel(entry.familyPath)}</span>
           </div>
@@ -316,9 +313,7 @@ function MonsterCard({ entry }: { entry: CatalogEntry }) {
     <article class="monster-card" onPointerDown={(event) => startDrag(event, event.currentTarget)}>
       <div class="monster-main preview-target" title="Click to preview statblock" onClick={preview}>
         <div class="monster-title-row">
-          <span class="card-drag-handle" aria-hidden="true">
-            ⠿
-          </span>
+          <GripIcon class="card-drag-handle" />
           <h3>{m.name}</h3>
           <span class="tag">{m.organization}</span>
         </div>
@@ -434,7 +429,7 @@ export function LibraryColumn() {
           <SourceStatus />
         </div>
         <label class="search">
-          <span>⌕</span>
+          <SearchIcon />
           <input
             placeholder="Search monsters"
             value={ui.search}

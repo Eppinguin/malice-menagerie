@@ -29,7 +29,9 @@ Predefined conditions are also discovered from `en/unified/json/condition/*.json
   - `-20` subtracts 20.
   - `+5` adds 5.
 - Mark each activation with one click; Next Round resets all activation marks.
-- Minions are represented as squad trackers with pooled Stamina and automatic remaining-count display.
+- Minions follow the Monsters book: added and stepped a set at a time (usually four), each squad its own roster entry that can be dragged to another group or squad; holding − or + (or Shift) steps a single minion, and squads may grow past the book's eight. EV counts each minion at its share of its set. Each squad shares a Stamina pool that can't be winded or gain temporary Stamina, and shows how many minions are still standing.
+- Squads can take a captain from the creatures on the board; the With Captain benefit shows as active, and a Stamina bonus goes into the pool.
+- A minion's rolled signature ability shows its damage when two or three minions hit the same target.
 - Malice features are sourced from SteelCompendium and filtered to the Basic and level-eligible family options relevant to the encounter. A balanced 3–4 feature set is suggested automatically, while every other eligible feature remains available in a compact library. Features can be added or removed from the encounter set without restriction. Selected features open expanded by default and show full rules text, tier results, and inline roll controls. Split source records such as Iron Jaws are normalized into one complete feature card.
 - Conditions use a compact predefined picker populated from SteelCompendium unified condition files; condition descriptions are available on hover.
 - Power-roll bonuses resolve numeric modifiers, named characteristics, and expressions such as `Power Roll + highest characteristic` from the active monster statblock.

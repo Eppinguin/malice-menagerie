@@ -18,6 +18,9 @@ import {
 } from '../../store.ts';
 import type { EdgeState, FeatureEffect, MaliceFeature, MaliceGroup } from '../../types.ts';
 import { rollPress } from './EdgeMenu.tsx';
+import { FeatureGlyph, iconGlyph, PayMalice, RollTally, rollSerial, TierMark } from '../Statblock.tsx';
+import { PenLoop } from '../Pen.tsx';
+import { CaretIcon, CloseIcon, ExternalIcon, PlusIcon } from '../Icons.tsx';
 
 function costLabel(feature: MaliceFeature): string {
   return (feature.costText || String(feature.cost || '—')).replace(/\s*Malice/i, '');
@@ -41,7 +44,7 @@ function MaliceEffect({ feature, effect, effectIndex }: { feature: MaliceFeature
             Roll
           </button>
           <strong>{effect.roll || 'Power Roll'}</strong>
-          {lastRoll ? <span>{lastRoll.label}</span> : null}
+          {lastRoll ? <RollTally key={rollSerial(lastRoll)} roll={lastRoll} /> : null}
         </div>
       ) : null}
       {tierKeys.length ? (
@@ -52,7 +55,8 @@ function MaliceEffect({ feature, effect, effectIndex }: { feature: MaliceFeature
               class={lastRoll?.tier === index + 1 ? 'rolled-tier' : ''}
               aria-current={lastRoll?.tier === index + 1 ? 'true' : undefined}
             >
-              <b>{index + 1}</b>
+              {lastRoll && lastRoll.tier === index + 1 ? <PenLoop key={rollSerial(lastRoll)} seed={rollSerial(lastRoll)} /> : null}
+              <TierMark index={index} />
               <span dangerouslySetInnerHTML={{ __html: richText(effect[key]) }} />
             </div>
           ))}
@@ -64,24 +68,35 @@ function MaliceEffect({ feature, effect, effectIndex }: { feature: MaliceFeature
 
 function MaliceCard({ feature }: { feature: MaliceFeature }) {
   const expanded = expandedMaliceFeatures.value.has(feature.id);
-  const disabled = feature.cost > activeEncounter().combat.malice;
   const meta = [feature.distance, feature.target].filter(Boolean).join(' · ');
   return (
     <article class={`malice-card ${expanded ? 'expanded' : 'collapsed'}`}>
       <div class="malice-card-head">
+        <PayMalice
+          class="malice-cost"
+          cost={feature.cost}
+          label={costLabel(feature)}
+          name={feature.name}
+          onPay={() => useMaliceFeature(feature.id)}
+        />
         <button class="malice-toggle" aria-expanded={expanded} onClick={() => toggleMaliceExpanded(feature.id)}>
-          <span class="malice-cost">{costLabel(feature)}</span>
-          <strong>{feature.name}</strong>
-          <i aria-hidden="true">{expanded ? '−' : '+'}</i>
+          <strong>
+            <FeatureGlyph glyph={iconGlyph(feature.icon)} />
+            {feature.name}
+            <CaretIcon class="malice-toggle-mark" />
+          </strong>
         </button>
-        <button class="malice-use" disabled={disabled} title={`Spend ${feature.cost} Malice`} onClick={() => useMaliceFeature(feature.id)}>Use</button>
         <button
           class="malice-unpin"
           title="Remove from encounter Malice"
           aria-label={`Remove ${feature.name} from encounter Malice`}
           onClick={() => removeMaliceSelection(feature.id)}
-        >×</button>
-        <a href={feature.source} target="_blank" rel="noreferrer" aria-label="Open source">↗</a>
+        >
+          <CloseIcon />
+        </button>
+        <a href={feature.source} target="_blank" rel="noreferrer" aria-label={`Open ${feature.name} on SteelCompendium`} title="Open on SteelCompendium">
+          <ExternalIcon />
+        </a>
       </div>
       {expanded ? (
         <div class="malice-card-body">
@@ -107,8 +122,13 @@ function AvailableItem({ feature }: { feature: MaliceFeature }) {
         <strong>{feature.name}</strong>
         {shortPreview ? <span>{shortPreview}</span> : null}
       </div>
-      <button class="malice-add" onClick={() => addMaliceSelection(feature.id)}>+ Add</button>
-      <a href={feature.source} target="_blank" rel="noreferrer" aria-label="Open source">↗</a>
+      <button class="malice-add" onClick={() => addMaliceSelection(feature.id)}>
+        <PlusIcon />
+        Add
+      </button>
+      <a href={feature.source} target="_blank" rel="noreferrer" aria-label="Open source" title="Open on SteelCompendium">
+        <ExternalIcon />
+      </a>
     </div>
   );
 }
@@ -152,7 +172,7 @@ export function MaliceDock() {
             <strong>Available</strong>
             <span>{availableCount} more{availableGroups.length ? ` · ${availableGroups.map(group => group.label).join(', ')}` : ''}</span>
           </div>
-          <b aria-hidden="true">{libraryOpen ? '−' : '+'}</b>
+          <CaretIcon class="malice-library-mark" />
         </button>
         {libraryOpen ? (
           <div class="malice-library-body">

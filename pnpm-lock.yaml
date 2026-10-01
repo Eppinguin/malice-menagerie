@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/bitter':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/poppins':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@preact/signals':
         specifier: ^2.11.2
         version: 2.11.2(preact@10.29.8)
@@ -29,6 +35,12 @@ importers:
         version: 8.2.2
 
 packages:
+
+  '@fontsource-variable/bitter@5.3.0':
+    resolution: {integrity: sha512-TNGusdX+fjWE2b8pTG7kH1A615DbjjSj8/PwVm+iyiFiLFtioHXt6eH5jIFE2kmiA3Ogp03jEyZDsukotzC+4Q==}
+
+  '@fontsource/poppins@5.3.0':
+    resolution: {integrity: sha512-cms1nM7U6SN8epIV1WMVOV8VsA645aSm3wHfzIQnkk188U341ThbJGSl2Sv54V29gnDbT2arMPfLzvVIIVCceQ==}
 
   '@oxc-project/types@0.149.0':
     resolution: {integrity: sha512-Efcc+iF0j3Bf67YjEqIqWXbX5XddXoK/Mw4K1/JuXwRCZ8N16VR7iT23nlCc9XrveFVh/E5Rqs2StT0V8v9LdA==}
@@ -712,6 +724,10 @@ packages:
         optional: true
 
 snapshots:
+
+  '@fontsource-variable/bitter@5.3.0': {}
+
+  '@fontsource/poppins@5.3.0': {}
 
   '@oxc-project/types@0.149.0': {}
 

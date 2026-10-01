@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { effect, signal } from "@preact/signals";
 import { clampInt, normalizeToken, uid } from "./lib/text.ts";
 import {
   clickEdgeOverride,
@@ -8,6 +8,19 @@ import {
 } from "./lib/rules.ts";
 import type { CharacteristicKey } from "./lib/rules.ts";
 import { dedupeMaliceFeatures, featureText, isPriorMaliceGateway } from "./lib/malice.ts";
+import { isDazed } from "./lib/conditions.ts";
+import { planSummon, squadRules, type SquadRules } from "./lib/summons.ts";
+import {
+  canCaptain,
+  captainStaminaBonus,
+  defaultSquads,
+  isMinion,
+  minionStamina,
+  resizeSquad,
+  SQUAD_MAX,
+  squadSizes,
+  standing,
+} from "./lib/minions.ts";
 import {
   catalog,
   catalogSearchText,
@@ -85,7 +98,8 @@ function defaultState(): AppState {
     ui: {
       role: "all",
       search: "",
-      maliceDockOpen: true,
+      maliceDockOpen: maliceDockDefault(),
+      watchOpen: maliceDockDefault(),
       maliceLibraryOpen: false,
       sort: "name",
       filtersOpen: false,
@@ -103,6 +117,27 @@ function defaultState(): AppState {
 
 const asString = (value: unknown, fallback: string): string =>
   typeof value === "string" ? value : fallback;
+/** On phones the Malice strip starts closed so the first screen shows a statblock. */
+const maliceDockDefault = (): boolean =>
+  typeof window === "undefined" || !window.matchMedia?.("(max-width: 620px)").matches;
+
+export const MAX_TURNS = 9;
+
+/** Turns and turns taken, reading the older single `acted` flag when that is
+    all a saved encounter has. */
+function restoreTurns(item: Record<string, unknown>): { turns: number; turnsTaken: number } {
+  const turns = clampInt(item["turns"] ?? 1, 1, MAX_TURNS);
+  const taken = item["turnsTaken"] ?? (item["acted"] === true ? turns : 0);
+  return { turns, turnsTaken: clampInt(taken, 0, turns) };
+}
+
+function restoreReactions(value: unknown): CombatInstance["reactions"] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(isRecord).flatMap((item) =>
+    typeof item["name"] === "string" ? [{ name: item["name"], malice: clampInt(item["malice"] ?? 0, 0, 99) }] : [],
+  );
+}
+
 const asBool = (value: unknown, fallback: boolean): boolean =>
   typeof value === "boolean" ? value : fallback;
 const asStringArray = (value: unknown): string[] =>
@@ -158,7 +193,16 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
     const groupId = item["groupId"];
     if (typeof id !== "string" || typeof sourcePath !== "string" || typeof groupId !== "string")
       return [];
-    return [{ id, sourcePath, groupId, count: clampInt(item["count"], 1, 99) }];
+    const count = clampInt(item["count"], 1, 99);
+    const entry: EncounterItem = { id, sourcePath, groupId, count };
+    if (item["squad"] === true) {
+      entry.squad = true;
+    }
+    const squads = item["squads"];
+    if (Array.isArray(squads) && squads.every((size) => Number.isInteger(size) && size >= 1)) {
+      entry.squads = squads as number[];
+    }
+    return [entry];
   });
 
   if (isRecord(value["combat"])) {
@@ -179,13 +223,20 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
               id,
               sourcePath,
               groupId,
+              ...(typeof item["entryId"] === "string" ? { entryId: item["entryId"] } : {}),
               kind: item["kind"] === "minion-squad" ? "minion-squad" : "creature",
               count: clampInt(item["count"], 1, 99),
               name: asString(item["name"], "Creature"),
               currentStamina: Math.max(0, Number(item["currentStamina"]) || 0),
               maxStamina: Math.max(0, Number(item["maxStamina"]) || 0),
-              acted: asBool(item["acted"], false),
+              ...restoreTurns(item),
               conditions: asStringArray(item["conditions"]),
+              reactions: restoreReactions(item["reactions"]),
+              villainRounds: [0, 1, 2].map((i) =>
+                Array.isArray(item["villainRounds"]) ? clampInt(item["villainRounds"][i] ?? 0, 0, 999) : 0,
+              ),
+              ...(typeof item["captainId"] === "string" ? { captainId: item["captainId"] } : {}),
+              ...(typeof item["summonedBy"] === "string" ? { summonedBy: item["summonedBy"] } : {}),
             },
           ];
         })
@@ -217,7 +268,61 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
     };
   }
 
+  linkInstances(base);
+  normalizeEntries(base);
   return base;
+}
+
+/** Tie saves from before instances knew their entry to one: each entry takes
+    the instances of its monster and group in order, as many as it holds (one
+    per squad, one per creature). */
+function linkInstances(enc: Encounter): void {
+  const ids = new Set(enc.items.map((item) => item.id));
+  const taken = new Map<string, number>();
+  for (const instance of enc.combat.instances) {
+    if (instance.summonedBy !== undefined) continue;
+    if (instance.entryId && ids.has(instance.entryId)) continue;
+    delete instance.entryId;
+    const entry = enc.items.find((item) => {
+      if (item.sourcePath !== instance.sourcePath || item.groupId !== instance.groupId) return false;
+      return (taken.get(item.id) ?? 0) < (item.squad ? 1 : item.count);
+    });
+    if (!entry) continue;
+    instance.entryId = entry.id;
+    taken.set(entry.id, (taken.get(entry.id) ?? 0) + 1);
+  }
+}
+
+/**
+ * Deal older whole-roster minion entries ("8 goblins, as 4 + 4") into one
+ * entry per squad, each linked to its squad on the board. Minion-ness needs
+ * the statblock, so entries without a saved split wait until it loads.
+ * Returns whether anything changed.
+ */
+function normalizeEntries(enc: Encounter): boolean {
+  let changed = false;
+  enc.items = enc.items.flatMap((item) => {
+    if (item.squad) return [item];
+    const m = monsterCache.get(item.sourcePath);
+    if (!item.squads?.length && !(m && isMinion(m))) return [item];
+    changed = true;
+    const sizes = squadSizes(item);
+    const entries = sizes.map((size, i): EncounterItem => ({
+      id: i ? uid("enc") : item.id,
+      sourcePath: item.sourcePath,
+      groupId: item.groupId,
+      count: size,
+      squad: true,
+    }));
+    enc.combat.instances
+      .filter((instance) => instance.entryId === item.id)
+      .forEach((instance, i) => {
+        const entry = entries[i];
+        if (entry) instance.entryId = entry.id;
+      });
+    return entries;
+  });
+  return changed;
 }
 
 /** Rebuild a guaranteed-valid AppState from whatever was persisted. */
@@ -259,7 +364,8 @@ function sanitizeState(value: unknown): AppState {
     base.ui = {
       role: asString(ui["role"], "all"),
       search: asString(ui["search"], ""),
-      maliceDockOpen: asBool(ui["maliceDockOpen"], true),
+      maliceDockOpen: asBool(ui["maliceDockOpen"], maliceDockDefault()),
+      watchOpen: asBool(ui["watchOpen"], maliceDockDefault()),
       maliceLibraryOpen: asBool(ui["maliceLibraryOpen"], false),
       sort: sort === "level" || sort === "ev" ? sort : "name",
       filtersOpen: asBool(ui["filtersOpen"], false),
@@ -316,6 +422,20 @@ function loadState(): AppState {
 }
 
 export const state = signal<AppState>(loadState());
+
+// Older minion entries become one entry per squad as their statblocks load.
+effect(() => {
+  void monstersVersion.value;
+  const legacy = (item: EncounterItem) => {
+    const m = monsterCache.get(item.sourcePath);
+    return !item.squad && !!m && isMinion(m);
+  };
+  if (state.peek().encounters.some((enc) => enc.items.some(legacy)))
+    queueMicrotask(() => {
+      const changed = state.peek().encounters.map(normalizeEntries).some(Boolean);
+      if (changed) mutateApp(() => {});
+    });
+});
 
 /** The currently active encounter document. */
 export function activeEncounter(): Encounter {
@@ -817,12 +937,17 @@ export async function addToEncounterInGroup(
         ? groupId
         : draft.activePrepGroupId;
       const amount = Math.max(1, Math.min(30, Number(count) || 1));
-      const existing = draft.encounter.find(
-        (item) => item.sourcePath === sourcePath && item.groupId === targetGroupId,
-      );
-      if (existing) existing.count += amount;
-      else
-        draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: amount });
+      if (isMinion(monster)) {
+        // Minions arrive as squads of their own, four to a squad.
+        for (const size of defaultSquads(amount))
+          draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: size, squad: true });
+      } else {
+        const existing = draft.encounter.find(
+          (item) => item.sourcePath === sourcePath && item.groupId === targetGroupId,
+        );
+        if (existing) existing.count += amount;
+        else draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: amount });
+      }
       draft.activePrepGroupId = targetGroupId;
     });
     reconcileCombat();
@@ -838,14 +963,107 @@ export async function addToEncounter(sourcePath: string, count: number): Promise
   return addToEncounterInGroup(sourcePath, count, activeEncounter().activePrepGroupId);
 }
 
+/** Step an entry's count; an entry stepped to nothing leaves the roster.
+    Squads may pass the book's eight (the roster hints at it). */
 export function changeEncounterCount(itemId: string, delta: number): void {
   mutate((draft) => {
     const item = draft.encounter.find((entry) => entry.id === itemId);
     if (!item) return;
-    item.count += delta;
-    if (item.count <= 0) draft.encounter = draft.encounter.filter((entry) => entry.id !== itemId);
+    const next = item.count + delta;
+    if (next <= 0) {
+      draft.encounter = draft.encounter.filter((entry) => entry.id !== itemId);
+      return;
+    }
+    item.count = next;
   });
   reconcileCombat();
+}
+
+/** The entry a peel just made, marked for a moment so the eye finds it. */
+export const freshEntry = signal<string | null>(null);
+
+function markFresh(id: string): void {
+  freshEntry.value = id;
+  setTimeout(() => {
+    if (freshEntry.peek() === id) freshEntry.value = null;
+  }, 1200);
+}
+
+/** Whether `amount` can be taken off an entry now, leaving some behind: a
+    squad on the board can't give any up, since its wounds can't be divided
+    fairly. */
+export function canPeelEntry(item: EncounterItem, amount = 1): boolean {
+  if (item.count <= amount) return false;
+  return !(item.squad && activeEncounter().combat.active);
+}
+
+/**
+ * Take `amount` off an entry and put it in `groupId`: creatures join an entry
+ * of their monster already there, minions form a new squad. On the board the
+ * newest creatures go, wounds and all.
+ */
+export function peelToGroup(itemId: string, groupId: string, amount = 1): void {
+  const item = activeEncounter().items.find((entry) => entry.id === itemId);
+  if (!item || !canPeelEntry(item, amount)) return;
+  const id = uid("enc");
+  let landed = id;
+  mutate((draft) => {
+    const source = draft.encounter.find((entry) => entry.id === itemId);
+    if (!source || !draft.groups.some((group) => group.id === groupId)) return;
+    source.count -= amount;
+    const moving = draft.combat.instances.filter((each) => each.entryId === itemId).slice(-amount);
+    const join = source.squad
+      ? undefined
+      : draft.encounter.find(
+          (entry) =>
+            entry.id !== source.id &&
+            !entry.squad &&
+            entry.sourcePath === source.sourcePath &&
+            entry.groupId === groupId,
+        );
+    if (join) {
+      join.count += amount;
+      landed = join.id;
+    } else {
+      const peeled: EncounterItem = { id, sourcePath: source.sourcePath, groupId, count: amount };
+      if (source.squad) peeled.squad = true;
+      // Next to its stack when it stays in the group, at the end of a new one.
+      if (groupId === source.groupId) draft.encounter.splice(draft.encounter.indexOf(source) + 1, 0, peeled);
+      else draft.encounter.push(peeled);
+    }
+    for (const instance of moving) {
+      instance.entryId = landed;
+      instance.groupId = groupId;
+    }
+  });
+  reconcileCombat();
+  markFresh(landed);
+}
+
+/** Whether minions can move from squad `fromId` into squad `toId`: two
+    squads of the same minion, before the fight. */
+export function canTransferMinions(fromId: string, toId: string): boolean {
+  const { items, combat } = activeEncounter();
+  const from = items.find((entry) => entry.id === fromId);
+  const to = items.find((entry) => entry.id === toId);
+  return Boolean(
+    from?.squad && to?.squad && from.id !== to.id && !combat.active && from.sourcePath === to.sourcePath,
+  );
+}
+
+/** Move `amount` minions from one squad into another of the same minion. */
+export function transferMinions(fromId: string, toId: string, amount = 1): void {
+  if (!canTransferMinions(fromId, toId)) return;
+  mutate((draft) => {
+    const from = draft.encounter.find((entry) => entry.id === fromId);
+    const to = draft.encounter.find((entry) => entry.id === toId);
+    if (!from || !to) return;
+    const moved = Math.min(amount, from.count);
+    to.count += moved;
+    from.count -= moved;
+    if (!from.count) draft.encounter = draft.encounter.filter((entry) => entry.id !== fromId);
+  });
+  markFresh(toId);
 }
 
 export function removeEncounterEntry(itemId: string): void {
@@ -855,17 +1073,32 @@ export function removeEncounterEntry(itemId: string): void {
   reconcileCombat();
 }
 
+/** Move an entry, and its creatures on the board, to another group. Plain
+    creatures join an entry of the same monster already there; a squad stays
+    its own squad. */
 export function moveEncounterEntryToGroup(itemId: string, groupId: string): void {
   mutate((draft) => {
     const item = draft.encounter.find((entry) => entry.id === itemId);
     if (!item || !draft.groups.some((group) => group.id === groupId) || item.groupId === groupId)
       return;
-    const existing = draft.encounter.find(
-      (entry) =>
-        entry.id !== item.id && entry.sourcePath === item.sourcePath && entry.groupId === groupId,
-    );
+    const linked = draft.combat.instances.filter((instance) => instance.entryId === itemId);
+    linked.forEach((instance) => {
+      instance.groupId = groupId;
+    });
+    const existing = item.squad
+      ? undefined
+      : draft.encounter.find(
+          (entry) =>
+            entry.id !== item.id &&
+            !entry.squad &&
+            entry.sourcePath === item.sourcePath &&
+            entry.groupId === groupId,
+        );
     if (existing) {
       existing.count += item.count;
+      linked.forEach((instance) => {
+        instance.entryId = existing.id;
+      });
       draft.encounter = draft.encounter.filter((entry) => entry.id !== item.id);
     } else {
       item.groupId = groupId;
@@ -882,6 +1115,80 @@ export function clearEncounter(): void {
   toast("Encounter cleared");
 }
 
+export interface GroupBalance {
+  /** The group's EV, or null while any of its statblocks is still loading. */
+  ev: number | null;
+  /** Outside the book's one-to-two-hero range: over two heroes (and more than
+      a single creature), or under one hero. */
+  off: "heavy" | "light" | null;
+}
+
+/**
+ * Each group's EV against the book's initiative-group advice: keep a group
+ * between one and two heroes' encounter strength. A group of a single
+ * creature may run heavy. Every light group is flagged, though the book allows
+ * one; the hint says so. Empty groups are left out.
+ */
+export function groupBalance(): Map<string, GroupBalance> {
+  void monstersVersion.value; // subscribe: EV settles as statblocks hydrate
+  const { items, groups, party } = activeEncounter();
+  const { oneHeroES } = partyMath(party);
+  const result = new Map<string, GroupBalance>();
+  for (const group of groups) {
+    const members = items.filter((item) => item.groupId === group.id);
+    if (!members.length) continue;
+    const loaded = members.every((item) => monsterCache.has(item.sourcePath));
+    if (!loaded) {
+      result.set(group.id, { ev: null, off: null });
+      continue;
+    }
+    const ev = members.reduce((sum, item) => sum + (monsterCache.get(item.sourcePath)?.ev ?? 0) * item.count, 0);
+    const single = members.length === 1 && !members[0]?.squad && members[0]?.count === 1;
+    const off = ev > 2 * oneHeroES && !single ? "heavy" : ev < oneHeroES ? "light" : null;
+    result.set(group.id, { ev, off });
+  }
+  return result;
+}
+
+/** The book's group count, about as many groups as heroes give or take
+    two, when the roster's groups fall outside it. Encounters with a solo
+    creature are exempt; empty groups don't count. */
+export function groupCountAdvice(): { groups: number; heroes: number; lo: number; hi: number } | null {
+  const { items, party } = activeEncounter();
+  const groups = groupBalance().size;
+  const solo = items.some((item) => monsterCache.get(item.sourcePath)?.organization.toLowerCase() === "solo");
+  const heroes = Math.max(1, party.heroes);
+  const lo = Math.max(1, heroes - 2);
+  const hi = heroes + 2;
+  if (solo || !groups || (groups >= lo && groups <= hi)) return null;
+  return { groups, heroes, lo, hi };
+}
+
+/**
+ * The Monsters book's encounter-building advice the roster breaks, as short
+ * notes: no more than eight creatures per hero, and at least half minions
+ * past three per hero. The
+ * initiative-group advice is shown by the groups themselves (`groupBalance`,
+ * `groupCountAdvice`).
+ */
+export function encounterChecks(): string[] {
+  void monstersVersion.value; // subscribe: organizations settle as statblocks hydrate
+  const { items, party } = activeEncounter();
+  let creatures = 0;
+  let minions = 0;
+  for (const item of items) {
+    creatures += item.count;
+    const m = monsterCache.get(item.sourcePath);
+    if (m && isMinion(m)) minions += item.count;
+  }
+  const notes: string[] = [];
+  const heroes = Math.max(1, party.heroes);
+  if (creatures > 8 * heroes) notes.push("More than eight creatures per hero.");
+  else if (creatures > 3 * heroes && minions * 2 < creatures)
+    notes.push("Over three creatures per hero: at least half should be minions.");
+  return notes;
+}
+
 export interface EncounterTotals {
   count: number;
   ev: number;
@@ -889,65 +1196,70 @@ export interface EncounterTotals {
 
 export function encounterTotals(): EncounterTotals {
   void monstersVersion.value; // subscribe: EV settles as statblocks hydrate
+  // Every creature counts on its own; a minion is its share of its set's EV
+  // (the Prep roster deals minions in whole sets by default), so the total is
+  // always the sum of the groups.
   let count = 0;
   let ev = 0;
   for (const item of activeEncounter().items) {
     count += item.count;
-    const monster = monsterCache.get(item.sourcePath);
-    if (monster) ev += monster.ev * item.count;
+    ev += (monsterCache.get(item.sourcePath)?.ev ?? 0) * item.count;
   }
   return { count, ev };
 }
 
 // ---------- Combat ----------
 
-function isMinion(m: Monster): boolean {
-  return m.organization.toLowerCase() === "minion";
-}
-
 /** Build the fresh combat instances one prep entry expands into. `ordinal`
     numbers instances of the same monster across the whole roster, so names
-    stay unique. Minions collapse into a single squad; other creatures spawn
-    one instance each. */
+    stay unique. A squad entry is one squad; other creatures spawn one
+    instance each. */
 function buildInstancesForEntry(
   entry: EncounterItem,
   m: Monster,
   nextOrdinal: () => number,
 ): CombatInstance[] {
-  if (isMinion(m)) {
-    const n = nextOrdinal();
-    return [
-      {
-        id: uid("enemy"),
-        sourcePath: entry.sourcePath,
-        groupId: entry.groupId,
-        kind: "minion-squad",
-        count: entry.count,
-        name: `${m.name} Squad${n > 1 ? ` ${n}` : ""}`,
-        currentStamina: m.stamina * entry.count,
-        maxStamina: m.stamina * entry.count,
-        acted: false,
-        conditions: [],
-      },
-    ];
-  }
-  const instances: CombatInstance[] = [];
-  for (let index = 0; index < entry.count; index += 1) {
-    const n = nextOrdinal();
-    instances.push({
-      id: uid("enemy"),
-      sourcePath: entry.sourcePath,
-      groupId: entry.groupId,
-      kind: "creature",
-      count: 1,
-      name: `${m.name}${n > 1 ? ` ${n}` : ""}`,
-      currentStamina: m.stamina,
-      maxStamina: m.stamina,
-      acted: false,
-      conditions: [],
-    });
-  }
-  return instances;
+  if (isMinion(m)) return [newSquad(entry, m, entry.count, nextOrdinal())];
+  return Array.from({ length: entry.count }, () => newCreature(entry, m, nextOrdinal()));
+}
+
+function newCreature(entry: EncounterItem, m: Monster, n: number): CombatInstance {
+  return {
+    id: uid("enemy"),
+    sourcePath: entry.sourcePath,
+    groupId: entry.groupId,
+    entryId: entry.id,
+    kind: "creature",
+    count: 1,
+    name: `${m.name}${n > 1 ? ` ${n}` : ""}`,
+    currentStamina: m.stamina,
+    maxStamina: m.stamina,
+    turns: m.turnsPerRound,
+    turnsTaken: 0,
+    conditions: [],
+    reactions: [],
+    villainRounds: [0, 0, 0],
+  };
+}
+
+function newSquad(entry: EncounterItem, m: Monster, size: number, n: number): CombatInstance {
+  return {
+    id: uid("enemy"),
+    sourcePath: entry.sourcePath,
+    groupId: entry.groupId,
+    entryId: entry.id,
+    kind: "minion-squad",
+    count: size,
+    // The number leads, so sibling squads stay apart when a slip cuts the name short.
+    name: `Squad ${n} · ${m.name}`,
+    currentStamina: m.stamina * size,
+    maxStamina: m.stamina * size,
+    turns: m.turnsPerRound,
+    turnsTaken: 0,
+    conditions: [],
+    reactions: [],
+    villainRounds: [0, 0, 0],
+  };
 }
 
 export async function startCombat(): Promise<void> {
@@ -959,6 +1271,9 @@ export async function startCombat(): Promise<void> {
     toast("Some SteelCompendium statblocks could not be loaded.");
     return;
   }
+  mutate(() => {
+    normalizeEntries(activeEncounter());
+  });
 
   const counters = new Map<string, number>();
   const bump = (path: string) => {
@@ -967,7 +1282,7 @@ export async function startCombat(): Promise<void> {
     return next;
   };
   const instances: CombatInstance[] = [];
-  for (const entry of encounter) {
+  for (const entry of activeEncounter().items) {
     const m = monsterCache.get(entry.sourcePath);
     if (!m) continue;
     instances.push(...buildInstancesForEntry(entry, m, () => bump(entry.sourcePath)));
@@ -1002,13 +1317,16 @@ export function resumeCombat(): void {
  * edit, preserving the state (stamina, conditions, acted, custom names) of
  * instances that should survive. Only spawns/removes the delta:
  *
- * - A minion squad tracks one prep entry; its `count` and `maxStamina` follow
- *   the entry's count, and current stamina rescales proportionally so a
- *   half-dead squad stays half-dead.
- * - Non-minion creatures spawn one instance per count. Raising the count adds
+ * - Every instance belongs to the prep entry it was dealt from, and follows
+ *   that entry's group.
+ * - A squad entry keeps its squad, resized to the entry: new minions arrive
+ *   at full Stamina; removed minions are the dead ones first, then living
+ *   ones, a whole minion's Stamina each (see `resizeSquad`).
+ * - Other creatures spawn one instance per count. Raising the count adds
  *   fresh instances; lowering it removes the highest-ordinal (newest) ones,
  *   keeping the creatures already in play. Removing a prep entry (or dropping
  *   its count to zero) removes its instances.
+ * - Summoned creatures belong to no entry, so they stay as they are.
  *
  * No-op unless combat is active, so plain prep editing before "Run" is
  * unaffected. `mutate`'s own draft would fight a nested `mutate`, so this must
@@ -1017,7 +1335,7 @@ export function resumeCombat(): void {
 export function reconcileCombat(): void {
   if (!activeEncounter().combat.active) return;
   mutate((draft) => {
-    const existing = draft.combat.instances;
+    normalizeEntries(activeEncounter());
     const kept: CombatInstance[] = [];
     // Ordinal counter per monster, spanning surviving + newly spawned, so
     // added instances get names that don't collide with the survivors.
@@ -1030,63 +1348,47 @@ export function reconcileCombat(): void {
 
     // Bucket existing instances by the prep entry they belong to.
     const byEntry = new Map<string, CombatInstance[]>();
-    for (const instance of existing) {
-      const key = `${instance.sourcePath}|${instance.groupId}`;
-      const list = byEntry.get(key);
+    for (const instance of draft.combat.instances) {
+      if (!instance.entryId) continue;
+      const list = byEntry.get(instance.entryId);
       if (list) list.push(instance);
-      else byEntry.set(key, [instance]);
+      else byEntry.set(instance.entryId, [instance]);
     }
 
     for (const entry of draft.encounter) {
       const m = monsterCache.get(entry.sourcePath);
       if (!m) continue;
-      const key = `${entry.sourcePath}|${entry.groupId}`;
-      const current = byEntry.get(key) ?? [];
-      byEntry.delete(key); // consumed; whatever's left is orphaned and dropped
+      const current = byEntry.get(entry.id) ?? [];
+      for (const instance of current) instance.groupId = entry.groupId;
 
-      if (isMinion(m)) {
+      if (entry.squad) {
         const squad = current[0];
-        if (squad) {
-          const nextMax = m.stamina * entry.count;
-          // Rescale current stamina to the new squad size, keeping the
-          // wounded fraction. A living squad never drops to 0 from resizing.
-          const fraction = squad.maxStamina > 0 ? squad.currentStamina / squad.maxStamina : 1;
-          squad.count = entry.count;
-          squad.maxStamina = nextMax;
-          squad.currentStamina =
-            squad.currentStamina <= 0 ? 0 : Math.max(1, Math.min(nextMax, Math.round(nextMax * fraction)));
-          bump(entry.sourcePath);
-          kept.push(squad);
+        const n = bump(entry.sourcePath);
+        if (!squad) {
+          kept.push(newSquad(entry, m, entry.count, n));
         } else {
-          kept.push(...buildInstancesForEntry(entry, m, () => bump(entry.sourcePath)));
+          resizeSquad(squad, entry.count, minionStamina(squad, m));
+          kept.push(squad);
         }
         continue;
       }
 
-      // Non-minion: keep up to `count` existing instances (lowest ordinals
-      // first — those are the ones that entered play earliest), spawn the rest.
+      // Keep up to `count` existing instances (lowest ordinals first — those
+      // are the ones that entered play earliest), spawn the rest.
       const survivors = current.slice(0, entry.count);
       for (const survivor of survivors) {
         bump(entry.sourcePath);
         kept.push(survivor);
       }
-      for (let i = survivors.length; i < entry.count; i += 1) {
-        const n = bump(entry.sourcePath);
-        kept.push({
-          id: uid("enemy"),
-          sourcePath: entry.sourcePath,
-          groupId: entry.groupId,
-          kind: "creature",
-          count: 1,
-          name: `${m.name}${n > 1 ? ` ${n}` : ""}`,
-          currentStamina: m.stamina,
-          maxStamina: m.stamina,
-          acted: false,
-          conditions: [],
-        });
-      }
+      for (let i = survivors.length; i < entry.count; i += 1)
+        kept.push(newCreature(entry, m, bump(entry.sourcePath)));
     }
+    kept.push(...draft.combat.instances.filter((instance) => instance.summonedBy !== undefined));
 
+    // A captain who left the board leaves their squad without one.
+    for (const squad of kept) {
+      if (squad.captainId && !kept.some((item) => item.id === squad.captainId)) detachCaptain(squad);
+    }
     draft.combat.instances = kept;
   });
 }
@@ -1101,7 +1403,8 @@ export function nextRound(): void {
     draft.combat.round += 1;
     draft.combat.malice += draft.party.heroes + draft.combat.round;
     draft.combat.instances.forEach((instance) => {
-      instance.acted = false;
+      instance.turnsTaken = 0;
+      instance.reactions = [];
     });
   });
   const combat = activeEncounter().combat;
@@ -1120,7 +1423,8 @@ export function previousRound(): void {
     draft.combat.malice = Math.max(0, draft.combat.malice - undoneGain);
     draft.combat.round -= 1;
     draft.combat.instances.forEach((instance) => {
-      instance.acted = false;
+      instance.turnsTaken = 0;
+      instance.reactions = [];
     });
   });
   const combat = activeEncounter().combat;
@@ -1139,17 +1443,189 @@ export function setGroupFilter(groupId: string | null): void {
   });
 }
 
-export function toggleActed(instanceId: string): void {
+export function hasActed(instance: CombatInstance): boolean {
+  return instance.turnsTaken >= instance.turns;
+}
+
+/** Tap turn box `index` (0-based): an open box marks every turn up to and
+    including it; a marked box clears it and every turn after it. */
+export function markTurn(instanceId: string, index: number): void {
   mutate((draft) => {
     const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (instance) instance.acted = !instance.acted;
+    if (!instance) return;
+    instance.turnsTaken = index < instance.turnsTaken ? index : Math.min(instance.turns, index + 1);
+  });
+}
+
+/** Override how many turns a creature takes each round. */
+export function adjustTurns(instanceId: string, delta: number): void {
+  mutate((draft) => {
+    const instance = draft.combat.instances.find((item) => item.id === instanceId);
+    if (!instance) return;
+    instance.turns = clampInt(instance.turns + delta, 1, MAX_TURNS);
+    instance.turnsTaken = Math.min(instance.turnsTaken, instance.turns);
   });
 }
 
 export function removeInstance(instanceId: string): void {
   mutate((draft) => {
+    releaseCaptain(draft.combat.instances, instanceId);
     draft.combat.instances = draft.combat.instances.filter((item) => item.id !== instanceId);
   });
+}
+
+// ---------- Summons ----------
+
+/** The squad limits a creature on the board prints, if it prints any. */
+export function summonerRules(summoner: CombatInstance): SquadRules | null {
+  const m = monsterCache.get(summoner.sourcePath);
+  return m ? squadRules(m, catalog.value, (path) => monsterCache.get(path)) : null;
+}
+
+/**
+ * Bring `count` of a statblock onto the board for an ability of the creature
+ * `summonerId`. They join the summoner's activation group; minions join the
+ * summoner's own standing squads of them while they have room, then form new
+ * squads, within the squad limits the summoner prints (two squads of six, one
+ * of them signature minions); those that find no room stay off the board.
+ * Nothing is added to the prep roster, so the encounter's EV stays as
+ * it was built. `malice` is paid first, for creatures that carry their own
+ * price (a rival summoner's minions).
+ */
+export async function summonCreatures(
+  summonerId: string,
+  sourcePath: string,
+  count: number,
+  malice = 0,
+): Promise<void> {
+  if (count < 1) return;
+  if (malice > activeEncounter().combat.malice) {
+    toast(`Need ${malice} Malice.`);
+    return;
+  }
+  let m: Monster;
+  try {
+    m = await loadMonster(sourcePath);
+  } catch {
+    toast("That statblock could not be loaded from SteelCompendium.");
+    return;
+  }
+  let summoned = "";
+  mutate((draft) => {
+    const instances = draft.combat.instances;
+    const summoner = instances.find((item) => item.id === summonerId);
+    if (!summoner || malice > draft.combat.malice) return;
+    const same = instances.filter((item) => item.sourcePath === sourcePath);
+    const stub: EncounterItem = { id: "", sourcePath, groupId: summoner.groupId, count };
+    const tag = (instance: CombatInstance): CombatInstance => {
+      delete instance.entryId;
+      instance.summonedBy = summonerId;
+      return instance;
+    };
+    const added: CombatInstance[] = [];
+    let dropped = 0;
+    if (isMinion(m)) {
+      const plan = planSummon(
+        instances,
+        summonerId,
+        sourcePath,
+        count,
+        summonerRules(summoner),
+        SQUAD_MAX,
+        (squad) => standing(squad.currentStamina, minionStamina(squad, m)),
+      );
+      if (!plan.top.length && !plan.fresh.length) {
+        summoned = `${summoner.name}'s squads have no room for ${m.name}`;
+        return;
+      }
+      // A squad's dead make way for the newcomers rather than holding their places.
+      for (const { id, size } of plan.top) {
+        const squad = instances.find((item) => item.id === id);
+        if (squad) resizeSquad(squad, size, minionStamina(squad, m));
+      }
+      let n = same.filter((item) => item.kind === "minion-squad").length;
+      for (const size of plan.fresh) added.push(tag(newSquad(stub, m, size, (n += 1))));
+      dropped = plan.dropped;
+    } else {
+      let n = same.length;
+      for (let left = count; left > 0; left -= 1) added.push(tag(newCreature(stub, m, (n += 1))));
+    }
+    // Beside their own kind, or else beside the summoner, so a new statblock
+    // opens next to the one that called it.
+    const near = same.length ? same : instances.filter((item) => item.sourcePath === summoner.sourcePath);
+    const after = near.length ? instances.indexOf(near[near.length - 1] as CombatInstance) + 1 : instances.length;
+    instances.splice(after, 0, ...added);
+    draft.combat.malice -= malice;
+    summoned =
+      `${summoner.name} summons ${count - dropped} × ${m.name}${malice ? ` · −${malice} Malice` : ""}` +
+      (dropped ? ` · ${dropped} more find no room in their squads` : "");
+  });
+  if (summoned) toast(summoned);
+}
+
+// ---------- Squad captains ----------
+
+/** Attach a captain: each minion gains the "With Captain" benefit, and a
+    Stamina bonus lands on every minion still standing. */
+function attachCaptain(squad: CombatInstance, captainId: string): void {
+  const m = monsterCache.get(squad.sourcePath);
+  const bonus = m ? captainStaminaBonus(m) : 0;
+  if (m && bonus) {
+    squad.currentStamina += bonus * standing(squad.currentStamina, m.stamina);
+    squad.maxStamina = (m.stamina + bonus) * squad.count;
+  }
+  squad.captainId = captainId;
+}
+
+/** Detach a squad's captain, taking back any Stamina bonus it granted. */
+function detachCaptain(squad: CombatInstance): void {
+  const m = monsterCache.get(squad.sourcePath);
+  const bonus = m ? captainStaminaBonus(m) : 0;
+  if (m && bonus && squad.captainId) {
+    const alive = standing(squad.currentStamina, m.stamina + bonus);
+    squad.currentStamina = Math.max(0, squad.currentStamina - bonus * alive);
+    squad.maxStamina = m.stamina * squad.count;
+  }
+  delete squad.captainId;
+}
+
+/** Free every squad `captainId` leads (they fell, or left the board); returns
+    the squads that lost their captain. */
+function releaseCaptain(instances: CombatInstance[], captainId: string): CombatInstance[] {
+  const led = instances.filter((item) => item.captainId === captainId);
+  led.forEach(detachCaptain);
+  return led;
+}
+
+/** The creatures that could captain `squad` now: standing non-minion,
+    non-mount creatures, including one leading another squad (a creature
+    captains one squad at a time, so picking it moves it here). */
+export function captainCandidates(squad: CombatInstance): CombatInstance[] {
+  return activeEncounter().combat.instances.filter((item) => {
+    if (item.kind !== "creature" || item.currentStamina <= 0) return false;
+    const m = monsterCache.get(item.sourcePath);
+    return !!m && canCaptain(m);
+  }).filter((item) => item.id !== squad.id);
+}
+
+/** Put `captainId` in charge of a squad, or clear its captain with null. A
+    squad has one captain and a captain leads one squad, so both sides let go
+    of any previous link. */
+export function setSquadCaptain(squadId: string, captainId: string | null): void {
+  let named = "";
+  mutate((draft) => {
+    const instances = draft.combat.instances;
+    const squad = instances.find((item) => item.id === squadId);
+    if (!squad || squad.kind !== "minion-squad" || squad.captainId === (captainId ?? undefined)) return;
+    if (squad.captainId) detachCaptain(squad);
+    if (!captainId) return;
+    const captain = instances.find((item) => item.id === captainId);
+    if (!captain || captain.kind !== "creature") return;
+    releaseCaptain(instances, captainId);
+    attachCaptain(squad, captainId);
+    named = `${captain.name} leads ${squad.name}`;
+  });
+  if (named) toast(named);
 }
 
 export function renameInstance(instanceId: string, name: string): void {
@@ -1159,15 +1635,33 @@ export function renameInstance(instanceId: string, name: string): void {
   });
 }
 
+/** Move one creature or squad to another group from the board. Prep follows:
+    an entry that holds only this instance moves with it, and a creature from
+    a larger entry splits off into an entry of its own. */
 export function setInstanceGroup(instanceId: string, groupId: string): void {
   mutate((draft) => {
     const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (instance) instance.groupId = groupId;
+    if (!instance || instance.groupId === groupId) return;
+    instance.groupId = groupId;
+    const entry = draft.encounter.find((item) => item.id === instance.entryId);
+    if (!entry) return;
+    if (entry.squad || entry.count <= 1) {
+      entry.groupId = groupId;
+      draft.combat.instances.forEach((item) => {
+        if (item.entryId === entry.id) item.groupId = groupId;
+      });
+      return;
+    }
+    entry.count -= 1;
+    const split: EncounterItem = { id: uid("enc"), sourcePath: entry.sourcePath, groupId, count: 1 };
+    draft.encounter.splice(draft.encounter.indexOf(entry) + 1, 0, split);
+    instance.entryId = split.id;
   });
 }
 
 export function applyStaminaCommand(instanceId: string, rawValue: string): void {
   const raw = rawValue.trim();
+  let lost: string[] = [];
   mutate((draft) => {
     const instance = draft.combat.instances.find((item) => item.id === instanceId);
     if (!instance) return;
@@ -1176,8 +1670,15 @@ export function applyStaminaCommand(instanceId: string, rawValue: string): void 
       next = instance.currentStamina + Number(raw.replace(/\s/g, ""));
     else if (/^\d+(?:\.\d+)?$/.test(raw)) next = Number(raw);
     else return;
-    instance.currentStamina = Math.max(0, Math.round(next));
+    // A squad's pool can't gain temporary Stamina; a raise only puts back
+    // what a slip of the pen took.
+    const ceiling = instance.kind === "minion-squad" ? instance.maxStamina : Infinity;
+    instance.currentStamina = Math.max(0, Math.min(ceiling, Math.round(next)));
+    if (instance.kind === "creature" && instance.currentStamina <= 0) {
+      lost = releaseCaptain(draft.combat.instances, instance.id).map((squad) => squad.name);
+    }
   });
+  if (lost.length) toast(`${lost.join(", ")} lost ${lost.length > 1 ? "their" : "its"} captain`);
 }
 
 export function toggleConditionPicker(instanceId: string): void {
@@ -1488,6 +1989,103 @@ export function toggleMaliceDock(): void {
   mutate((draft) => {
     draft.ui.maliceDockOpen = !draft.ui.maliceDockOpen;
   });
+}
+
+export function toggleWatch(): void {
+  mutate((draft) => {
+    draft.ui.watchOpen = !draft.ui.watchOpen;
+  });
+}
+
+/** Take back uses of triggered action `name` this round (the last one, or
+    every one with `all`) and refund their Malice. */
+export function takeBackReaction(instanceId: string, name: string, all = false): void {
+  const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  const index = instance ? instance.reactions.map((item) => item.name).lastIndexOf(name) : -1;
+  if (!instance || index < 0) return;
+  const drop = (item: { name: string }, i: number) => (all ? item.name === name : i === index);
+  const refund = instance.reactions.filter(drop).reduce((sum, item) => sum + item.malice, 0);
+  mutate((draft) => {
+    const target = draft.combat.instances.find((item) => item.id === instanceId);
+    if (!target) return;
+    target.reactions = target.reactions.filter((item, i) => !drop(item, i));
+    draft.combat.malice += refund;
+  });
+  toast(refund ? `${name} taken back · +${refund} Malice` : `${name} taken back`);
+}
+
+/**
+ * The one gesture on a triggered action's box: each tap counts another use
+ * while the creature has any left, and the tap after that wraps this one back
+ * to none, refunding it. With one a round that is a plain tick and untick.
+ */
+export function cycleReaction(instanceId: string, name: string, malice: number, capacity: number): void {
+  const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!instance) return;
+  const uses = instance.reactions.filter((item) => item.name === name).length;
+  if (uses && (capacity === 1 || instance.reactions.length >= capacity)) takeBackReaction(instanceId, name, true);
+  else useReaction(instanceId, name, malice, capacity);
+}
+
+/**
+ * Use a triggered action, paying its Malice. The rules allow one a round
+ * (`capacity`; Ajax three), and nothing stops a creature with several using
+ * the same one twice, so each use is counted. With one a round the box is a
+ * toggle: tapping the marked one takes it back, tapping another swaps them.
+ */
+export function useReaction(instanceId: string, name: string, malice: number, capacity: number): void {
+  const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!instance) return;
+  if (capacity === 1 && instance.reactions.some((item) => item.name === name)) {
+    takeBackReaction(instanceId, name);
+    return;
+  }
+  if (isDazed(instance)) {
+    toast(`${instance.name} is Dazed and can't use triggered actions.`);
+    return;
+  }
+  const full = instance.reactions.length >= capacity;
+  if (full && capacity > 1) {
+    toast(`${instance.name} has used all ${capacity} triggered actions this round.`);
+    return;
+  }
+  const swapped = full ? instance.reactions[instance.reactions.length - 1] : undefined;
+  const refund = swapped?.malice ?? 0;
+  if (malice > activeEncounter().combat.malice + refund) {
+    toast(`${name} needs ${malice} Malice.`);
+    return;
+  }
+  mutate((draft) => {
+    const target = draft.combat.instances.find((item) => item.id === instanceId);
+    if (!target) return;
+    if (swapped) target.reactions = target.reactions.slice(0, -1);
+    draft.combat.malice += refund - malice;
+    target.reactions.push({ name, malice });
+  });
+  toast(malice ? `${instance.name} · ${name} · −${malice} Malice` : `${instance.name} · ${name}`);
+}
+
+/** The creature that used a villain action this round, if any: the rules
+    allow one per round across the whole encounter. */
+export function villainActionThisRound(): CombatInstance | undefined {
+  const combat = activeEncounter().combat;
+  return combat.instances.find((instance) => instance.villainRounds.includes(combat.round));
+}
+
+/** Mark villain action `n` (1–3) used this round, or take the mark back. */
+export function toggleVillainAction(instanceId: string, n: number): void {
+  const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!instance) return;
+  const marking = !instance.villainRounds[n - 1];
+  const earlier = villainActionThisRound();
+  mutate((draft) => {
+    const target = draft.combat.instances.find((item) => item.id === instanceId);
+    if (!target) return;
+    const rounds = [0, 1, 2].map((i) => target.villainRounds[i] ?? 0);
+    rounds[n - 1] = marking ? draft.combat.round : 0;
+    target.villainRounds = rounds;
+  });
+  if (marking && earlier) toast(`${earlier.name} already used this round's villain action.`);
 }
 
 export function useMaliceFeature(featureId: string): void {

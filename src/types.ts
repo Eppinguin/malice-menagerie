@@ -17,6 +17,12 @@ export interface EncounterItem {
   sourcePath: string;
   groupId: string;
   count: number;
+  /** A minion entry: the entry is one squad of `count` minions (at most
+      eight). Absent on older minion entries until they are dealt into
+      squads (see `normalizeEntries`). */
+  squad?: boolean;
+  /** Legacy (pre-squad-entry) squad sizes, read only to split old saves. */
+  squads?: number[];
 }
 
 export type InstanceKind = "creature" | "minion-squad";
@@ -25,13 +31,29 @@ export interface CombatInstance {
   id: string;
   sourcePath: string;
   groupId: string;
+  /** The prep entry this instance was dealt from. */
+  entryId?: string;
   kind: InstanceKind;
   count: number;
   name: string;
   currentStamina: number;
   maxStamina: number;
-  acted: boolean;
+  /** Turns this creature takes each round; starts from the statblock, adjustable. */
+  turns: number;
+  /** Turns already taken this round, 0..turns. */
+  turnsTaken: number;
   conditions: string[];
+  /** Triggered actions used this round (one, for nearly every creature), each
+      with the Malice it cost, so taking it back refunds exactly that. */
+  reactions: { name: string; malice: number }[];
+  /** The round each villain action (1–3) was used in, or 0 while unused. */
+  villainRounds: number[];
+  /** A minion squad's attached captain (another instance's id). */
+  captainId?: string;
+  /** Brought onto the board by an ability rather than dealt from a prep
+      entry: the id of the creature that summoned it. It has no `entryId`,
+      so it adds no EV and prep edits leave it be. */
+  summonedBy?: string;
 }
 
 export interface ActiveEffect {
@@ -60,6 +82,7 @@ export interface UIState {
   role: string;
   search: string;
   maliceDockOpen: boolean;
+  watchOpen: boolean;
   maliceLibraryOpen: boolean;
   sort: SortKey;
   filtersOpen: boolean;
@@ -106,6 +129,8 @@ export interface RawStatblock {
   organization?: string;
   role?: string;
   ev?: number | string;
+  /** A summoned minion's own price, e.g. "2 Malice for two minions". */
+  cost?: string;
   keywords?: unknown;
   features?: unknown;
   size?: string | number;
@@ -115,6 +140,9 @@ export interface RawStatblock {
   free_strike?: string | number;
   freeStrike?: string | number;
   movement?: string;
+  immunities?: unknown;
+  weaknesses?: unknown;
+  with_captain?: string;
   might?: number;
   agility?: number;
   reason?: number;
@@ -123,6 +151,10 @@ export interface RawStatblock {
 }
 
 export interface FeatureEffect {
+  /** A printed label such as "Effect", "Special" or "End Effect". */
+  name?: string;
+  /** An extra cost printed before the text, e.g. "2 Malice". */
+  cost?: string;
   effect?: string;
   roll?: string;
   tier1?: string;
@@ -132,6 +164,8 @@ export interface FeatureEffect {
 
 export interface MonsterFeature {
   name?: string;
+  /** The book's printed icon, as an emoji. */
+  icon?: string;
   feature_type?: string;
   ability_type?: string;
   cost?: string | number;
@@ -139,6 +173,7 @@ export interface MonsterFeature {
   keywords?: string[];
   distance?: string;
   target?: string;
+  trigger?: string;
   effects?: FeatureEffect[];
 }
 
@@ -170,7 +205,14 @@ export interface Monster {
   stamina: number;
   stability: string | number;
   freeStrike: string | number;
+  /** Movement modes beyond walking ("Fly, hover"), or "" when none. */
   movement: string;
+  immunities: string[];
+  weaknesses: string[];
+  /** A minion's bonus while led by a captain, or "". */
+  withCaptain: string;
+  /** Turns per round, read from a solo's "Solo Turns" trait; 1 otherwise. */
+  turnsPerRound: number;
   chars: Characteristics;
   features: MonsterFeature[];
   source: string;
@@ -203,6 +245,7 @@ export interface RawMalicePowerRoll {
 
 export interface RawMaliceItem {
   name?: string;
+  icon?: string;
   cost?: string | number;
   malice?: string | number;
   body?: string;
@@ -231,6 +274,8 @@ export interface MaliceFeature {
   name: string;
   cost: number;
   costText: string;
+  /** The book's printed icon, as an emoji. */
+  icon: string;
   effects: FeatureEffect[];
   distance: string;
   target: string;
@@ -269,6 +314,8 @@ export interface PowerRollResult {
   label: string;
   edge: EdgeState;
   dice: [number, number];
+  /** A natural 19 or 20: always tier 3, whatever the bonus, edges or banes. */
+  critical: boolean;
 }
 
 export type EdgeState = "double-bane" | "bane" | "normal" | "edge" | "double-edge";
@@ -281,8 +328,7 @@ export interface ParsedEv {
 
 export interface Difficulty {
   label: string;
-  tier: "trivial" | "easy" | "standard" | "hard" | "extreme" | "deadly";
-  help: string;
+  tier: "trivial" | "easy" | "standard" | "hard" | "extreme";
 }
 
 export function isRecord(value: unknown): value is Record<string, unknown> {

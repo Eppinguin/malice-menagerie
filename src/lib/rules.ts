@@ -2,31 +2,37 @@ import { numberFrom, signed } from "./text.ts";
 import type { ActiveEffect, Difficulty, EdgeState, Monster, Party, PowerRollResult } from "../types.ts";
 
 export interface PartyMathResult {
+  /** One hero's encounter strength: 4, plus 2 per level. */
   oneHeroES: number;
+  /** Every hero's ES, plus one more hero per 2 average Victories. */
   partyES: number;
   roundOne: number;
 }
 
 export function partyMath(party: Party): PartyMathResult {
-  const oneHeroES = party.level * 6;
-  const partyES = oneHeroES * party.heroes;
+  const oneHeroES = 4 + 2 * party.level;
+  const partyES = oneHeroES * (party.heroes + Math.floor(party.victories / 2));
   const roundOne = party.victories + party.heroes + 1 + party.bonusMalice;
   return { oneHeroES, partyES, roundOne };
 }
 
-export function difficultyFor(ev: number, partyES: number): Difficulty {
+/**
+ * The Monsters book's difficulty bands, measured in heroes: trivial below
+ * the party's ES less one hero, easy below the party's ES, standard up to one
+ * hero over it, hard up to three heroes over it, extreme beyond that.
+ */
+export function difficultyFor(ev: number, partyES: number, oneHeroES: number): Difficulty {
   if (!ev)
-    return { label: "Trivial", tier: "trivial", help: "Add monsters to build the encounter." };
-  const ratio = partyES ? ev / partyES : 0;
-  if (ratio < 0.5)
-    return { label: "Easy", tier: "easy", help: "Well below the party encounter strength." };
-  if (ratio < 0.85)
-    return { label: "Standard", tier: "standard", help: "A moderate encounter for this party." };
-  if (ratio < 1.15)
-    return { label: "Hard", tier: "hard", help: "Near the party encounter strength." };
-  if (ratio < 1.5)
-    return { label: "Extreme", tier: "extreme", help: "Above the party encounter strength." };
-  return { label: "Deadly", tier: "deadly", help: "Far above the party encounter strength." };
+    return { label: "Trivial", tier: "trivial" };
+  if (ev < partyES - oneHeroES)
+    return { label: "Trivial", tier: "trivial" };
+  if (ev < partyES)
+    return { label: "Easy", tier: "easy" };
+  if (ev <= partyES + oneHeroES)
+    return { label: "Standard", tier: "standard" };
+  if (ev <= partyES + 3 * oneHeroES)
+    return { label: "Hard", tier: "hard" };
+  return { label: "Extreme", tier: "extreme" };
 }
 
 const CHARACTERISTIC_NAMES = {
@@ -111,7 +117,9 @@ function rollDiceWithBonus(statBonus: number, edge: EdgeState = "normal"): Power
   const bonus = statBonus + modifier;
   const total = d1 + d2 + bonus;
   const base = baseTierForTotal(total);
-  const tier = Math.max(1, Math.min(3, base + edgeTierShift(edge))) as 1 | 2 | 3;
+  // A natural 19 or 20 is always a tier 3 outcome, even under a double bane.
+  const critical = d1 + d2 >= 19;
+  const tier = critical ? 3 : (Math.max(1, Math.min(3, base + edgeTierShift(edge))) as 1 | 2 | 3);
   const tag = edgeTag(edge);
   return {
     total,
@@ -119,7 +127,11 @@ function rollDiceWithBonus(statBonus: number, edge: EdgeState = "normal"): Power
     bonus,
     edge,
     dice: [d1, d2],
-    label: `${d1}+${d2}${bonus ? signed(bonus) : ""} = ${total} · T${tier}` + (tag ? ` · ${tag}` : ""),
+    critical,
+    label:
+      `${d1}+${d2}${bonus ? signed(bonus) : ""} = ${total} · T${tier}` +
+      (critical ? ` · natural ${d1 + d2}` : "") +
+      (tag ? ` · ${tag}` : ""),
   };
 }
 

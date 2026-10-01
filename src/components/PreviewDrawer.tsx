@@ -3,6 +3,7 @@ import { catalogByPath, monsterCache, monstersVersion } from "../data.ts";
 import { addToEncounter, closePreview, previewPath, qtyFor } from "../store.ts";
 import { LaneHeader, StatblockBody } from "./Statblock.tsx";
 import { QtyControl } from "./QtyControl.tsx";
+import { CloseIcon } from "./Icons.tsx";
 
 export function PreviewDrawer() {
   const path = previewPath.value;
@@ -54,14 +55,14 @@ export function PreviewDrawer() {
         aria-label="Monster statblock preview"
       >
         <header class="preview-drawer-head">
-          <span class="preview-drawer-eyebrow">Statblock preview</span>
+          <h2 class="preview-drawer-title">Statblock preview</h2>
           <button
             class="icon-button"
             onClick={closePreview}
             title="Close preview"
             aria-label="Close preview"
           >
-            ×
+            <CloseIcon />
           </button>
         </header>
         <div class="preview-drawer-body">

@@ -1,3 +1,4 @@
+import { sourceRef } from "./repo.ts";
 import type { ParsedEv } from "../types.ts";
 
 export const WORD_NUMBERS: Record<string, number> = {
@@ -26,13 +27,45 @@ export function escapeHtml(value: unknown): string {
     .replace(/'/g, "&#039;");
 }
 
+const MARKDOWN_LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+
+/**
+ * The book cross-links its own rules text ("forced movement", "Stamina",
+ * "Grabbed"). Keep the link, pointing at the page on SteelCompendium that
+ * explains the term, and carry the document path so the term can be read in
+ * place on hover. A reference with no page behind it stays plain prose.
+ * Called with the already-escaped source, so the label is safe to re-emit.
+ */
+function markdownLink(_match: string, label: string, href: string): string {
+  const ref = sourceRef(href);
+  if (!ref) return label;
+  return (
+    `<a class="rule-link" href="${ref.url}" data-rule-path="${ref.path}"` +
+    ` target="_blank" rel="noreferrer">${label}</a>`
+  );
+}
+
 /** Escaped-then-decorated HTML, for dangerouslySetInnerHTML targets only. */
 export function richText(value: string | undefined | null): string {
   let text = escapeHtml(value || "");
-  text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+  text = text.replace(MARKDOWN_LINK_RE, markdownLink);
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  // Potency ("M < 4") as the book prints it: black blocks in the Draw Steel
+  // Glyphs font, with the rule spelled out for screen readers.
+  text = text.replace(/\b([MARIP]) ?&lt; ?(\d+)\b/g, (_match, key: string, value: string) => {
+    const name = POTENCY_NAMES[key] ?? key;
+    return `<span class="ds-glyph potency" role="img" aria-label="${name} less than ${value}">${key.toLowerCase()}&lt;${value}</span>`;
+  });
   return text.replace(/\n/g, "<br>");
 }
+
+const POTENCY_NAMES: Record<string, string> = {
+  M: "Might",
+  A: "Agility",
+  R: "Reason",
+  I: "Intuition",
+  P: "Presence",
+};
 
 export function plainText(value: string | undefined | null): string {
   return String(value || "")
