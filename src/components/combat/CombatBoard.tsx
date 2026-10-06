@@ -1,4 +1,4 @@
-import { conditionCatalog, conditionInfo, monsterCache, monstersVersion } from '../../data.ts';
+import { conditionCatalog, conditionInfo, monsterAt, monstersVersion } from '../../data.ts';
 import { sourceUrl } from '../../lib/repo.ts';
 import { fmt } from '../../lib/text.ts';
 import {
@@ -16,7 +16,8 @@ import {
   setSquadCaptain,
   hasActed,
   markTurn,
-  toggleConditionPicker
+  toggleConditionPicker,
+  setLaneLevel,
 } from '../../store.ts';
 import { LaneHeader, StatblockBody } from '../Statblock.tsx';
 import { abilityMarks } from './Watch.tsx';
@@ -1234,13 +1235,13 @@ export function CombatBoard() {
     <div class="board-frame">
       <div class="combat-board" id="combatBoard" ref={board}>
         {lanes.map(({ path, instances, shown, hidden }, index) => {
-          const monster = monsterCache.get(path);
+          const monster = monsterAt(path);
           if (!monster) {
             return <section class="monster-lane panel" key={path}><div class="lane-loading">Loading statblock…</div></section>;
           }
           return (
             <section class="monster-lane panel" key={path} data-path={path} onClick={backToTop} onScroll={markScrolled}>
-              <LaneHeader monster={monster} nav={{ index, count: lanes.length, turnTo }} />
+              <LaneHeader monster={monster} nav={{ index, count: lanes.length, turnTo }} onLevel={level => setLaneLevel(path, level)} />
               <div class="instance-stack">
                 {shown.map(instance => <InstanceCard key={instance.id} instance={instance} monster={monster} />)}
                 {hidden ? <p class="lane-hidden-note">+{hidden} in other groups</p> : null}
@@ -1255,7 +1256,7 @@ export function CombatBoard() {
           );
         })}
       </div>
-      <BoardEdges board={board} names={lanes.map(lane => monsterCache.get(lane.path)?.name ?? 'the next statblock')} step={step} />
+      <BoardEdges board={board} names={lanes.map(lane => monsterAt(lane.path)?.name ?? 'the next statblock')} step={step} />
     </div>
   );
 }

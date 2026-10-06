@@ -6526,3 +6526,152 @@ body.dragging-encounter-entry .monster-library::before {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* ---- Monster level: printed until the Director rewrites it ---- */
+/* Whatever a level change rewrote is written in pen over the print. */
+.pen-num {
+  color: var(--pen);
+}
+/* A potency the level rewrote: the book's block, written over in pen as
+   an outline rather than reprinted solid blue. */
+.potency-pen {
+  display: inline-block;
+  margin: 0 1px;
+  padding: 1px 3px 0;
+  border: 1px solid var(--pen);
+  border-radius: var(--radius);
+  font-family: var(--font-head);
+  font-size: 0.86em;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--pen);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.level-mark {
+  display: inline;
+}
+/* At rest it reads as print; the faint dashed rule under the level is the
+   same mark the Stamina field wears: this takes the pen. */
+.level-button {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dashed var(--rule-strong) 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: text-decoration-color 0.12s ease;
+}
+.level-button:hover {
+  text-decoration-color: var(--pen);
+}
+.level-button:hover .level-value,
+.level-button.adjusted .level-value {
+  color: var(--pen);
+}
+.level-button.adjusted {
+  text-decoration-color: var(--pen-line);
+}
+.level-value {
+  font-variant-numeric: tabular-nums lining-nums;
+  transition: color 0.12s ease;
+}
+.level-printed {
+  margin-left: 3px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+/* Editing in place: the level line itself takes the −/+ and the jumps, so
+   the stats it rewrites stay in view while it steps. */
+.level-edit {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  /* Controls taller than the line overhang it rather than growing it. */
+  margin: -4px 0;
+  white-space: nowrap;
+}
+/* While the level is being written the rest of the line steps aside, so the
+   header keeps its two lines and the stat rows stay level across lanes. */
+.lane-keys:has(.level-edit) .lane-org,
+.lane-keys:has(.level-edit) .lane-keywords {
+  display: none;
+}
+.level-edit .level-value {
+  min-width: 1.4em;
+  font-size: 17px;
+  text-align: center;
+  color: var(--pen);
+}
+.level-step {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--field);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.level-step:hover:not(:disabled) {
+  border-color: var(--pen);
+  background: var(--pen-wash);
+  color: var(--pen);
+}
+.level-step:disabled {
+  border-color: var(--rule);
+  color: var(--ink-3);
+  cursor: default;
+}
+.level-step svg {
+  width: 14px;
+  height: 14px;
+}
+.level-jump {
+  height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums lining-nums;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.level-jump:hover {
+  background: var(--sheet);
+}
+/* The roster's name opens its statblock, where its level is set. */
+.roster-name {
+  display: block;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.roster-name:hover strong {
+  text-decoration: underline 1px var(--rule-strong);
+  text-underline-offset: 3px;
+}
+.roster-level {
+  font-weight: 700;
+  color: var(--pen);
+}
+/* Organization and role stay one phrase when the level editor wraps the line. */
+.lane-org {
+  white-space: nowrap;
+}

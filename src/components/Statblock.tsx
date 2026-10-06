@@ -13,9 +13,11 @@ import {
 import type { EdgeState, PowerRollResult } from "../types.ts";
 import { rollPress } from "./combat/EdgeMenu.tsx";
 import type { FeatureEffect, Monster, MonsterFeature } from "../types.ts";
-import { CaretIcon, ExternalIcon } from "./Icons.tsx";
+import { CaretIcon, ExternalIcon, MinusIcon, PlusIcon } from "./Icons.tsx";
 import type { ComponentChildren } from "preact";
 import { signal } from "@preact/signals";
+import { useEffect, useRef } from "preact/hooks";
+import { LEVEL_MAX, LEVEL_MIN } from "../lib/levels.ts";
 import { PenD10, PenDoubleRule, PenLoop, PenRing } from "./Pen.tsx";
 
 /** Power-roll bands as printed in Draw Steel: tier 1, 2, 3. */
@@ -82,7 +84,172 @@ function featureUsage(feature: MonsterFeature): string {
     to its neighbours. */
 export type LaneNav = { index: number; count: number; turnTo: (index: number) => void };
 
-export function LaneHeader({ monster, nav }: { monster: Monster; nav?: LaneNav }) {
+/** Set in pen where a level change rewrote the printed value. */
+function pen(value: unknown, printed: unknown): string | undefined {
+  return printed !== undefined && String(value) !== String(printed) ? "pen-num" : undefined;
+}
+
+/** Where a level is being rewritten: which header ("lane" or "preview";
+    the Run board stays mounted behind Prep, so the same statblock can show
+    in both) and the statblock's key. A level change re-keys the statblock
+    (and remounts its lane), so the editor follows it to its new key rather
+    than living in the component. */
+const levelOpenFor = signal<{ scope: string; key: string } | null>(null);
+
+/**
+ * The level on the header's second line, which the Director can rewrite.
+ * At rest it reads as print with a faint dashed rule under it, the mark of a
+ * field that takes the pen; once changed, the new level is written in pen
+ * with the printed one beside it. A tap turns the line itself into the
+ * editor, −/+ either side of the number with the party's level and the
+ * printed level a tap away, so nothing covers the stats it rewrites. The
+ * rest of the line steps aside while it is open, so the header keeps its two
+ * lines and the stat rows stay level across the board. A tap elsewhere,
+ * Escape or Enter puts it away.
+ */
+function LevelMark({
+  monster,
+  scope,
+  onLevel,
+}: {
+  monster: Monster;
+  scope: string;
+  onLevel: ((level: number) => string | null) | undefined;
+}) {
+  const printed = monster.printed?.level ?? monster.level;
+  const level = monster.level;
+  const adjusted = level !== printed;
+  const party = activeEncounter().party.level;
+  const open = levelOpenFor.value?.scope === scope && levelOpenFor.value.key === monster.path;
+  const wrap = useRef<HTMLSpanElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+  const raise = useRef<HTMLButtonElement>(null);
+  const refocus = useRef(false);
+  const lo = Math.min(LEVEL_MIN, printed);
+  const hi = Math.max(LEVEL_MAX, printed);
+  const close = (focusBack: boolean) => {
+    refocus.current = focusBack;
+    levelOpenFor.value = null;
+  };
+  const set = (next: number) => {
+    const clamped = Math.max(lo, Math.min(hi, next));
+    if (clamped === level) return;
+    // Follow the statblock to the key it actually landed on; if the change
+    // didn't take, the editor stays open where it was.
+    const landed = onLevel?.(clamped);
+    if (open && landed) levelOpenFor.value = { scope, key: landed };
+  };
+  useEffect(() => {
+    if (!open) {
+      if (refocus.current) button.current?.focus();
+      refocus.current = false;
+      return;
+    }
+    const away = (event: PointerEvent) => {
+      if (!wrap.current?.contains(event.target as Node)) close(false);
+    };
+    // Focus lands in the editor, so the arrow keys step at once.
+    raise.current?.focus({ preventScroll: true });
+    document.addEventListener("pointerdown", away, true);
+    return () => document.removeEventListener("pointerdown", away, true);
+  }, [open]);
+  const printedNote = adjusted ? (
+    <span class="level-printed">
+      <span aria-hidden="true">({fmt(printed)})</span>
+      <span class="sr-only">, printed level {fmt(printed)}</span>
+    </span>
+  ) : null;
+  if (!onLevel)
+    return (
+      <>
+        Level <span class={adjusted ? "pen-num" : undefined}>{fmt(level)}</span>
+        {printedNote}
+      </>
+    );
+  if (!open)
+    return (
+      <span class="level-mark" ref={wrap} onClick={(event) => event.stopPropagation()}>
+        <button
+          ref={button}
+          class={`level-button${adjusted ? " adjusted" : ""}`}
+          aria-expanded="false"
+          title="Change level"
+          onClick={() => {
+            levelOpenFor.value = { scope, key: monster.path };
+          }}
+        >
+          Level <span class="level-value">{fmt(level)}</span>
+        </button>
+        {printedNote}
+      </span>
+    );
+  return (
+    <span
+      class="level-mark level-edit"
+      ref={wrap}
+      role="group"
+      aria-label={`${monster.name} level`}
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" || event.key === "Enter") {
+          event.preventDefault();
+          event.stopPropagation();
+          close(true);
+        } else if (event.key === "ArrowUp" || event.key === "ArrowRight") {
+          event.preventDefault();
+          set(level + 1);
+        } else if (event.key === "ArrowDown" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          set(level - 1);
+        }
+      }}
+    >
+      Level
+      <button class="level-step" aria-label="One level lower" disabled={level <= lo} onClick={() => set(level - 1)}>
+        <MinusIcon />
+      </button>
+      <output class="level-value" aria-live="polite" aria-label={`Level ${level}`}>
+        {fmt(level)}
+      </output>
+      <button
+        ref={raise}
+        class="level-step"
+        aria-label="One level higher"
+        disabled={level >= hi}
+        onClick={() => set(level + 1)}
+      >
+        <PlusIcon />
+      </button>
+      {party !== level ? (
+        <button class="level-jump" onClick={() => set(party)}>
+          Party <span class="pen-num">{fmt(party)}</span>
+        </button>
+      ) : null}
+      {adjusted ? (
+        <button class="level-jump" onClick={() => set(printed)}>
+          Printed {fmt(printed)}
+        </button>
+      ) : null}
+    </span>
+  );
+}
+
+export function LaneHeader({
+  monster,
+  nav,
+  scope = "lane",
+  onLevel,
+}: {
+  monster: Monster;
+  nav?: LaneNav;
+  /** Which header this is ("lane" or "preview"), so a level being rewritten
+      in one doesn't open in the other. */
+  scope?: string;
+  /** Lets the Director put this statblock at another level; returns the
+      key the statblock is at afterwards, or null if nothing changed. */
+  onLevel?: (level: number) => string | null;
+}) {
+  const was = monster.printed;
   const speed = effectiveSpeed(monster, activeEncounter().combat.activeEffects);
   const charKeys = ["M", "A", "R", "I", "P"] as const;
   let lastCharKey: CharacteristicKey | null = null;
@@ -117,11 +284,17 @@ export function LaneHeader({ monster, nav }: { monster: Monster; nav?: LaneNav }
         <div class="lane-band-text">
           <div class="lane-band-row">
             <h2>{monster.name}</h2>
-            <span class="ev-badge">EV {monster.evLabel}</span>
+            <span
+              class="ev-badge"
+              dangerouslySetInnerHTML={{ __html: richText(`EV ${monster.evLabel}`, was && `EV ${was.evLabel}`) }}
+            />
           </div>
           <div class="lane-band-row lane-keys">
             <span class="lane-level">
-              Level {fmt(monster.level)} {monster.organization} {monster.role}
+              <LevelMark monster={monster} scope={scope} onLevel={onLevel} />{" "}
+              <span class="lane-org">
+                {monster.organization} {monster.role}
+              </span>
             </span>
             <span class="lane-keywords">{monster.ancestry}</span>
           </div>
@@ -156,7 +329,7 @@ export function LaneHeader({ monster, nav }: { monster: Monster; nav?: LaneNav }
           {monster.movement ? <i class="lane-movement">{monster.movement.toLowerCase()}</i> : null}
         </span>
         <span>
-          <b>{fmt(monster.stamina)}</b>
+          <b class={pen(monster.stamina, was?.stamina)}>{fmt(monster.stamina)}</b>
           <small>Stamina</small>
         </span>
         <span>
@@ -164,7 +337,7 @@ export function LaneHeader({ monster, nav }: { monster: Monster; nav?: LaneNav }
           <small>Stability</small>
         </span>
         <span>
-          <b>{monster.freeStrike}</b>
+          <b class={pen(monster.freeStrike, was?.freeStrike)}>{monster.freeStrike}</b>
           <small>Free Strike</small>
         </span>
       </div>
@@ -187,7 +360,7 @@ export function LaneHeader({ monster, nav }: { monster: Monster; nav?: LaneNav }
               </span>
               {characteristicLabel(key).slice(1)}
             </small>
-            <b>{signed(monster.chars[key])}</b>
+            <b class={pen(monster.chars[key], was?.chars[key])}>{signed(monster.chars[key])}</b>
           </button>
         ))}
       </div>
@@ -334,7 +507,15 @@ export function rollSerial(roll: object): number {
   return serial;
 }
 
-function TierRows({ effect, roll }: { effect: FeatureEffect; roll: PowerRollResult | undefined }) {
+function TierRows({
+  effect,
+  printed,
+  roll,
+}: {
+  effect: FeatureEffect;
+  printed: FeatureEffect | undefined;
+  roll: PowerRollResult | undefined;
+}) {
   const rolledTier = roll?.tier ?? null;
   const tierKeys = (["tier1", "tier2", "tier3"] as const).filter((key) => effect[key]);
   if (!tierKeys.length) return null;
@@ -348,7 +529,7 @@ function TierRows({ effect, roll }: { effect: FeatureEffect; roll: PowerRollResu
         >
           {roll && rolledTier === index + 1 ? <PenLoop key={rollSerial(roll)} seed={rollSerial(roll)} /> : null}
           <TierMark index={index} />
-          <span dangerouslySetInnerHTML={{ __html: richText(effect[key]) }} />
+          <span dangerouslySetInnerHTML={{ __html: richText(effect[key], printed?.[key]) }} />
         </div>
       ))}
     </div>
@@ -387,13 +568,13 @@ function SquadStack({ effect, roll, monster }: { effect: FeatureEffect; roll: Po
   );
 }
 
-function EffectText({ effect }: { effect: FeatureEffect }) {
+function EffectText({ effect, printed }: { effect: FeatureEffect; printed: FeatureEffect | undefined }) {
   const lead = effectLead(effect);
   return (
     <p>
       {lead ? <strong class="effect-lead">{lead}:</strong> : null}
       {lead ? " " : null}
-      <span dangerouslySetInnerHTML={{ __html: richText(effect.effect) }} />
+      <span dangerouslySetInnerHTML={{ __html: richText(effect.effect, printed?.effect) }} />
     </p>
   );
 }
@@ -413,11 +594,12 @@ function EffectBlock({
 }) {
   const rollKey = `${monster.id}|${featureIndex}|${effectIndex}`;
   const lastRoll = interactive ? lastRolls.value.get(rollKey) : undefined;
+  const printed = monster.printed?.features[featureIndex]?.effects?.[effectIndex];
   return (
     <>
       {effect.roll ? (
         <div class="roll-line">
-          <strong>{effect.roll}</strong>
+          <strong dangerouslySetInnerHTML={{ __html: richText(effect.roll, printed?.roll) }} />
           {interactive ? (
             <button
               title="Roll — tap, or hold for edge/bane menu"
@@ -438,11 +620,11 @@ function EffectBlock({
           ) : null}
         </div>
       ) : null}
-      <TierRows effect={effect} roll={lastRoll} />
+      <TierRows effect={effect} printed={printed} roll={lastRoll} />
       {lastRoll && isMinion(monster) && monster.features[featureIndex]?.ability_type === "Signature Ability" ? (
         <SquadStack key={rollSerial(lastRoll)} effect={effect} roll={lastRoll} monster={monster} />
       ) : null}
-      {effect.effect ? <EffectText effect={effect} /> : null}
+      {effect.effect ? <EffectText effect={effect} printed={printed} /> : null}
     </>
   );
 }
@@ -588,7 +770,11 @@ export function StatblockBody({
               {folded
                 ? null
                 : (feature.effects || []).map((effect, effectIndex) => (
-                    <EffectText key={effectIndex} effect={effect} />
+                    <EffectText
+                      key={effectIndex}
+                      effect={effect}
+                      printed={monster.printed?.features[featureIndex]?.effects?.[effectIndex]}
+                    />
                   ))}
               {folded || !interactive ? null : summons?.(featureIndex)?.node}
             </section>
@@ -674,7 +860,11 @@ export function StatblockBody({
               {feature.trigger ? (
                 <p>
                   <strong class="effect-lead">Trigger:</strong>{" "}
-                  <span dangerouslySetInnerHTML={{ __html: richText(feature.trigger) }} />
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: richText(feature.trigger, monster.printed?.features[featureIndex]?.trigger),
+                    }}
+                  />
                 </p>
               ) : null}
               {(feature.effects || []).map((effect, effectIndex) => (

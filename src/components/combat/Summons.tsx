@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import { catalog, loadMonster, monsterCache, monstersVersion } from '../../data.ts';
+import { catalog, loadMonster, monsterAt, monstersVersion } from '../../data.ts';
 import { activeEncounter, summonCreatures, summonerRules } from '../../store.ts';
 import { featureSummons, planSummon, type SummonChoice, type SummonOption } from '../../lib/summons.ts';
 import { isMinion, minionStamina, SQUAD_MAX, standing } from '../../lib/minions.ts';
@@ -19,7 +19,7 @@ function choicesFor(monster: Monster, featureIndex: number): SummonChoice[] {
   const key = `${monster.path}#${featureIndex}`;
   const hit = cache.get(key);
   if (hit?.version === version) return hit.choices;
-  const choices = featureSummons(monster, feature, entries, path => monsterCache.get(path));
+  const choices = featureSummons(monster, feature, entries, path => monsterAt(path));
   cache.set(key, { version, choices });
   return choices;
 }
@@ -31,7 +31,7 @@ function standingIn(lane: CombatInstance[]): CombatInstance[] {
 /** How many of an option `summoner` has room for under their squad limits:
     all of them for creatures that aren't minions. */
 function roomFor(summoner: CombatInstance, option: SummonOption): number {
-  const m = monsterCache.get(option.path);
+  const m = monsterAt(option.path);
   if (m && !isMinion(m)) return option.count;
   const plan = planSummon(
     activeEncounter().combat.instances,
@@ -63,7 +63,7 @@ function SummonRow({ choices, lane }: { choices: SummonChoice[]; lane: CombatIns
   const paths = choices.flatMap(choice => choice.options.map(option => option.path)).join('|');
   // Load what the chips name, for their prices and names and so a tap is instant.
   useEffect(() => {
-    for (const path of paths.split('|')) if (path && !monsterCache.has(path)) loadMonster(path).catch(() => {});
+    for (const path of paths.split('|')) if (path && !monsterAt(path)) loadMonster(path).catch(() => {});
   }, [paths]);
 
   const pick = (option: SummonOption) => {

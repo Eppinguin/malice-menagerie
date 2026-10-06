@@ -1,4 +1,4 @@
-import { catalogByPath, monsterCache, monstersVersion } from '../../data.ts';
+import { monsterAt, monsterNameForPath, monstersVersion } from '../../data.ts';
 import {
   activeEncounter,
   addGroup,
@@ -13,30 +13,27 @@ import {
   resetActiveEncounter,
   canPeelEntry,
   freshEntry,
+  openPreview,
   resumeCombat,
   selectPrepGroup,
   startCombat
 } from '../../store.ts';
 import { beginPrepDrag, shouldSuppressClick } from '../../dnd.ts';
 import { difficultyFor, partyMath } from '../../lib/rules.ts';
-import { fmt, slugToLabel } from '../../lib/text.ts';
+import { fmt } from '../../lib/text.ts';
 import { SQUAD_MAX } from '../../lib/minions.ts';
+import { keyLevel } from '../../lib/levels.ts';
 import type { ComponentChildren } from 'preact';
 import type { EncounterItem, Group } from '../../types.ts';
 import { CaretIcon, CloseIcon, GripIcon, MinusIcon, PlusIcon } from '../Icons.tsx';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { PHONE, prefersReducedMotion } from '../../lib/phoneScroll.ts';
 
-function nameForPath(sourcePath: string): string {
-  return monsterCache.get(sourcePath)?.name
-    || catalogByPath.get(sourcePath)?.derivedName
-    || slugToLabel(sourcePath.split('/').pop()?.replace(/\.json$/i, '') ?? '');
-}
 
 /** A creature row's EV line: "EV 16 · 4 each", or "EV 4" for one. Worded,
     not "4 × EV 4", which would read as a multiplication. */
 function evLine(item: EncounterItem): string {
-  const m = monsterCache.get(item.sourcePath);
+  const m = monsterAt(item.sourcePath);
   if (!m) return 'EV …';
   return item.count > 1 ? `EV ${fmt(m.ev * item.count)} · ${fmt(m.ev)} each` : `EV ${fmt(m.ev)}`;
 }
@@ -126,10 +123,14 @@ function StepButton({ label, title, disabled, onStep, onAlt, children }: {
 // holds hook state (or reads a signal) skips renders while its props look
 // unchanged. So everything it shows arrives as props from its group, and it
 // reads no signals of its own, not even through a store helper.
-function RosterItem({ item, count, name, ev, set, continues, fresh, peelable }: {
+function RosterItem({ item, count, name, level, printedLevel, ev, set, continues, fresh, peelable }: {
   item: EncounterItem;
   count: number;
   name: string;
+  /** The level the entry was put at, or null for the printed one. */
+  level: number | null;
+  /** The book's level, beside an adjusted one. */
+  printedLevel: number | null;
   /** A creature entry's EV line (see `evLine`). */
   ev: string;
   /** A squad's minion set size (four, mostly); 0 for creatures. */
@@ -185,7 +186,13 @@ function RosterItem({ item, count, name, ev, set, continues, fresh, peelable }: 
       <div class="roster-item-main">
         <GripIcon class="drag-grip" />
         <div>
-          <strong>{name}</strong>
+          <button
+            class="roster-name"
+            title={`Open ${name}'s statblock`}
+            onClick={guard(() => openPreview(item.sourcePath, item.id))}
+          >
+            <strong>{name}</strong>
+          </button>
           <small>
             {over ? (
               <span
@@ -195,6 +202,12 @@ function RosterItem({ item, count, name, ev, set, continues, fresh, peelable }: 
                 tabIndex={0}
               >Squad of {count}</span>
             ) : squad ? `Squad of ${count}` : ev}
+            {level !== null ? (
+              <>
+                {' · '}Level <span class="roster-level">{level}</span>
+                {printedLevel !== null ? <span class="level-printed">({printedLevel})</span> : null}
+              </>
+            ) : null}
             {jump ? <span key={jump.key} class="count-jump" aria-hidden="true">{jump.text}</span> : null}
           </small>
         </div>
@@ -294,9 +307,11 @@ function RosterGroup({ group }: { group: Group }) {
               key={item.id}
               item={item}
               count={item.count}
-              name={nameForPath(item.sourcePath)}
+              name={monsterNameForPath(item.sourcePath)}
+              level={keyLevel(item.sourcePath)}
+              printedLevel={monsterAt(item.sourcePath)?.printed?.level ?? null}
               ev={evLine(item)}
-              set={item.squad ? Math.max(1, monsterCache.get(item.sourcePath)?.defaultQty ?? 4) : 0}
+              set={item.squad ? Math.max(1, monsterAt(item.sourcePath)?.defaultQty ?? 4) : 0}
               continues={items[i - 1]?.sourcePath === item.sourcePath}
               fresh={freshEntry.value === item.id}
               peelable={canPeelEntry(item)}

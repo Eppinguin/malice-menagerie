@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
-import { catalogByPath, monsterCache, monstersVersion } from "../data.ts";
-import { addToEncounter, closePreview, previewPath, qtyFor } from "../store.ts";
+import { catalogByPath, monsterAt, monstersVersion } from "../data.ts";
+import { addToEncounter, closePreview, previewPath, qtyFor, setPreviewLevel } from "../store.ts";
+import { basePath } from "../lib/levels.ts";
 import { LaneHeader, StatblockBody } from "./Statblock.tsx";
 import { QtyControl } from "./QtyControl.tsx";
 import { CloseIcon } from "./Icons.tsx";
@@ -36,8 +37,12 @@ export function PreviewDrawer() {
   }, []);
 
   const hidden = !renderedPath;
-  const monster = renderedPath ? monsterCache.get(renderedPath) : undefined;
-  const failed = Boolean(renderedPath && !monster && catalogByPath.get(renderedPath)?.error);
+  // The live path while open, so a level change shows at once (the lagging
+  // one would flash the old level and shut the level editor); the last one
+  // only while the drawer slides out.
+  const shownPath = path ?? renderedPath;
+  const monster = shownPath ? monsterAt(shownPath) : undefined;
+  const failed = Boolean(renderedPath && !monster && catalogByPath.get(basePath(shownPath ?? ""))?.error);
 
   return (
     <>
@@ -68,7 +73,7 @@ export function PreviewDrawer() {
         <div class="preview-drawer-body">
           {monster ? (
             <section class="preview-statblock">
-              <LaneHeader monster={monster} />
+              <LaneHeader monster={monster} scope="preview" onLevel={setPreviewLevel} />
               <StatblockBody monster={monster} interactive={false} />
             </section>
           ) : failed ? (

@@ -31,9 +31,10 @@ import {
   loadSourceIndex,
   maliceFeatures,
   maliceLoading,
-  monsterCache,
+  monsterAt,
   monstersVersion,
 } from "./data.ts";
+import { basePath, levelKey } from "./lib/levels.ts";
 import { isRecord } from "./types.ts";
 import type {
   AppState,
@@ -303,7 +304,7 @@ function normalizeEntries(enc: Encounter): boolean {
   let changed = false;
   enc.items = enc.items.flatMap((item) => {
     if (item.squad) return [item];
-    const m = monsterCache.get(item.sourcePath);
+    const m = monsterAt(item.sourcePath);
     if (!item.squads?.length && !(m && isMinion(m))) return [item];
     changed = true;
     const sizes = squadSizes(item);
@@ -427,7 +428,7 @@ export const state = signal<AppState>(loadState());
 effect(() => {
   void monstersVersion.value;
   const legacy = (item: EncounterItem) => {
-    const m = monsterCache.get(item.sourcePath);
+    const m = monsterAt(item.sourcePath);
     return !item.squad && !!m && isMinion(m);
   };
   if (state.peek().encounters.some((enc) => enc.items.some(legacy)))
@@ -564,7 +565,7 @@ export function toast(message: string): void {
 }
 
 export function qtyFor(path: string): number {
-  return qtyDrafts.value.get(path) ?? monsterCache.get(path)?.defaultQty ?? 1;
+  return qtyDrafts.value.get(path) ?? monsterAt(path)?.defaultQty ?? 1;
 }
 
 export function setQtyDraft(path: string, value: number): void {
@@ -1137,12 +1138,12 @@ export function groupBalance(): Map<string, GroupBalance> {
   for (const group of groups) {
     const members = items.filter((item) => item.groupId === group.id);
     if (!members.length) continue;
-    const loaded = members.every((item) => monsterCache.has(item.sourcePath));
+    const loaded = members.every((item) => !!monsterAt(item.sourcePath));
     if (!loaded) {
       result.set(group.id, { ev: null, off: null });
       continue;
     }
-    const ev = members.reduce((sum, item) => sum + (monsterCache.get(item.sourcePath)?.ev ?? 0) * item.count, 0);
+    const ev = members.reduce((sum, item) => sum + (monsterAt(item.sourcePath)?.ev ?? 0) * item.count, 0);
     const single = members.length === 1 && !members[0]?.squad && members[0]?.count === 1;
     const off = ev > 2 * oneHeroES && !single ? "heavy" : ev < oneHeroES ? "light" : null;
     result.set(group.id, { ev, off });
@@ -1156,7 +1157,7 @@ export function groupBalance(): Map<string, GroupBalance> {
 export function groupCountAdvice(): { groups: number; heroes: number; lo: number; hi: number } | null {
   const { items, party } = activeEncounter();
   const groups = groupBalance().size;
-  const solo = items.some((item) => monsterCache.get(item.sourcePath)?.organization.toLowerCase() === "solo");
+  const solo = items.some((item) => monsterAt(item.sourcePath)?.organization.toLowerCase() === "solo");
   const heroes = Math.max(1, party.heroes);
   const lo = Math.max(1, heroes - 2);
   const hi = heroes + 2;
@@ -1178,7 +1179,7 @@ export function encounterChecks(): string[] {
   let minions = 0;
   for (const item of items) {
     creatures += item.count;
-    const m = monsterCache.get(item.sourcePath);
+    const m = monsterAt(item.sourcePath);
     if (m && isMinion(m)) minions += item.count;
   }
   const notes: string[] = [];
@@ -1203,7 +1204,7 @@ export function encounterTotals(): EncounterTotals {
   let ev = 0;
   for (const item of activeEncounter().items) {
     count += item.count;
-    ev += (monsterCache.get(item.sourcePath)?.ev ?? 0) * item.count;
+    ev += (monsterAt(item.sourcePath)?.ev ?? 0) * item.count;
   }
   return { count, ev };
 }
@@ -1283,9 +1284,9 @@ export async function startCombat(): Promise<void> {
   };
   const instances: CombatInstance[] = [];
   for (const entry of activeEncounter().items) {
-    const m = monsterCache.get(entry.sourcePath);
+    const m = monsterAt(entry.sourcePath);
     if (!m) continue;
-    instances.push(...buildInstancesForEntry(entry, m, () => bump(entry.sourcePath)));
+    instances.push(...buildInstancesForEntry(entry, m, () => bump(basePath(entry.sourcePath))));
   }
 
   mutate((draft) => {
@@ -1356,14 +1357,14 @@ export function reconcileCombat(): void {
     }
 
     for (const entry of draft.encounter) {
-      const m = monsterCache.get(entry.sourcePath);
+      const m = monsterAt(entry.sourcePath);
       if (!m) continue;
       const current = byEntry.get(entry.id) ?? [];
       for (const instance of current) instance.groupId = entry.groupId;
 
       if (entry.squad) {
         const squad = current[0];
-        const n = bump(entry.sourcePath);
+        const n = bump(basePath(entry.sourcePath));
         if (!squad) {
           kept.push(newSquad(entry, m, entry.count, n));
         } else {
@@ -1377,11 +1378,11 @@ export function reconcileCombat(): void {
       // are the ones that entered play earliest), spawn the rest.
       const survivors = current.slice(0, entry.count);
       for (const survivor of survivors) {
-        bump(entry.sourcePath);
+        bump(basePath(entry.sourcePath));
         kept.push(survivor);
       }
       for (let i = survivors.length; i < entry.count; i += 1)
-        kept.push(newCreature(entry, m, bump(entry.sourcePath)));
+        kept.push(newCreature(entry, m, bump(basePath(entry.sourcePath))));
     }
     kept.push(...draft.combat.instances.filter((instance) => instance.summonedBy !== undefined));
 
@@ -1478,8 +1479,8 @@ export function removeInstance(instanceId: string): void {
 
 /** The squad limits a creature on the board prints, if it prints any. */
 export function summonerRules(summoner: CombatInstance): SquadRules | null {
-  const m = monsterCache.get(summoner.sourcePath);
-  return m ? squadRules(m, catalog.value, (path) => monsterCache.get(path)) : null;
+  const m = monsterAt(summoner.sourcePath);
+  return m ? squadRules(m, catalog.value, (path) => monsterAt(path)) : null;
 }
 
 /**
@@ -1568,7 +1569,7 @@ export async function summonCreatures(
 /** Attach a captain: each minion gains the "With Captain" benefit, and a
     Stamina bonus lands on every minion still standing. */
 function attachCaptain(squad: CombatInstance, captainId: string): void {
-  const m = monsterCache.get(squad.sourcePath);
+  const m = monsterAt(squad.sourcePath);
   const bonus = m ? captainStaminaBonus(m) : 0;
   if (m && bonus) {
     squad.currentStamina += bonus * standing(squad.currentStamina, m.stamina);
@@ -1579,7 +1580,7 @@ function attachCaptain(squad: CombatInstance, captainId: string): void {
 
 /** Detach a squad's captain, taking back any Stamina bonus it granted. */
 function detachCaptain(squad: CombatInstance): void {
-  const m = monsterCache.get(squad.sourcePath);
+  const m = monsterAt(squad.sourcePath);
   const bonus = m ? captainStaminaBonus(m) : 0;
   if (m && bonus && squad.captainId) {
     const alive = standing(squad.currentStamina, m.stamina + bonus);
@@ -1603,7 +1604,7 @@ function releaseCaptain(instances: CombatInstance[], captainId: string): CombatI
 export function captainCandidates(squad: CombatInstance): CombatInstance[] {
   return activeEncounter().combat.instances.filter((item) => {
     if (item.kind !== "creature" || item.currentStamina <= 0) return false;
-    const m = monsterCache.get(item.sourcePath);
+    const m = monsterAt(item.sourcePath);
     return !!m && canCaptain(m);
   }).filter((item) => item.id !== squad.id);
 }
@@ -1657,6 +1658,80 @@ export function setInstanceGroup(instanceId: string, groupId: string): void {
     draft.encounter.splice(draft.encounter.indexOf(entry) + 1, 0, split);
     instance.entryId = split.id;
   });
+}
+
+// ---------- Monster levels ----------
+
+/** A creature's Stamina carried to the statblock at another level: its
+    maximum scales with the statblock's, and it keeps the same share of it,
+    so a winded creature stays winded. */
+function rescaleStamina(instance: CombatInstance, from: Monster, to: Monster): void {
+  if (!from.stamina) return;
+  const ratio = to.stamina / from.stamina;
+  const max = Math.max(1, Math.ceil(instance.maxStamina * ratio - 1e-9));
+  const share = instance.maxStamina ? instance.currentStamina / instance.maxStamina : 1;
+  instance.currentStamina = instance.currentStamina <= 0 ? instance.currentStamina : Math.round(max * share);
+  instance.maxStamina = max;
+}
+
+/**
+ * Put prep entries, and their creatures on the board, at another level. A
+ * creature entry that lands on an entry of the same monster at that level in
+ * its group joins it, as moving it between groups would.
+ */
+function relevel(draft: MutableDraft, entryIds: ReadonlySet<string>, fromKey: string, level: number, summoned: boolean): void {
+  const printed = monsterAt(basePath(fromKey));
+  const from = monsterAt(fromKey);
+  if (!printed || !from) return;
+  const key = levelKey(fromKey, level, printed.level);
+  const to = monsterAt(key);
+  if (!to || key === fromKey) return;
+  for (const instance of draft.combat.instances) {
+    const moving = instance.entryId
+      ? entryIds.has(instance.entryId)
+      : summoned && instance.sourcePath === fromKey;
+    if (!moving || instance.sourcePath !== fromKey) continue;
+    instance.sourcePath = key;
+    rescaleStamina(instance, from, to);
+  }
+  for (const entry of draft.encounter.filter((item) => entryIds.has(item.id))) {
+    entry.sourcePath = key;
+    if (entry.squad) continue;
+    const join = draft.encounter.find(
+      (item) => item.id !== entry.id && !item.squad && item.sourcePath === key && item.groupId === entry.groupId,
+    );
+    if (!join) continue;
+    join.count += entry.count;
+    for (const instance of draft.combat.instances) if (instance.entryId === entry.id) instance.entryId = join.id;
+    draft.encounter = draft.encounter.filter((item) => item.id !== entry.id);
+  }
+}
+
+/** Set every creature of one statblock lane to `level`: the prep entries it
+    was dealt from, and anything summoned onto it. */
+export function setLaneLevel(key: string, level: number): string | null {
+  const printed = monsterAt(basePath(key));
+  if (!printed) return null;
+  const ids = new Set(activeEncounter().items.filter((item) => item.sourcePath === key).map((item) => item.id));
+  mutate((draft) => relevel(draft, ids, key, level, true));
+  const next = levelKey(key, level, printed.level);
+  return activeEncounter().combat.instances.some((item) => item.sourcePath === next) ? next : null;
+}
+
+/** Set one prep entry to `level`; returns the key it is now at. */
+/** Set one prep entry to `level`; returns the key it is now at and the
+    entry that holds it (another one, when it joined it). */
+export function setEntryLevel(entryId: string, level: number): { key: string; entryId: string } | null {
+  const entry = activeEncounter().items.find((item) => item.id === entryId);
+  const printed = entry && monsterAt(basePath(entry.sourcePath));
+  if (!entry || !printed) return null;
+  const { groupId, sourcePath } = entry;
+  mutate((draft) => relevel(draft, new Set([entryId]), sourcePath, level, false));
+  const key = levelKey(sourcePath, level, printed.level);
+  const items = activeEncounter().items;
+  const holder = items.find((item) => item.id === entryId) ??
+    items.find((item) => !item.squad && item.sourcePath === key && item.groupId === groupId);
+  return { key, entryId: holder?.id ?? entryId };
 }
 
 export function applyStaminaCommand(instanceId: string, rawValue: string): void {
@@ -1745,7 +1820,7 @@ export function rollFeature(
   effectIndex: number,
   input?: EdgeInput,
 ): void {
-  const m = monsterCache.get(monsterPath);
+  const m = monsterAt(monsterPath);
   const effect = m?.features[featureIndex]?.effects?.[effectIndex];
   if (!m || !effect?.roll) return;
   const key = `${m.id}|${featureIndex}|${effectIndex}`;
@@ -1762,7 +1837,7 @@ export function rollCharacteristic(
   key: CharacteristicKey,
   input?: EdgeInput,
 ): void {
-  const m = monsterCache.get(monsterPath);
+  const m = monsterAt(monsterPath);
   if (!m) return;
   const rollKey = `${m.id}|char|${key}`;
   const next = new Map(lastRolls.value);
@@ -1800,7 +1875,7 @@ function activeMonsterFamilies(): Map<string, FamilyInfo> {
   void monstersVersion.value; // subscribe: families settle as statblocks hydrate
   const families = new Map<string, FamilyInfo>();
   for (const instance of activeEncounter().combat.instances) {
-    const monster = monsterCache.get(instance.sourcePath);
+    const monster = monsterAt(instance.sourcePath);
     if (!monster) continue;
     const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
     if (!family) continue;
@@ -2132,9 +2207,14 @@ export function spendAbilityMalice(cost: number, name: string): void {
 
 // ---------- Preview drawer ----------
 
-export function openPreview(path: string): void {
+/** The prep entry the preview drawer shows, when it was opened from the
+    roster: a level set there is that entry's. */
+export const previewEntry = signal<string | null>(null);
+
+export function openPreview(path: string, entryId: string | null = null): void {
+  previewEntry.value = entryId;
   previewPath.value = path;
-  if (!monsterCache.has(path)) {
+  if (!monsterAt(path)) {
     loadMonster(path).catch(() => {
       // A failed load leaves the drawer showing its error state.
       if (previewPath.value === path) monstersVersion.value += 1;
@@ -2142,6 +2222,29 @@ export function openPreview(path: string): void {
   }
 }
 
+/** Put the previewed statblock at another level: the roster entry it was
+    opened from, or just the preview (and what it adds) from the library. */
+export function setPreviewLevel(level: number): string | null {
+  const path = previewPath.value;
+  const printed = path ? monsterAt(basePath(path)) : undefined;
+  if (!path || !printed) return null;
+  // An entry that has since left the roster leaves a plain preview behind.
+  let entryId = previewEntry.value;
+  if (entryId && !activeEncounter().items.some((item) => item.id === entryId)) {
+    previewEntry.value = entryId = null;
+  }
+  if (!entryId) {
+    previewPath.value = levelKey(path, level, printed.level);
+    return previewPath.value;
+  }
+  const moved = setEntryLevel(entryId, level);
+  if (!moved) return null;
+  previewEntry.value = moved.entryId;
+  previewPath.value = moved.key;
+  return moved.key;
+}
+
 export function closePreview(): void {
+  previewEntry.value = null;
   previewPath.value = null;
 }

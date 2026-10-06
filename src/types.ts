@@ -217,6 +217,8 @@ export interface Monster {
   features: MonsterFeature[];
   source: string;
   raw: RawStatblock;
+  /** On a statblock at another level, the statblock as printed. */
+  printed?: Monster;
 }
 
 export interface CatalogEntry {

@@ -45,17 +45,41 @@ function markdownLink(_match: string, label: string, href: string): string {
   );
 }
 
-/** Escaped-then-decorated HTML, for dangerouslySetInnerHTML targets only. */
-export function richText(value: string | undefined | null): string {
-  let text = escapeHtml(value || "");
+/** Private-use fences, never in the source text. */
+const PEN_OPEN = "\uE000";
+const PEN_CLOSE = "\uE001";
+
+/** Fence the numbers in `value` that differ from `printed`, the same text as
+    the book prints it (a statblock at another level), so `richText` can set
+    them in pen. Texts that don't line up number for number are left be. */
+function fenceChanged(value: string, printed: string | undefined | null): string {
+  if (printed == null || printed === value) return value;
+  const now = value.split(/(\d+)/);
+  const was = printed.split(/(\d+)/);
+  if (now.length !== was.length) return value;
+  return now.map((part, i) => (i % 2 && part !== was[i] ? PEN_OPEN + part + PEN_CLOSE : part)).join("");
+}
+
+/** Escaped-then-decorated HTML, for dangerouslySetInnerHTML targets only.
+    With `printed`, the numbers a level change rewrote are set in pen. */
+export function richText(value: string | undefined | null, printed?: string | null): string {
+  let text = escapeHtml(fenceChanged(value || "", printed));
   text = text.replace(MARKDOWN_LINK_RE, markdownLink);
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   // Potency ("M < 4") as the book prints it: black blocks in the Draw Steel
   // Glyphs font, with the rule spelled out for screen readers.
-  text = text.replace(/\b([MARIP]) ?&lt; ?(\d+)\b/g, (_match, key: string, value: string) => {
-    const name = POTENCY_NAMES[key] ?? key;
-    return `<span class="ds-glyph potency" role="img" aria-label="${name} less than ${value}">${key.toLowerCase()}&lt;${value}</span>`;
-  });
+  text = text.replace(
+    /\b([MARIP]) ?&lt; ?(\uE000?)(-?\d+)\uE001?/g,
+    (_match, key: string, pen: string, value: string) => {
+      const name = POTENCY_NAMES[key] ?? key;
+      // Rewritten by a level change: written over the print in pen, an
+      // outline rather than the book's solid block.
+      if (pen)
+        return `<span class="potency-pen" role="img" aria-label="${name} less than ${value}">${key}&lt;${value}</span>`;
+      return `<span class="ds-glyph potency" role="img" aria-label="${name} less than ${value}">${key.toLowerCase()}&lt;${value}</span>`;
+    },
+  );
+  text = text.replace(/\uE000(\d+)\uE001/g, '<span class="pen-num">$1</span>');
   return text.replace(/\n/g, "<br>");
 }
 

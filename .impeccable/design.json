@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-30T08:31:26+00:00",
+  "generatedAt": "2026-10-01T09:14:43+00:00",
   "title": "Design System: Malice Menagerie",
   "extensions": {
     "colorMeta": {
@@ -964,6 +964,14 @@
       "description": "Director-applied conditions in pen; danger in heavy ink, never red.",
       "html": "<div style=\"display:flex;gap:6px;align-items:center;flex-wrap:wrap\"><button class=\"ds-cond\">Grabbed ×</button><button class=\"ds-cond ds-cond-add\">+ Condition</button><span class=\"ds-health\">Winded</span><span class=\"ds-health ds-down\">Down</span></div>",
       "css": ".ds-cond{display:inline-flex;align-items:center;gap:5px;padding:3px 7px 2px 8px;border:1px solid var(--pen-line,rgba(29,78,168,.42));border-radius:2px;background:var(--pen-wash,rgba(29,78,168,.1));color:var(--pen,#1d4ea8);font:600 14px/1.3 \"Bitter Variable\",Bitter,Georgia,serif;cursor:pointer}.ds-cond:hover{background:var(--pen,#1d4ea8);color:var(--field,#fff)}.ds-cond:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-cond-add{border-style:dashed;border-color:var(--rule-strong,#8c8c88);background:transparent;color:var(--ink-3,#62625e)}.ds-cond-add:hover{border-color:var(--pen,#1d4ea8);background:transparent;color:var(--pen,#1d4ea8)}.ds-health{display:inline-block;padding:2px 6px 1px;border:1px solid var(--ink,#141414);border-radius:2px;font:700 12.5px/1.2 \"Bitter Variable\",Bitter,Georgia,serif;color:var(--ink,#141414)}.ds-down{background:var(--ink,#141414);color:var(--page,#fbfbfa)}"
+    },
+    {
+      "name": "Level Mark",
+      "kind": "custom",
+      "refersTo": "level-step",
+      "description": "The header's \"Level N\": print with a dashed writable-field underline at rest, pen numeral with the printed level beside it once adjusted, and an in-line editor of 26px outlined steps and jumps; rewritten numbers and potency in pen.",
+      "html": "<div class=\"ds-lv\"><p><button class=\"ds-lv-mark\">Level <span>1</span></button> Minion Brute</p><p><button class=\"ds-lv-mark ds-lv-adj\">Level <span>5</span></button><span class=\"ds-lv-printed\">(1)</span></p><p class=\"ds-lv-edit\">Level <button class=\"ds-lv-step\" aria-label=\"One level lower\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"/></svg></button><output>5</output><button class=\"ds-lv-step\" aria-label=\"One level higher\"><svg viewBox=\"0 0 24 24\"><path d=\"M12 5v14M5 12h14\"/></svg></button><button class=\"ds-lv-jump\">Party <span class=\"ds-pen\">3</span></button><button class=\"ds-lv-jump\">Printed 1</button></p><p>2d10 + <span class=\"ds-pen\">3</span> &middot; <span class=\"ds-lv-potency\" role=\"img\" aria-label=\"Might less than 3\">M&lt;3</span></p></div>",
+      "css": ".ds-lv{font-family:\"Bitter Variable\",Bitter,Georgia,serif;font-size:14px;font-weight:700;color:var(--ink,#141414)}.ds-lv p{margin:0 0 10px}.ds-lv-mark{padding:0;border:0;background:none;font:inherit;color:inherit;text-decoration:underline dashed var(--rule-strong,#85857f) 1px;text-underline-offset:3px;cursor:pointer;transition:text-decoration-color .12s ease}.ds-lv-mark span{font-variant-numeric:tabular-nums lining-nums;transition:color .12s ease}.ds-lv-mark:hover{text-decoration-color:var(--pen,#1d4ea8)}.ds-lv-mark:hover span,.ds-lv-adj span{color:var(--pen,#1d4ea8)}.ds-lv-adj{text-decoration-color:var(--pen-line,rgba(29,78,168,.42))}.ds-lv-printed{margin-left:3px;font-size:12.5px;font-weight:600;color:var(--ink-3,#62625e)}.ds-lv-edit{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.ds-lv-edit output{min-width:1.4em;font-size:17px;text-align:center;color:var(--pen,#1d4ea8)}.ds-lv-step{display:inline-grid;place-items:center;width:26px;height:26px;padding:0;border:1px solid var(--rule-strong,#85857f);border-radius:2px;background:var(--field,#fff);color:var(--ink,#141414);cursor:pointer;transition:background .12s ease,border-color .12s ease,color .12s ease}.ds-lv-step:hover{border-color:var(--pen,#1d4ea8);background:var(--pen-wash,rgba(29,78,168,.1));color:var(--pen,#1d4ea8)}.ds-lv-step:focus-visible,.ds-lv-jump:focus-visible,.ds-lv-mark:focus-visible{outline:2px solid var(--pen,#1d4ea8);outline-offset:2px}.ds-lv-step svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}.ds-lv-jump{height:26px;padding:0 8px;border:1px solid var(--rule-strong,#85857f);border-radius:2px;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink,#141414);cursor:pointer;transition:background .12s ease}.ds-lv-jump:hover{background:var(--sheet,#fff)}.ds-pen{color:var(--pen,#1d4ea8)}.ds-lv-potency{display:inline-block;margin:0 1px;padding:1px 3px 0;border:1px solid var(--pen,#1d4ea8);border-radius:2px;font-size:.86em;font-weight:700;line-height:1.15;color:var(--pen,#1d4ea8);font-variant-numeric:tabular-nums lining-nums}"
     }
   ],
   "narrative": {
@@ -1001,6 +1009,11 @@
         "section": "colors"
       },
       {
+        "name": "The Pen Rescale Rule",
+        "body": "A monster set to another level is the print with the Director's corrections written on it. Every number the level change rewrote (EV, Stamina, Free Strike, characteristics, the Power Roll bonus, tier damage, effect damage, potency) is set in pen; a number that still equals the print stays ink. The level itself carries the same mark: the new numeral in pen with the printed level small in ink-tertiary beside it (\"Level 5 (1)\"). Numbers move from the print by the book's level formulas, never rebuilt from them: EV and Stamina by the formula's difference, damage and Free Strike by its ratio, every characteristic by the change to the highest.",
+        "section": "colors"
+      },
+      {
         "name": "The Hand-Mark Rule",
         "body": "Hand-drawn strokes mark game state, never controls. Buttons, inputs, selects, focus rings and rules text stay printed and crisp. A mark is thin (1.2–2.1px), seeded so it keeps its shape across re-renders, and drawn on once when the state it records begins. Words and numbers inside or beside a mark stay typeset in Bitter. A mark must carry state the Director needs and cannot already read elsewhere: no struck-out history, no tally of what a heading already says.",
         "section": "colors"
@@ -1032,7 +1045,7 @@
       },
       {
         "name": "The Glyph Rule",
-        "body": "Draw Steel Glyphs sets only the book's own symbols: tier badges (`!` `@` `#` for ≤11 / 12–16 / 17+), ability icons mapped from the data's emoji, distance and target marks, characteristic letter blocks, the Malice skull and potency blocks such as \"M<4\". A glyph is always `aria-hidden` beside real text, or carries `role=\"img\"` with a spoken label (\"Might less than 4\").",
+        "body": "Draw Steel Glyphs sets only the book's own symbols: tier badges (`!` `@` `#` for ≤11 / 12–16 / 17+), ability icons mapped from the data's emoji, distance and target marks, characteristic letter blocks, the Malice skull and potency blocks such as \"M<4\". A glyph is always `aria-hidden` beside real text, or carries `role=\"img\"` with a spoken label (\"Might less than 4\"). One exception: a potency a level change rewrote is not a glyph. It is the outlined pen potency, Bitter 700 text \"M<3\" at 0.86em in a 1px pen outline with 2px corners, transparent fill and pen text, keeping `role=\"img\"` and its spoken label, because a solid block reprinted in blue would read as print.",
         "section": "typography"
       },
       {
@@ -1073,6 +1086,7 @@
       "**Do** use Draw Steel Glyphs for tier badges, ability icons, distance and target marks, characteristic blocks, the Malice skull and potency blocks, with accessible text beside or on them.",
       "**Do** set the running head, buttons, chips, navigation and controls in bold Bitter, normal case.",
       "**Do** set every Director-entered or rolled value in ballpoint blue (`--pen`).",
+      "**Do** set every number a level change rewrote in pen and leave numbers that equal the print in ink.",
       "**Do** write Malice in crimson ink and outline (`--malice` border, `--malice-ink` text), filling crimson only on hover.",
       "**Do** mark danger and removal with heavy ink: an ink cross over a downed slip, an underline on DEADLY, an ink outline on remove hover.",
       "**Do** keep 2px print corners on controls, 6px on header panels, and tabular numerals on anything that changes.",

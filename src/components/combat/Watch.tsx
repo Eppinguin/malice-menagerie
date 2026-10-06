@@ -1,4 +1,4 @@
-import { monsterCache, monstersVersion } from '../../data.ts';
+import { monsterAt, monstersVersion } from '../../data.ts';
 import { indexFeatures, reactionsPerRound, type IndexedFeature } from '../../lib/actions.ts';
 import { isDazed } from '../../lib/conditions.ts';
 import { richText } from '../../lib/text.ts';
@@ -306,7 +306,7 @@ function VillainTrack() {
   void monstersVersion.value; // its own subscription: signals skip a child whose props didn't change
   const rows: { path: string; instance: CombatInstance; items: IndexedFeature[] }[] = [];
   for (const [path, lane] of groupInstancesByMonster()) {
-    const monster = monsterCache.get(path);
+    const monster = monsterAt(path);
     if (!monster) continue;
     const items = indexFeatures(monster)
       .filter(item => item.villain)
@@ -368,7 +368,7 @@ export function TriggerWatch() {
   const groups: { path: string; monster: Monster; lane: CombatInstance[]; capacity: number; items: IndexedFeature[] }[] = [];
   let hasVillain = false;
   for (const [path, lane] of groupInstancesByMonster()) {
-    const monster = monsterCache.get(path);
+    const monster = monsterAt(path);
     if (!monster || !alive(lane).length) continue;
     const all = indexFeatures(monster);
     if (all.some(item => item.villain)) hasVillain = true;

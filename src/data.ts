@@ -19,6 +19,7 @@ import {
   WORD_NUMBERS,
 } from "./lib/text.ts";
 import { flattenMalicePayload, isMaliceCandidatePath } from "./lib/malice.ts";
+import { atLevel, basePath, keyLevel } from "./lib/levels.ts";
 import { isRecord } from "./types.ts";
 import type {
   CatalogEntry,
@@ -177,7 +178,29 @@ function normalizeMonster(raw: RawStatblock, path: string): Monster {
 
 // ---------- Loading ----------
 
-export function loadMonster(path: string): Promise<Monster> {
+const leveled = new Map<string, Monster>();
+
+/**
+ * The statblock a key names: the printed one for a plain source path, or
+ * the same statblock at another level for "path@level" (see lib/levels).
+ * Undefined until the printed statblock has loaded.
+ */
+export function monsterAt(key: string): Monster | undefined {
+  const level = keyLevel(key);
+  const printed = monsterCache.get(level === null ? key : basePath(key));
+  if (!printed || level === null || level === printed.level) return printed;
+  let m = leveled.get(key);
+  if (!m || m.printed !== printed) {
+    m = atLevel(printed, level);
+    leveled.set(key, m);
+  }
+  return m;
+}
+
+/** Load the statblock a key names (see `monsterAt`). */
+export function loadMonster(key: string): Promise<Monster> {
+  const path = basePath(key);
+  if (path !== key) return loadMonster(path).then((m) => monsterAt(key) ?? m);
   const cached = monsterCache.get(path);
   if (cached) return Promise.resolve(cached);
   const inFlight = monsterPromises.get(path);
@@ -394,7 +417,8 @@ export function catalogSearchText(entry: CatalogEntry): string {
     .toLowerCase();
 }
 
-export function monsterNameForPath(sourcePath: string): string {
+export function monsterNameForPath(key: string): string {
+  const sourcePath = basePath(key);
   return (
     monsterCache.get(sourcePath)?.name ||
     catalogByPath.get(sourcePath)?.derivedName ||
