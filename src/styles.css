@@ -4932,6 +4932,40 @@ body.preview-open {
 .colophon .imprint span {
   color: var(--rule-strong);
 }
+/* The compatibility mark: MCDM's "Powered by Draw Steel" badge, printed
+   straight onto the page like any other ink. Only the night page gives it
+   a white card — the black mark must never be inverted. */
+.colophon .compat-badge {
+  margin-top: 18px;
+}
+.colophon .compat-badge a {
+  display: inline-block;
+  padding: 10px 18px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease;
+}
+.colophon .compat-badge a:hover {
+  background: var(--tint);
+  border-color: var(--rule);
+}
+:root[data-theme="night"] .colophon .compat-badge a {
+  background: #f3edde;
+  border-color: transparent;
+  box-shadow: var(--shadow-lift);
+}
+:root[data-theme="night"] .colophon .compat-badge a:hover {
+  background: #f3edde;
+  border-color: var(--on-cloth-dim);
+}
+.colophon .compat-badge img {
+  display: block;
+  width: auto;
+  height: 56px;
+}
 
 /* The backlist a book prints before its colophon: sibling titles set
    side by side, divided by the same vertical rules that part the

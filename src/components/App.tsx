@@ -374,6 +374,22 @@ export function App() {
                 </a>
                 .
               </p>
+              <p class="compat-badge">
+                <a
+                  href="https://www.mcdmproductions.com/draw-steel-creator-license"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Powered by Draw Steel — Draw Steel Creator License"
+                >
+                  <img
+                    src="/powered-by-draw-steel.webp"
+                    alt=""
+                    width="1626"
+                    height="318"
+                    loading="lazy"
+                  />
+                </a>
+              </p>
             </footer>
           </div>
         </main>
