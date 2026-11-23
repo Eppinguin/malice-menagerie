@@ -1,30 +1,42 @@
 import { expect, it, vi } from "vitest";
-import { loadMonster, monsterAt } from "./data.ts";
+import { loadMonster, maliceFeatures, maliceLoading, monsterAt } from "./data.ts";
 import { resetPendingSharedRoll, setDiceTransport } from "./lib/rollTransport.ts";
 import {
   activeEncounter,
+  activeSection,
+  activeView,
   addToEncounter,
   applyStaminaCommand,
+  clearAllFilters,
   clearHistory,
   createEncounter,
   decrementMonster,
   duplicateEncounter,
   hasCombatProgress,
+  hiddenFilterCount,
+  isPartyLevelWindowActive,
   lastRolls,
+  maliceFeaturesForMonster,
   markTurn,
   mutateApp,
   nextRound,
   previousRound,
   redoStep,
+  relevantMaliceGroups,
   removeInstance,
   removeLane,
   resetCombat,
   rollCharacteristic,
   selectEncounter,
+  setSection,
+  setView,
   startCombat,
+  state,
+  togglePartyLevelWindow,
   undoStep,
+  updateParty,
 } from "./store.ts";
-import type { Monster } from "./types.ts";
+import type { MaliceFeature, Monster } from "./types.ts";
 
 vi.mock("./data.ts", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./data.ts")>()),
@@ -349,4 +361,119 @@ it("restores turn marks and expired effects on previousRound, and supports undoa
 
   undoStep();
   expect(activeEncounter().combat.instances[0]?.currentStamina).toBe(20);
+});
+
+it("keeps new encounters in the current lens (Prep or Run) instead of forcing Prep", () => {
+  createEncounter();
+  setView("combat");
+  expect(activeEncounter().view).toBe("combat");
+
+  createEncounter();
+  expect(activeEncounter().view).toBe("combat");
+
+  setView("builder");
+  createEncounter();
+  expect(activeEncounter().view).toBe("builder");
+});
+
+it("keeps active tool (Encounters vs Negotiations) separate from each encounter's Prep/Run lens", () => {
+  createEncounter();
+  setView("combat");
+  expect(activeSection()).toBe("encounters");
+  expect(activeView()).toBe("combat");
+
+  setSection("negotiations");
+  expect(activeSection()).toBe("negotiations");
+  expect(activeView()).toBe("talk");
+  // Underlying encounter remembers it was in Run.
+  expect(activeEncounter().view).toBe("combat");
+
+  setSection("encounters");
+  expect(activeSection()).toBe("encounters");
+  expect(activeView()).toBe("combat");
+});
+
+it("surfaces family and encounter Malice directly from Prep items and for monster previews", () => {
+  const prevFeatures = maliceFeatures.value;
+  const prevLoading = maliceLoading.value;
+  try {
+    createEncounter();
+    const goblin = fakeMonster("test/goblin-prep.json", "Goblin Sniper", 15);
+    goblin.level = 2;
+    goblin.familyPath = "goblin/statblocks";
+    vi.mocked(monsterAt).mockImplementation((key) => (key === goblin.path ? goblin : undefined));
+
+    const makeFeature = (overrides: Partial<MaliceFeature>): MaliceFeature => ({
+      id: overrides.id ?? "mf-1",
+      path: "malice/goblin.json",
+      name: overrides.name ?? "Goblin Mode",
+      cost: overrides.cost ?? 3,
+      costText: `${overrides.cost ?? 3} Malice`,
+      icon: "",
+      effects: [{ effect: "Goblins gain +2 speed." }],
+      distance: "",
+      target: "",
+      keywords: [],
+      source: "",
+      tokens: [],
+      scope: overrides.scope ?? "family",
+      family: overrides.family ?? "goblin",
+      familyLabel: "Goblin",
+      minLevel: overrides.minLevel ?? 1,
+      blockName: "Goblin Malice",
+    });
+
+    maliceFeatures.value = [
+      makeFeature({
+        id: "basic-1",
+        name: "Brutal Effectiveness",
+        cost: 3,
+        scope: "basic",
+        family: "",
+      }),
+      makeFeature({ id: "gob-1", name: "Goblin Mode", cost: 3, minLevel: 1 }),
+      makeFeature({ id: "gob-hi", name: "Goblin King's Wrath", cost: 7, minLevel: 5 }),
+    ];
+    maliceLoading.value = false;
+
+    // Previewing a Level 2 Goblin surfaces only level <= 2 family Malice features.
+    const previewFeatures = maliceFeaturesForMonster(goblin);
+    expect(previewFeatures.map((f) => f.id)).toEqual(["gob-1"]);
+
+    // Even with Prep items only (no combat instances yet), relevantMaliceGroups works.
+    mutateApp(() => {
+      const enc = activeEncounter();
+      enc.items = [
+        { id: "prep-only", sourcePath: goblin.path, groupId: enc.groups[0]!.id, count: 2 },
+      ];
+      enc.combat.instances = [];
+    });
+    const groups = relevantMaliceGroups();
+    expect(groups.map((g) => g.id)).toEqual(["basic", "goblin"]);
+    expect(groups[1]?.features.map((f) => f.id)).toEqual(["gob-1"]);
+  } finally {
+    maliceFeatures.value = prevFeatures;
+    maliceLoading.value = prevLoading;
+  }
+});
+
+it("toggles the party-level catalog window around the active party's level", () => {
+  createEncounter();
+  clearAllFilters();
+  updateParty({ heroes: 5, level: 4, victories: 0, bonusMalice: 0 });
+  const bounds: readonly [number, number] = [1, 10];
+
+  expect(isPartyLevelWindowActive(state.value.ui, bounds)).toBe(false);
+  togglePartyLevelWindow(bounds);
+  expect(state.value.ui.levelMin).toBe(3);
+  expect(state.value.ui.levelMax).toBe(5);
+  expect(isPartyLevelWindowActive(state.value.ui, bounds)).toBe(true);
+  // Active primary Lv chip is not double-counted as a hidden "More" filter.
+  expect(hiddenFilterCount(state.value.ui, bounds)).toBe(0);
+  expect(hiddenFilterCount(state.value.ui)).toBe(1);
+
+  togglePartyLevelWindow(bounds);
+  expect(state.value.ui.levelMin).toBeNull();
+  expect(state.value.ui.levelMax).toBeNull();
+  expect(isPartyLevelWindowActive(state.value.ui, bounds)).toBe(false);
 });

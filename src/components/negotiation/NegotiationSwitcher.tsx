@@ -85,7 +85,7 @@ export function NegotiationSwitcher() {
   return (
     <section class="encounter-switcher negotiation-switcher">
       <div class="encounter-switcher-head">
-        <h2 class="spine-heading">Negotiations</h2>
+        <h2 class="spine-heading">NPCs</h2>
         <button class="mini-button" title="New NPC" onClick={openNewNegotiation}>
           <PlusIcon />
           New

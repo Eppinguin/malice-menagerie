@@ -74,11 +74,14 @@ export interface CombatState {
   maliceSelectionInitialized: boolean;
 }
 
+export type SectionName = "encounters" | "negotiations";
+export type EncounterView = "builder" | "combat";
 export type ViewName = "builder" | "combat" | "talk";
 export type SortKey = "name" | "level" | "ev";
 export type FacetKey = "roles" | "sizes" | "keywords";
 
 export interface UIState {
+  section: SectionName;
   role: string;
   search: string;
   maliceDockOpen: boolean;
@@ -107,8 +110,8 @@ export interface Encounter {
   id: string;
   name: string;
   updatedAt: number;
-  /** The view (Prep/Run) this encounter was last left on. */
-  view: ViewName;
+  /** The lens (Prep/Run) this encounter was last left on. */
+  view: EncounterView;
   party: Party;
   groups: Group[];
   activePrepGroupId: string;

@@ -156,7 +156,7 @@ export function EncounterSwitcher({ onNavigate }: { onNavigate?: () => void } = 
   return (
     <section class="encounter-switcher">
       <div class="encounter-switcher-head">
-        <h2 class="spine-heading">Encounters</h2>
+        <h2 class="spine-heading">Saved</h2>
         <button
           class="mini-button"
           title="New encounter"

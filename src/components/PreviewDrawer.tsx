@@ -1,10 +1,63 @@
 import { useEffect, useState } from "preact/hooks";
-import { catalogByPath, monsterAt, monstersVersion } from "../data.ts";
-import { addToEncounter, closePreview, previewPath, qtyFor, setPreviewLevel } from "../store.ts";
+import { catalogByPath, maliceLoading, monsterAt, monstersVersion } from "../data.ts";
+import {
+  addToEncounter,
+  closePreview,
+  maliceFeaturesForMonster,
+  previewPath,
+  qtyFor,
+  setPreviewLevel,
+} from "../store.ts";
 import { basePath } from "../lib/levels.ts";
+import { familyLabel } from "../lib/text.ts";
 import { LaneHeader, StatblockBody } from "./Statblock.tsx";
+import { MaliceFeaturePreview } from "./combat/MaliceDock.tsx";
 import { QtyControl } from "./QtyControl.tsx";
 import { CloseIcon } from "./Icons.tsx";
+
+function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<typeof monsterAt>> }) {
+  const [openIds, setOpenIds] = useState<Set<string>>(() => new Set());
+  useEffect(() => {
+    setOpenIds(new Set());
+  }, [monster.path]);
+
+  if (maliceLoading.value) return null;
+  const features = maliceFeaturesForMonster(monster);
+  if (!features.length) return null;
+
+  const toggle = (id: string) => {
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  return (
+    <section class="preview-family-malice" aria-label="Family Malice features">
+      <header class="preview-malice-head">
+        <span class="ds-glyph malice-skull" aria-hidden="true">
+          d
+        </span>
+        <h3>{familyLabel(monster.familyPath)} Malice</h3>
+        <span>
+          {features.length} {features.length === 1 ? "feature" : "features"}
+        </span>
+      </header>
+      <div class="preview-malice-list">
+        {features.map((feature) => (
+          <MaliceFeaturePreview
+            key={feature.id}
+            feature={feature}
+            expanded={openIds.has(feature.id)}
+            onToggle={() => toggle(feature.id)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export function PreviewDrawer() {
   const path = previewPath.value;
@@ -77,6 +130,7 @@ export function PreviewDrawer() {
             <section class="preview-statblock">
               <LaneHeader monster={monster} scope="preview" onLevel={setPreviewLevel} />
               <StatblockBody monster={monster} interactive={false} />
+              <FamilyMalicePreview monster={monster} />
             </section>
           ) : failed ? (
             <div class="empty-state">Could not load this statblock.</div>

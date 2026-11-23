@@ -1,13 +1,17 @@
-import { monsterAt, monsterNameForPath, monstersVersion } from "../../data.ts";
+import { maliceLoading, monsterAt, monsterNameForPath, monstersVersion } from "../../data.ts";
 import { linkedTokensForEncounter } from "../../integration/controller.ts";
 import {
   activeEncounter,
   addGroup,
+  allRelevantMaliceFeatures,
+  autoPickMalice,
   changeEncounterCount,
   encounterChecks,
   encounterTotals,
+  ensureMaliceSelection,
   groupBalance,
   groupCountAdvice,
+  relevantMaliceGroups,
   removeEncounterEntry,
   removeGroup,
   renameGroup,
@@ -28,6 +32,7 @@ import { keyLevel } from "../../lib/levels.ts";
 import type { ComponentChildren } from "preact";
 import type { EncounterItem, Group } from "../../types.ts";
 import { CaretIcon, CloseIcon, GripIcon, MinusIcon, PlusIcon } from "../Icons.tsx";
+import { MaliceDock } from "../combat/MaliceDock.tsx";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { PHONE, prefersReducedMotion } from "../../lib/phoneScroll.ts";
 
@@ -413,6 +418,66 @@ function GroupCountNote() {
   );
 }
 
+/** Encounter Malice preview & curation inside Prep, so Directors can discover
+    and pin family Malice features while building the fight. */
+function PrepMaliceSection() {
+  const [open, setOpen] = useState(false);
+  const loading = maliceLoading.value;
+  const groups = relevantMaliceGroups();
+  const groupKey = groups.map((group) => `${group.id}:${group.features.length}`).join("|");
+  useEffect(() => {
+    if (!loading && groups.length) ensureMaliceSelection(groups);
+  }, [loading, groupKey]);
+  const selectedIds = activeEncounter().combat.selectedMaliceFeatureIds;
+  const featureMap = new Map(
+    allRelevantMaliceFeatures(groups).map((feature) => [feature.id, feature]),
+  );
+  const selectedNames = selectedIds
+    .map((id) => featureMap.get(id)?.name)
+    .filter((name): name is string => Boolean(name));
+  const summary = loading ? "Loading…" : `${selectedNames.length} selected`;
+
+  return (
+    <section class={`prep-malice ${open ? "open" : ""}`} aria-label="Encounter Malice">
+      <div class="prep-malice-head">
+        <button
+          type="button"
+          class="prep-malice-toggle"
+          aria-expanded={open}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <CaretIcon class="prep-malice-caret" />
+          <span class="ds-glyph malice-skull" aria-hidden="true">
+            d
+          </span>
+          <strong>Encounter Malice</strong>
+          <span class="prep-malice-count">{summary}</span>
+        </button>
+        {open ? (
+          <button
+            type="button"
+            class="secondary compact-button"
+            title="Choose a balanced 3–4 feature set"
+            onClick={autoPickMalice}
+          >
+            Auto pick
+          </button>
+        ) : null}
+      </div>
+      {!open && selectedNames.length ? (
+        <p class="prep-malice-preview" title={selectedNames.join(" · ")}>
+          {selectedNames.join(" · ")}
+        </p>
+      ) : null}
+      {open ? (
+        <div class="prep-malice-body">
+          <MaliceDock mode="prep" />
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
 export function EncounterColumn() {
   void monstersVersion.value; // subscribe: roster names/EV settle as statblocks hydrate
   const enc = activeEncounter();
@@ -468,9 +533,10 @@ export function EncounterColumn() {
         <PlusIcon />
         <strong>New group</strong>
       </div>
+      {hasEncounter ? <PrepMaliceSection /> : null}
       <div class="encounter-run-foot">
-        <button class="primary wide" disabled={!hasEncounter} onClick={() => setView("combat")}>
-          Run encounter
+        <button class="primary wide" onClick={() => setView("combat")}>
+          {hasEncounter ? "Run encounter" : "Open board"}
         </button>
         {inProgress ? (
           <button

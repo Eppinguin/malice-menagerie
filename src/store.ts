@@ -81,6 +81,7 @@ import type {
   EdgeState,
   Encounter,
   EncounterItem,
+  EncounterView,
   FacetKey,
   Group,
   LanguageBonus,
@@ -91,6 +92,7 @@ import type {
   NegotiationLogEntry,
   NegotiationTrait,
   PowerRollResult,
+  SectionName,
   SortKey,
   UIState,
   ViewName,
@@ -140,6 +142,7 @@ function defaultState(): AppState {
     negotiations: [],
     activeNegotiationId: "",
     ui: {
+      section: "encounters",
       role: "all",
       search: "",
       maliceDockOpen: maliceDockDefault(),
@@ -206,7 +209,7 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
   base.id = asString(value["id"], base.id);
   base.name = asString(value["name"], base.name).trim() || base.name;
   base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
-  base.view = value["view"] === "combat" || value["view"] === "talk" ? value["view"] : "builder";
+  base.view = value["view"] === "combat" ? "combat" : "builder";
 
   if (isRecord(value["party"])) {
     const party = value["party"];
@@ -480,16 +483,20 @@ function sanitizeState(value: unknown): AppState {
     base.activeEncounterId = asString(value["activeEncounterId"], (encounters[0] as Encounter).id);
   }
 
-  // Legacy migration: `view` used to be a single global `ui.view`. Seed the
-  // active encounter's per-encounter view from it when the encounter record
-  // itself didn't carry one.
+  // Legacy migration: `view` used to be a single global `ui.view`, and `"talk"`
+  // used to be stored on `enc.view` before `ui.section` separated tools from
+  // per-encounter Prep/Run lenses.
+  const activeEnc = base.encounters.find((enc) => enc.id === base.activeEncounterId);
+  const activeRaw = rawEncounters.find(
+    (raw): raw is Record<string, unknown> => isRecord(raw) && raw["id"] === activeEnc?.id,
+  );
   const legacyView = isRecord(value["ui"]) ? value["ui"]["view"] : undefined;
   if (legacyView === "combat" || legacyView === "builder") {
-    const active = base.encounters.find((enc) => enc.id === base.activeEncounterId);
-    const activeRaw = rawEncounters.find(
-      (raw): raw is Record<string, unknown> => isRecord(raw) && raw["id"] === active?.id,
-    );
-    if (active && activeRaw && !("view" in activeRaw)) active.view = legacyView;
+    if (activeEnc && activeRaw && !("view" in activeRaw)) activeEnc.view = legacyView;
+  }
+  const migratedFromTalk = activeRaw?.["view"] === "talk" || legacyView === "talk";
+  if (activeEnc && activeRaw?.["view"] === "talk" && activeEnc.combat.active) {
+    activeEnc.view = "combat";
   }
 
   const negotiations = Array.isArray(value["negotiations"])
@@ -506,7 +513,15 @@ function sanitizeState(value: unknown): AppState {
   if (isRecord(value["ui"])) {
     const ui = value["ui"];
     const sort = ui["sort"];
+    const savedSection = ui["section"];
+    const section: SectionName =
+      savedSection === "negotiations" || savedSection === "encounters"
+        ? savedSection
+        : migratedFromTalk
+          ? "negotiations"
+          : "encounters";
     base.ui = {
+      section,
       role: asString(ui["role"], "all"),
       search: asString(ui["search"], ""),
       maliceDockOpen: asBool(ui["maliceDockOpen"], maliceDockDefault()),
@@ -661,7 +676,7 @@ export function liveNegotiation(prop: Negotiation): Negotiation {
  * underlying active encounter, so existing mutation bodies work unchanged.
  */
 export interface MutableDraft {
-  view: ViewName;
+  view: EncounterView;
   party: AppState["encounters"][number]["party"];
   groups: AppState["encounters"][number]["groups"];
   activePrepGroupId: string;
@@ -961,11 +976,36 @@ export function retrySource(): void {
   void initApp();
 }
 
-// ---------- View / party ----------
+// ---------- View / section / party ----------
+
+/** Active top-level tool in the spine: Encounters or Negotiations. */
+export function activeSection(): SectionName {
+  return state.value.ui.section;
+}
+
+/** Resolved active page: "talk" in Negotiations, or the active encounter's Prep/Run lens. */
+export function activeView(): ViewName {
+  return state.value.ui.section === "negotiations" ? "talk" : activeEncounter().view;
+}
+
+export function setSection(section: SectionName): void {
+  if (section !== "encounters") quickAddOpen.value = false;
+  mutateApp((draft) => {
+    draft.ui.section = section;
+  });
+  if (section === "encounters" && activeEncounter().view === "combat") {
+    void ensureCombatReady();
+  }
+}
 
 export function setView(view: ViewName): void {
+  if (view === "talk") {
+    setSection("negotiations");
+    return;
+  }
   if (view !== "combat") quickAddOpen.value = false;
   mutate((draft) => {
+    draft.ui.section = "encounters";
     draft.view = view;
   });
   if (view === "combat") void ensureCombatReady();
@@ -1016,16 +1056,19 @@ function defaultEncounterName(existing: Encounter[]): string {
   }
 }
 
-/** Create a fresh empty encounter, make it active, and switch to Prep. */
+/** Create a fresh empty encounter, make it active, and stay in the current lens (Prep or Run). */
 export function createEncounter(): string {
   let newId = "";
   let newName = "";
+  const inCombat = activeView() === "combat";
   mutateApp(
     (draft) => {
       const enc = newEncounter(defaultEncounterName(draft.encounters));
+      enc.view = inCombat ? "combat" : "builder";
       enc.activePrepGroupId = (enc.groups[0] as Group).id;
       draft.encounters.push(enc);
       draft.activeEncounterId = enc.id;
+      draft.ui.section = "encounters";
       newId = enc.id;
       newName = enc.name;
     },
@@ -1036,9 +1079,10 @@ export function createEncounter(): string {
   return newId;
 }
 
-/** Switch the active encounter. Each encounter restores its own last view. */
+/** Switch the active encounter. Each encounter restores its own last lens (Prep or Run). */
 export function selectEncounter(encounterId: string): void {
-  if (state.value.activeEncounterId === encounterId) return;
+  if (state.value.activeEncounterId === encounterId && state.value.ui.section === "encounters")
+    return;
   if (!state.value.encounters.some((enc) => enc.id === encounterId)) return;
   if (sharedRollPending) {
     sharedRollGeneration += 1;
@@ -1047,9 +1091,10 @@ export function selectEncounter(encounterId: string): void {
   quickAddOpen.value = false;
   mutateApp((draft) => {
     draft.activeEncounterId = encounterId;
+    draft.ui.section = "encounters";
   });
   void hydrateSavedStateSources().then(() => {
-    if (activeEncounter().view === "combat") void ensureCombatReady();
+    if (activeView() === "combat") void ensureCombatReady();
   });
 }
 
@@ -1245,6 +1290,33 @@ export function setRangeFilter(key: "level" | "ev", min: number | null, max: num
   });
 }
 
+/** Recommended monster level window around the active party's level (±1),
+    clamped to catalog bounds. */
+export function partyLevelWindow(bounds: readonly [number, number]): [number, number] {
+  const level = activeEncounter().party.level;
+  const lo = Math.max(bounds[0], level - 1);
+  const hi = Math.min(bounds[1], level + 1);
+  return [Math.min(lo, hi), Math.max(lo, hi)];
+}
+
+export function isPartyLevelWindowActive(ui: UIState, bounds: readonly [number, number]): boolean {
+  const [lo, hi] = partyLevelWindow(bounds);
+  const expectedMin = lo <= bounds[0] ? null : lo;
+  const expectedMax = hi >= bounds[1] ? null : hi;
+  if (expectedMin === null && expectedMax === null) return false;
+  return ui.levelMin === expectedMin && ui.levelMax === expectedMax;
+}
+
+export function togglePartyLevelWindow(bounds: readonly [number, number]): void {
+  const ui = state.value.ui;
+  if (isPartyLevelWindowActive(ui, bounds)) {
+    setRangeFilter("level", null, null);
+    return;
+  }
+  const [lo, hi] = partyLevelWindow(bounds);
+  setRangeFilter("level", lo <= bounds[0] ? null : lo, hi >= bounds[1] ? null : hi);
+}
+
 export function activeFilterCount(ui: UIState): number {
   return (
     (ui.role !== "all" ? 1 : 0) +
@@ -1255,10 +1327,12 @@ export function activeFilterCount(ui: UIState): number {
 }
 
 // Active filters that live inside the collapsible "More" panel (everything
-// except primary bar chips).
-export function hiddenFilterCount(ui: UIState): number {
+// except primary bar chips). When `levelBounds` is provided, a level range
+// already represented by the visible "Lv X–Y" primary chip is not double-counted.
+export function hiddenFilterCount(ui: UIState, levelBounds?: readonly [number, number]): number {
   let count = ui.roles.length + ui.sizes.length + ui.keywords.length;
-  if (ui.levelMin !== null || ui.levelMax !== null) count += 1;
+  const hasLevel = ui.levelMin !== null || ui.levelMax !== null;
+  if (hasLevel && !(levelBounds && isPartyLevelWindowActive(ui, levelBounds))) count += 1;
   if (ui.evMin !== null || ui.evMax !== null) count += 1;
   return count;
 }
@@ -2977,8 +3051,13 @@ interface FamilyInfo {
 function activeMonsterFamilies(): Map<string, FamilyInfo> {
   void monstersVersion.value; // subscribe: families settle as statblocks hydrate
   const families = new Map<string, FamilyInfo>();
-  for (const instance of activeEncounter().combat.instances) {
-    const monster = monsterAt(instance.sourcePath);
+  const enc = activeEncounter();
+  const sources = [
+    ...enc.items.map((item) => item.sourcePath),
+    ...enc.combat.instances.map((instance) => instance.sourcePath),
+  ];
+  for (const sourcePath of sources) {
+    const monster = monsterAt(sourcePath);
     if (!monster) continue;
     const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
     if (!family) continue;
@@ -3001,8 +3080,25 @@ function familyDisplayLabel(family: string): string {
     .join(" ");
 }
 
+/** Family Malice features unlocked by a single monster at its current level. */
+export function maliceFeaturesForMonster(monster: Monster): MaliceFeature[] {
+  const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
+  if (!family) return [];
+  const available = maliceFeatures.value.filter(
+    (feature) =>
+      feature.scope === "family" &&
+      feature.family === family &&
+      feature.minLevel <= monster.level &&
+      !isPriorMaliceGateway(feature),
+  );
+  return dedupeMaliceFeatures(available).sort(
+    (a, b) => a.cost - b.cost || a.name.localeCompare(b.name),
+  );
+}
+
 export function relevantMaliceGroups(): MaliceGroup[] {
-  if (!activeEncounter().combat.instances.length) return [];
+  const enc = activeEncounter();
+  if (!enc.items.length && !enc.combat.instances.length) return [];
   const groups: MaliceGroup[] = [];
   const features = maliceFeatures.value;
   const basic = dedupeMaliceFeatures(

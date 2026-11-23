@@ -7,7 +7,12 @@ export function QtyControl({ path }: { path: string }) {
   const qty = qtyFor(path);
   return (
     <div class="qty-control">
-      <button aria-label="Fewer" onClick={() => setQtyDraft(path, qty - 1)}>
+      <button
+        type="button"
+        disabled={qty <= 1}
+        aria-label="Fewer"
+        onClick={() => setQtyDraft(path, qty - 1)}
+      >
         <MinusIcon />
       </button>
       <input
@@ -16,7 +21,7 @@ export function QtyControl({ path }: { path: string }) {
         aria-label="Quantity"
         onChange={(event) => setQtyDraft(path, Number(event.currentTarget.value))}
       />
-      <button aria-label="More" onClick={() => setQtyDraft(path, qty + 1)}>
+      <button type="button" aria-label="More" onClick={() => setQtyDraft(path, qty + 1)}>
         <PlusIcon />
       </button>
     </div>

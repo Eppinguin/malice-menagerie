@@ -1,44 +1,45 @@
+import { useEffect, useState } from "preact/hooks";
 import {
   catalog,
   catalogBounds,
-  facetOptions,
   hydratedCount,
   hydrationErrors,
   monsterNameForPath,
   sourceError,
   sourceLoading,
 } from "../../data.ts";
-import type { FacetOption } from "../../data.ts";
 import {
   MAX_LIBRARY_RESULTS,
+  activeEncounter,
   activeFilterCount,
   addToEncounter,
   clearAllFilters,
-  decrementMonster,
   evBudgetRemaining,
   fieldedCounts,
   hiddenFilterCount,
+  isPartyLevelWindowActive,
   matchedCatalog,
   needsMonsterData,
   openPreview,
+  partyLevelWindow,
   qtyFor,
   retrySource,
   setRole,
   setSearch,
   setSort,
   state,
-  toggleFacetValue,
   toggleFiltersOpen,
   toggleFitsBudget,
   toggleInEncounter,
-  setRangeFilter,
+  togglePartyLevelWindow,
 } from "../../store.ts";
 import { beginPrepDrag, shouldSuppressClick } from "../../dnd.ts";
 import { describeRange, highlightName, type CatalogMatch } from "../../lib/browse.ts";
 import { familyLabel, fmt } from "../../lib/text.ts";
-import type { FacetKey, SortKey } from "../../types.ts";
+import type { SortKey } from "../../types.ts";
+import { ActiveFilterPills, FiltersPanel } from "../LibraryFilters.tsx";
 import { QtyControl } from "../QtyControl.tsx";
-import { CaretIcon, GripIcon, MinusIcon, SearchIcon } from "../Icons.tsx";
+import { CaretIcon, GripIcon, SearchIcon } from "../Icons.tsx";
 
 const ROLE_CHIPS = ["all", "Horde", "Minion", "Elite", "Leader", "Solo"] as const;
 
@@ -60,9 +61,14 @@ function SourceStatus() {
 
 function FilterBar() {
   const ui = state.value.ui;
-  const hidden = hiddenFilterCount(ui);
   const fielded = fieldedCounts();
   const budget = evBudgetRemaining();
+  const bounds = catalogBounds.value.level;
+  const hidden = hiddenFilterCount(ui, bounds);
+  const party = activeEncounter().party;
+  const [pLo, pHi] = partyLevelWindow(bounds);
+  const partyLvActive = isPartyLevelWindowActive(ui, bounds);
+  const hasPartyWindow = pLo > bounds[0] || pHi < bounds[1];
   return (
     <div class="filter-bar">
       <div class="filter-row primary-filters">
@@ -89,6 +95,16 @@ function FilterBar() {
         >
           Fits EV
         </button>
+        {hasPartyWindow ? (
+          <button
+            class={`chip ${partyLvActive ? "active" : ""}`}
+            aria-pressed={partyLvActive}
+            title={`Monsters near party level ${party.level} (Level ${pLo}–${pHi})`}
+            onClick={() => togglePartyLevelWindow(bounds)}
+          >
+            Lv {pLo}–{pHi}
+          </button>
+        ) : null}
         {ROLE_CHIPS.map((role) => (
           <button
             key={role}
@@ -127,144 +143,6 @@ function FilterBar() {
             <option value="ev">EV</option>
           </select>
         </label>
-      </div>
-    </div>
-  );
-}
-
-function FacetChips({
-  facetKey,
-  options,
-  selected,
-}: {
-  facetKey: FacetKey;
-  options: FacetOption[];
-  selected: string[];
-}) {
-  if (!options.length) return <span class="facet-empty">Loading…</span>;
-  const selectedSet = new Set(selected);
-  return (
-    <>
-      {options.map(([value, label]) => (
-        <button
-          key={value}
-          class={`chip facet-chip ${selectedSet.has(value) ? "active" : ""}`}
-          onClick={() => toggleFacetValue(facetKey, value)}
-        >
-          {label}
-        </button>
-      ))}
-    </>
-  );
-}
-
-function DualRange({
-  label,
-  bounds,
-  min,
-  max,
-  onChange,
-}: {
-  label: string;
-  bounds: readonly [number, number];
-  min: number | null;
-  max: number | null;
-  onChange: (min: number | null, max: number | null) => void;
-}) {
-  const [lo, hi] = bounds;
-  const lowActive = min ?? lo;
-  const highActive = max ?? hi;
-  const span = hi - lo || 1;
-  const leftPct = ((lowActive - lo) / span) * 100;
-  const rightPct = ((highActive - lo) / span) * 100;
-  const constrained = min !== null || max !== null;
-  // A thumb resting on its bound means "no constraint" on that side.
-  const commit = (minVal: number, maxVal: number) => {
-    onChange(minVal <= lo ? null : minVal, maxVal >= hi ? null : maxVal);
-  };
-  return (
-    <div class="range-facet">
-      <p class="facet-label">
-        {label}{" "}
-        <span class={`range-value ${constrained ? "range-value-active" : ""}`}>
-          {constrained ? `${lowActive}–${highActive}` : `${lo}–${hi}`}
-        </span>
-      </p>
-      <div class="dual-range">
-        <div class="dual-range-track">
-          <span
-            class="dual-range-fill"
-            style={{ left: `${leftPct}%`, right: `${100 - rightPct}%` }}
-          />
-        </div>
-        <input
-          type="range"
-          min={lo}
-          max={hi}
-          step={1}
-          value={lowActive}
-          aria-label={`Minimum ${label.toLowerCase()}`}
-          onInput={(event) => {
-            const value = Number(event.currentTarget.value);
-            commit(Math.min(value, highActive), highActive);
-          }}
-        />
-        <input
-          type="range"
-          min={lo}
-          max={hi}
-          step={1}
-          value={highActive}
-          aria-label={`Maximum ${label.toLowerCase()}`}
-          onInput={(event) => {
-            const value = Number(event.currentTarget.value);
-            commit(lowActive, Math.max(value, lowActive));
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-
-function FiltersPanel() {
-  const ui = state.value.ui;
-  const options = facetOptions.value;
-  const bounds = catalogBounds.value;
-  return (
-    <div class="filters-panel panel">
-      <div class="facet-ranges">
-        <DualRange
-          label="Level"
-          bounds={bounds.level}
-          min={ui.levelMin}
-          max={ui.levelMax}
-          onChange={(min, max) => setRangeFilter("level", min, max)}
-        />
-        <DualRange
-          label="EV"
-          bounds={bounds.ev}
-          min={ui.evMin}
-          max={ui.evMax}
-          onChange={(min, max) => setRangeFilter("ev", min, max)}
-        />
-      </div>
-      <div class="facet">
-        <p class="facet-label">Role</p>
-        <div class="facet-chips">
-          <FacetChips facetKey="roles" options={options.roles} selected={ui.roles} />
-        </div>
-      </div>
-      <div class="facet">
-        <p class="facet-label">Size</p>
-        <div class="facet-chips">
-          <FacetChips facetKey="sizes" options={options.sizes} selected={ui.sizes} />
-        </div>
-      </div>
-      <div class="facet">
-        <p class="facet-label">Keywords</p>
-        <div class="facet-chips">
-          <FacetChips facetKey="keywords" options={options.keywords} selected={ui.keywords} />
-        </div>
       </div>
     </div>
   );
@@ -403,18 +281,6 @@ function MonsterCard({ match, here }: { match: CatalogMatch; here: number }) {
         </div>
       </div>
       <div class="add-controls">
-        {here > 0 ? (
-          <button
-            class="icon-button fielded-trim"
-            title={`Remove one ${m.name} from encounter · Undo available`}
-            aria-label={`Remove one ${m.name} from encounter`}
-            onClick={() => {
-              if (!shouldSuppressClick()) decrementMonster(m.path);
-            }}
-          >
-            <MinusIcon />
-          </button>
-        ) : null}
         <button
           class="preview-button"
           title="Preview statblock"
@@ -456,8 +322,28 @@ function LibraryList() {
   }
 
   const ui = state.value.ui;
+  const [limit, setLimit] = useState(MAX_LIBRARY_RESULTS);
+  const filterKey = [
+    ui.search,
+    ui.role,
+    ui.sort,
+    ui.fitsBudget,
+    ui.inEncounter,
+    ui.levelMin,
+    ui.levelMax,
+    ui.evMin,
+    ui.evMax,
+    ui.roles.join(","),
+    ui.sizes.join(","),
+    ui.keywords.join(","),
+  ].join("|");
+  useEffect(() => {
+    setLimit(MAX_LIBRARY_RESULTS);
+  }, [filterKey]);
+
   const { matches, parsed, hiddenByFilters } = matchedCatalog();
-  const visible = matches.slice(0, MAX_LIBRARY_RESULTS);
+  const visible = matches.slice(0, limit);
+  const remaining = matches.length - visible.length;
   const stillLoading = hydratedCount.value < catalog.value.length;
   const filters = activeFilterCount(ui);
   const fielded = fieldedCounts();
@@ -523,8 +409,10 @@ function LibraryList() {
             <span class="results-loading">loading more…</span>
           ) : null}
         </span>
-        {matches.length > MAX_LIBRARY_RESULTS ? (
-          <span>Showing first {MAX_LIBRARY_RESULTS}</span>
+        {remaining > 0 ? (
+          <span>
+            Showing {visible.length} of {matches.length}
+          </span>
         ) : null}
       </div>
       {visible.map((match) => (
@@ -534,6 +422,22 @@ function LibraryList() {
           here={fielded.get(match.entry.path) ?? 0}
         />
       ))}
+      {remaining > 0 ? (
+        <div class="library-more-bar">
+          <button
+            type="button"
+            class="secondary compact-button"
+            onClick={() => setLimit((prev) => prev + MAX_LIBRARY_RESULTS)}
+          >
+            Show {Math.min(remaining, MAX_LIBRARY_RESULTS)} more
+          </button>
+          {remaining > MAX_LIBRARY_RESULTS ? (
+            <button type="button" class="text-button" onClick={() => setLimit(matches.length)}>
+              Show all {matches.length}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -579,7 +483,7 @@ export function LibraryColumn() {
         </label>
       </div>
       <FilterBar />
-      {ui.filtersOpen ? <FiltersPanel /> : null}
+      {ui.filtersOpen ? <FiltersPanel /> : <ActiveFilterPills />}
       <LibraryList />
     </section>
   );

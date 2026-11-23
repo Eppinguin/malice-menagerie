@@ -3,6 +3,7 @@ import { sourceUrl } from "../../lib/repo.ts";
 import { fmt } from "../../lib/text.ts";
 import {
   activeEncounter,
+  activeView,
   addAnotherInLane,
   addCondition,
   applyStaminaCommand,
@@ -1462,10 +1463,11 @@ export function CombatBoard() {
   useEffect(() => {
     board.current?.scrollTo({ left: 0 });
   }, [filter]);
+  const view = activeView();
   // Follow Owlbear selection across desktop horizontal lanes, sticky headers,
   // phone pager pages, active group filters, and background-tab switches.
   useEffect(() => {
-    if (!selectionPulse || encounter.view !== "combat") return;
+    if (!selectionPulse || view !== "combat") return;
     if (selectionPulse.seq === handledSelectionSeq.current) return;
     const laneIndex = lanes.findIndex((lane) =>
       lane.shown.some((instance) => instance.id === selectionPulse.instanceId),
@@ -1542,7 +1544,7 @@ export function CombatBoard() {
     };
     document.addEventListener("visibilitychange", onVisible);
     return () => document.removeEventListener("visibilitychange", onVisible);
-  }, [selectionPulse?.seq, encounter.view, filter]);
+  }, [selectionPulse?.seq, view, filter]);
   if (!combat.instances.length) {
     return (
       <div class="combat-board" id="combatBoard">

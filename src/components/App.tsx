@@ -1,12 +1,15 @@
 import {
   activeEncounter,
   activeNegotiation,
+  activeSection,
+  activeView,
   adjustMalice,
   canRedo,
   canUndo,
   closeQuickAdd,
   createEncounter,
   creatingNegotiation,
+  encounterTotals,
   mobileNavOpen,
   nextRound,
   openConditionPickerFor,
@@ -18,6 +21,7 @@ import {
   selectEncounter,
   selectNegotiation,
   setMobileNav,
+  setSection,
   setView,
   state,
   toggleQuickAdd,
@@ -27,7 +31,9 @@ import {
 } from "../store.ts";
 import { useEffect, useRef } from "preact/hooks";
 import { installPhoneScroll } from "../lib/phoneScroll.ts";
-import type { ViewName } from "../types.ts";
+import { difficultyFor, partyMath } from "../lib/rules.ts";
+import { fmt } from "../lib/text.ts";
+import type { SectionName } from "../types.ts";
 import { BuilderView } from "./builder/BuilderView.tsx";
 import { CombatView } from "./combat/CombatView.tsx";
 import { EdgeMenu } from "./combat/EdgeMenu.tsx";
@@ -188,27 +194,26 @@ function CollapsedNegotiations() {
 }
 
 const NAV_ITEMS: {
-  view: ViewName;
+  section: SectionName;
   label: string;
   icon: (props: IconProps) => preact.JSX.Element;
 }[] = [
-  { view: "builder", label: "Prep", icon: PrepIcon },
-  { view: "combat", label: "Run", icon: RunIcon },
-  { view: "talk", label: "Negotiate", icon: NegotiateIcon },
+  { section: "encounters", label: "Encounters", icon: RunIcon },
+  { section: "negotiations", label: "Negotiations", icon: NegotiateIcon },
 ];
 
 function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
-  const view = activeEncounter().view;
-  const combatCount = activeEncounter().combat.instances.length;
+  const section = activeSection();
+  const encounterCount = state.value.encounters.length;
   const talks = state.value.negotiations.length;
   return (
     <nav class="nav">
-      {NAV_ITEMS.map(({ view: target, label, icon: Icon }) => {
-        const active = view === target;
+      {NAV_ITEMS.map(({ section: target, label, icon: Icon }) => {
+        const active = section === target;
         const badge =
-          target === "combat" && combatCount > 0
-            ? combatCount
-            : target === "talk" && talks > 0
+          target === "encounters" && encounterCount > 0
+            ? encounterCount
+            : target === "negotiations" && talks > 0
               ? talks
               : null;
         return (
@@ -219,7 +224,7 @@ function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
             aria-label={label}
             title={collapsed ? label : undefined}
             onClick={() => {
-              setView(target);
+              setSection(target);
               onNavigate?.();
             }}
           >
@@ -235,7 +240,7 @@ function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
 
 function Sidebar() {
   const collapsed = state.value.ui.sidebarCollapsed;
-  const view = activeEncounter().view;
+  const isTalk = activeSection() === "negotiations";
   return (
     <aside class={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div class="brand">
@@ -249,12 +254,12 @@ function Sidebar() {
       </div>
       <NavButtons collapsed={collapsed} />
       {collapsed ? (
-        view === "talk" ? (
+        isTalk ? (
           <CollapsedNegotiations />
         ) : (
           <CollapsedEncounters />
         )
-      ) : view === "talk" ? (
+      ) : isTalk ? (
         <NegotiationSwitcher />
       ) : (
         <EncounterSwitcher />
@@ -277,7 +282,7 @@ function Sidebar() {
 
 function MobileNav() {
   const open = mobileNavOpen.value;
-  const view = activeEncounter().view;
+  const isTalk = activeSection() === "negotiations";
   const close = () => setMobileNav(false);
   return (
     <div class={`mobile-nav ${open ? "open" : ""}`}>
@@ -290,7 +295,7 @@ function MobileNav() {
           </button>
         </div>
         <NavButtons collapsed={false} onNavigate={close} />
-        {view === "talk" ? <NegotiationSwitcher /> : <EncounterSwitcher onNavigate={close} />}
+        {isTalk ? <NegotiationSwitcher /> : <EncounterSwitcher onNavigate={close} />}
         <div class="spine-foot">
           <AppSettingsButton onOpen={close} />
         </div>
@@ -358,25 +363,65 @@ function CombatControls() {
   );
 }
 
+/** Two-lens toggle anchored in the encounter running head: Prep (browse,
+    balance, groups) and Run (live statblocks, Stamina, Malice). */
+function EncounterLensSwitch() {
+  const lens = activeEncounter().view;
+  return (
+    <div class="lens-switch" role="group" aria-label="Encounter view">
+      <button
+        type="button"
+        class={lens === "builder" ? "active" : undefined}
+        aria-pressed={lens === "builder"}
+        title="Prep: browse library, balance EV, and arrange groups"
+        onClick={() => setView("builder")}
+      >
+        <PrepIcon />
+        <span>Prep</span>
+      </button>
+      <button
+        type="button"
+        class={lens === "combat" ? "active" : undefined}
+        aria-pressed={lens === "combat"}
+        title="Run: live combat board, Stamina, turns, and Malice"
+        onClick={() => setView("combat")}
+      >
+        <RunIcon />
+        <span>Run</span>
+      </button>
+    </div>
+  );
+}
+
 function Topbar() {
   const enc = activeEncounter();
   const combat = enc.combat;
-  const view = enc.view;
+  const view = activeView();
   const isBuilder = view === "builder";
   const isTalk = view === "talk";
   const isCombat = view === "combat";
   const undoGain = enc.party.heroes + combat.round;
   const negotiation = activeNegotiation();
   const creating = creatingNegotiation.value;
+  const totals = isBuilder ? encounterTotals() : null;
+  const party = isBuilder ? partyMath(enc.party) : null;
+  const difficulty =
+    totals && party ? difficultyFor(totals.ev, party.partyES, party.oneHeroES) : null;
+  const builderLegend =
+    totals && difficulty && totals.count > 0
+      ? `${totals.count} ${totals.count === 1 ? "enemy" : "enemies"} · EV ${fmt(totals.ev)} · ${difficulty.label}`
+      : "Empty";
   const legend = isTalk
     ? creating
       ? "Quick create"
       : negotiation
         ? `${negotiation.name || "Untitled NPC"} · ${negotiationSummary(negotiation)}`
         : "No one to talk to"
-    : enc.name;
+    : isBuilder
+      ? builderLegend
+      : enc.name;
   return (
-    <header class={`topbar${isTalk ? " topbar-talk" : ""}`}>
+    <header class={`topbar${isTalk ? " topbar-talk" : " topbar-encounter"}`}>
       <button
         class="icon-button menu-toggle"
         aria-label="Open menu"
@@ -396,7 +441,9 @@ function Topbar() {
               <ChevronLeftIcon />
             </button>
           ) : null}
-          <h1>{isBuilder ? "Prep" : isTalk ? "Negotiation" : `Round ${combat.round}`}</h1>
+          <h1 title={isBuilder ? enc.name : undefined}>
+            {isTalk ? "Negotiation" : isBuilder ? enc.name : `Round ${combat.round}`}
+          </h1>
         </div>
         {/* The running head carries the negotiation's state while the sheet
             is scrolled below it. When the tracks move, the pen writes the
@@ -405,40 +452,36 @@ function Topbar() {
         <span
           class={`topbar-legend${isTalk ? " legend-write" : ""}`}
           key={isTalk ? `talk:${legend}` : "legend"}
-          title={isTalk ? (negotiation?.name ?? "") : enc.name}
+          title={isTalk ? (negotiation?.name ?? "") : isBuilder ? builderLegend : enc.name}
         >
           {legend}
         </span>
       </div>
+      {!isTalk ? <EncounterLensSwitch /> : null}
       <div class="top-actions">
         <OwlbearDiceButton />
-        <OwlbearSendButton />
+        {!isTalk ? <OwlbearSendButton /> : null}
         {isBuilder ? (
-          <>
-            <div class="history-controls" role="group" aria-label="Undo and redo">
-              <button
-                class="icon-button"
-                disabled={!canUndo.value}
-                aria-label={canUndo.value ? `Undo: ${undoLabel.value}` : "Nothing to undo"}
-                title={canUndo.value ? `Undo: ${undoLabel.value} (Ctrl/Cmd+Z)` : "Nothing to undo"}
-                onClick={undoStep}
-              >
-                <UndoIcon />
-              </button>
-              <button
-                class="icon-button"
-                disabled={!canRedo.value}
-                aria-label={canRedo.value ? `Redo: ${redoLabel.value}` : "Nothing to redo"}
-                title={canRedo.value ? `Redo: ${redoLabel.value} (Ctrl+Y)` : "Nothing to redo"}
-                onClick={redoStep}
-              >
-                <RedoIcon />
-              </button>
-            </div>
-            <button class="primary" disabled={!enc.items.length} onClick={() => setView("combat")}>
-              Run encounter
+          <div class="history-controls" role="group" aria-label="Undo and redo">
+            <button
+              class="icon-button"
+              disabled={!canUndo.value}
+              aria-label={canUndo.value ? `Undo: ${undoLabel.value}` : "Nothing to undo"}
+              title={canUndo.value ? `Undo: ${undoLabel.value} (Ctrl/Cmd+Z)` : "Nothing to undo"}
+              onClick={undoStep}
+            >
+              <UndoIcon />
             </button>
-          </>
+            <button
+              class="icon-button"
+              disabled={!canRedo.value}
+              aria-label={canRedo.value ? `Redo: ${redoLabel.value}` : "Nothing to redo"}
+              title={canRedo.value ? `Redo: ${redoLabel.value} (Ctrl+Y)` : "Nothing to redo"}
+              onClick={redoStep}
+            >
+              <RedoIcon />
+            </button>
+          </div>
         ) : isTalk ? (
           !creating && negotiation ? (
             <button class="primary talk-new-btn" aria-label="New NPC" onClick={openNewNegotiation}>
@@ -476,7 +519,7 @@ const BACKLIST = [
 ];
 
 export function App() {
-  const view = activeEncounter().view;
+  const view = activeView();
   const activeNegId = state.value.activeNegotiationId;
   const creating = creatingNegotiation.value;
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -525,7 +568,7 @@ export function App() {
         !event.altKey &&
         (key === "z" || key === "y") &&
         (!typing || pristineStamina) &&
-        activeEncounter().view !== "talk"
+        activeView() !== "talk"
       ) {
         event.preventDefault();
         if (key === "y" || event.shiftKey) redoStep();
@@ -540,7 +583,7 @@ export function App() {
         event.key === "/" && !event.metaKey && !event.ctrlKey && (!typing || isQuickAddSearchEmpty);
       const kTrigger = (event.metaKey || event.ctrlKey) && !event.altKey && key === "k";
       if (slashTrigger || kTrigger) {
-        const currentView = activeEncounter().view;
+        const currentView = activeView();
         if (currentView === "combat") {
           event.preventDefault();
           toggleQuickAdd();

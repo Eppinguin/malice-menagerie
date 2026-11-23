@@ -978,11 +978,69 @@ input[type="number"]::-webkit-inner-spin-button {
   align-items: baseline;
   gap: 14px;
 }
+/* Anchor the encounter title and Prep | Run switch together on the left so
+   flipping lenses never teleports the switch across the running head. */
+.topbar-encounter .topbar-title {
+  flex: 0 1 auto;
+}
 .topbar-title h1 {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: clamp(34px, 3.4vw, 48px);
   letter-spacing: 0.015em;
   line-height: 0.9;
+}
+/* Encounter Prep | Run segmented lens switch in the running head */
+.lens-switch {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--field);
+  overflow: hidden;
+}
+.lens-switch button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 13px;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink-2);
+  cursor: pointer;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.lens-switch button + button {
+  border-left: 1px solid var(--rule);
+}
+.lens-switch button .icon {
+  width: 15px;
+  height: 15px;
+}
+.lens-switch button:hover:not(.active) {
+  background: var(--tint);
+  color: var(--ink);
+}
+.lens-switch button.active {
+  background: var(--ink);
+  color: var(--page);
+}
+.lens-switch button:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: -2px;
 }
 .topbar-legend {
   min-width: 0;
@@ -993,6 +1051,7 @@ input[type="number"]::-webkit-inner-spin-button {
   font-style: italic;
   font-size: 17px;
   color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
 }
 /* The legend is the one line of the negotiation that stays in view when the
    sheet is scrolled below it. When the tracks move, the pen writes the new
@@ -1488,6 +1547,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .add-controls {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
@@ -1540,9 +1600,13 @@ input[type="number"]::-webkit-inner-spin-button {
   width: 13px;
   height: 13px;
 }
-.qty-control button:hover {
+.qty-control button:hover:not(:disabled) {
   background: var(--tint);
   color: var(--ink);
+}
+.qty-control button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 .qty-control input {
   padding: 0;
@@ -7482,6 +7546,28 @@ body.dragging-encounter-entry .monster-library::before {
   /* On Talk, keep the phone topbar to one slim row (~64px) with a compact
      "+ New NPC" button so the live legend stays visible without wasting
      vertical space. */
+  .topbar.topbar-encounter {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    gap: 8px 10px;
+  }
+  .topbar.topbar-encounter .topbar-title {
+    min-width: 0;
+  }
+  .topbar.topbar-encounter .topbar-title h1 {
+    font-size: 26px;
+  }
+  .topbar.topbar-encounter .topbar-legend {
+    font-size: 13px;
+  }
+  .topbar.topbar-encounter .lens-switch button {
+    min-height: 40px;
+    padding: 6px 10px;
+    font-size: 13.5px;
+  }
+  .topbar.topbar-encounter .lens-switch button .icon {
+    width: 14px;
+    height: 14px;
+  }
   .topbar.topbar-talk {
     grid-template-columns: 44px minmax(0, 1fr) auto;
     padding: calc(8px + env(safe-area-inset-top, 0px)) 0 8px;
@@ -7590,8 +7676,7 @@ body.dragging-encounter-entry .monster-library::before {
     flex: 1 1 auto;
     min-height: 40px;
   }
-  .add-controls .preview-button,
-  .add-controls .fielded-trim {
+  .add-controls .preview-button {
     width: 40px;
     height: 40px;
   }
@@ -9243,7 +9328,9 @@ body.dragging-encounter-entry .monster-library::before {
 
 /* Round step-back chevron beside "Round N", and Run-strip board utilities */
 .topbar-heading {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -9344,8 +9431,7 @@ body.dragging-encounter-entry .monster-library::before {
 .qa-group-pill:focus-visible,
 .qa-group-remove:focus-visible,
 .qa-group-add:focus-visible,
-.field-stepper button:focus-visible,
-.fielded-trim:focus-visible {
+.field-stepper button:focus-visible {
   outline: 2px solid var(--pen);
   outline-offset: 2px;
 }
@@ -9457,17 +9543,6 @@ body.dragging-encounter-entry .monster-library::before {
   font-weight: 700;
   font-variant-numeric: tabular-nums lining-nums;
   line-height: 1.2;
-}
-.fielded-trim {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  color: var(--down);
-}
-.fielded-trim:hover {
-  border-color: var(--down);
-  background: var(--tint);
 }
 .monster-hit-gloss {
   color: var(--pen);
@@ -9708,25 +9783,31 @@ body.dragging-encounter-entry .monster-library::before {
   }
 }
 .qa-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  gap: 6px;
   padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 12px;
   background: var(--tint);
   border-bottom: 3px double var(--ink);
 }
-.qa-head-title {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
+.qa-head-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
-.qa-head-title h2 {
+.qa-head-top h2 {
   font-family: var(--font-head);
   font-size: 20px;
   font-weight: 700;
   line-height: 1.1;
   color: var(--ink);
+}
+.qa-head-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
 }
 .qa-budget {
   font-size: 13px;
@@ -9903,9 +9984,10 @@ body.dragging-encounter-entry .monster-library::before {
 }
 .qa-summary {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px 8px;
   font-size: 12.5px;
   color: var(--ink-3);
 }
@@ -10132,10 +10214,6 @@ body.dragging-encounter-entry .monster-library::before {
     width: 36px;
     height: 36px;
   }
-  .fielded-trim {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 @media (max-width: 620px) {
@@ -10213,9 +10291,468 @@ body.dragging-encounter-entry .monster-library::before {
   }
 }
 
+/* ==========================================================================
+   Option A: Peer-lens Prep & Quick Add enhancements
+   ========================================================================== */
+
+/* Shared facet panel: Level range header + Near-party preset + compact mode */
+.facet-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.facet-label-row .facet-label {
+  margin-bottom: 0;
+}
+.range-preset {
+  padding: 2px 7px;
+  border: 1px solid var(--pen-line);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pen);
+  cursor: pointer;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums lining-nums;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
+}
+.range-preset:hover {
+  border-color: var(--pen);
+  background: var(--pen-wash);
+}
+.range-preset.active {
+  border-color: var(--pen);
+  background: var(--pen);
+  color: var(--field);
+}
+.filters-panel-compact {
+  gap: 12px;
+  margin-bottom: 0;
+  padding: 12px;
+  max-height: min(36vh, 280px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.filters-panel-compact .facet-ranges {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Removable pills surfacing active "More" filters when collapsed */
+.active-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.qa-controls .active-filter-pills {
+  margin-bottom: 0;
+}
+.active-filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px 3px 9px;
+  border: 1px solid var(--pen-line);
+  border-radius: var(--radius);
+  background: var(--pen-wash);
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pen);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums lining-nums;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.active-filter-pill:hover {
+  border-color: var(--pen);
+  background: var(--field);
+}
+.active-filter-pill .icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* Library incremental "Show more" bar */
+.library-more-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 14px 12px;
+  border-top: 1px solid var(--rule);
+}
+.qa-more-bar {
+  padding: 12px 16px;
+}
+
+/* Encounter Malice curation section inside Prep's EncounterColumn */
+.prep-malice {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule-strong);
+}
+.prep-malice-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.prep-malice-toggle {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.prep-malice-caret {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  color: var(--malice-ink);
+  transform: rotate(-90deg);
+  transition: transform 0.18s var(--ease-out);
+}
+.prep-malice.open .prep-malice-caret {
+  transform: none;
+}
+.prep-malice-toggle .malice-skull {
+  font-family: var(--font-glyph);
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--malice-ink);
+}
+.prep-malice-toggle strong {
+  font-family: var(--font-head);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--malice-ink);
+  white-space: nowrap;
+}
+.prep-malice-count {
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.prep-malice-preview {
+  margin: 4px 0 2px;
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.prep-malice-body {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 2px solid var(--malice);
+  max-height: min(44vh, 380px);
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+.prep-malice-body .malice-library-body {
+  grid-template-columns: 1fr;
+  max-height: none;
+  overflow: visible;
+}
+.prep-malice-body .malice-library-item {
+  grid-template-columns: 32px minmax(0, 1fr) auto 28px;
+  gap: 6px;
+}
+.prep-malice-body .malice-library-copy span {
+  display: none;
+}
+.malice-selected-stack {
+  columns: auto;
+  display: grid;
+  gap: 4px;
+}
+.malice-selected-stack .malice-card-head {
+  column-gap: 8px;
+  min-height: 38px;
+}
+.malice-selected-stack .malice-toggle strong {
+  font-size: 15px;
+}
+/* Non-payable Malice cost in Prep and PreviewDrawer: crimson ink & outline,
+   never filled solid crimson (reserved for hover / live payment). */
+.malice-cost-static {
+  display: inline-grid;
+  place-items: center;
+  min-height: 28px;
+  border: 1px solid var(--malice);
+  background: transparent;
+  color: var(--malice-ink);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Read-only Family Malice preview inside Statblock PreviewDrawer */
+.malice-card-head-readonly {
+  grid-template-columns: auto minmax(0, 1fr) 32px;
+}
+.preview-family-malice {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 2px solid var(--malice);
+}
+.preview-malice-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.preview-malice-head .malice-skull {
+  font-family: var(--font-glyph);
+  font-size: 20px;
+  line-height: 1;
+  color: var(--malice-ink);
+}
+.preview-malice-head h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--malice-ink);
+}
+.preview-malice-head span:last-child {
+  margin-left: auto;
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.preview-malice-list {
+  display: grid;
+  gap: 2px;
+}
+
+/* Quick Add header: Party trigger, Prep shortcut, inline Party tray */
+.qa-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.qa-prep-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 5px 9px;
+  font-size: 13px;
+}
+.qa-prep-link .icon {
+  width: 14px;
+  height: 14px;
+}
+.qa-party-trigger {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  padding: 1px 0;
+  border: 0;
+  border-bottom: 1px dashed var(--pen-line);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--pen);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums lining-nums;
+  transition: border-color 0.12s ease;
+}
+.qa-party-trigger:hover,
+.qa-party-trigger.open {
+  border-bottom-style: solid;
+  border-bottom-color: var(--pen);
+}
+.qa-party-caret {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.18s var(--ease-out);
+}
+.qa-party-trigger.open .qa-party-caret {
+  transform: rotate(180deg);
+}
+.qa-party-tray {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--sheet);
+}
+.qa-party-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+}
+.qa-party-fields label {
+  display: grid;
+  gap: 4px;
+}
+.qa-party-fields span {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.qa-party-fields input {
+  width: 100%;
+  min-width: 0;
+  padding: 5px 7px;
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pen);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qa-party-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding-top: 7px;
+  border-top: 1px solid var(--rule);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qa-party-metrics b {
+  color: var(--ink);
+}
+.qa-party-malice,
+.qa-party-malice b {
+  color: var(--malice-ink);
+}
+
+/* Quick Add group inline rename & edit icon */
+.qa-group-input {
+  width: 84px;
+  padding: 3px 7px;
+  border: 0;
+  background: var(--field);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pen);
+}
+.qa-group-edit {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, var(--page) 25%, transparent);
+  background: transparent;
+  color: color-mix(in srgb, var(--page) 75%, transparent);
+  cursor: pointer;
+}
+.qa-group-edit .icon {
+  width: 11px;
+  height: 11px;
+}
+.qa-group-edit:hover {
+  background: var(--ink-hover);
+  color: var(--page);
+}
+
+/* Quick Add summary tools: Clear, More facets toggle, Sort */
+.qa-summary-tools {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.qa-more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 12.5px;
+}
+.qa-more-toggle .filter-toggle-caret {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.18s ease;
+}
+.qa-more-toggle.open .filter-toggle-caret {
+  transform: rotate(180deg);
+}
+.qa-more-toggle.has-filters {
+  border-color: var(--pen);
+  color: var(--pen);
+}
+.qa-sort-select {
+  width: auto;
+  padding: 4px 24px 4px 8px;
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (pointer: coarse) {
+  .qa-group-edit {
+    width: 34px;
+    height: 36px;
+  }
+  .qa-prep-link {
+    min-height: 40px;
+  }
+  .qa-more-toggle,
+  .qa-sort-select {
+    min-height: 34px;
+  }
+  .active-filter-pill {
+    min-height: 32px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 620px) {
+  .prep-malice-body {
+    max-height: none;
+    overflow: visible;
+  }
+  .qa-party-fields input {
+    min-height: 40px;
+    font-size: 16px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .quick-add-drawer,
-  .quick-add-backdrop {
+  .quick-add-backdrop,
+  .prep-malice-caret,
+  .qa-party-caret {
     transition: none;
   }
 }

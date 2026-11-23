@@ -38,32 +38,38 @@ function MaliceEffect({
   feature,
   effect,
   effectIndex,
+  interactive = true,
 }: {
   feature: MaliceFeature;
   effect: FeatureEffect;
   effectIndex: number;
+  interactive?: boolean;
 }) {
   const tierKeys = (["tier1", "tier2", "tier3"] as const).filter((key) => effect[key]);
-  const lastRoll = lastMaliceRolls.value.get(`${feature.id}|${effectIndex}`);
+  const lastRoll = interactive
+    ? lastMaliceRolls.value.get(`${feature.id}|${effectIndex}`)
+    : undefined;
   return (
     <div class="malice-effect">
       {effect.effect ? <p dangerouslySetInnerHTML={{ __html: richText(effect.effect) }} /> : null}
       {tierKeys.length ? (
         <div class="malice-roll-line">
-          <button
-            aria-busy={sharedRollActive.value}
-            title={
-              sharedRollActive.value
-                ? "Waiting for Connected Dice roll in Owlbear Rodeo…"
-                : "Roll — tap, or hold for edge/bane menu"
-            }
-            {...rollPress(
-              (event) => rollMaliceFeature(feature.id, effectIndex, event),
-              (edge: EdgeState) => rollMaliceFeature(feature.id, effectIndex, edge),
-            )}
-          >
-            {sharedRollActive.value ? "Rolling…" : "Roll"}
-          </button>
+          {interactive ? (
+            <button
+              aria-busy={sharedRollActive.value}
+              title={
+                sharedRollActive.value
+                  ? "Waiting for Connected Dice roll in Owlbear Rodeo…"
+                  : "Roll — tap, or hold for edge/bane menu"
+              }
+              {...rollPress(
+                (event) => rollMaliceFeature(feature.id, effectIndex, event),
+                (edge: EdgeState) => rollMaliceFeature(feature.id, effectIndex, edge),
+              )}
+            >
+              {sharedRollActive.value ? "Rolling…" : "Roll"}
+            </button>
+          ) : null}
           <strong>{effect.roll || "Power Roll"}</strong>
           {lastRoll ? <RollTally key={rollSerial(lastRoll)} roll={lastRoll} /> : null}
         </div>
@@ -89,19 +95,85 @@ function MaliceEffect({
   );
 }
 
-function MaliceCard({ feature }: { feature: MaliceFeature }) {
+/** Read-only collapsible Malice entry used in PreviewDrawer to inspire while browsing. */
+export function MaliceFeaturePreview({
+  feature,
+  expanded,
+  onToggle,
+}: {
+  feature: MaliceFeature;
+  expanded: boolean;
+  onToggle: () => void;
+}) {
+  const meta = [feature.distance, feature.target].filter(Boolean).join(" · ");
+  return (
+    <article class={`malice-card malice-card-readonly ${expanded ? "expanded" : "collapsed"}`}>
+      <div class="malice-card-head malice-card-head-readonly">
+        <span
+          class="malice-cost malice-cost-static"
+          title={feature.costText || `${feature.cost} Malice`}
+        >
+          {costLabel(feature)}
+        </span>
+        <button type="button" class="malice-toggle" aria-expanded={expanded} onClick={onToggle}>
+          <strong>
+            <FeatureGlyph glyph={iconGlyph(feature.icon)} />
+            {feature.name}
+            <CaretIcon class="malice-toggle-mark" />
+          </strong>
+        </button>
+        <a
+          href={feature.source}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open ${feature.name} on SteelCompendium`}
+          title="Open on SteelCompendium"
+        >
+          <ExternalIcon />
+        </a>
+      </div>
+      {expanded ? (
+        <div class="malice-card-body">
+          {meta ? <div class="malice-meta">{meta}</div> : null}
+          <div class="malice-copy">
+            {feature.effects.map((effect, effectIndex) => (
+              <MaliceEffect
+                key={effectIndex}
+                feature={feature}
+                effect={effect}
+                effectIndex={effectIndex}
+                interactive={false}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </article>
+  );
+}
+
+function MaliceCard({ feature, interactive }: { feature: MaliceFeature; interactive: boolean }) {
   const expanded = expandedMaliceFeatures.value.has(feature.id);
   const meta = [feature.distance, feature.target].filter(Boolean).join(" · ");
   return (
     <article class={`malice-card ${expanded ? "expanded" : "collapsed"}`}>
       <div class="malice-card-head">
-        <PayMalice
-          class="malice-cost"
-          cost={feature.cost}
-          label={costLabel(feature)}
-          name={feature.name}
-          onPay={() => useMaliceFeature(feature.id)}
-        />
+        {interactive ? (
+          <PayMalice
+            class="malice-cost"
+            cost={feature.cost}
+            label={costLabel(feature)}
+            name={feature.name}
+            onPay={() => useMaliceFeature(feature.id)}
+          />
+        ) : (
+          <span
+            class="malice-cost malice-cost-static"
+            title={feature.costText || `${feature.cost} Malice`}
+          >
+            {costLabel(feature)}
+          </span>
+        )}
         <button
           class="malice-toggle"
           aria-expanded={expanded}
@@ -141,6 +213,7 @@ function MaliceCard({ feature }: { feature: MaliceFeature }) {
                 feature={feature}
                 effect={effect}
                 effectIndex={effectIndex}
+                interactive={interactive}
               />
             ))}
           </div>
@@ -177,7 +250,7 @@ function AvailableItem({ feature }: { feature: MaliceFeature }) {
   );
 }
 
-export function MaliceDock() {
+export function MaliceDock({ mode = "combat" }: { mode?: "combat" | "prep" } = {}) {
   if (maliceLoading.value) {
     return <span class="dock-loading">Loading SteelCompendium Malice…</span>;
   }
@@ -187,6 +260,7 @@ export function MaliceDock() {
   }
 
   ensureMaliceSelection(groups);
+  const interactive = mode === "combat";
   const selectedIds = activeEncounter().combat.selectedMaliceFeatureIds;
   const featureMap = new Map(
     allRelevantMaliceFeatures(groups).map((feature) => [feature.id, feature]),
@@ -208,9 +282,9 @@ export function MaliceDock() {
     <>
       <section class="malice-selection-shell">
         {selected.length ? (
-          <div class="malice-selected-grid">
+          <div class={`malice-selected-grid ${mode === "prep" ? "malice-selected-stack" : ""}`}>
             {selected.map((feature) => (
-              <MaliceCard key={feature.id} feature={feature} />
+              <MaliceCard key={feature.id} feature={feature} interactive={interactive} />
             ))}
           </div>
         ) : (
