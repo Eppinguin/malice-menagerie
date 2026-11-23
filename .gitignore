@@ -3,5 +3,6 @@ dist
 *.local
 .DS_Store
 .playwright-mcp/
+.impeccable/critique/
 .impeccable/review/
 harness-dist

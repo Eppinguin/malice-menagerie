@@ -38,6 +38,13 @@ export const RunIcon = (p: IconProps) => (
   </Glyph>
 );
 
+/** Negotiate: a speech balloon with a tail — the negotiation page. */
+export const NegotiateIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M20 11.5a6.5 6.5 0 0 1-6.5 6.5H9l-4.5 3.5V15A6.5 6.5 0 0 1 4 6h9.5A6.5 6.5 0 0 1 20 11.5Z" />
+  </Glyph>
+);
+
 export const CollapseIcon = (p: IconProps) => (
   <Glyph {...p}>
     <rect x="3" y="4" width="18" height="16" rx="1" />
@@ -198,6 +205,15 @@ export const TrashIcon = (p: IconProps) => (
   <Glyph {...p}>
     <path d="M3 6h18M8 6V4h8v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" />
     <path d="M10 11v6M14 11v6" />
+  </Glyph>
+);
+
+/** Pitfall warning: a triangle with an exclamation mark. */
+export const AlertIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+    <path d="M12 9v4" />
+    <path d="M12 17h.01" />
   </Glyph>
 );
 

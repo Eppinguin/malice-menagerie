@@ -1,19 +1,23 @@
 import {
   activeEncounter,
+  activeNegotiation,
   adjustMalice,
   createEncounter,
+  creatingNegotiation,
   mobileNavOpen,
   nextRound,
+  openNewNegotiation,
   previousRound,
   resumeCombat,
   selectEncounter,
+  selectNegotiation,
   setMobileNav,
   setView,
   startCombat,
   state,
   toggleSidebar,
 } from "../store.ts";
-import { useEffect } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { installPhoneScroll } from "../lib/phoneScroll.ts";
 import type { ViewName } from "../types.ts";
 import { BuilderView } from "./builder/BuilderView.tsx";
@@ -28,8 +32,12 @@ import {
   PlusIcon,
   PrepIcon,
   RunIcon,
+  NegotiateIcon,
   UndoIcon,
 } from "./Icons.tsx";
+import { NegotiationSwitcher } from "./negotiation/NegotiationSwitcher.tsx";
+import { negotiationSummary } from "./negotiation/NegotiationTracks.tsx";
+import { NegotiationView } from "./negotiation/NegotiationView.tsx";
 import {
   AppSettingsPanel,
   AppSettingsButton,
@@ -117,6 +125,57 @@ function CollapsedEncounters() {
   );
 }
 
+function railLabel(name: string, collided: boolean): string {
+  const trimmed = name.trim();
+  if (!trimmed) return "?";
+  if (!collided) return trimmed.charAt(0).toUpperCase();
+  const words = trimmed.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) return `${words[0]!.charAt(0)}${words[1]!.charAt(0)}`.toUpperCase();
+  return trimmed.slice(0, 2).toUpperCase();
+}
+
+/** A slim vertical roster shown in the collapsed rail on the Talk page so
+    NPCs stay switchable and Quick Create stays one tap away. */
+function CollapsedNegotiations() {
+  const { negotiations, activeNegotiationId } = state.value;
+  const creating = creatingNegotiation.value;
+  const counts = new Map<string, number>();
+  for (const neg of negotiations) {
+    const ch = neg.name.trim().charAt(0).toUpperCase() || "?";
+    counts.set(ch, (counts.get(ch) ?? 0) + 1);
+  }
+  return (
+    <div class="rail-encounters">
+      {negotiations.map((neg) => {
+        const active = !creating && neg.id === activeNegotiationId;
+        const ch = neg.name.trim().charAt(0).toUpperCase() || "?";
+        const label = railLabel(neg.name, (counts.get(ch) ?? 0) > 1);
+        const full = `${neg.name || "Untitled NPC"} · ${negotiationSummary(neg)}`;
+        return (
+          <button
+            key={neg.id}
+            class={`rail-encounter ${active ? "active" : ""}`}
+            title={full}
+            aria-label={full}
+            aria-current={active ? "true" : undefined}
+            onClick={() => selectNegotiation(neg.id)}
+          >
+            {label}
+          </button>
+        );
+      })}
+      <button
+        class={`rail-encounter rail-encounter-new ${creating ? "active" : ""}`}
+        title="New NPC"
+        aria-label="New NPC"
+        onClick={openNewNegotiation}
+      >
+        <PlusIcon />
+      </button>
+    </div>
+  );
+}
+
 const NAV_ITEMS: {
   view: ViewName;
   label: string;
@@ -124,16 +183,23 @@ const NAV_ITEMS: {
 }[] = [
   { view: "builder", label: "Prep", icon: PrepIcon },
   { view: "combat", label: "Run", icon: RunIcon },
+  { view: "talk", label: "Negotiate", icon: NegotiateIcon },
 ];
 
 function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
   const view = activeEncounter().view;
   const combatCount = activeEncounter().combat.instances.length;
+  const talks = state.value.negotiations.length;
   return (
     <nav class="nav">
       {NAV_ITEMS.map(({ view: target, label, icon: Icon }) => {
         const active = view === target;
-        const badge = target === "combat" && combatCount > 0 ? combatCount : null;
+        const badge =
+          target === "combat" && combatCount > 0
+            ? combatCount
+            : target === "talk" && talks > 0
+              ? talks
+              : null;
         return (
           <button
             key={target}
@@ -158,6 +224,7 @@ function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
 
 function Sidebar() {
   const collapsed = state.value.ui.sidebarCollapsed;
+  const view = activeEncounter().view;
   return (
     <aside class={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div class="brand">
@@ -170,7 +237,17 @@ function Sidebar() {
         )}
       </div>
       <NavButtons collapsed={collapsed} />
-      {collapsed ? <CollapsedEncounters /> : <EncounterSwitcher />}
+      {collapsed ? (
+        view === "talk" ? (
+          <CollapsedNegotiations />
+        ) : (
+          <CollapsedEncounters />
+        )
+      ) : view === "talk" ? (
+        <NegotiationSwitcher />
+      ) : (
+        <EncounterSwitcher />
+      )}
       <div class="spine-foot">
         <AppSettingsButton collapsed={collapsed} />
         <button
@@ -189,6 +266,7 @@ function Sidebar() {
 
 function MobileNav() {
   const open = mobileNavOpen.value;
+  const view = activeEncounter().view;
   const close = () => setMobileNav(false);
   return (
     <div class={`mobile-nav ${open ? "open" : ""}`}>
@@ -201,7 +279,7 @@ function MobileNav() {
           </button>
         </div>
         <NavButtons collapsed={false} onNavigate={close} />
-        <EncounterSwitcher />
+        {view === "talk" ? <NegotiationSwitcher /> : <EncounterSwitcher />}
         <div class="spine-foot">
           <AppSettingsButton onOpen={close} />
         </div>
@@ -268,10 +346,21 @@ function CombatControls() {
 function Topbar() {
   const enc = activeEncounter();
   const combat = enc.combat;
-  const isBuilder = enc.view === "builder";
+  const view = enc.view;
+  const isBuilder = view === "builder";
+  const isTalk = view === "talk";
   const combatActive = combat.active && combat.instances.length > 0;
+  const negotiation = activeNegotiation();
+  const creating = creatingNegotiation.value;
+  const legend = isTalk
+    ? creating
+      ? "Quick create"
+      : negotiation
+        ? `${negotiation.name || "Untitled NPC"} · ${negotiationSummary(negotiation)}`
+        : "No one to talk to"
+    : enc.name;
   return (
-    <header class="topbar">
+    <header class={`topbar${isTalk ? " topbar-talk" : ""}`}>
       <button
         class="icon-button menu-toggle"
         aria-label="Open menu"
@@ -280,9 +369,17 @@ function Topbar() {
         <MenuIcon />
       </button>
       <div class="topbar-title">
-        <h1>{isBuilder ? "Prep" : `Round ${combat.round}`}</h1>
-        <span class="topbar-legend" title={enc.name}>
-          {enc.name}
+        <h1>{isBuilder ? "Prep" : isTalk ? "Negotiation" : `Round ${combat.round}`}</h1>
+        {/* The running head carries the negotiation's state while the sheet
+            is scrolled below it. When the tracks move, the pen writes the
+            new line again — the key remounts the span so the stroke
+            redraws, the way a mark is drawn when it lands. */}
+        <span
+          class={`topbar-legend${isTalk ? " legend-write" : ""}`}
+          key={isTalk ? `talk:${legend}` : "legend"}
+          title={isTalk ? (negotiation?.name ?? "") : enc.name}
+        >
+          {legend}
         </span>
       </div>
       <div class="top-actions">
@@ -311,6 +408,15 @@ function Topbar() {
               Run encounter
             </button>
           )
+        ) : isTalk ? (
+          !creating && negotiation ? (
+            <button class="primary talk-new-btn" aria-label="New NPC" onClick={openNewNegotiation}>
+              <PlusIcon />
+              <span>
+                New<span class="talk-new-suffix"> NPC</span>
+              </span>
+            </button>
+          ) : null
         ) : (
           <CombatControls />
         )}
@@ -340,7 +446,15 @@ const BACKLIST = [
 
 export function App() {
   const view = activeEncounter().view;
+  const activeNegId = state.value.activeNegotiationId;
+  const creating = creatingNegotiation.value;
+  const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(installPhoneScroll, []);
+  useEffect(() => {
+    if (view !== "talk") return;
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    if (typeof window !== "undefined") window.scrollTo(0, 0);
+  }, [view, activeNegId, creating]);
   return (
     <>
       <div class="app-shell">
@@ -348,9 +462,10 @@ export function App() {
         <MobileNav />
         <main class="main">
           <Topbar />
-          <div class="main-scroll">
+          <div class="main-scroll" ref={scrollRef}>
             <BuilderView active={view === "builder"} />
             <CombatView active={view === "combat"} />
+            <NegotiationView active={view === "talk"} />
             <footer class="colophon">
               <section class="backlist" aria-labelledby="backlist-title">
                 <h2 id="backlist-title">More tools for the table</h2>

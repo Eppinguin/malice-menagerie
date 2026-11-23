@@ -104,7 +104,12 @@ function loopStroke(w: number, h: number, r: Rand, laps: 1 | 2): string {
     `C${pt(-2 + j(), h - 3)} ${pt(-1.5 + j(), 4.5)} ${pt(rl * 0.9, 2 + j())}`,
   ];
   if (laps === 1) {
-    path.push(`C${pt(rl * 1.7, 0.3)} ${pt(rl * 2.6, -0.5 + j())} ${pt(rl * 3.4, 1 + j())}`);
+    // Clamp the closing flick to the box's width so compact square rings
+    // (such as the Interest ladder numerals) never skewer adjacent text.
+    const tailC1 = Math.min(w * 0.45, rl * 1.7);
+    const tailC2 = Math.min(w * 0.62, rl * 2.6);
+    const tailX = Math.min(w * 0.78, rl * 3.4);
+    path.push(`C${pt(tailC1, 0.3)} ${pt(tailC2, -0.5 + j())} ${pt(tailX, 1 + j())}`);
     return path.join(" ");
   }
   // How far the second lap drifts from the first, so the two cross visibly.

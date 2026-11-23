@@ -462,6 +462,16 @@ input[type="number"]::-webkit-inner-spin-button {
   border-color: var(--ink);
   color: var(--page);
 }
+/* A chip that is off for a rule reads off — the "same again" mark is only
+   allowed with no motivation behind it, and the Director should see that
+   before reaching for it. */
+.chip:disabled {
+  color: var(--ink-3);
+  border-color: var(--rule);
+  background: transparent;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 .tag {
   display: inline-flex;
@@ -983,6 +993,12 @@ input[type="number"]::-webkit-inner-spin-button {
   font-style: italic;
   font-size: 17px;
   color: var(--ink-2);
+}
+/* The legend is the one line of the negotiation that stays in view when the
+   sheet is scrolled below it. When the tracks move, the pen writes the new
+   line again: the same left-to-right stroke every mark lands with. */
+.topbar-legend.legend-write {
+  animation: pen-stroke 0.3s var(--ease-out) both;
 }
 .top-actions {
   flex: 0 0 auto;
@@ -2001,6 +2017,1706 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .group-corner {
   display: none;
+}
+
+/* ==========================================================================
+   Negotiation: the Heroes book's parley page, distilled into a one-screen
+   live cockpit. One-time setup folds cleanly into the head once play starts;
+   Interest & Patience anchor the left column while Motivations, Pitfalls,
+   and the player-first Argument / Read resolver share the right column.
+   ========================================================================== */
+.talk-sheet {
+  display: grid;
+  gap: 20px;
+  max-width: 1240px;
+}
+
+/* Sheet header + collapsible Setup tray */
+.talk-head {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 10px 14px 12px;
+  border-radius: 6px;
+  background: var(--tint);
+}
+.talk-head::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--page);
+  transform: translateX(-50%) rotate(45deg);
+}
+.talk-head-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+}
+.talk-name {
+  flex: 0 1 260px;
+  min-width: 150px;
+  padding: 2px 8px 3px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--pen);
+  text-decoration: underline dashed var(--rule-strong) 1px;
+  text-underline-offset: 4px;
+}
+.talk-name:hover {
+  border-color: var(--rule-strong);
+  background: var(--field);
+  text-decoration-color: var(--pen-line);
+}
+.talk-name:focus {
+  border-color: var(--pen);
+  background: var(--field);
+  text-decoration-color: var(--pen);
+}
+.talk-ask-inline {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 5px 10px;
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pen);
+}
+.talk-setup-toggle {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.talk-setup-summary {
+  justify-self: start;
+  margin: 0;
+  padding: 2px 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.talk-setup-summary:hover {
+  background: var(--field);
+  color: var(--ink);
+}
+.talk-archetype-brief {
+  margin: 0;
+  padding: 0 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.talk-archetype-brief em {
+  color: var(--ink);
+}
+.talk-setup-tray {
+  display: grid;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.talk-setup-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px 18px;
+}
+.talk-setup-opening {
+  align-items: end;
+}
+.talk-head label,
+.talk-renown,
+.talk-setup-group {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.talk-head label > span,
+.talk-renown > span,
+.talk-setup-group > span {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--ink-3);
+}
+.talk-archetype select,
+.talk-impression select {
+  width: auto;
+  min-width: 170px;
+  max-width: 280px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+.talk-renown-chips,
+.attitude-chips,
+.language-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.talk-reset-btn {
+  margin-left: auto;
+}
+
+/* 2-column live cockpit: Left = Interest + Patience, Right = Traits + Resolver */
+.talk-cockpit {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.88fr) minmax(0, 1.32fr);
+  gap: 24px;
+  align-items: start;
+}
+.talk-state-col,
+.talk-action-col {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  min-width: 0;
+}
+.talk-interest,
+.talk-patience {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.talk-block-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.talk-block-head h2,
+.talk-block-head h3 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.talk-block-head h3 {
+  font-size: 17px;
+}
+.talk-block-note {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+
+/* Interest ladder: 5 down to 0, active rung circled in pen */
+.interest-ladder {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+.interest-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 28px;
+  align-items: start;
+  gap: 0 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.interest-row.terminal {
+  border-bottom: 1px solid var(--rule-strong);
+}
+.interest-row:last-child {
+  border-bottom: 0;
+}
+.interest-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.interest-mark b {
+  font-family: var(--font-head);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.interest-mark:hover {
+  color: var(--ink);
+  background: var(--tint);
+  border-radius: var(--radius);
+}
+.interest-row.current .interest-mark {
+  color: var(--ink);
+}
+.interest-row.current .interest-mark b {
+  font-size: 26px;
+}
+.interest-mark > .pen-ring {
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  --pen-dur: 0.45s;
+}
+.interest-body {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.interest-body strong {
+  font-family: var(--font-head);
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.interest-row.current .interest-body strong {
+  font-size: 15px;
+}
+.interest-book {
+  max-width: 65ch;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+.interest-row.current .interest-book {
+  color: var(--ink-2);
+}
+.interest-own {
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--pen);
+}
+.interest-edit {
+  position: relative;
+  opacity: 0.55;
+}
+.interest-row:hover .interest-edit,
+.interest-edit:focus-visible {
+  opacity: 1;
+}
+.interest-edit-input {
+  grid-column: 2 / -1;
+  margin-top: 4px;
+}
+
+/* Patience: five printed boxes, filled while they'll still listen */
+.patience-pips {
+  display: flex;
+  gap: 8px;
+}
+.patience-pip {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  cursor: pointer;
+  transition:
+    background 0.14s ease,
+    color 0.14s ease,
+    border-color 0.14s ease;
+}
+.patience-pip:hover {
+  border-color: var(--ink-2);
+  background: var(--tint);
+}
+.patience-pip.left {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--page);
+}
+.patience-pip.patience-zero {
+  border-style: dashed;
+}
+.patience-pip.patience-zero.left {
+  border-style: solid;
+}
+.patience-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* Motivations & Pitfalls: live triggers directly above the Resolver */
+.talk-traits-wrap {
+  display: grid;
+  gap: 10px;
+}
+.traits-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.traits-toolbar-hint {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+.traits-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.traits-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.traits-action-btn .icon {
+  width: 14px;
+  height: 14px;
+}
+.talk-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+.talk-list {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+.trait-rows {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.trait-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0 8px;
+  padding: 5px 4px;
+  border-radius: var(--radius);
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.12s ease;
+}
+.trait-row:last-child {
+  border-bottom: 0;
+}
+.trait-row.staged {
+  background: var(--pen-wash);
+}
+.trait-box {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.trait-box:hover {
+  border-color: var(--ink-2);
+  background: var(--tint);
+}
+.trait-box[aria-pressed="true"] {
+  border-color: var(--pen);
+}
+.trait-box .pen-mark {
+  color: var(--pen);
+}
+/* Pitfall warning mark: bare warning triangle in ink (never a box, never crimson) */
+.talk-list.pitfall > .talk-block-head {
+  border-bottom: 2px solid var(--ink);
+}
+.trait-warning {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--ink-2);
+  transition: color 0.12s ease;
+}
+.trait-warning .icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+.talk-list.pitfall .trait-row:has(.trait-pick:hover:not(:disabled)) .trait-warning {
+  color: var(--ink);
+}
+.trait-main {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.trait-pick {
+  display: grid;
+  gap: 1px;
+  width: 100%;
+  padding: 1px 4px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.trait-pick:hover:not(:disabled) {
+  background: var(--tint);
+}
+.trait-pick:disabled {
+  cursor: default;
+}
+.trait-row.staged .trait-pick:hover {
+  background: transparent;
+}
+.trait-pick strong {
+  font-family: var(--font-head);
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+.trait-row.staged .trait-pick strong {
+  color: var(--pen);
+}
+.trait-row.used .trait-pick strong {
+  color: var(--ink-3);
+}
+.talk-list.pitfall .trait-pick strong {
+  color: var(--down);
+}
+.trait-note {
+  font-size: 12.5px;
+  line-height: 1.3;
+  color: var(--ink-2);
+}
+.trait-note.own {
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--pen);
+}
+.trait-note.gloss {
+  color: var(--ink-3);
+  font-style: italic;
+}
+.trait-note.gloss em {
+  font-style: normal;
+  font-weight: 600;
+}
+.trait-note-input {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 13px;
+}
+.trait-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+}
+.trait-note-btn,
+.trait-reveal,
+.trait-remove {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  opacity: 0.55;
+}
+.trait-row:hover .trait-note-btn,
+.trait-row:hover .trait-reveal,
+.trait-row:hover .trait-remove,
+.trait-note-btn:focus-visible,
+.trait-reveal:focus-visible,
+.trait-remove:focus-visible {
+  opacity: 1;
+}
+.trait-reveal.known {
+  border-color: var(--pen-line);
+  background: var(--pen-wash);
+  color: var(--pen);
+  opacity: 1;
+}
+.trait-remove {
+  margin-left: 4px;
+}
+.trait-empty {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+/* Shared 12-chip Draw Steel trait deck + custom entry */
+.trait-deck {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--tint);
+}
+.trait-deck-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+.trait-deck-label {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.trait-deck-switch {
+  display: flex;
+  gap: 6px;
+}
+.trait-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.trait-chip {
+  padding: 4px 9px;
+  font-size: 12.5px;
+}
+.trait-chip:disabled {
+  background: transparent;
+  opacity: 0.48;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+.trait-add {
+  display: flex;
+  gap: 6px;
+}
+.trait-add input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 5px 8px;
+  font-size: 13px;
+}
+
+/* Unified Argument / Read Resolver Panel */
+.talk-argument {
+  display: grid;
+  gap: 12px;
+  padding: 0 14px 4px;
+}
+.talk-argument > .talk-block-head {
+  position: relative;
+  margin: 0 -14px;
+  padding: 8px 14px 7px;
+  background: var(--tint);
+  border-bottom: 1px solid var(--rule-strong);
+  align-items: center;
+  justify-content: space-between;
+}
+.talk-argument > .talk-block-head::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--page);
+  transform: translateX(-50%) rotate(45deg);
+}
+.resolver-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.resolver-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.resolver-tab:hover {
+  color: var(--ink);
+}
+.resolver-tab.active {
+  border-color: var(--rule-strong);
+  background: var(--page);
+  color: var(--ink);
+}
+.resolver-tab-badge {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.resolver-undo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+}
+.resolver-undo .icon {
+  width: 14px;
+  height: 14px;
+}
+.resolver-body {
+  display: grid;
+  gap: 10px;
+}
+.arg-staged {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+.arg-staged-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.arg-staged-pill.active {
+  border-color: var(--pen-line);
+  background: var(--pen-wash);
+  color: var(--pen);
+}
+.arg-staged-clear {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  color: var(--pen);
+}
+.arg-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.arg-hint {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.arg-hint strong {
+  font-family: var(--font-head);
+  font-size: 14.5px;
+  color: var(--ink);
+}
+.arg-renown-note {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--pen);
+}
+.arg-memo {
+  width: 100%;
+  max-width: 620px;
+  padding: 5px 9px;
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  color: var(--pen);
+}
+/* Tier rows: primary 1-tap actions for physical/VTT dice or in-app rolls */
+.arg-tiers {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.arg-tier {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 12px 7px 4px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.arg-tier:hover:not(:disabled) {
+  border-color: var(--rule);
+  background: var(--tint);
+}
+.arg-tier:disabled {
+  cursor: default;
+}
+.arg-tier-lines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.arg-tier-lines b {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--ink);
+}
+.arg-tier.rolled .tier-mark,
+.arg-tier.rolled .arg-tier-lines b {
+  color: var(--pen);
+}
+.arg-tier > .pen-loop {
+  top: -4px;
+  left: -6px;
+  width: calc(100% + 8px);
+  height: calc(100% + 9px);
+  transform: rotate(-0.4deg);
+  --pen-dur: 0.42s;
+  --pen-delay: 0.04s;
+  --pen-ease: cubic-bezier(0.45, 0.05, 0.3, 1);
+}
+.arg-tier:disabled .tier-mark,
+.arg-tier:disabled .arg-tier-lines b {
+  color: var(--ink-3);
+}
+button.arg-auto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 14px;
+  padding: 11px 14px;
+  font-size: 14.5px;
+}
+.arg-auto b {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+}
+.arg-note {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+/* Compact secondary optional Roll bar beneath the tiers */
+.arg-roll {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+}
+.arg-roll-label {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.arg-roll-bonus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.arg-roll-bonus > span {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+.arg-bonus {
+  width: 64px;
+  padding: 4px 6px;
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--pen);
+  text-align: center;
+}
+.arg-edge-select {
+  width: auto;
+  padding: 5px 28px 5px 10px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+}
+.arg-roll-button {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+/* Touch visibility and hit-area overhangs */
+@media (hover: none) {
+  .trait-note-btn,
+  .trait-reveal,
+  .trait-remove,
+  .interest-edit {
+    opacity: 1;
+  }
+}
+.trait-box::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+.trait-note-btn::after,
+.trait-reveal::after,
+.trait-remove::after {
+  content: "";
+  position: absolute;
+  inset: -10px -4px;
+}
+.interest-edit::after {
+  content: "";
+  position: absolute;
+  inset: -8px -6px;
+}
+.talk-sheet .chip {
+  position: relative;
+}
+.talk-sheet .chip::after {
+  content: "";
+  position: absolute;
+  inset: -6px -3px;
+}
+@media (pointer: coarse) {
+  .menu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .arg-tier,
+  .arg-roll-button,
+  .arg-edge-select,
+  .resolver-tab,
+  .talk-sheet .chip,
+  .talk-sheet .text-button,
+  .talk-setup-summary,
+  .talk-rules > summary,
+  .talk-sheet input,
+  .talk-sheet select,
+  .trait-pick {
+    min-height: 44px;
+  }
+  .talk-sheet .chip::after {
+    inset: 0;
+  }
+  .talk-sheet .text-button {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 6px;
+  }
+  .interest-mark,
+  .patience-pip {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .interest-edit {
+    width: 36px;
+    height: 36px;
+  }
+  .interest-edit::after {
+    inset: -4px;
+  }
+  .trait-actions {
+    gap: 10px;
+  }
+  .trait-note-btn,
+  .trait-reveal,
+  .trait-remove {
+    width: 36px;
+    height: 36px;
+  }
+  .trait-note-btn::after,
+  .trait-reveal::after,
+  .trait-remove::after {
+    inset: -4px;
+  }
+  .trait-pick {
+    align-content: center;
+  }
+}
+
+/* What's been said: full-width log below the cockpit */
+.talk-log {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.talk-log .talk-block-head h2 {
+  font-size: 17px;
+}
+.log-entries {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+.log-entry {
+  display: grid;
+  gap: 2px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.log-entry:last-child {
+  border-bottom: 0;
+}
+.log-entry-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 12px;
+}
+.log-entry strong {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.log-result {
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--pen);
+}
+.log-memo {
+  margin: 0;
+  max-width: 65ch;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+.log-entry small {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+}
+.log-empty {
+  margin: 0;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+/* The book's negotiation rules, closed by default */
+.talk-rules {
+  border-top: 1px solid var(--rule-strong);
+}
+.talk-rules > summary {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  padding: 10px 6px;
+  margin: 0 -6px;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  cursor: pointer;
+  list-style: none;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.talk-rules > summary::-webkit-details-marker {
+  display: none;
+}
+.talk-rules > summary::before {
+  content: "";
+  flex: 0 0 auto;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-right: 2px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.16s var(--ease-out);
+}
+.talk-rules > summary:hover {
+  background: var(--tint);
+  color: var(--ink);
+}
+.talk-rules > summary:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+.talk-rules-title {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.talk-rules[open] {
+  border-top: 0;
+}
+.talk-rules[open] > summary {
+  margin: 0;
+  padding: 10px 14px 9px;
+  border-radius: 6px 6px 0 0;
+  background: var(--tint);
+  border-bottom: 1px solid var(--rule-strong);
+  color: var(--ink);
+}
+.talk-rules[open] > summary::before {
+  transform: translateY(-2px) rotate(45deg);
+}
+.talk-rules[open] > summary::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--page);
+  transform: translateX(-50%) rotate(45deg);
+}
+.talk-rules-body {
+  display: grid;
+  gap: 28px;
+  padding: 20px 0 6px;
+}
+.rules-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 28px;
+  align-items: start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.rules-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rules-steps li {
+  max-width: 56ch;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.rules-ladder {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rules-ladder li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  line-height: 1.38;
+  color: var(--ink-2);
+}
+.rules-ladder li:first-child {
+  padding-top: 2px;
+}
+.rules-ladder li.terminal {
+  border-bottom-color: var(--rule-strong);
+}
+.rules-ladder li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.rules-ladder-num {
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: right;
+  color: var(--ink);
+}
+.rules-ladder span {
+  color: var(--ink-3);
+}
+.rules-spread {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 0;
+  row-gap: 24px;
+  align-items: start;
+}
+.rules-col {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  min-width: 0;
+}
+.rules-col:first-child {
+  padding-right: 28px;
+}
+.rules-col + .rules-col {
+  padding-left: 28px;
+  border-left: 1px solid var(--rule);
+}
+.talk-rules-body section {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-width: 0;
+}
+.talk-rules-body p {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.talk-rules-body strong {
+  font-family: var(--font-head);
+  color: var(--ink);
+}
+.rules-cases {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rules-case {
+  display: grid;
+  gap: 6px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.rules-case:first-child {
+  padding-top: 2px;
+}
+.rules-case:last-child {
+  border-bottom: 0;
+  padding-bottom: 2px;
+}
+.rules-case-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 10px;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+.rules-case-kind {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rules-tiers {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rules-tiers li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.rules-tiers .tier-mark {
+  height: 1.4rem;
+}
+.rules-tiers em {
+  color: var(--ink-3);
+}
+.rules-notes {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--rule);
+}
+.rules-responses {
+  display: grid;
+  margin: 0;
+}
+.rules-response-row {
+  display: grid;
+  gap: 2px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.rules-response-row:first-child {
+  padding-top: 2px;
+}
+.rules-response-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.rules-response-row dt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13.5px;
+}
+.rules-response-row dt span {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+.rules-response-row dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 16px;
+  margin: 0;
+  max-width: 56ch;
+  font-size: 13.5px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.rules-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.rules-table th,
+.rules-table td {
+  padding: 6px 10px 6px 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+  color: var(--ink-2);
+}
+.rules-table thead th {
+  padding-top: 2px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--rule-strong);
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.rules-table tbody tr:last-child th,
+.rules-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.rules-table tbody th {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--ink);
+}
+.rules-table tbody th span {
+  display: block;
+  margin-top: 1px;
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+.rules-table .num {
+  width: 1%;
+  white-space: nowrap;
+  text-align: right;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.rules-table-attitudes .num {
+  padding-left: 16px;
+  padding-right: 0;
+}
+.rules-table-attitudes td.num {
+  font-family: var(--font-head);
+  font-weight: 700;
+  color: var(--ink);
+}
+.rules-table-impression th,
+.rules-table-impression td {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.rules-table-impression .num {
+  padding-right: 16px;
+}
+.rules-traits {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rules-traits li {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: 7px 0 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.rules-trait-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.rules-traits strong {
+  font-family: var(--font-head);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.rules-trait-meta {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-3);
+}
+.rules-traits li > span {
+  font-size: 12.5px;
+  line-height: 1.38;
+  color: var(--ink-3);
+}
+
+/* Negotiation ended banner (never crimson: crimson is Malice) */
+.talk-closed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 18px;
+  padding: 12px 2px 14px;
+  border-top: 3px double var(--ink);
+  border-bottom: 1px solid var(--rule-strong);
+}
+.talk-closed strong {
+  font-family: var(--font-head);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.talk-closed p {
+  margin: 4px 0 0;
+  max-width: 56ch;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.talk-closed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Quick Create (empty state + always-reachable "+ New NPC") */
+.talk-opening {
+  display: grid;
+  gap: 24px;
+  max-width: 1180px;
+}
+.talk-opening-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 18px;
+}
+.talk-opening-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.talk-opening-copy {
+  display: grid;
+  gap: 6px;
+  max-width: 56ch;
+}
+.talk-opening-copy h2 {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+.talk-opening-copy p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.improv-section {
+  display: grid;
+  gap: 10px;
+}
+.improv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.improv-button {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--field);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
+}
+.improv-button:hover {
+  border-color: var(--pen);
+  background: var(--pen-wash);
+}
+.improv-button:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+.improv-button-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.improv-button-head strong {
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.improv-button:hover .improv-button-head strong {
+  color: var(--pen);
+}
+.improv-button-head span {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.improv-button-hint {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+
+.archetype-groups {
+  display: grid;
+  gap: 20px;
+}
+.archetype-band {
+  display: grid;
+  gap: 4px;
+}
+.archetype-index {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+}
+.archetype-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 10px 8px 10px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.archetype-entry:hover {
+  background: var(--tint);
+}
+.archetype-entry:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: -2px;
+}
+.archetype-entry-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.archetype-entry strong {
+  font-family: var(--font-head);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.archetype-entry:hover strong {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.archetype-entry-note {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.archetype-entry-traits {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+.archetype-entry-traits em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.archetype-entry-meta {
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink-3);
+}
+.negotiation-switcher-empty {
+  margin: 0;
+  padding: 0 8px;
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--on-cloth-dim);
+}
+
+/* Laptop height tightening: keep the entire cockpit — Interest, Patience,
+   Motivations, Pitfalls, and Argument tiers — comfortably above the fold. */
+@media (min-width: 960px) and (max-height: 1050px) {
+  .talk-sheet {
+    gap: 14px;
+  }
+  .talk-cockpit {
+    gap: 18px;
+  }
+  .talk-state-col,
+  .talk-action-col {
+    gap: 12px;
+  }
+  .interest-row {
+    padding: 3px 0;
+  }
+  .talk-argument {
+    gap: 8px;
+  }
+  .resolver-body {
+    gap: 8px;
+  }
+  .arg-tier {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+/* Tablet portrait & narrow viewports (<960px): single-column cockpit while
+   .topbar carries the live NPC status without duplication. */
+@media (max-width: 959px) {
+  .talk-cockpit {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .improv-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rules-overview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding-bottom: 20px;
+  }
+  .rules-spread {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+  }
+  .rules-col:first-child {
+    padding-right: 0;
+  }
+  .rules-col + .rules-col {
+    padding-left: 0;
+    border-left: 0;
+  }
 }
 
 /* ==========================================================================
@@ -4859,14 +6575,17 @@ body.preview-open {
   right: 24px;
   bottom: 24px;
   z-index: 80;
-  max-width: min(420px, calc(100vw - 32px));
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(440px, calc(100vw - 32px));
   padding: 11px 16px 10px;
   border-radius: var(--radius);
   background: var(--band);
   color: var(--on-band);
   box-shadow: var(--shadow-lift);
   font-family: var(--font-head);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   opacity: 0;
   transform: translateY(10px);
@@ -4882,6 +6601,24 @@ body.preview-open {
 .toast.show {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+}
+.toast-action {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.toast-action:hover {
+  opacity: 0.82;
 }
 
 /* The colophon: the book's last page. A rule notched at its centre closes
@@ -5674,6 +7411,12 @@ body.dragging-encounter-entry .monster-library::before {
   .malice-library-copy span {
     display: none;
   }
+  .talk-sheet {
+    max-width: none;
+  }
+  .talk-lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 @media (max-width: 620px) {
   .topbar {
@@ -5708,6 +7451,36 @@ body.dragging-encounter-entry .monster-library::before {
   }
   .top-actions > .primary {
     flex: 1;
+  }
+  /* On Talk, keep the phone topbar to one slim row (~64px) with a compact
+     "+ New NPC" button so the live legend stays visible without wasting
+     vertical space. */
+  .topbar.topbar-talk {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    padding: 8px 0;
+    gap: 6px 10px;
+  }
+  .topbar.topbar-talk .topbar-title {
+    min-width: 0;
+  }
+  .topbar.topbar-talk .topbar-title h1 {
+    font-size: 26px;
+  }
+  .topbar.topbar-talk .topbar-legend {
+    font-size: 13px;
+  }
+  .topbar.topbar-talk .top-actions {
+    grid-column: auto;
+    width: auto;
+  }
+  .topbar.topbar-talk .talk-new-btn {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .topbar.topbar-talk .talk-new-suffix {
+    display: none;
   }
   .combat-controls {
     width: 100%;
@@ -5792,6 +7565,58 @@ body.dragging-encounter-entry .monster-library::before {
   }
   .group-filter-bar {
     margin-left: 0;
+  }
+  .talk-head {
+    padding: 10px 12px 12px;
+  }
+  .talk-name {
+    font-size: 21px;
+    flex: 1 1 120px;
+    min-width: 0;
+  }
+  .talk-setup-toggle {
+    order: 2;
+  }
+  .talk-ask-inline {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .talk-argument {
+    padding: 0 12px 4px;
+  }
+  .talk-argument > .talk-block-head {
+    margin: 0 -12px;
+    padding: 8px 12px 7px;
+  }
+  .interest-row {
+    grid-template-columns: 44px minmax(0, 1fr) 28px;
+  }
+  .interest-mark {
+    width: 44px;
+    height: 44px;
+  }
+  .interest-mark b {
+    font-size: 21px;
+  }
+  .interest-row.current .interest-mark b {
+    font-size: 26px;
+  }
+  .patience-pip {
+    width: 44px;
+    height: 44px;
+  }
+  .arg-tier {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding-right: 8px;
+  }
+  .archetype-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .talk-rules[open] > summary {
+    padding: 10px 12px 9px;
+  }
+  .rules-table-attitudes .num {
+    padding-left: 10px;
   }
   .preview-drawer {
     width: 100vw;

@@ -13,6 +13,7 @@ No account, no backend — encounters are saved locally in your browser, and mon
 - **Minions & captains:** Squads share a Stamina pool, show standing minion counts, support adding/removing minions by set or individually (hold `−`/`+` or Shift), attach a creature as captain (applying _With Captain_ benefits and Stamina bonuses), and calculate multi-minion signature damage.
 - **Malice features:** Automatically filters Basic and level-eligible family Malice features for the encounter, suggests a balanced 3–4 feature set, and tracks active effects and round expirations.
 - **Inline power rolls & conditions:** Click any ability, characteristic, or Malice power roll to roll with edges/banes and highlight the resolved tier in place. Conditions use the SteelCompendium catalog with hover descriptions.
+- **Negotiations:** Run Draw Steel social encounters on one screen with Interest (0–5) and Patience (0–5) tracks, all twelve Heroes book archetypes plus one-tap improvised NPCs, motivations and pitfalls, player-first argument resolution (including lies, repeats, Natural 19–20s, and Read the NPC), undoable history, and an inline rules reference.
 
 ## Owlbear Rodeo integration
 

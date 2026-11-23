@@ -74,7 +74,7 @@ export interface CombatState {
   maliceSelectionInitialized: boolean;
 }
 
-export type ViewName = "builder" | "combat";
+export type ViewName = "builder" | "combat" | "talk";
 export type SortKey = "name" | "level" | "ev";
 export type FacetKey = "roles" | "sizes" | "keywords";
 
@@ -117,7 +117,80 @@ export interface Encounter {
 export interface AppState {
   encounters: Encounter[];
   activeEncounterId: string;
+  negotiations: Negotiation[];
+  activeNegotiationId: string;
   ui: UIState;
+}
+
+// ---------- Negotiation ----------
+
+/** A motivation the heroes can appeal to, or a pitfall they can stumble
+    into. Both live on the NPC; the Director reads them, the players don't. */
+export interface NegotiationTrait {
+  id: string;
+  /** The book's motivation or pitfall name ("Greed", "Higher authority"). */
+  name: string;
+  /** What it means for this NPC, in the Director's own words. */
+  note: string;
+  /** Already appealed to: a motivation can only be used once. */
+  used: boolean;
+  /** Revealed to the heroes by a successful read, or written in from prep. */
+  revealed: boolean;
+}
+
+/** How the heroes are known to this NPC, if at all. */
+export type Renown = "unknown" | "famous" | "infamous";
+
+export interface NegotiationLogEntry {
+  id: string;
+  /** What the hero did. */
+  kind: "argument" | "read";
+  title: string;
+  /** Optional short memo of what the party offered or said. */
+  memo?: string;
+  /** The movement it caused, as it was printed when it was applied. */
+  result: string;
+  /** The roll that decided it, if there was one. */
+  roll: string;
+  /** The two tracks before it was applied, so it can be taken back. */
+  before: {
+    interest: number;
+    patience: number;
+    usedIds: string[];
+    revealedPitfallIds?: string[];
+  };
+  at: number;
+}
+
+/** Starting native-language patience bonus (0, +1 for one hero, +2 for 3+). */
+export type LanguageBonus = 0 | 1 | 2;
+
+/** One saved negotiation: an NPC the party is trying to move. */
+export interface Negotiation {
+  id: string;
+  name: string;
+  /** What the heroes came for, in the Director's words. */
+  ask: string;
+  /** The archetype it was built from, or "" for a custom NPC. */
+  archetype: string;
+  attitude: AttitudeKey;
+  /** Native-language patience bonus applied at the start of the negotiation. */
+  languageBonus: LanguageBonus;
+  interest: number;
+  patience: number;
+  /** How much Renown it takes to move this NPC with fame alone. */
+  impression: number;
+  renown: Renown;
+  motivations: NegotiationTrait[];
+  pitfalls: NegotiationTrait[];
+  /** What the NPC offers at each interest level, 0–5, in the Director's words. */
+  outcomes: [string, string, string, string, string, string];
+  log: NegotiationLogEntry[];
+  /** Set when the two tracks have reached an end the book describes. */
+  ended: Ending;
+  /** True when the Director chose "Keep talking" past a terminal track value. */
+  overrideEnded?: boolean;
+  updatedAt: number;
 }
 
 // ---------- SteelCompendium source data ----------
@@ -336,3 +409,9 @@ export interface Difficulty {
 export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
+
+/** A track the negotiation runs on: how eager the NPC is, and how much
+    arguing they will sit through. Imported from the rules module so the
+    saved state and the printed rules can never disagree. */
+export type AttitudeKey = "hostile" | "suspicious" | "neutral" | "open" | "friendly" | "trusting";
+export type Ending = "interest-5" | "interest-0" | "patience-0" | null;

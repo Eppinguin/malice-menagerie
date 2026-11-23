@@ -262,6 +262,51 @@ components:
     textColor: "{colors.ballpoint-pen}"
     rounded: "{rounded.print}"
     padding: "1px 3px 0"
+  talk-head:
+    backgroundColor: "{colors.panel-grey}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.panel}"
+    padding: "10px 12px 12px"
+  interest-rung:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.print}"
+    width: "40px"
+  interest-rung-current:
+    textColor: "{colors.ink}"
+    borderColor: "{colors.ballpoint-pen}"
+    borderWidth: "1.35px"
+  patience-box:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-tertiary}"
+    typography: "{typography.control}"
+    rounded: "{rounded.print}"
+    size: "40px"
+  patience-box-left:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.white-stock}"
+  arg-tier:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-secondary}"
+    typography: "{typography.body}"
+    rounded: "{rounded.print}"
+    padding: "7px 12px 7px 4px"
+  arg-tier-rolled:
+    textColor: "{colors.ballpoint-pen}"
+  motivation-box:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.print}"
+    size: "20px"
+  trait-reveal:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink-tertiary}"
+    rounded: "{rounded.print}"
+    size: "24px"
+  trait-reveal-known:
+    backgroundColor: "{colors.pen-wash}"
+    textColor: "{colors.ballpoint-pen}"
+    borderColor: "{colors.pen-line}"
   toast:
     backgroundColor: "{colors.tab-black}"
     textColor: "{colors.on-tab}"
@@ -281,6 +326,8 @@ The app is the Draw Steel Monsters book lying open on the Director's table, set 
 
 Everything the Director does is written on top of that print in a second hand, in ballpoint blue. Values the Director enters (names, Stamina, quantities) are typeset in blue Bitter, never a handwriting face, because they must read at a glance mid-combat. The marks they make are drawn by hand over the print: the rolled tier circled twice, the roll worked out as a sum with its answer ruled off twice, a turn ticked, a downed creature crossed through, a condition ringed and crossed off. Malice is crimson ink: an outlined counter in the running head, never a filled block. A flat black spine binds the page on the left, and the active tab is cut from the page stock.
 
+The same book has a third page, Negotiation (reached via `Negotiate` in the spine): the Heroes book's negotiation spread, run live as a one-screen improvisational cockpit. Interest is printed as the book's own ladder of responses, five down to nothing, and the rung the NPC stands on is circled by hand. Patience is five printed boxes (plus a dashed `0` final-offer box), filled with ink while the NPC will still listen. Motivations are ticked boxes, because the book spends each one once; pitfalls carry no box at all, printed instead as a warning in heavy ink. Tapping any motivation or pitfall stages it directly into the resolver, where all three tier outcomes are already printed for one-tap player-rolled resolution (with a compact optional `Roll 2d10` bar beneath).
+
 Density is the density of a rulebook, not a dashboard. Structure comes from thin rules, V-notched dividers and a 3px double rule under the running head, not from floating cards. Statblocks sit side by side on the board as whole pages divided by vertical rules. Colour is law rather than decoration: each hue has one meaning. The same book also exists as a night page (charcoal stock, bone ink, the same roles), a user toggle persisted in `localStorage` that defaults to `prefers-color-scheme`. The world refuses the dark SaaS dashboard of boxed cards and a single neon accent.
 
 **Key Characteristics:**
@@ -293,6 +340,7 @@ Density is the density of a rulebook, not a dashboard. Structure comes from thin
 - Crimson appears only where Malice is, as ink and outline.
 - Print is crisp and controls stay printed; game state is marked by hand on top.
 - One motion: marks are drawn on left to right like a pen stroke.
+- The two tracks of a negotiation are printed as the book prints them — a ladder of responses and a row of boxes — never as sliders.
 
 ## Colors
 
@@ -346,7 +394,11 @@ Neutral black ink on white stock, with flat grey header panels and two reserved 
 
 **The Hand-Mark Rule.** Hand-drawn strokes mark game state, never controls. Buttons, inputs, selects, focus rings and rules text stay printed and crisp. A mark is thin (1.2–2.1px), seeded so it keeps its shape across re-renders, and drawn on once when the state it records begins. Words and numbers inside or beside a mark stay typeset in Bitter. A mark must carry state the Director needs and cannot already read elsewhere: no struck-out history, no tally of what a heading already says.
 
-**The Circled Roll Rule.** The rolled tier is circled in ballpoint blue never filled or highlighted. The roll result stays on the Roll line: the working is trimmed before the line is allowed to wrap. The printed result under the loop stays ink, so it reads exactly as the book prints it. Highlighter yellow is left to native text selection.
+**The Circled Roll Rule.** The rolled tier is circled in ballpoint blue never filled or highlighted. The roll result stays on the Roll line: the working is trimmed before the line is allowed to wrap. The printed result under the loop stays ink, so it reads exactly as the book prints it. Highlighter yellow is left to native text selection. The negotiation's tier rows keep the law exactly: the loop alone marks the row, and only the row's badge and its outcome text turn pen, over paper.
+
+**The Ladder Rule.** A negotiation's Interest is the book's ladder of NPC responses, printed as six ruled rungs from 5 down to 0, each naming what the NPC offers at that level. The current rung is set apart by hand — the numeral stepped up and circled in the pen's loop — never by a fill, a highlight or a slider. Patience beside it is five printed boxes filled in ink while the NPC will still listen; an empty row is the final offer.
+
+**The Spend Rule.** A motivation is a box, and it is ticked once: the book spends each one, and the tick is the memory the Director would otherwise have to keep. A pitfall is not spent, it is avoided, so it carries no checkbox — it sits under a heavy-ink header rule and opens with a bare warning triangle (`△!`) and a pitfall-specific gloss, because mentioning one fails the argument outright.
 
 **The Heavy Ink Rule.** Danger, removal, Down and EXTREME are set in heavy ink (an ink cross over a downed slip, a bold underline, an ink outline on hover), never in red, because red already means Malice.
 
@@ -403,6 +455,8 @@ Between the running head and the board runs one strip, about 48px: the Encounter
 A statblock reads top to bottom: the header panel (name with "EV 156" at the right, then "Level 11 Solo" in bold followed by the keywords, so every lane's header has the same two lines and the stat rows line up across the board; the level editor keeps to those two lines), the five-column stat row, the five-column characteristic row, then abilities and traits. Each ability is three aligned lines under a 22px icon column: icon + name + bold kind; keywords + action; distance + target, with the right-hand item pushed right. Effects, tiers and spend controls indent 26px to the name. Tier rows are a 40px badge column and the result.
 
 Prep is a library column beside a sticky Encounter box (one column below 900px), under a full-width party line that ends in a V-notched rule.
+
+Negotiation is one sheet under the running head ("Negotiation", with the NPC's live state and a `+ New NPC` action in the topbar). The head is the flat grey panel a statblock opens with: the NPC's name in pen at 26px, what the heroes want inline, and an `Edit setup` toggle over a collapsible setup tray (archetype, Impression, Renown, starting attitude, non-Caelian native language bonus, and reset) — starting collapsed on quick-improv and archetype NPCs so the entire cockpit lands above the fold, and open on blank NPCs. Below it is a two-column live cockpit: the Interest ladder (six ruled rungs) and Patience boxes on the left, and tap-to-stage Motivations & Pitfalls stacked directly above the two-tab Resolver (`An argument` | `Read the NPC`) on the right. Below the cockpit sit the log and the book's rules closed in a `<details>`. Below 960px the columns stack cleanly to one while the topbar keeps the live state visible.
 
 Spacing runs 4 / 8 / 12 / 18 / 28 / 36px, with 2px between stacked rows. At 900px the spine becomes a menu toggle and the gutters shrink to 20px, then to 14px at 620px, where each lane takes the full viewport width.
 
@@ -498,6 +552,45 @@ The book's layout, line for line: a glyph icon, the bold name and the bold kind 
 - **Editing:** a tap turns the line itself into Level [−] N [+] [Party P] [Printed L], so the stats it rewrites stay in view. The steps are 26px outlined print controls (strong-rule border, field fill, 2px corners, 14px stroke icons) that take a pen border, pen wash and pen icon on hover; the value is 17px pen; the jumps are 26px outlined Bitter 600 13px, Party's value in pen and Printed's in ink, each shown only when it would change the level. The organization, role and keywords step aside while it is open, so the header keeps its two lines (The Glance Budget Rule). No popover and no close button: a tap elsewhere, Escape or Enter closes it, and the arrow keys step.
 - **Run board:** changing a lane's level rescales each creature's current Stamina at its same share of the maximum.
 
+### Negotiation Tracks (signature)
+
+The two tracks the book runs a parley on, printed as the book prints them.
+
+- **Interest ladder:** six ruled rungs, 5 down to 0, each a 40px mark column and the book's phrase for that response ("Yes, and…", "No, but…") with its prose, plus whatever the Director has written that this NPC offers at that level in pen. Rungs close with a 1px strong rule; the two ends of the ladder (5 and 0) close heavier, because they end the negotiation. The numeral sets the rung on a tap; the current rung's numeral steps up and is circled in the pen's single lap, and its response phrase goes bold ink while the others hold ink-secondary. Each rung carries a pencil at the right that opens the Director's own line for that level, at 55% until hover or focus. Terminal rungs and the ladder's last row keep their rules.
+- **Patience:** five printed boxes (40px, 44px on coarse pointers), print corners, strong-rule border, plus a dashed `0` final-offer box. Filled solid ink with page-coloured numerals while the NPC will still listen; outlined and ink-tertiary once spent. A tap sets the number (tapping active `1` also toggles to `0`). Under it, one line of prose states what the count means ("3 arguments left before their final offer"), never a count alone.
+- **Setup tray (collapsible):** archetype, Impression (1–12), Renown chips, the six Starting Attitude chips (Hostile to Trusting), and a stateful three-chip non-Caelian Native Language toggle (`None` / `One hero +1` / `Three+ +2`) that adjusts Patience losslessly. Collapses to a clickable one-line summary (`Custom · Impression 2 · Unknown · Neutral`) once play begins; reversible restarts and resets use non-blocking Undo toasts instead of browser confirms.
+
+### Resolver Panel (signature)
+
+The whole decision the table has to make, player-rolled first. It opens with the statblock's flat grey band, a strong rule and a V-notch, carrying a WAI-ARIA two-tab switch (`An argument` | `Read the NPC`) and the single live `Take it back` undo button.
+
+- **The mark:** a staged pill reflecting whichever motivation was tapped in the list above (with a clear button back to plain argument), plus compact modifier chips — `Same again`, `Caught in a lie`, `Nat 19–20` on plain arguments, and a fallback `Pitfall` chip when the NPC has no pitfalls listed yet.
+- **The hint & memo:** one line under the mark (capped at `56ch`), naming what the argument is and why it resolves the way it does, an optional Renown skill reminder, and an optional one-line memo (`"What did the heroes offer?"`).
+- **The tiers:** three always-clickable rows led by the book's glyph badges, each printing its own movement — "Interest +1", "Patience −1" — so players rolling physical or VTT dice (or earning a free Tier 3 for great roleplay) resolve in one tap. A marked lie prints its extra line on every tier where it would bite, and a tier that raises interest omits it. Where no roll is called for (a pitfall, a reused motivation, a repeat) the panel offers one full-width ink button printing its outcome.
+- **Optional in-app roll:** a compact single-line `Or roll here` bar beneath the tiers (`Bonus` well, tap-friendly `Edge / Bane` select, and `Roll 2d10`, also supporting long-press). Rolling circles the landed tier in the pen loop (`0.42s`) and turns its badge and text pen without locking the other rows. Changing staged traits clears any stale roll.
+- **Read the NPC tab:** shares the same panel and player-first tier rows, disabling automatically once used until an argument lands.
+
+### Motivation and Pitfall Lists (signature)
+
+Side by side directly above the Resolver, each a ruled list of clickable rows with the book's gloss under them in italic ink-tertiary, or the Director's own inline-editable note in pen.
+
+- **Tap to stage / trigger:** tapping a motivation stages it straight into `An argument` (switching back from `Read the NPC` automatically) with a subtle pen wash; tapping a listed pitfall triggers it in one click (no roll is called for — Interest −1, Patience −1, auto-reveals the pitfall, honors any typed memo or `Caught in a lie`, and offers an Undo toast alongside `Take it back`). Both disable once the negotiation ends.
+- **Motivations:** a printed tick box per row (20px visual, 44px hit area), ticked in pen once spent; the name steps back to ink-tertiary while spent, never struck through. Archetype NPCs display the book's per-archetype in-character motivation quote (falling back to the general motivation gloss on custom/random traits, and overridden in pen if the Director adds a custom note).
+- **Pitfalls:** no checkbox and no box frame. A heavy `2px` ink rule anchors the Pitfalls header, a bare ink warning triangle (`AlertIcon`, darkening to full ink on row hover) opens each row, and each trait displays the archetype's in-character pitfall quote from the book (falling back to its dedicated negative `pitfallGloss` on custom/random traits).
+- **Row actions & shared 12-trait deck:** pencil (inline note) and eye (known to heroes) stay visible under `@media (hover: none)` with `≥44px` coarse-pointer targets. `Shuffle` deals 3+2 random non-overlapping traits (undoable), and `Edit traits` reveals one shared 12-chip Draw Steel trait deck with a `Motivations / Pitfalls` toggle, custom input, and undoable `×` removal.
+
+### Negotiation Log
+
+What has been said, newest first, written in the Director's pen: the argument's title ("Appealed to Freedom", "Reused Freedom", "Touched pitfall: Power"), optional offer memo, its movement exactly as the tier row printed it, and any in-app roll or Natural 19–20 note. `Take it back` lives in the Resolver header during live play and moves here when the negotiation has ended, restoring tracks, spent motivations, and auto-revealed pitfalls.
+
+### Quick Create & Archetype Index
+
+Reached from empty state or the topbar `+ New NPC` action (with `Back` and `Esc` to cancel): a top **Quick improv — 1 tap** band (Local 1–4, Civic & Noble 5–8, Mythic 9–12 — each dealing 3 motivations + 2 pitfalls at Neutral) paired with a top-level `Blank NPC` button, followed by the book's twelve archetypes grouped into those same three Impression bands as a ruled two-column index — a 19px name, role note, inline `Moves / Avoid` trait preview, and `Impression N` tab label.
+
+### Terminal Band
+
+When the two tracks reach an end the book describes, the Resolver yields to a band under a 3px double ink rule with a 1px strong rule beneath: the ending in 21px heavy ink, its prose, `Keep talking` (setting an explicit override so subsequent arguments stay open), and `Reset` (backed by an Undo toast). Never crimson — crimson means Malice, and this is not Malice.
+
 ### Motion
 
 **The Pen-Stroke Rule.** Marks the Director makes are drawn on as a pen stroke traced along its own path (a stroke-dashoffset draw, ease-out `cubic-bezier(0.16, 1, 0.3, 1)`): about 0.3s for strikes and ticks, 0.45s for rings, 0.72s for the two-lap tier loop, with multi-stroke marks (the Down cross, the answer rules) drawing one stroke after the other. Typeset pen text is revealed left to right with a clip-path (`inset(0 100% 0 0)` to `inset(0 0 0 0)`). The roll tally writes itself in order: kites, sum, rules. Nothing else uses these animations. Everything else is a short transition: 0.12–0.2s for colour, 0.24–0.3s for the spine collapse, drawer slide, meters and budget ruler, and a 0.16s menu-in. `prefers-reduced-motion` collapses all of it.
@@ -517,6 +610,9 @@ The book's layout, line for line: a glyph icon, the bold name and the bold kind 
 - **Do** mark danger and removal with heavy ink: an ink cross over a downed slip, an underline on EXTREME, an ink outline on remove hover.
 - **Do** keep 2px print corners on controls, 6px on header panels, and tabular numerals on anything that changes.
 - **Do** give every new colour role a night value and reference it by token.
+- **Do** print a negotiation's Interest as the book's ladder of responses with the current rung circled in pen, and Patience as five printed boxes filled in ink.
+- **Do** print all three tier outcomes before the dice, including a marked lie on every tier where it bites, and log exactly what the tapped row printed.
+- **Do** give one roll per test: the argument's dice and the read's dice are separate, so neither panel's roll can vanish or be charged to the other.
 
 ### Don't:
 
@@ -532,6 +628,10 @@ The book's layout, line for line: a glyph icon, the bold name and the bold kind 
 - **Don't** add a second animation grammar or reuse the pen stroke for non-mark UI.
 - **Don't** put shadows on statblocks or panels; shadows are only for lifted things.
 - **Don't** hardcode colour literals in components; the night page depends on role tokens.
+- **Don't** express Interest or Patience as a slider, a gauge or a progress bar; they are the book's ladder and boxes.
+- **Don't** fill, tint or highlight a rolled tier's row in the argument panel; the loop and the pen badge are the mark.
+- **Don't** discard a negotiation's log or traits without an Undo path, or keep a stale in-app roll after staged traits change.
+- **Don't** hide a row's actions behind hover alone; under `@media (hover: none)` they stay visible.
 
 ## Settings and optional integrations
 

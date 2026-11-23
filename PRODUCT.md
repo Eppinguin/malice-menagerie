@@ -20,13 +20,13 @@ Glanceable, always-visible statblock columns (one per monster type) with live tr
 
 ## Operating Context
 
-Used mid-session under time pressure, between player turns, often in dim room light or beside a VTT. Prep happens beforehand at a desk. Terminology is Draw Steel's own: Director, Malice, EV, encounter strength (ES), Victories, Stamina, Stability, Free Strike, characteristics (M/A/R/I/P), power roll tiers (≤11 / 12–16 / 17+), edges and banes, minions/squads, horde/elite/leader/solo organizations, conditions.
+Used mid-session under time pressure, between player turns, often in dim room light or beside a VTT. Prep happens beforehand at a desk. Terminology is Draw Steel's own: Director, Malice, EV, encounter strength (ES), Victories, Stamina, Stability, Free Strike, characteristics (M/A/R/I/P), power roll tiers (≤11 / 12–16 / 17+), edges and banes, minions/squads, horde/elite/leader/solo organizations, conditions, and on the Negotiation page the negotiation's own: interest, patience, motivations, pitfalls, argument, Impression, Renown.
 
 ## Capabilities and Constraints
 
 - Preact + TypeScript SPA (Vite), state in @preact/signals persisted to localStorage; no backend.
 - Monster, Malice, and condition data fetched live from SteelCompendium (steelcompendium.io).
-- Two views: Prep (party parameters, monster library with filters/sort/search, encounter groups with drag & drop, difficulty meter) and Run (round counter, Malice counter and dock, acted tally, statblock columns with trackers, conditions, dice rolling).
+- Three views: Prep (party parameters, monster library with filters/sort/search, encounter groups with drag & drop, difficulty meter), Run (round counter, Malice counter and dock, acted tally, statblock columns with trackers, conditions, dice rolling), and Negotiate (a library of saved negotiations with 1-tap quick-improv & archetype creation, collapsible setup, a one-screen cockpit of Interest and Patience beside tap-to-stage motivations/pitfalls and a player-first Argument / Read resolver with optional in-app rolling, and a log of what has been said). Multiple saved encounters and multiple saved NPCs each live in their own spine list.
 - Multiple saved encounters in a sidebar.
 
 ## Brand Commitments

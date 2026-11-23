@@ -39,6 +39,21 @@ import {
 } from "./data.ts";
 import { basePath, levelKey } from "./lib/levels.ts";
 import { isRecord } from "./types.ts";
+import {
+  applyOutcome,
+  archetypeOf,
+  attitudeOf,
+  ATTITUDES,
+  endingFor,
+  impressionBandOf,
+  lieBites,
+  randomTraitPair,
+  readSpent,
+  tierLines,
+  tierOutcome,
+  traitOf,
+} from "./lib/negotiation.ts";
+import type { AttitudeKey, ArgumentPlan, Ending, ImpressionBandKey } from "./lib/negotiation.ts";
 import type {
   AppState,
   CatalogEntry,
@@ -49,9 +64,13 @@ import type {
   EncounterItem,
   FacetKey,
   Group,
+  LanguageBonus,
   MaliceFeature,
   MaliceGroup,
   Monster,
+  Negotiation,
+  NegotiationLogEntry,
+  NegotiationTrait,
   PowerRollResult,
   SortKey,
   UIState,
@@ -99,6 +118,8 @@ function defaultState(): AppState {
   return {
     encounters: [first],
     activeEncounterId: first.id,
+    negotiations: [],
+    activeNegotiationId: "",
     ui: {
       role: "all",
       search: "",
@@ -164,7 +185,7 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
   base.id = asString(value["id"], base.id);
   base.name = asString(value["name"], base.name).trim() || base.name;
   base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
-  base.view = value["view"] === "combat" ? "combat" : "builder";
+  base.view = value["view"] === "combat" || value["view"] === "talk" ? value["view"] : "builder";
 
   if (isRecord(value["party"])) {
     const party = value["party"];
@@ -336,6 +357,90 @@ function normalizeEntries(enc: Encounter): boolean {
   return changed;
 }
 
+/** Rebuild a guaranteed-valid Negotiation from whatever was persisted. */
+function sanitizeNegotiation(value: unknown, index: number): Negotiation {
+  const base = newNegotiation(`NPC ${index + 1}`);
+  if (!isRecord(value)) return base;
+
+  base.id = asString(value["id"], base.id);
+  base.name = asString(value["name"], base.name).trim() || base.name;
+  base.ask = asString(value["ask"], "");
+  base.archetype = asString(value["archetype"], "");
+  const attitude = value["attitude"];
+  base.attitude = (
+    ATTITUDES.some((item) => item.key === attitude) ? attitude : "neutral"
+  ) as AttitudeKey;
+  const rawLang = Number(value["languageBonus"]);
+  base.languageBonus = rawLang === 1 || rawLang === 2 ? rawLang : 0;
+  base.interest = clampInt(value["interest"], 0, 5);
+  base.patience = clampInt(value["patience"], 0, 5);
+  base.impression = clampInt(value["impression"], 1, 12);
+  const renown = value["renown"];
+  base.renown = renown === "famous" || renown === "infamous" ? renown : "unknown";
+  base.ended = (value["ended"] ?? null) as Ending;
+  if (asBool(value["overrideEnded"], false)) base.overrideEnded = true;
+
+  const traits = (raw: unknown): NegotiationTrait[] =>
+    Array.isArray(raw)
+      ? raw.filter(isRecord).flatMap((item): NegotiationTrait[] => {
+          const name = asString(item["name"], "").trim();
+          if (!name) return [];
+          return [
+            {
+              id: asString(item["id"], uid("trait")),
+              name,
+              note: asString(item["note"], ""),
+              used: asBool(item["used"], false),
+              revealed: asBool(item["revealed"], false),
+            },
+          ];
+        })
+      : [];
+  base.motivations = traits(value["motivations"]);
+  base.pitfalls = traits(value["pitfalls"]);
+
+  const outcomes = value["outcomes"];
+  if (Array.isArray(outcomes)) {
+    for (let level = 0; level < 6; level += 1) {
+      base.outcomes[level] = asString(outcomes[level], "");
+    }
+  }
+
+  const log = value["log"];
+  if (Array.isArray(log)) {
+    base.log = log.filter(isRecord).flatMap((entry): NegotiationLogEntry[] => {
+      const id = entry["id"];
+      const title = entry["title"];
+      if (typeof id !== "string" || typeof title !== "string") return [];
+      const before = isRecord(entry["before"]) ? entry["before"] : {};
+      const memo = asString(entry["memo"], "");
+      const hasRevealedPitfalls = Array.isArray(before["revealedPitfallIds"]);
+      return [
+        {
+          id,
+          kind: entry["kind"] === "read" ? "read" : "argument",
+          title,
+          ...(memo ? { memo } : {}),
+          result: asString(entry["result"], ""),
+          roll: asString(entry["roll"], ""),
+          before: {
+            interest: clampInt(before["interest"], 0, 5),
+            patience: clampInt(before["patience"], 0, 5),
+            usedIds: asStringArray(before["usedIds"]),
+            ...(hasRevealedPitfalls
+              ? { revealedPitfallIds: asStringArray(before["revealedPitfallIds"]) }
+              : {}),
+          },
+          at: Number(entry["at"]) || 0,
+        },
+      ];
+    });
+  }
+
+  base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
+  return base;
+}
+
 /** Rebuild a guaranteed-valid AppState from whatever was persisted. */
 function sanitizeState(value: unknown): AppState {
   const base = defaultState();
@@ -364,6 +469,17 @@ function sanitizeState(value: unknown): AppState {
       (raw): raw is Record<string, unknown> => isRecord(raw) && raw["id"] === active?.id,
     );
     if (active && activeRaw && !("view" in activeRaw)) active.view = legacyView;
+  }
+
+  const negotiations = Array.isArray(value["negotiations"])
+    ? value["negotiations"].map((raw, index) => sanitizeNegotiation(raw, index))
+    : [];
+  if (negotiations.length) {
+    base.negotiations = negotiations;
+    base.activeNegotiationId = asString(
+      value["activeNegotiationId"],
+      (negotiations[0] as Negotiation).id,
+    );
   }
 
   if (isRecord(value["ui"])) {
@@ -418,6 +534,8 @@ function ensureIntegrity(draft: AppState): void {
   }
   if (!draft.encounters.some((enc) => enc.id === draft.activeEncounterId))
     draft.activeEncounterId = (draft.encounters[0] as Encounter).id;
+  if (!draft.negotiations.some((item) => item.id === draft.activeNegotiationId))
+    draft.activeNegotiationId = (draft.negotiations[0] as Negotiation | undefined)?.id ?? "";
   for (const enc of draft.encounters) ensureEncounterIntegrity(enc);
 }
 
@@ -449,6 +567,22 @@ effect(() => {
 export function activeEncounter(): Encounter {
   const { encounters, activeEncounterId } = state.value;
   return encounters.find((enc) => enc.id === activeEncounterId) ?? (encounters[0] as Encounter);
+}
+
+/** The currently open negotiation, or null until one is created. */
+export function activeNegotiation(): Negotiation | null {
+  const { negotiations, activeNegotiationId } = state.value;
+  return negotiations.find((item) => item.id === activeNegotiationId) ?? null;
+}
+
+/**
+ * The open negotiation, read fresh. A block that keeps its own state (the
+ * ladder's edit box, a list's add field, the read's spent rule) only
+ * re-renders on a signal it has read itself, so each one reads the
+ * negotiation here rather than trusting the prop it was last handed.
+ */
+export function liveNegotiation(prop: Negotiation): Negotiation {
+  return activeNegotiation() ?? prop;
 }
 
 /**
@@ -557,20 +691,42 @@ export const qtyDrafts = signal<ReadonlyMap<string, number>>(new Map());
 export const lastRolls = signal<ReadonlyMap<string, PowerRollResult>>(new Map());
 export const lastMaliceRolls = signal<ReadonlyMap<string, PowerRollResult>>(new Map());
 export const sharedRollActive = signal<boolean>(false);
-export const toastState = signal<{ message: string; shown: boolean }>({
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
+}
+
+export const toastState = signal<{
+  message: string;
+  shown: boolean;
+  action: ToastAction | null;
+}>({
   message: "",
   shown: false,
+  action: null,
 });
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
-export function toast(message: string, durationMs?: number): void {
+export function dismissToast(): void {
   clearTimeout(toastTimer);
-  const timeout = durationMs ?? (message.length > 48 ? 4_200 : 1_800);
-  toastState.value = { message, shown: true };
+  toastState.value = { ...toastState.value, shown: false, action: null };
+}
+
+export function toast(
+  message: string,
+  options?: number | { durationMs?: number; action?: ToastAction },
+): void {
+  clearTimeout(toastTimer);
+  const action = typeof options === "object" ? (options.action ?? null) : null;
+  const duration =
+    typeof options === "number"
+      ? options
+      : (options?.durationMs ?? (action ? 5_200 : message.length > 48 ? 4_200 : 1_800));
+  toastState.value = { message, shown: true, action };
   toastTimer = setTimeout(() => {
-    toastState.value = { message, shown: false };
-  }, timeout);
+    toastState.value = { ...toastState.value, shown: false, action: null };
+  }, duration);
 }
 
 export function qtyFor(path: string): number {
@@ -2434,6 +2590,705 @@ export function spendAbilityMalice(cost: number, name: string): void {
     draft.combat.malice -= cost;
   });
   toast(`${name} · −${cost} Malice`);
+}
+
+// ---------- Negotiation ----------
+
+/** True while the Director is picking an archetype / random NPC / blank NPC
+    via Quick Create (always reachable even when NPCs already exist). */
+export const creatingNegotiation = signal(false);
+
+/** Set to a newly created Blank NPC's ID so its trait picker and Setup tray open
+    automatically; Quick Improv and Archetypes start collapsed for instant play. */
+export const autoEditTraitsFor = signal<string | null>(null);
+export const autoOpenSetupFor = signal<string | null>(null);
+
+const DEFAULT_NPC_NAMES = new Set(["New NPC", "Local NPC", "Notable NPC", "Legendary NPC"]);
+
+function effectiveEnding(draft: Negotiation): Ending {
+  return draft.overrideEnded ? null : endingFor(draft.interest, draft.patience);
+}
+
+export function openNewNegotiation(): void {
+  creatingNegotiation.value = true;
+  mobileNavOpen.value = false;
+}
+
+export function closeNewNegotiation(): void {
+  creatingNegotiation.value = false;
+}
+
+/** A fresh, empty negotiation: the Director's own NPC, with both tracks at
+    a neutral start and six blank outcome lines. */
+function newNegotiation(name = "New NPC"): Negotiation {
+  const attitude = attitudeOf("neutral");
+  return {
+    id: uid("neg"),
+    name,
+    ask: "",
+    archetype: "",
+    attitude: attitude.key,
+    languageBonus: 0,
+    interest: attitude.interest,
+    patience: attitude.patience,
+    impression: 1,
+    renown: "unknown",
+    motivations: [],
+    pitfalls: [],
+    outcomes: ["", "", "", "", "", ""],
+    log: [],
+    ended: null,
+    updatedAt: Date.now(),
+  };
+}
+
+function blankTrait(name: string): NegotiationTrait {
+  return { id: uid("trait"), name, note: "", used: false, revealed: false };
+}
+
+/** A negotiation built from one of the book's archetypes: its motivations
+    and pitfalls are laid out, its Impression and attitude are set, and the
+    Director edits from there. */
+function archetypeNegotiation(key: string): Negotiation {
+  const archetype = archetypeOf(key);
+  const base = newNegotiation(archetype ? archetype.label : "New NPC");
+  if (!archetype) return base;
+  base.archetype = archetype.key;
+  base.impression = archetype.impression;
+  base.motivations = archetype.motivations.map((name) => blankTrait(traitOf(name).label));
+  base.pitfalls = archetype.pitfalls.map((name) => blankTrait(traitOf(name).label));
+  return base;
+}
+
+export function createNegotiation(archetypeKey = ""): string {
+  const fresh = archetypeKey ? archetypeNegotiation(archetypeKey) : newNegotiation();
+  clearNegotiationRolls();
+  creatingNegotiation.value = false;
+  mobileNavOpen.value = false;
+  autoEditTraitsFor.value = archetypeKey ? null : fresh.id;
+  autoOpenSetupFor.value = archetypeKey ? null : fresh.id;
+  mutateApp((app) => {
+    app.negotiations.push(fresh);
+    app.activeNegotiationId = fresh.id;
+  });
+  return fresh.id;
+}
+
+/** Instant mid-session improvisation: deal a ready-to-run Neutral NPC in one
+    of the three Impression bands with 3 non-overlapping motivations + 2 pitfalls. */
+export function createRandomNegotiation(bandKey: ImpressionBandKey): string {
+  const band = impressionBandOf(bandKey);
+  const fresh = newNegotiation(band.npcName);
+  const deal = randomTraitPair(3, 2);
+  fresh.impression = band.defaultImpression;
+  fresh.motivations = deal.motivations.map((trait) => blankTrait(trait.label));
+  fresh.pitfalls = deal.pitfalls.map((trait) => blankTrait(trait.label));
+  clearNegotiationRolls();
+  creatingNegotiation.value = false;
+  mobileNavOpen.value = false;
+  autoEditTraitsFor.value = null;
+  autoOpenSetupFor.value = null;
+  mutateApp((app) => {
+    app.negotiations.push(fresh);
+    app.activeNegotiationId = fresh.id;
+  });
+  return fresh.id;
+}
+
+export function selectNegotiation(id: string): void {
+  creatingNegotiation.value = false;
+  mobileNavOpen.value = false;
+  clearNegotiationRolls();
+  mutateApp((app) => {
+    app.activeNegotiationId = id;
+  });
+}
+
+export function renameNegotiation(id: string, name: string): void {
+  const trimmed = name.trim();
+  if (!trimmed) return;
+  mutateApp((app) => {
+    const target = app.negotiations.find((item) => item.id === id);
+    if (target) target.name = trimmed;
+  });
+}
+
+export function duplicateNegotiation(id: string): void {
+  creatingNegotiation.value = false;
+  mobileNavOpen.value = false;
+  clearNegotiationRolls();
+  mutateApp((app) => {
+    const source = app.negotiations.find((item) => item.id === id);
+    if (!source) return;
+    const copy: Negotiation = {
+      ...structuredClone(source),
+      id: uid("neg"),
+      name: `${source.name} copy`,
+      log: [],
+      ended: null,
+      updatedAt: Date.now(),
+    };
+    delete copy.overrideEnded;
+    for (const item of [...copy.motivations, ...copy.pitfalls]) item.used = false;
+    app.negotiations.push(copy);
+    app.activeNegotiationId = copy.id;
+  });
+}
+
+export function deleteNegotiation(id: string): void {
+  const appNow = state.value;
+  const index = appNow.negotiations.findIndex((item) => item.id === id);
+  if (index < 0) return;
+  const snapshot = structuredClone(appNow.negotiations[index]!);
+  const prevActive = appNow.activeNegotiationId;
+  mutateApp((app) => {
+    app.negotiations = app.negotiations.filter((item) => item.id !== id);
+    if (app.activeNegotiationId === id) app.activeNegotiationId = app.negotiations[0]?.id ?? "";
+  });
+  toast(`Deleted ${snapshot.name || "NPC"}`, {
+    action: {
+      label: "Undo",
+      onClick: () => {
+        mutateApp((app) => {
+          if (app.negotiations.some((item) => item.id === snapshot.id)) return;
+          app.negotiations.splice(Math.min(index, app.negotiations.length), 0, snapshot);
+          app.activeNegotiationId =
+            prevActive === snapshot.id ? snapshot.id : app.activeNegotiationId;
+        });
+      },
+    },
+  });
+}
+
+/** One mutation against the open negotiation, stamped and persisted. It
+    goes through the app-level mutation so every reader of the state —
+    including the spine's NPC list — sees it. */
+function mutateNegotiation(fn: (draft: Negotiation) => void): void {
+  mutateApp((app) => {
+    const target = app.negotiations.find((item) => item.id === app.activeNegotiationId);
+    if (!target) return;
+    fn(target);
+    target.updatedAt = Date.now();
+  });
+}
+
+/** The open negotiation's fields, edited in place. */
+export function editNegotiation(
+  values: Partial<Pick<Negotiation, "name" | "ask" | "impression" | "renown">>,
+): void {
+  mutateNegotiation((draft) => {
+    if (values.name !== undefined) draft.name = values.name;
+    if (values.ask !== undefined) draft.ask = values.ask;
+    if (values.impression !== undefined) draft.impression = clampInt(values.impression, 1, 12);
+    if (values.renown !== undefined) draft.renown = values.renown;
+  });
+}
+
+/** Adopt one of the book's archetypes: its motivations and pitfalls replace
+    whatever the NPC had, and its Impression comes with it. Swapping when the
+    NPC still has a default placeholder name adopts the archetype's name too. */
+export function setNegotiationArchetype(key: string): void {
+  const open = activeNegotiation();
+  if (!open || key === open.archetype) return;
+  if (!key) {
+    mutateNegotiation((draft) => {
+      draft.archetype = "";
+    });
+    return;
+  }
+  const archetype = archetypeOf(key);
+  if (!archetype) return;
+  const targetId = open.id;
+  const prev = {
+    archetype: open.archetype,
+    name: open.name,
+    impression: open.impression,
+    motivations: structuredClone(open.motivations),
+    pitfalls: structuredClone(open.pitfalls),
+  };
+  const hadContent = open.motivations.length > 0 || open.pitfalls.length > 0;
+  mutateNegotiation((draft) => {
+    draft.archetype = archetype.key;
+    if (DEFAULT_NPC_NAMES.has(draft.name.trim()) || !draft.name.trim()) {
+      draft.name = archetype.label;
+    }
+    draft.impression = archetype.impression;
+    draft.motivations = archetype.motivations.map((name) => blankTrait(traitOf(name).label));
+    draft.pitfalls = archetype.pitfalls.map((name) => blankTrait(traitOf(name).label));
+  });
+  if (hadContent) {
+    toast(`Applied ${archetype.label}`, {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          mutateApp((app) => {
+            const target = app.negotiations.find((item) => item.id === targetId);
+            if (!target) return;
+            target.archetype = prev.archetype;
+            target.name = prev.name;
+            target.impression = prev.impression;
+            target.motivations = prev.motivations;
+            target.pitfalls = prev.pitfalls;
+            target.updatedAt = Date.now();
+          });
+        },
+      },
+    });
+  }
+}
+
+/** Set the starting attitude. Before any argument lands, this immediately sets
+    Interest and Patience (including any active language bonus). Once arguments
+    exist, restarting is non-blocking and backed by an Undo toast. */
+export function setNegotiationAttitude(key: AttitudeKey): void {
+  const attitude = attitudeOf(key);
+  const open = activeNegotiation();
+  if (!open || open.attitude === attitude.key) return;
+  const targetId = open.id;
+  const hadLog = open.log.length > 0;
+  const prev = hadLog ? structuredClone(open) : null;
+  clearNegotiationRolls();
+  mutateNegotiation((draft) => {
+    draft.attitude = attitude.key;
+    draft.interest = attitude.interest;
+    draft.patience = clampInt(attitude.patience + draft.languageBonus, 0, 5);
+    delete draft.overrideEnded;
+    draft.ended = endingFor(draft.interest, draft.patience);
+    draft.log = [];
+    for (const item of [...draft.motivations, ...draft.pitfalls]) item.used = false;
+  });
+  if (prev) {
+    toast(`Restarted at ${attitude.label}`, {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          mutateApp((app) => {
+            const i = app.negotiations.findIndex((item) => item.id === targetId);
+            if (i >= 0) app.negotiations[i] = prev;
+          });
+        },
+      },
+    });
+  }
+}
+
+/** Explicit restart back to the NPC's current starting attitude & language
+    bonus, clearing the log and freeing spent motivations — backed by Undo toast. */
+export function resetNegotiation(): void {
+  const open = activeNegotiation();
+  if (!open) return;
+  const targetId = open.id;
+  const prev = structuredClone(open);
+  const attitude = attitudeOf(open.attitude);
+  clearNegotiationRolls();
+  mutateNegotiation((draft) => {
+    draft.interest = attitude.interest;
+    draft.patience = clampInt(attitude.patience + draft.languageBonus, 0, 5);
+    delete draft.overrideEnded;
+    draft.ended = endingFor(draft.interest, draft.patience);
+    draft.log = [];
+    for (const item of [...draft.motivations, ...draft.pitfalls]) item.used = false;
+  });
+  toast(`Reset to ${attitude.label}`, {
+    action: {
+      label: "Undo",
+      onClick: () => {
+        mutateApp((app) => {
+          const i = app.negotiations.findIndex((item) => item.id === targetId);
+          if (i >= 0) app.negotiations[i] = prev;
+        });
+      },
+    },
+  });
+}
+
+export function setNegotiationInterest(value: number): void {
+  mutateNegotiation((draft) => {
+    draft.interest = clampInt(value, 0, 5);
+    draft.ended = effectiveEnding(draft);
+  });
+}
+
+export function setNegotiationPatience(value: number): void {
+  mutateNegotiation((draft) => {
+    draft.patience = clampInt(value, 0, 5);
+    draft.ended = effectiveEnding(draft);
+  });
+}
+
+/** Lossless starting native-language bonus (0, +1, or +2): computes exact
+    effective bonus clamped against the starting attitude's Patience so toggling
+    +2 → None on a Trusting (5) or Friendly (4) NPC never silently eats Patience. */
+export function setNegotiationLanguageBonus(bonus: LanguageBonus): void {
+  mutateNegotiation((draft) => {
+    const prev = draft.languageBonus ?? 0;
+    if (prev === bonus) return;
+    const basePat = attitudeOf(draft.attitude).patience;
+    draft.languageBonus = bonus;
+    if (draft.log.length === 0) {
+      draft.patience = clampInt(basePat + bonus, 0, 5);
+    } else {
+      const appliedPrev = Math.min(5, basePat + prev) - basePat;
+      const appliedNext = Math.min(5, basePat + bonus) - basePat;
+      draft.patience = clampInt(draft.patience + (appliedNext - appliedPrev), 0, 5);
+    }
+    draft.ended = effectiveEnding(draft);
+  });
+}
+
+export function setNegotiationOutcome(level: number, text: string): void {
+  mutateNegotiation((draft) => {
+    draft.outcomes[clampInt(level, 0, 5)] = text;
+  });
+}
+
+function hasTraitLabel(list: readonly NegotiationTrait[], label: string): boolean {
+  const key = label.trim().toLowerCase();
+  return list.some((item) => item.name.trim().toLowerCase() === key);
+}
+
+function addTraitChecked(
+  draft: Negotiation,
+  kind: "motivation" | "pitfall",
+  name: string,
+): string | null {
+  const trimmed = name.trim();
+  if (!trimmed) return null;
+  const own = kind === "motivation" ? draft.motivations : draft.pitfalls;
+  const other = kind === "motivation" ? draft.pitfalls : draft.motivations;
+  if (hasTraitLabel(own, trimmed)) return `${trimmed} is already listed.`;
+  if (hasTraitLabel(other, trimmed)) {
+    return `${trimmed} is already a ${kind === "motivation" ? "pitfall" : "motivation"}.`;
+  }
+  own.push(blankTrait(trimmed));
+  return null;
+}
+
+export function addNegotiationMotivation(name: string): void {
+  let warning: string | null = null;
+  mutateNegotiation((draft) => {
+    warning = addTraitChecked(draft, "motivation", name);
+  });
+  if (warning) toast(warning);
+}
+
+export function addNegotiationPitfall(name: string): void {
+  let warning: string | null = null;
+  mutateNegotiation((draft) => {
+    warning = addTraitChecked(draft, "pitfall", name);
+  });
+  if (warning) toast(warning);
+}
+
+/** Toggle one of the 12 official Draw Steel traits on or off in one tap. */
+export function toggleNegotiationOfficialTrait(
+  kind: "motivation" | "pitfall",
+  label: string,
+): void {
+  let warning: string | null = null;
+  mutateNegotiation((draft) => {
+    const own = kind === "motivation" ? draft.motivations : draft.pitfalls;
+    const other = kind === "motivation" ? draft.pitfalls : draft.motivations;
+    const key = label.trim().toLowerCase();
+    const existing = own.findIndex((item) => item.name.trim().toLowerCase() === key);
+    if (existing >= 0) {
+      own.splice(existing, 1);
+      return;
+    }
+    if (hasTraitLabel(other, label)) {
+      warning = `${label} is already a ${kind === "motivation" ? "pitfall" : "motivation"}.`;
+      return;
+    }
+    own.push(blankTrait(label));
+  });
+  if (warning) toast(warning);
+}
+
+/** Deal fresh random motivations & pitfalls in one tap, with Undo toast. */
+export function shuffleNegotiationTraits(motivationCount = 3, pitfallCount = 2): void {
+  const open = activeNegotiation();
+  if (!open) return;
+  const targetId = open.id;
+  const prevMotivations = structuredClone(open.motivations);
+  const prevPitfalls = structuredClone(open.pitfalls);
+  const prevArchetype = open.archetype;
+  const deal = randomTraitPair(motivationCount, pitfallCount);
+  mutateNegotiation((draft) => {
+    draft.archetype = "";
+    draft.motivations = deal.motivations.map((trait) => blankTrait(trait.label));
+    draft.pitfalls = deal.pitfalls.map((trait) => blankTrait(trait.label));
+  });
+  toast("Dealt new random traits", {
+    action: {
+      label: "Undo",
+      onClick: () => {
+        mutateApp((app) => {
+          const target = app.negotiations.find((item) => item.id === targetId);
+          if (!target) return;
+          target.archetype = prevArchetype;
+          target.motivations = prevMotivations;
+          target.pitfalls = prevPitfalls;
+          target.updatedAt = Date.now();
+        });
+      },
+    },
+  });
+}
+
+export function editNegotiationTraitNote(
+  kind: "motivation" | "pitfall",
+  id: string,
+  note: string,
+): void {
+  mutateNegotiation((draft) => {
+    const item = (kind === "motivation" ? draft.motivations : draft.pitfalls).find(
+      (entry) => entry.id === id,
+    );
+    if (item) item.note = note.trim();
+  });
+}
+
+export function removeNegotiationTrait(kind: "motivation" | "pitfall", id: string): void {
+  const open = activeNegotiation();
+  if (!open) return;
+  const targetId = open.id;
+  const list = kind === "motivation" ? open.motivations : open.pitfalls;
+  const index = list.findIndex((item) => item.id === id);
+  if (index < 0) return;
+  const snapshot = structuredClone(list[index]!);
+  mutateNegotiation((draft) => {
+    const targetList = kind === "motivation" ? draft.motivations : draft.pitfalls;
+    const i = targetList.findIndex((item) => item.id === id);
+    if (i >= 0) targetList.splice(i, 1);
+  });
+  toast(`Removed ${snapshot.name}`, {
+    action: {
+      label: "Undo",
+      onClick: () => {
+        mutateApp((app) => {
+          const target = app.negotiations.find((item) => item.id === targetId);
+          if (!target) return;
+          const targetList = kind === "motivation" ? target.motivations : target.pitfalls;
+          if (targetList.some((item) => item.id === snapshot.id)) return;
+          targetList.splice(Math.min(index, targetList.length), 0, snapshot);
+          target.updatedAt = Date.now();
+        });
+      },
+    },
+  });
+}
+
+export function toggleNegotiationTraitUsed(kind: "motivation" | "pitfall", id: string): void {
+  mutateNegotiation((draft) => {
+    const item = (kind === "motivation" ? draft.motivations : draft.pitfalls).find(
+      (entry) => entry.id === id,
+    );
+    if (item) item.used = !item.used;
+  });
+}
+
+/** Mark a motivation or pitfall as known to the heroes, or take it back:
+    a read that learned one is the only thing that reveals it, and the
+    Director can change their mind. */
+export function toggleNegotiationTraitKnown(kind: "motivation" | "pitfall", id: string): void {
+  mutateNegotiation((draft) => {
+    const item = (kind === "motivation" ? draft.motivations : draft.pitfalls).find(
+      (entry) => entry.id === id,
+    );
+    if (item) item.revealed = !item.revealed;
+  });
+}
+
+/**
+ * The roll in flight for each test, argument and read. Ephemeral: a re-render
+ * never re-rolls, and leaving the negotiation drops them.
+ */
+export const argumentRoll = signal<NegotiationFlight | null>(null);
+export const readRoll = signal<NegotiationFlight | null>(null);
+
+interface NegotiationFlight {
+  roll: PowerRollResult;
+  /** Bumped on every roll, so a new roll always redraws its mark. */
+  serial: number;
+}
+
+const rollSerials: Record<"argument" | "read", number> = { argument: 0, read: 0 };
+
+export function rollNegotiationTest(input: {
+  bonus: number;
+  edge?: EdgeState | undefined;
+  which: "argument" | "read";
+}): void {
+  const negotiation = activeNegotiation();
+  if (!negotiation) return;
+  if (input.which === "read" && readSpent(negotiation.log)) return;
+  const label =
+    input.bonus === 0 ? "Power Roll" : `Power Roll ${input.bonus > 0 ? "+" : ""}${input.bonus}`;
+  const roll = makePowerRoll(label, null, input.edge ?? "normal");
+  rollSerials[input.which] += 1;
+  const flight: NegotiationFlight = { roll, serial: rollSerials[input.which] };
+  if (input.which === "argument") argumentRoll.value = flight;
+  else readRoll.value = flight;
+}
+
+export function clearNegotiationRolls(): void {
+  argumentRoll.value = null;
+  readRoll.value = null;
+}
+
+/** What an applied argument is worth, as one printed line. It reads the same
+    words the tier row printed before the dice, so the log can never disagree
+    with what the Director tapped. */
+function resultLine(plan: ArgumentPlan, tier: 1 | 2 | 3, critical: boolean, lie: boolean): string {
+  return tierLines(plan.kind, tier, lie, critical).join(", ");
+}
+
+/**
+ * Apply an argument: move both tracks, mark the motivation as appealed to,
+ * and write it on the negotiation's log so the table can read the argument
+ * back. Works identically for physical/VTT dice (no in-app roll needed) and
+ * optional in-app rolls.
+ */
+export function applyNegotiationArgument(input: {
+  plan: ArgumentPlan;
+  tier: 1 | 2 | 3;
+  motivationId: string | null;
+  motivationName: string;
+  pitfallId?: string | null | undefined;
+  pitfallName?: string | undefined;
+  /** The motivation had already been appealed to before this argument. */
+  reused: boolean;
+  lie: boolean;
+  /** True when a player rolled a physical Natural 19–20 on a plain argument. */
+  naturalCrit?: boolean | undefined;
+  /** Optional short memo of what the party offered or promised. */
+  memo?: string | undefined;
+}): void {
+  const {
+    plan,
+    tier,
+    motivationId,
+    motivationName,
+    pitfallId,
+    pitfallName,
+    reused,
+    lie,
+    naturalCrit,
+    memo,
+  } = input;
+  mutateNegotiation((draft) => {
+    const roll = plan.roll === null ? null : (argumentRoll.value?.roll ?? null);
+    const critical = Boolean(naturalCrit || roll?.critical);
+    const outcome = tierOutcome(plan, tier, critical);
+    const caught = lie && lieBites(outcome);
+    const before = {
+      interest: draft.interest,
+      patience: draft.patience,
+      usedIds: draft.motivations.filter((item) => item.used).map((item) => item.id),
+      revealedPitfallIds: draft.pitfalls.filter((item) => item.revealed).map((item) => item.id),
+    };
+    const next = applyOutcome(before.interest, before.patience, outcome);
+    if (caught) next.interest = clampInt(next.interest - 1, 0, 5);
+    draft.interest = next.interest;
+    draft.patience = next.patience;
+    if (motivationId) {
+      const item = draft.motivations.find((entry) => entry.id === motivationId);
+      if (item) item.used = true;
+    }
+    if (pitfallId) {
+      const pit = draft.pitfalls.find((entry) => entry.id === pitfallId);
+      if (pit) pit.revealed = true;
+    }
+    const title = motivationName
+      ? `${reused ? "Reused" : "Appealed to"} ${motivationName}`
+      : pitfallName
+        ? `Touched pitfall: ${pitfallName}`
+        : plan.title;
+    const trimmedMemo = memo?.trim() ?? "";
+    draft.log.unshift({
+      id: uid("log"),
+      kind: "argument",
+      title,
+      ...(trimmedMemo ? { memo: trimmedMemo } : {}),
+      result: resultLine(plan, tier, critical, lie),
+      roll: roll ? roll.label : naturalCrit && tier === 3 ? "Natural 19–20" : "",
+      before,
+      at: Date.now(),
+    });
+    draft.ended = effectiveEnding(draft);
+  });
+  argumentRoll.value = null;
+}
+
+/** Take the last argument back: the two tracks return to where they were
+    and the motivation it used is free again. */
+export function undoNegotiationArgument(): void {
+  mutateNegotiation((draft) => {
+    const entry = draft.log.shift();
+    if (!entry) return;
+    draft.interest = entry.before.interest;
+    draft.patience = entry.before.patience;
+    draft.ended = effectiveEnding(draft);
+    if (entry.kind === "argument") {
+      const used = new Set(entry.before.usedIds);
+      for (const item of draft.motivations) item.used = used.has(item.id);
+      if (entry.before.revealedPitfallIds) {
+        const revealed = new Set(entry.before.revealedPitfallIds);
+        for (const item of draft.pitfalls) item.revealed = revealed.has(item.id);
+      }
+    }
+  });
+}
+
+/** A read: learn one of the NPC's motivations or pitfalls. */
+export function applyNegotiationRead(tier: 1 | 2 | 3): void {
+  const open = activeNegotiation();
+  if (!open) return;
+  // A read rolled when the sheet allowed one can fall back into a spent
+  // sheet — the argument it followed was taken back — so the rule is held
+  // here as well as on the Roll.
+  if (readSpent(open.log)) return;
+  mutateNegotiation((draft) => {
+    const roll = readRoll.value?.roll ?? null;
+    const before = {
+      interest: draft.interest,
+      patience: draft.patience,
+      usedIds: draft.motivations.filter((item) => item.used).map((item) => item.id),
+    };
+    const learn = tier === 3;
+    const probed = tier === 1;
+    const next = applyOutcome(before.interest, before.patience, {
+      interest: 0,
+      patience: probed ? -1 : 0,
+    });
+    draft.interest = next.interest;
+    draft.patience = next.patience;
+    draft.log.unshift({
+      id: uid("log"),
+      kind: "read",
+      title: learn ? "Read the NPC" : "Tried to read the NPC",
+      result: learn
+        ? "learns one motivation or pitfall"
+        : probed
+          ? "learns nothing, patience −1"
+          : "learns nothing",
+      roll: roll ? roll.label : "",
+      before,
+      at: Date.now(),
+    });
+    draft.ended = effectiveEnding(draft);
+  });
+  readRoll.value = null;
+}
+
+/** Reopen a negotiation the two tracks have closed, at the Director's call.
+    Sets overrideEnded so subsequent arguments don't immediately re-lock it. */
+export function reopenNegotiation(): void {
+  clearNegotiationRolls();
+  mutateNegotiation((draft) => {
+    draft.ended = null;
+    draft.overrideEnded = true;
+  });
 }
 
 // ---------- Preview drawer ----------
