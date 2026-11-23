@@ -63,7 +63,9 @@ const WORD_COUNTS: Record<string, number> = { one: 1, two: 2, three: 3, four: 4 
 export function reactionsPerRound(monster: Monster): number {
   for (const feature of monster.features) {
     for (const effect of feature.effects || []) {
-      const match = String(effect.effect || "").match(/can use (one|two|three|four|\d) \[?triggered actions/i);
+      const match = String(effect.effect || "").match(
+        /can use (one|two|three|four|\d) \[?triggered actions/i,
+      );
       const word = match?.[1]?.toLowerCase();
       if (word) return WORD_COUNTS[word] ?? Number(word);
     }

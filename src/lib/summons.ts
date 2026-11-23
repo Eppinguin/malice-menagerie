@@ -1,4 +1,10 @@
-import type { CatalogEntry, CombatInstance, FeatureEffect, Monster, MonsterFeature } from "../types.ts";
+import type {
+  CatalogEntry,
+  CombatInstance,
+  FeatureEffect,
+  Monster,
+  MonsterFeature,
+} from "../types.ts";
 import { WORD_NUMBERS, plainText } from "./text.ts";
 
 /** One creature an ability can bring onto the board: `count` of the statblock
@@ -32,7 +38,9 @@ const MAX_NAME_WORDS = 5;
 /** What may follow a creature's name in prose, so "zombie mines" is not a
     zombie: punctuation, or one of these. */
 const AFTER_NAME = new Set(
-  "appear appears or and into in at within anywhere burst that who each to from instead also on , ; . )".split(" "),
+  "appear appears or and into in at within anywhere burst that who each to from instead also on , ; . )".split(
+    " ",
+  ),
 );
 
 const COUNTS: Record<string, number> = { a: 1, an: 1, ...WORD_NUMBERS, eleven: 11, twelve: 12 };
@@ -80,7 +88,11 @@ function nameIndex(entries: readonly CatalogEntry[]): Map<string, CatalogEntry[]
 /** Of several statblocks by one name, the summoner's own: the one filed
     closest to it (a rival summoner's skeletons sit under its echelon), then
     the nearest in level. */
-function closest(summoner: Monster, candidates: CatalogEntry[], level: (path: string) => number | undefined) {
+function closest(
+  summoner: Monster,
+  candidates: CatalogEntry[],
+  level: (path: string) => number | undefined,
+) {
   const home = summoner.familyPath.split("/");
   const shared = (entry: CatalogEntry) => {
     const parts = entry.familyPath.split("/");
@@ -88,7 +100,8 @@ function closest(summoner: Monster, candidates: CatalogEntry[], level: (path: st
     while (n < parts.length && parts[n] === home[n]) n += 1;
     return n;
   };
-  const gap = (entry: CatalogEntry) => Math.abs((level(entry.path) ?? summoner.level) - summoner.level);
+  const gap = (entry: CatalogEntry) =>
+    Math.abs((level(entry.path) ?? summoner.level) - summoner.level);
   return [...candidates].sort((a, b) => shared(b) - shared(a) || gap(a) - gap(b))[0];
 }
 
@@ -102,7 +115,12 @@ interface Mention {
     count before the first name ("four level 1 demon minions (most commonly
     ensnarers, frenzieds, and pitlings)"). A number after "level" is not a
     count. */
-function mentions(sentence: string, summoner: Monster, entries: readonly CatalogEntry[], level: (path: string) => number | undefined): Mention[] {
+function mentions(
+  sentence: string,
+  summoner: Monster,
+  entries: readonly CatalogEntry[],
+  level: (path: string) => number | undefined,
+): Mention[] {
   const index = nameIndex(entries);
   const tokens = words(sentence);
   const countAt = (i: number) => {
@@ -113,13 +131,18 @@ function mentions(sentence: string, summoner: Monster, entries: readonly Catalog
   let first = 0;
   const found: Mention[] = [];
   let since = 0;
-  for (let i = 0; i < tokens.length; ) {
+  for (let i = 0; i < tokens.length;) {
     let hit: { entries: CatalogEntry[]; length: number } | null = null;
-    for (let length = Math.min(MAX_NAME_WORDS, tokens.length - i); length > 0 && !hit; length -= 1) {
+    for (
+      let length = Math.min(MAX_NAME_WORDS, tokens.length - i);
+      length > 0 && !hit;
+      length -= 1
+    ) {
       const list = index.get(tokens.slice(i, i + length).join(" "));
       const others = list?.filter((entry) => entry.path !== summoner.path);
       const next = tokens[i + length];
-      if (others?.length && (next === undefined || AFTER_NAME.has(next))) hit = { entries: others, length };
+      if (others?.length && (next === undefined || AFTER_NAME.has(next)))
+        hit = { entries: others, length };
     }
     if (!hit) {
       i += 1;
@@ -129,7 +152,8 @@ function mentions(sentence: string, summoner: Monster, entries: readonly Catalog
     for (let j = i - 1; j >= since && !count; j -= 1) count = countAt(j);
     if (!found.length) first = count;
     const entry = closest(summoner, hit.entries, level);
-    if (entry && !found.some((item) => item.entry.path === entry.path)) found.push({ entry, count: count || first || 1 });
+    if (entry && !found.some((item) => item.entry.path === entry.path))
+      found.push({ entry, count: count || first || 1 });
     i += hit.length;
     since = i;
   }
@@ -172,11 +196,18 @@ export function featureSummons(
       if (PRICE_LIST_RE.test(text)) {
         const home = `${summoner.familyPath}/`;
         const options = entries
-          .filter((entry) => entry.familyPath.startsWith(home) && /\bminion\b/.test(entry.familyPath))
+          .filter(
+            (entry) => entry.familyPath.startsWith(home) && /\bminion\b/.test(entry.familyPath),
+          )
           .map((entry): SummonOption => {
             const m = statblock(entry.path);
             const price = minionPrice(m);
-            return { path: entry.path, name: m?.name ?? entry.derivedName, count: price?.count ?? 1, malice: price?.malice ?? 0 };
+            return {
+              path: entry.path,
+              name: m?.name ?? entry.derivedName,
+              count: price?.count ?? 1,
+              malice: price?.malice ?? 0,
+            };
           });
         if (options.length) choices.push({ lead, options });
         continue;
@@ -209,7 +240,8 @@ export interface SquadRules {
 
 /** "The summoner can command up to two squads of minions with a maximum of 6
     minions per squad." */
-const COMMAND_RE = /\bcommand up to (\w+) squads? of minions with a maximum of (\w+) minions? per squad/i;
+const COMMAND_RE =
+  /\bcommand up to (\w+) squads? of minions with a maximum of (\w+) minions? per squad/i;
 /** "They can only have one squad of signature minions active at any time." */
 const SIGNATURE_RE = /\bone squad of signature minions\b/i;
 
@@ -241,7 +273,9 @@ export function squadRules(
           .filter((text) => !COMMAND_RE.test(text))
           .flatMap((text) => text.split(/(?<=[.;])\s+/))
           .filter((sentence) => SUMMON_RE.test(sentence) && !NO_SUMMON_RE.test(sentence))
-          .flatMap((sentence) => mentions(sentence, summoner, entries, level).map(({ entry }) => entry.path))
+          .flatMap((sentence) =>
+            mentions(sentence, summoner, entries, level).map(({ entry }) => entry.path),
+          )
       : [];
     return { squads, perSquad, signature: [...new Set(signature)] };
   }
@@ -275,7 +309,8 @@ export function planSummon(
 ): SummonPlan {
   const cap = rules?.perSquad ?? fallback;
   const own = instances.filter(
-    (item) => item.kind === "minion-squad" && item.summonedBy === summonerId && item.currentStamina > 0,
+    (item) =>
+      item.kind === "minion-squad" && item.summonedBy === summonerId && item.currentStamina > 0,
   );
   const plan: SummonPlan = { top: [], fresh: [], dropped: 0 };
   let left = count;

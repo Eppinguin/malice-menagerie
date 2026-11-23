@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Malice Menagerie · Settings</title>
+    <link rel="stylesheet" href="./popover.css" />
+  </head>
+  <body>
+    <main class="popover">
+      <header class="head">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <h1>Malice Menagerie</h1>
+      </header>
+      <section id="player-only" class="player-only" hidden>
+        <p><strong>Director-only companion</strong></p>
+        <p class="description">
+          Malice Menagerie is controlled by the room GM. You don’t need to configure anything here.
+        </p>
+      </section>
+      <div id="gm-controls" hidden>
+        <section class="connection" aria-label="App connection">
+          <div class="status" role="status" aria-live="polite" aria-atomic="true">
+            <span id="status-dot" class="dot" data-status="disconnected"></span>
+            <div>
+              <strong id="status-text">Not connected</strong>
+              <p id="status-detail">Connect to send your encounter to this scene.</p>
+            </div>
+          </div>
+          <div class="actions">
+            <button id="connect" class="primary" type="button" disabled>Connect</button>
+            <button id="open" class="secondary" type="button">Open app</button>
+            <button id="cancel" class="secondary" type="button" hidden>Cancel</button>
+            <button id="disconnect" class="secondary" type="button" hidden>Disconnect</button>
+          </div>
+          <p id="error" class="error" role="alert" hidden></p>
+        </section>
+
+        <section class="settings-section" aria-labelledby="tokens-heading">
+          <h2 id="tokens-heading">Tokens</h2>
+          <label class="switch-row" for="token-artwork">
+            <span class="setting-copy">
+              <span class="setting-label">Use TooManyTokens artwork</span>
+              <span class="description">Illustrated tokens instead of initials.</span>
+            </span>
+            <input
+              id="token-artwork"
+              class="switch"
+              type="checkbox"
+              role="switch"
+              aria-describedby="token-help"
+            />
+          </label>
+          <div class="token-preview">
+            <span id="token-preview" class="initials-preview" aria-hidden="true">GW</span>
+            <p id="token-help" class="description">
+              New tokens use monster initials. No TooManyTokens artwork is loaded.
+            </p>
+          </div>
+          <p class="description footnote">Applies to new tokens. Existing token artwork is kept.</p>
+          <p id="settings-feedback" class="description" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="settings-section" aria-labelledby="sync-heading">
+          <h2 id="sync-heading">Sync</h2>
+          <label class="switch-row" for="rings-sync">
+            <span class="setting-copy">
+              <span class="setting-label">Sync Rings Initiative</span>
+              <span class="description">Activation groups, turns, and rounds.</span>
+            </span>
+            <input
+              id="rings-sync"
+              class="switch"
+              type="checkbox"
+              role="switch"
+              aria-describedby="rings-help"
+            />
+          </label>
+          <p id="rings-help" class="description">
+            Off by default so rooms without Rings Initiative stay ring-free.
+          </p>
+          <label class="field" for="condition-sync">
+            <span>Condition labels</span>
+            <select id="condition-sync" aria-describedby="condition-help">
+              <option value="auto">Auto (Marked! or Token Labels)</option>
+              <option value="marked">Marked!</option>
+              <option value="token-labels">Token Labels</option>
+              <option value="off">Off</option>
+            </select>
+          </label>
+          <p id="condition-help" class="description">
+            Uses Marked! when configured in this room, otherwise Token Labels.
+          </p>
+          <p id="sync-feedback" class="description" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="settings-section" aria-labelledby="dice-heading">
+          <h2 id="dice-heading">Dice</h2>
+          <p id="dice-status" class="description" role="status" aria-live="polite">
+            Loading dice settings…
+          </p>
+          <div class="actions">
+            <button id="dice-connect" class="secondary" type="button" disabled>Connect dice</button>
+            <button id="dice-disconnect" class="secondary" type="button" hidden>
+              Disconnect dice
+            </button>
+          </div>
+          <label class="switch-row dice-privacy" for="dice-gm-only">
+            <span class="setting-copy">
+              <span class="setting-label">Roll privately (GM only)</span>
+              <span class="description">Hide Malice dice rolls from players.</span>
+            </span>
+            <input id="dice-gm-only" class="switch" type="checkbox" role="switch" disabled />
+          </label>
+          <label class="field" for="dice-style">
+            <span>Dice theme</span>
+            <select id="dice-style" disabled aria-describedby="dice-theme-help">
+              <option value="">Roller default</option>
+            </select>
+          </label>
+          <p id="dice-theme-help" class="description">
+            Connect dice to choose a theme for shared rolls.
+          </p>
+        </section>
+
+        <details class="advanced">
+          <summary>Advanced</summary>
+          <div class="advanced-content">
+            <label class="field" for="server">
+              <span>Malice server</span>
+              <select id="server" aria-describedby="server-help">
+                <option value="official">Official Malice Menagerie</option>
+                <option value="custom">Custom address</option>
+              </select>
+            </label>
+            <div id="custom-server" hidden>
+              <label class="field" for="malice-url">
+                <span>Malice Menagerie address</span>
+                <input
+                  id="malice-url"
+                  type="url"
+                  spellcheck="false"
+                  autocomplete="url"
+                  placeholder="https://your-malice.example"
+                  aria-describedby="server-help"
+                />
+              </label>
+            </div>
+            <p id="server-help" class="description">
+              The official app is ready to use. Choose a custom address only for self-hosting or
+              development.
+            </p>
+            <p id="server-feedback" class="description" role="status" aria-live="polite"></p>
+          </div>
+        </details>
+        <details class="help">
+          <summary>How to use</summary>
+          <p class="description">
+            Connect, then press <b>Send tokens</b> in Malice’s top bar. Keep the app and room tabs
+            open. You can close this panel while playing.
+          </p>
+          <p class="description">
+            You can also connect from Malice’s <b>Settings → Integrations → Owlbear Rodeo</b> panel
+            with your room link and this extension’s manifest URL.
+          </p>
+        </details>
+        <footer>Settings are saved in this browser.</footer>
+      </div>
+    </main>
+    <script type="module" src="./src/main.popover.ts"></script>
+  </body>
+</html>

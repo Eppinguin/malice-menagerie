@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Malice Menagerie · Phase 0 spike</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        background: #12100e;
+        color: #f2e8da;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 16px;
+        margin: 0 0 4px;
+      }
+      p {
+        margin: 0 0 12px;
+        color: #b9ab99;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      button {
+        width: 100%;
+        padding: 9px;
+        border: 0;
+        border-radius: 6px;
+        background: #c9a227;
+        color: #1b160c;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      ol {
+        list-style: none;
+        padding: 0;
+        margin: 14px 0 0;
+        font-size: 12px;
+      }
+      li {
+        padding: 6px 0;
+        border-bottom: 1px solid #2c2620;
+        display: flex;
+        gap: 8px;
+      }
+      li::before {
+        content: "•";
+        color: #8a7d6c;
+      }
+      li[data-ok="true"]::before {
+        content: "PASS";
+        color: #6ecf8b;
+        font-weight: 700;
+      }
+      li[data-ok="false"]::before {
+        content: "FAIL";
+        color: #ff7b6b;
+        font-weight: 700;
+      }
+      #result {
+        margin-top: 14px;
+        padding: 10px;
+        border-radius: 6px;
+        background: #1e1a16;
+        font-size: 12px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Phase 0 transport spike</h1>
+    <p>
+      Temporarily point the extension manifest's <code>action.popover</code> at this page. It proves
+      that an Owlbear popover can open a named window, exchange a same-origin READY message, and
+      transfer a live <code>MessagePort</code>. Nothing here touches Malice or scene data.
+    </p>
+    <button id="run" type="button">Run spike</button>
+    <ol id="log" aria-live="polite"></ol>
+    <p id="result" hidden></p>
+    <script type="module" src="./src/spike.ts"></script>
+  </body>
+</html>

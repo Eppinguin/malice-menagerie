@@ -1,4 +1,4 @@
-import type { ComponentChildren } from 'preact';
+import type { ComponentChildren } from "preact";
 
 /** One stroke family for every glyph in the app: 24px grid, 2px round stroke. */
 type IconProps = { class?: string };
@@ -6,7 +6,7 @@ type IconProps = { class?: string };
 function Glyph({ class: cls, children }: IconProps & { children: ComponentChildren }) {
   return (
     <svg
-      class={cls ? `icon ${cls}` : 'icon'}
+      class={cls ? `icon ${cls}` : "icon"}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -92,6 +92,20 @@ export const ExternalIcon = (p: IconProps) => (
   </Glyph>
 );
 
+/** Native token selection and viewport location. */
+export const CursorIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m5 3 14 10-7 1-3 7-4-18Z" />
+  </Glyph>
+);
+
+export const LocateIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M8 3H4v4M16 3h4v4M20 17v4h-4M8 21H4v-4" />
+    <circle cx="12" cy="12" r="3" />
+  </Glyph>
+);
+
 export const SearchIcon = (p: IconProps) => (
   <Glyph {...p}>
     <circle cx="11" cy="11" r="6.5" />
@@ -115,6 +129,15 @@ export const EyeIcon = (p: IconProps) => (
   <Glyph {...p}>
     <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
     <circle cx="12" cy="12" r="3" />
+  </Glyph>
+);
+
+export const EyeOffIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c6.5 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+    <path d="M6.61 6.61A13.53 13.53 0 0 0 2 12s3.5 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+    <path d="M2 2l20 20" />
   </Glyph>
 );
 
@@ -147,5 +170,42 @@ export const CaptainIcon = (p: IconProps) => (
   <Glyph {...p}>
     <path d="m6 11 6-5 6 5" />
     <path d="m6 18 6-5 6 5" />
+  </Glyph>
+);
+
+export const SettingsIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M3 7h3m6 0h9M3 17h9m6 0h3" />
+    <circle cx="9" cy="7" r="3" />
+    <circle cx="15" cy="17" r="3" />
+  </Glyph>
+);
+
+/** Send the encounter out to the tabletop. */
+export const SendIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M12 15V3m-4 4 4-4 4 4M4 14v6h16v-6" />
+  </Glyph>
+);
+
+export const SyncIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M20 7a8 8 0 0 0-13-2L3 9m0-6v6h6M4 17a8 8 0 0 0 13 2l4-4m0 6v-6h-6" />
+  </Glyph>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M3 6h18M8 6V4h8v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6" />
+    <path d="M10 11v6M14 11v6" />
+  </Glyph>
+);
+
+/** Connected Dice: a d10 silhouette matching the 24px stroke family. */
+export const DiceIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M12 2 20 9.5 17 19.5 12 22 7 19.5 4 9.5Z" />
+    <path d="M12 2 8.5 13 12 22 15.5 13Z" />
+    <path d="M4 9.5 8.5 13M20 9.5 15.5 13" />
   </Glyph>
 );

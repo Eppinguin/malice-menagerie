@@ -8,6 +8,7 @@ import {
   lastRolls,
   rollCharacteristic,
   rollFeature,
+  sharedRollActive,
   spendAbilityMalice,
 } from "../store.ts";
 import type { EdgeState, PowerRollResult } from "../types.ts";
@@ -205,7 +206,12 @@ function LevelMark({
       }}
     >
       Level
-      <button class="level-step" aria-label="One level lower" disabled={level <= lo} onClick={() => set(level - 1)}>
+      <button
+        class="level-step"
+        aria-label="One level lower"
+        disabled={level <= lo}
+        onClick={() => set(level - 1)}
+      >
         <MinusIcon />
       </button>
       <output class="level-value" aria-live="polite" aria-label={`Level ${level}`}>
@@ -258,7 +264,9 @@ export function LaneHeader({
       lastCharKey = key.slice(`${monster.id}|char|`.length) as CharacteristicKey;
     }
   }
-  const lastCharRoll = lastCharKey ? lastRolls.value.get(`${monster.id}|char|${lastCharKey}`) : undefined;
+  const lastCharRoll = lastCharKey
+    ? lastRolls.value.get(`${monster.id}|char|${lastCharKey}`)
+    : undefined;
   const paging = nav && nav.count > 1 ? nav : null;
   // The arrows turn the page; the rest of the band takes it back to its top.
   const turn = (event: MouseEvent, step: number) => {
@@ -273,7 +281,7 @@ export function LaneHeader({
             class="lane-nav prev"
             aria-label="Previous statblock"
             disabled={paging.index === 0}
-            onClick={event => turn(event, -1)}
+            onClick={(event) => turn(event, -1)}
           >
             <CaretIcon />
           </button>
@@ -286,7 +294,9 @@ export function LaneHeader({
             <h2>{monster.name}</h2>
             <span
               class="ev-badge"
-              dangerouslySetInnerHTML={{ __html: richText(`EV ${monster.evLabel}`, was && `EV ${was.evLabel}`) }}
+              dangerouslySetInnerHTML={{
+                __html: richText(`EV ${monster.evLabel}`, was && `EV ${was.evLabel}`),
+              }}
             />
           </div>
           <div class="lane-band-row lane-keys">
@@ -305,11 +315,14 @@ export function LaneHeader({
               class="lane-nav next"
               aria-label="Next statblock"
               disabled={paging.index === paging.count - 1}
-              onClick={event => turn(event, 1)}
+              onClick={(event) => turn(event, 1)}
             >
               <CaretIcon />
             </button>
-            <span class="lane-nav-count" aria-label={`Statblock ${paging.index + 1} of ${paging.count}`}>
+            <span
+              class="lane-nav-count"
+              aria-label={`Statblock ${paging.index + 1} of ${paging.count}`}
+            >
               {paging.index + 1}/{paging.count}
             </span>
           </span>
@@ -343,26 +356,34 @@ export function LaneHeader({
       </div>
       <LaneDefenses monster={monster} />
       <div class="lane-characteristics">
-        {charKeys.map((key) => (
-          <button
-            key={key}
-            class="char-roll"
-            title={`${characteristicLabel(key)} check — tap to roll, hold for edge/bane menu`}
-            aria-label={`Roll ${characteristicLabel(key)} ${signed(monster.chars[key])}`}
-            {...rollPress(
-              (event) => rollCharacteristic(monster.path, key, event),
-              (edge: EdgeState) => rollCharacteristic(monster.path, key, edge),
-            )}
-          >
-            <small>
-              <span class="ds-glyph" aria-hidden="true">
-                {key}
-              </span>
-              {characteristicLabel(key).slice(1)}
-            </small>
-            <b class={pen(monster.chars[key], was?.chars[key])}>{signed(monster.chars[key])}</b>
-          </button>
-        ))}
+        {charKeys.map((key) => {
+          const rolling = sharedRollActive.value;
+          return (
+            <button
+              key={key}
+              class="char-roll"
+              aria-busy={rolling}
+              title={
+                rolling
+                  ? "Waiting for Connected Dice roll in Owlbear Rodeo…"
+                  : `${characteristicLabel(key)} check — tap to roll, hold for edge/bane menu`
+              }
+              aria-label={`Roll ${characteristicLabel(key)} ${signed(monster.chars[key])}`}
+              {...rollPress(
+                (event) => rollCharacteristic(monster.path, key, event),
+                (edge: EdgeState) => rollCharacteristic(monster.path, key, edge),
+              )}
+            >
+              <small>
+                <span class="ds-glyph" aria-hidden="true">
+                  {key}
+                </span>
+                {characteristicLabel(key).slice(1)}
+              </small>
+              <b class={pen(monster.chars[key], was?.chars[key])}>{signed(monster.chars[key])}</b>
+            </button>
+          );
+        })}
       </div>
       {lastCharRoll && lastCharKey ? (
         <div class="char-roll-result" aria-live="polite">
@@ -462,10 +483,14 @@ export function RollTally({
   const note = EDGE_NOTE[roll.edge];
   const serial = rollSerial(roll);
   return (
-    <span class={`roll-tally${roll.critical ? " is-critical" : ""}${note ? " has-note" : ""}${showTier ? " has-tier" : ""}`}>
+    <span
+      class={`roll-tally${roll.critical ? " is-critical" : ""}${note ? " has-note" : ""}${showTier ? " has-tier" : ""}`}
+    >
       <span class="sr-only">
         {roll.label}
-        {roll.critical && crit !== "natural" ? `, critical hit${crit === "main" ? ": take another main action" : ""}` : ""}
+        {roll.critical && crit !== "natural"
+          ? `, critical hit${crit === "main" ? ": take another main action" : ""}`
+          : ""}
       </span>
       <span class="roll-tally-sum" aria-hidden="true">
         <span class="roll-tally-working">
@@ -527,7 +552,9 @@ function TierRows({
           class={rolledTier === index + 1 ? "rolled-tier" : ""}
           aria-current={rolledTier === index + 1 ? "true" : undefined}
         >
-          {roll && rolledTier === index + 1 ? <PenLoop key={rollSerial(roll)} seed={rollSerial(roll)} /> : null}
+          {roll && rolledTier === index + 1 ? (
+            <PenLoop key={rollSerial(roll)} seed={rollSerial(roll)} />
+          ) : null}
           <TierMark index={index} />
           <span dangerouslySetInnerHTML={{ __html: richText(effect[key], printed?.[key]) }} />
         </div>
@@ -541,7 +568,15 @@ function TierRows({
  * minions on the same target add their free strike each (the book caps it
  * at three), so the Director reads the total instead of adding it up.
  */
-function SquadStack({ effect, roll, monster }: { effect: FeatureEffect; roll: PowerRollResult; monster: Monster }) {
+function SquadStack({
+  effect,
+  roll,
+  monster,
+}: {
+  effect: FeatureEffect;
+  roll: PowerRollResult;
+  monster: Monster;
+}) {
   const text = [effect.tier1, effect.tier2, effect.tier3][roll.tier - 1];
   const damage = text ? tierDamage(text) : null;
   const freeStrike = numberFrom(monster.freeStrike, 0);
@@ -568,7 +603,13 @@ function SquadStack({ effect, roll, monster }: { effect: FeatureEffect; roll: Po
   );
 }
 
-function EffectText({ effect, printed }: { effect: FeatureEffect; printed: FeatureEffect | undefined }) {
+function EffectText({
+  effect,
+  printed,
+}: {
+  effect: FeatureEffect;
+  printed: FeatureEffect | undefined;
+}) {
   const lead = effectLead(effect);
   return (
     <p>
@@ -602,13 +643,18 @@ function EffectBlock({
           <strong dangerouslySetInnerHTML={{ __html: richText(effect.roll, printed?.roll) }} />
           {interactive ? (
             <button
-              title="Roll — tap, or hold for edge/bane menu"
+              aria-busy={sharedRollActive.value}
+              title={
+                sharedRollActive.value
+                  ? "Waiting for Connected Dice roll in Owlbear Rodeo…"
+                  : "Roll — tap, or hold for edge/bane menu"
+              }
               {...rollPress(
                 (event) => rollFeature(monster.path, featureIndex, effectIndex, event),
                 (edge: EdgeState) => rollFeature(monster.path, featureIndex, effectIndex, edge),
               )}
             >
-              Roll
+              {sharedRollActive.value ? "Rolling…" : "Roll"}
             </button>
           ) : null}
           {lastRoll ? (
@@ -621,7 +667,9 @@ function EffectBlock({
         </div>
       ) : null}
       <TierRows effect={effect} printed={printed} roll={lastRoll} />
-      {lastRoll && isMinion(monster) && monster.features[featureIndex]?.ability_type === "Signature Ability" ? (
+      {lastRoll &&
+      isMinion(monster) &&
+      monster.features[featureIndex]?.ability_type === "Signature Ability" ? (
         <SquadStack key={rollSerial(lastRoll)} effect={effect} roll={lastRoll} monster={monster} />
       ) : null}
       {effect.effect ? <EffectText effect={effect} printed={printed} /> : null}
@@ -763,7 +811,11 @@ export function StatblockBody({
         if (isTrait) {
           const folded = interactive && isFolded(key, false);
           return (
-            <section class={`trait-block ${folded ? "folded" : ""}`} key={featureIndex} data-feature={featureIndex}>
+            <section
+              class={`trait-block ${folded ? "folded" : ""}`}
+              key={featureIndex}
+              data-feature={featureIndex}
+            >
               <div class="feature-title">
                 {heading(key, feature.name || "Trait", iconGlyph(feature.icon, "*"), folded, false)}
               </div>
@@ -862,7 +914,10 @@ export function StatblockBody({
                   <strong class="effect-lead">Trigger:</strong>{" "}
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: richText(feature.trigger, monster.printed?.features[featureIndex]?.trigger),
+                      __html: richText(
+                        feature.trigger,
+                        monster.printed?.features[featureIndex]?.trigger,
+                      ),
                     }}
                   />
                 </p>
@@ -878,7 +933,11 @@ export function StatblockBody({
                 />
               ))}
               {summon?.pays ? (
-                <button class="effects-more" aria-expanded={!clamped} onClick={() => toggleRules(key)}>
+                <button
+                  class="effects-more"
+                  aria-expanded={!clamped}
+                  onClick={() => toggleRules(key)}
+                >
                   {clamped ? "more" : "less"}
                 </button>
               ) : null}

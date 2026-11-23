@@ -5,13 +5,21 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --config obr/vite.config.ts && node scripts/check-obr-build.mjs",
+    "build:app": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm test && pnpm run build",
+    "generate:statblock-index": "node scripts/generate-statblock-index.mjs",
+    "dev:obr": "vite --config obr/vite.config.ts",
+    "build:obr": "vite build --config obr/vite.config.ts && node scripts/check-obr-build.mjs",
+    "build:obr-harness": "vite build --config obr/vite.harness.config.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@fontsource-variable/bitter": "^5.3.0",
@@ -20,9 +28,11 @@
     "preact": "^10.29.8"
   },
   "devDependencies": {
+    "@owlbear-rodeo/sdk": "^3.1.0",
     "oxfmt": "^0.67.0",
     "oxlint": "^1.82.0",
     "typescript": "^7.0.2",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "vitest": "^5.1.0"
   }
 }

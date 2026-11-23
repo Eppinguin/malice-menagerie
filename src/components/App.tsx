@@ -12,31 +12,35 @@ import {
   startCombat,
   state,
   toggleSidebar,
-} from '../store.ts';
-import { useEffect } from 'preact/hooks';
-import { installPhoneScroll } from '../lib/phoneScroll.ts';
-import { pageTheme, togglePageTheme } from '../theme.ts';
-import type { ViewName } from '../types.ts';
-import { BuilderView } from './builder/BuilderView.tsx';
-import { CombatView } from './combat/CombatView.tsx';
-import { EdgeMenu } from './combat/EdgeMenu.tsx';
-import { EncounterSwitcher } from './EncounterSwitcher.tsx';
+} from "../store.ts";
+import { useEffect } from "preact/hooks";
+import { installPhoneScroll } from "../lib/phoneScroll.ts";
+import type { ViewName } from "../types.ts";
+import { BuilderView } from "./builder/BuilderView.tsx";
+import { CombatView } from "./combat/CombatView.tsx";
+import { EdgeMenu } from "./combat/EdgeMenu.tsx";
+import { EncounterSwitcher } from "./EncounterSwitcher.tsx";
 import {
   CloseIcon,
   CollapseIcon,
   MenuIcon,
   MinusIcon,
-  MoonIcon,
   PlusIcon,
   PrepIcon,
   RunIcon,
-  SunIcon,
   UndoIcon,
-} from './Icons.tsx';
-import { PenRing } from './Pen.tsx';
-import { PreviewDrawer } from './PreviewDrawer.tsx';
-import { RulePreview } from './RulePreview.tsx';
-import { Toast } from './Toast.tsx';
+} from "./Icons.tsx";
+import {
+  AppSettingsPanel,
+  AppSettingsButton,
+  OwlbearDiceButton,
+  OwlbearSendButton,
+  OwlbearSendMenu,
+} from "./OwlbearLink.tsx";
+import { PenRing } from "./Pen.tsx";
+import { PreviewDrawer } from "./PreviewDrawer.tsx";
+import { RulePreview } from "./RulePreview.tsx";
+import { Toast } from "./Toast.tsx";
 
 type IconProps = { class?: string };
 
@@ -72,7 +76,9 @@ function Wordmark() {
         <BrandM class="wordmark-m" />
         alice
       </span>
-      <span class="wordmark-menagerie" aria-hidden="true">Menagerie</span>
+      <span class="wordmark-menagerie" aria-hidden="true">
+        Menagerie
+      </span>
     </div>
   );
 }
@@ -83,32 +89,41 @@ function CollapsedEncounters() {
   const { encounters, activeEncounterId } = state.value;
   return (
     <div class="rail-encounters">
-      {encounters.map(enc => {
+      {encounters.map((enc) => {
         const active = enc.id === activeEncounterId;
-        const initial = enc.name.trim().charAt(0).toUpperCase() || '?';
+        const initial = enc.name.trim().charAt(0).toUpperCase() || "?";
         return (
           <button
             key={enc.id}
-            class={`rail-encounter ${active ? 'active' : ''}`}
+            class={`rail-encounter ${active ? "active" : ""}`}
             title={enc.name}
             aria-label={enc.name}
-            aria-current={active ? 'true' : undefined}
+            aria-current={active ? "true" : undefined}
             onClick={() => selectEncounter(enc.id)}
           >
             {initial}
           </button>
         );
       })}
-      <button class="rail-encounter rail-encounter-new" title="New encounter" aria-label="New encounter" onClick={() => createEncounter()}>
+      <button
+        class="rail-encounter rail-encounter-new"
+        title="New encounter"
+        aria-label="New encounter"
+        onClick={() => createEncounter()}
+      >
         <PlusIcon />
       </button>
     </div>
   );
 }
 
-const NAV_ITEMS: { view: ViewName; label: string; icon: (props: IconProps) => preact.JSX.Element }[] = [
-  { view: 'builder', label: 'Prep', icon: PrepIcon },
-  { view: 'combat', label: 'Run', icon: RunIcon },
+const NAV_ITEMS: {
+  view: ViewName;
+  label: string;
+  icon: (props: IconProps) => preact.JSX.Element;
+}[] = [
+  { view: "builder", label: "Prep", icon: PrepIcon },
+  { view: "combat", label: "Run", icon: RunIcon },
 ];
 
 function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () => void }) {
@@ -118,12 +133,12 @@ function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
     <nav class="nav">
       {NAV_ITEMS.map(({ view: target, label, icon: Icon }) => {
         const active = view === target;
-        const badge = target === 'combat' && combatCount > 0 ? combatCount : null;
+        const badge = target === "combat" && combatCount > 0 ? combatCount : null;
         return (
           <button
             key={target}
-            class={`nav-button ${active ? 'active' : ''}`}
-            aria-current={active ? 'page' : undefined}
+            class={`nav-button ${active ? "active" : ""}`}
+            aria-current={active ? "page" : undefined}
             aria-label={label}
             title={collapsed ? label : undefined}
             onClick={() => {
@@ -141,32 +156,27 @@ function NavButtons({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
   );
 }
 
-function ThemeToggle({ collapsed }: { collapsed: boolean }) {
-  const night = pageTheme.value === 'night';
-  const label = night ? 'Day page' : 'Night page';
-  return (
-    <button class="spine-button" title={label} aria-label={`Switch to ${label.toLowerCase()}`} onClick={togglePageTheme}>
-      {night ? <SunIcon /> : <MoonIcon />}
-      {!collapsed && <span>{label}</span>}
-    </button>
-  );
-}
-
 function Sidebar() {
   const collapsed = state.value.ui.sidebarCollapsed;
   return (
-    <aside class={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <aside class={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div class="brand">
-        {collapsed ? <span class="brand-emblem" role="img" aria-label="Malice Menagerie"><BrandM class="wordmark-m" /></span> : <Wordmark />}
+        {collapsed ? (
+          <span class="brand-emblem" role="img" aria-label="Malice Menagerie">
+            <BrandM class="wordmark-m" />
+          </span>
+        ) : (
+          <Wordmark />
+        )}
       </div>
       <NavButtons collapsed={collapsed} />
       {collapsed ? <CollapsedEncounters /> : <EncounterSwitcher />}
       <div class="spine-foot">
-        <ThemeToggle collapsed={collapsed} />
+        <AppSettingsButton collapsed={collapsed} />
         <button
           class="spine-button sidebar-collapse"
-          title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           onClick={toggleSidebar}
         >
           <CollapseIcon class="collapse-icon" />
@@ -181,7 +191,7 @@ function MobileNav() {
   const open = mobileNavOpen.value;
   const close = () => setMobileNav(false);
   return (
-    <div class={`mobile-nav ${open ? 'open' : ''}`}>
+    <div class={`mobile-nav ${open ? "open" : ""}`}>
       <div class="mobile-nav-backdrop" onClick={close} />
       <aside class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation">
         <div class="mobile-nav-head">
@@ -193,7 +203,7 @@ function MobileNav() {
         <NavButtons collapsed={false} onNavigate={close} />
         <EncounterSwitcher />
         <div class="spine-foot">
-          <ThemeToggle collapsed={false} />
+          <AppSettingsButton onOpen={close} />
         </div>
       </aside>
     </div>
@@ -215,13 +225,16 @@ function CombatControls() {
         class="secondary compact-button prev-round"
         disabled={atStart}
         aria-label="Previous round"
-        title={atStart ? 'Already on round 1' : `Undo last round · −${undoGain} Malice`}
+        title={atStart ? "Already on round 1" : `Undo last round · −${undoGain} Malice`}
         onClick={previousRound}
       >
         <UndoIcon />
         <span class="prev-round-label">Prev round</span>
       </button>
-      <div class="malice-counter" title={`${combat.malice} Malice in the pool · next round adds ${nextGain}`}>
+      <div
+        class="malice-counter"
+        title={`${combat.malice} Malice in the pool · next round adds ${nextGain}`}
+      >
         <span class="malice-counter-label">Malice</span>
         <button class="square" aria-label="Decrease Malice" onClick={() => adjustMalice(-1)}>
           <MinusIcon />
@@ -233,7 +246,10 @@ function CombatControls() {
         <span class="malice-next">+{nextGain} next</span>
       </div>
       <div class="round-progress">
-        <div class={`acted-tally ${complete ? 'complete' : ''}`} title={`${acted} of ${total} turns taken this round`}>
+        <div
+          class={`acted-tally ${complete ? "complete" : ""}`}
+          title={`${acted} of ${total} turns taken this round`}
+        >
           <span class="acted-tally-label">Acted</span>
           <strong>
             {acted}
@@ -252,20 +268,26 @@ function CombatControls() {
 function Topbar() {
   const enc = activeEncounter();
   const combat = enc.combat;
-  const isBuilder = enc.view === 'builder';
+  const isBuilder = enc.view === "builder";
   const combatActive = combat.active && combat.instances.length > 0;
   return (
     <header class="topbar">
-      <button class="icon-button menu-toggle" aria-label="Open menu" onClick={() => setMobileNav(true)}>
+      <button
+        class="icon-button menu-toggle"
+        aria-label="Open menu"
+        onClick={() => setMobileNav(true)}
+      >
         <MenuIcon />
       </button>
       <div class="topbar-title">
-        <h1>{isBuilder ? 'Prep' : `Round ${combat.round}`}</h1>
+        <h1>{isBuilder ? "Prep" : `Round ${combat.round}`}</h1>
         <span class="topbar-legend" title={enc.name}>
           {enc.name}
         </span>
       </div>
       <div class="top-actions">
+        <OwlbearDiceButton />
+        <OwlbearSendButton />
         {isBuilder ? (
           combatActive ? (
             <>
@@ -281,7 +303,11 @@ function Topbar() {
               </button>
             </>
           ) : (
-            <button class="primary" disabled={!activeEncounter().items.length} onClick={() => void startCombat()}>
+            <button
+              class="primary"
+              disabled={!activeEncounter().items.length}
+              onClick={() => void startCombat()}
+            >
               Run encounter
             </button>
           )
@@ -296,19 +322,19 @@ function Topbar() {
 /** The colophon's backlist: sibling tools for other tables. */
 const BACKLIST = [
   {
-    title: 'RED//OPS',
-    blurb: 'NPC generator and encounter tracker for Cyberpunk RED',
-    href: 'https://red-ops.pages.dev',
+    title: "RED//OPS",
+    blurb: "NPC generator and encounter tracker for Cyberpunk RED",
+    href: "https://red-ops.pages.dev",
   },
   {
-    title: 'Legend Ledger',
-    blurb: 'Character sheet and play companion for Legend in the Mist',
-    href: 'https://legend-ledger.pages.dev',
+    title: "Legend Ledger",
+    blurb: "Character sheet and play companion for Legend in the Mist",
+    href: "https://legend-ledger.pages.dev",
   },
   {
-    title: 'Daggerheart Toolkit',
-    blurb: 'Obsidian plugin for Daggerheart statblocks, encounters and Fear',
-    href: 'https://github.com/Eppinguin/obsidian-daggerheart-toolkit',
+    title: "Daggerheart Toolkit",
+    blurb: "Obsidian plugin for Daggerheart statblocks, encounters and Fear",
+    href: "https://github.com/Eppinguin/obsidian-daggerheart-toolkit",
   },
 ];
 
@@ -323,8 +349,8 @@ export function App() {
         <main class="main">
           <Topbar />
           <div class="main-scroll">
-            <BuilderView active={view === 'builder'} />
-            <CombatView active={view === 'combat'} />
+            <BuilderView active={view === "builder"} />
+            <CombatView active={view === "combat"} />
             <footer class="colophon">
               <section class="backlist" aria-labelledby="backlist-title">
                 <h2 id="backlist-title">More tools for the table</h2>
@@ -340,13 +366,19 @@ export function App() {
                 </ul>
               </section>
               <p class="imprint">
-                Malice Menagerie <span aria-hidden="true">·</span> AGPL-3.0 <span aria-hidden="true">·</span>{' '}
-                <a class="rule-link" href="https://github.com/Eppinguin/malice-menagerie" target="_blank" rel="noreferrer">
+                Malice Menagerie <span aria-hidden="true">·</span> AGPL-3.0{" "}
+                <span aria-hidden="true">·</span>{" "}
+                <a
+                  class="rule-link"
+                  href="https://github.com/Eppinguin/malice-menagerie"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Source on GitHub
                 </a>
               </p>
               <p>
-                Malice Menagerie is an independent product published under the{' '}
+                Malice Menagerie is an independent product published under the{" "}
                 <a
                   class="rule-link"
                   href="https://www.mcdmproductions.com/draw-steel-creator-license"
@@ -354,22 +386,32 @@ export function App() {
                   rel="noreferrer"
                 >
                   <span class="trademark">DRAW STEEL</span> Creator License
-                </a>{' '}
+                </a>{" "}
                 and is not affiliated with MCDM&nbsp;Productions,&nbsp;LLC.
               </p>
               <p>
                 <a class="rule-link" href="https://drawsteel.com" target="_blank" rel="noreferrer">
                   <span class="trademark">DRAW STEEL</span>
-                </a>{' '}
+                </a>{" "}
                 © 2026 MCDM&nbsp;Productions,&nbsp;LLC.
               </p>
               <p>
-                Game data is loaded from{' '}
-                <a class="rule-link" href="https://github.com/SteelCompendium/data-unified" target="_blank" rel="noreferrer">
+                Game data is loaded from{" "}
+                <a
+                  class="rule-link"
+                  href="https://github.com/SteelCompendium/data-unified"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   SteelCompendium/data-unified
                 </a>
-                . Draw Steel Glyphs font © 2025 MCDM&nbsp;Productions, licensed under{' '}
-                <a class="rule-link" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">
+                . Draw Steel Glyphs font © 2025 MCDM&nbsp;Productions, licensed under{" "}
+                <a
+                  class="rule-link"
+                  href="https://creativecommons.org/licenses/by-sa/4.0/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   CC&nbsp;BY-SA&nbsp;4.0
                 </a>
                 .
@@ -393,10 +435,12 @@ export function App() {
             </footer>
           </div>
         </main>
+        <AppSettingsPanel />
       </div>
       <PreviewDrawer />
       <RulePreview />
       <EdgeMenu />
+      <OwlbearSendMenu />
       <Toast />
     </>
   );

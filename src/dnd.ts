@@ -143,7 +143,9 @@ function activateDrag(): void {
   ghost.className = "prep-drag-ghost";
   const action =
     payload.kind === "encounter" && payload.part
-      ? payload.part === 1 ? "Move one" : `Move ${payload.part}`
+      ? payload.part === 1
+        ? "Move one"
+        : `Move ${payload.part}`
       : payload.count > 1
         ? `${payload.count} ×`
         : payload.kind === "library"
@@ -234,8 +236,9 @@ function updateDragVisuals(x: number, y: number): void {
   const verb = session.ghost?.querySelector("span");
   if (verb && session.ghost) {
     const onSquad = session.target?.type === "squad";
-    const merge = session.payload.kind === "encounter" && !session.payload.part ? "Merge squads" : "Join squad";
-    verb.textContent = onSquad ? merge : session.ghost.dataset.action ?? "";
+    const merge =
+      session.payload.kind === "encounter" && !session.payload.part ? "Merge squads" : "Join squad";
+    verb.textContent = onSquad ? merge : (session.ghost.dataset.action ?? "");
   }
   // Re-apply unconditionally: a background hydration render may have replaced
   // the highlighted node since the last pointer move.

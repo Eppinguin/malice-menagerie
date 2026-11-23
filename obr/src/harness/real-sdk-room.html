@@ -1,0 +1,93 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>Room broker for the real Owlbear SDK</title>
+<!-- Test fixture: route an Owlbear room URL to this document. Unlike fakeObr,
+     this runs the actual SDK and its asynchronous postMessage error objects. -->
+<script>
+  const params = new URLSearchParams(location.search);
+  const extension = params.get("extension") || "http://localhost:5174";
+  const sdkDelay = Number(params.get("sdkDelay") || 1000);
+  const sceneDelay = Number(params.get("sceneDelay") || 8000);
+  const sceneAt = Date.now() + sceneDelay;
+  const metadata = {};
+  const subscribed = new Set();
+  const calls = [];
+  window.brokerCalls = calls;
+  const sceneCalls = new Set([
+    "OBR_SCENE_GET_METADATA",
+    "OBR_SCENE_SET_METADATA",
+    "OBR_SCENE_ITEMS_GET_ALL_ITEMS",
+    "OBR_SCENE_GRID_GET_DPI",
+  ]);
+  addEventListener("message", (event) => {
+    if (event.origin !== extension || !event.data || typeof event.data.id !== "string") return;
+    const { id, data, nonce } = event.data;
+    calls.push(id);
+    if (id === "OBR_SCENE_READY_SUBSCRIBE") subscribed.add(event.source);
+    if (!nonce) return;
+    let result = {};
+    if (sceneCalls.has(id) && Date.now() < sceneAt) {
+      event.source.postMessage(
+        { id: id + "_ERROR" + nonce, data: { error: { message: "Scene is not ready" } } },
+        extension,
+      );
+      return;
+    }
+    switch (id) {
+      case "OBR_SCENE_IS_READY":
+        result = { ready: Date.now() >= sceneAt };
+        break;
+      case "OBR_SCENE_GET_METADATA":
+        result = { metadata };
+        break;
+      case "OBR_SCENE_SET_METADATA":
+        Object.assign(metadata, data.update);
+        break;
+      case "OBR_SCENE_ITEMS_GET_ALL_ITEMS":
+        result = { items: [] };
+        break;
+      case "OBR_SCENE_GRID_GET_DPI":
+        result = { dpi: 150 };
+        break;
+      case "OBR_VIEWPORT_GET_POSITION":
+        result = { position: { x: 0, y: 0 } };
+        break;
+      case "OBR_VIEWPORT_GET_SCALE":
+        result = { scale: 1 };
+        break;
+    }
+    setTimeout(
+      () => event.source.postMessage({ id: id + "_RESPONSE" + nonce, data: result }, extension),
+      30,
+    );
+  });
+  setTimeout(() => {
+    for (const target of subscribed)
+      target.postMessage({ id: "OBR_SCENE_EVENT_READY_CHANGE", data: { ready: true } }, extension);
+  }, sceneDelay);
+  addEventListener("DOMContentLoaded", () => {
+    const obrref = btoa(location.origin + " broker-room");
+    for (const [id, path] of [
+      ["background", "background.html"],
+      ["popover", "index.html"],
+    ]) {
+      const frame = document.createElement("iframe");
+      frame.id = id;
+      frame.src = extension + "/" + path + "?obrref=" + encodeURIComponent(obrref);
+      frame.onload = () =>
+        setTimeout(
+          () =>
+            frame.contentWindow.postMessage(
+              {
+                id: "OBR_READY",
+                data: { ref: id, userId: "broker-player" },
+              },
+              extension,
+            ),
+          sdkDelay,
+        );
+      document.body.append(frame);
+    }
+  });
+</script>
+<body></body>

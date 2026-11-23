@@ -1,62 +1,59 @@
 # Malice Menagerie
 
-Director-first Draw Steel encounter board inspired by the glanceable encounter model of FreshCutGrass.
+A Director-first Draw Steel encounter builder and runner, inspired by FreshCutGrass.
 
-## Data source
+**Live app:** [malice-menagerie.pages.dev](https://malice-menagerie.pages.dev)
 
-The app contains no hardcoded monster statblocks and no curated monster manifest.
+No account, no backend — encounters are saved locally in your browser, and monster statblocks, Malice features, and conditions load live from [SteelCompendium](https://github.com/SteelCompendium/data-unified).
 
-At startup it reads the recursive tree of:
+## Features
 
-`SteelCompendium/data-unified` → `main` → `en/unified/json/monster/**`
+- **Prep & Run views:** Build encounters by dragging monsters into activation groups, balance against your party's EV, then switch to a horizontal kanban board with one always-visible statblock column per monster type.
+- **Fast Stamina & turn tracking:** Track individual copies above each statblock, rename creatures inline, enter Stamina as absolute (`20`) or relative (`-12`, `+5`), and mark activations with one click. Advancing the round resets activations and calculates Malice gain automatically.
+- **Minions & captains:** Squads share a Stamina pool, show standing minion counts, support adding/removing minions by set or individually (hold `−`/`+` or Shift), attach a creature as captain (applying _With Captain_ benefits and Stamina bonuses), and calculate multi-minion signature damage.
+- **Malice features:** Automatically filters Basic and level-eligible family Malice features for the encounter, suggests a balanced 3–4 feature set, and tracks active effects and round expirations.
+- **Inline power rolls & conditions:** Click any ability, characteristic, or Malice power roll to roll with edges/banes and highlight the resolved tier in place. Conditions use the SteelCompendium catalog with hover descriptions.
 
-Every matching English unified statblock at `en/unified/json/monster/**/statblock/*.json` is discovered automatically. The JSON records are fetched directly from the SteelCompendium repository and normalized only for display. New statblocks added to the unified dataset become available without changing this app.
+## Owlbear Rodeo integration
 
-Malice data is discovered from the same unified English JSON tree. This includes family records such as `en/unified/json/monster/goblin/goblin-malice.json` and the generic Basic Malice rule at `en/unified/json/rule/monster/malice.json`. Family features are filtered against the monster families and levels currently in the encounter; Basic Malice is always available. Level-gated family blocks only unlock when an eligible monster is present. “Prior Malice Features” gateway entries are flattened into the lower-level features they grant access to, avoiding duplicate meta-cards. Malice feature text and power-roll tiers are rendered directly from those source records.
+An optional companion extension connects your encounter directly to an Owlbear Rodeo room — no account or server needed. Malice works identically without it.
 
-Predefined conditions are also discovered from `en/unified/json/condition/*.json`, so the condition picker follows the SteelCompendium condition catalog instead of a hardcoded app list.
+**Install:**
 
-## Current interaction model
+1. In Owlbear Rodeo, open **Extensions → Add Custom Extension** and paste:
+   `https://malice-menagerie.pages.dev/obr/manifest.json`
+2. Enable **Malice Menagerie** in your room.
+3. Connect from Malice (**Settings → Integrations → Owlbear Rodeo**) or from the extension popover in Owlbear.
 
-- Party data exists only for encounter balancing and automatic Malice gain.
-- Add the same monster type to multiple activation groups.
-- Click a group card in the Encounter panel to make it the active add target. Drag monsters from the library into groups, drag encounter entries between groups, drag entries back to the library to remove them, or drop onto the New group target that appears while dragging.
-- Run view is a horizontal kanban board with one always-visible statblock column per monster type.
-- Individual copies remain tracked above the shared statblock.
-- Rename creature instances inline.
-- Current Stamina is one text field:
-  - `20` sets current Stamina to 20.
-  - `-20` subtracts 20.
-  - `+5` adds 5.
-- Mark each activation with one click; Next Round resets all activation marks.
-- Minions follow the Monsters book: added and stepped a set at a time (usually four), each squad its own roster entry that can be dragged to another group or squad; holding − or + (or Shift) steps a single minion, and squads may grow past the book's eight. EV counts each minion at its share of its set. Each squad shares a Stamina pool that can't be winded or gain temporary Stamina, and shows how many minions are still standing.
-- Squads can take a captain from the creatures on the board; the With Captain benefit shows as active, and a Stamina bonus goes into the pool.
-- A minion's rolled signature ability shows its damage when two or three minions hit the same target.
-- Malice features are sourced from SteelCompendium and filtered to the Basic and level-eligible family options relevant to the encounter. A balanced 3–4 feature set is suggested automatically, while every other eligible feature remains available in a compact library. Features can be added or removed from the encounter set without restriction. Selected features open expanded by default and show full rules text, tier results, and inline roll controls. Split source records such as Iron Jaws are normalized into one complete feature card.
-- Conditions use a compact predefined picker populated from SteelCompendium unified condition files; condition descriptions are available on hover.
-- Power-roll bonuses resolve numeric modifiers, named characteristics, and expressions such as `Power Roll + highest characteristic` from the active monster statblock.
-- Any power roll highlights the resolved tier row in place.
+**What it does:**
 
-## Stack
+- **Encounter & token sync:** Send a whole encounter or individual combatants to free grid cells (visible or hidden for ambushes), scaled to their Draw Steel monster size. Re-sending is additive and never deletes tokens without asking; defeated or unlinked tokens can be cleaned up from the card or Settings.
+- **Token artwork:** Uses readable monster initials by default, with an opt-in toggle in the extension popover for TooManyTokens artwork (custom GM token art is always preserved).
+- **Two-way Stamina sync:** Current Stamina and creature maximums stay in sync in both directions, including shared minion squad pools and captain detachment when a captain falls.
+- **Map controls:** Hide/reveal tokens (with attached overlays), select, or pan to a creature or squad from its combat card, optionally follow Owlbear token selection back in Malice, and nickname scenes.
+- **Compatible OBR extensions:**
+  - **Draw Steel Tools:** Automatically links monster statblocks and minion groups (with a searchable picker for ambiguous matches).
+  - **Token Labels / Marked!:** Two-way sync for the nine Draw Steel conditions on creatures (per-minion conditions stay on the map).
+  - **Rings Initiative** (opt-in): Two-way sync for activation groups, turns, and rounds.
+  - **Connected Dice** (opt-in): Rolls Malice ability, characteristic, and Malice power rolls directly in Owlbear (public or GM-only).
 
-The app is a Preact + TypeScript single-page app built with Vite 8 (Rolldown/oxc). State is held in `@preact/signals` and persisted to `localStorage`. There is no backend — SteelCompendium is fetched live from GitHub at runtime, so the app needs network access.
+## Development & self-hosting
 
-Source layout:
+Built with Preact, TypeScript, `@preact/signals`, and Vite 8. Everything compiles to static files in `dist/` (the app at `/` and the Owlbear extension at `/obr/`, with `public/_headers` enabling CORS for `/obr/*`), so you can self-host the whole stack on any static host (e.g. Cloudflare Pages). When hosted over HTTPS, both the app and extension automatically pair with their own origin.
 
-- `src/lib/` — pure helpers (text, repo/fetch, rules, malice parsing), no DOM.
-- `src/data.ts` — source-index loading, hydration, and derived catalog signals.
-- `src/store.ts` — persisted `AppState`, sanitizer, and all mutations/actions.
-- `src/dnd.ts` — pointer-based drag & drop for the Prep view.
-- `src/components/` — Preact views (builder, combat, shared statblock/preview).
-
-## Running
-
-Requires [Bun](https://bun.sh).
+Requires [Bun](https://bun.sh) or pnpm:
 
 ```bash
-bun install
-bun run dev        # start the dev server
-bun run build      # production build to dist/
-bun run preview    # serve the production build
-bun run typecheck  # tsc --noEmit
+pnpm install
+pnpm dev            # app dev server
+pnpm dev:obr        # OBR extension dev server (/obr/)
+pnpm build          # build app (dist/) + OBR extension (dist/obr/)
+pnpm preview        # preview combined production build
+pnpm typecheck      # tsc --noEmit
+pnpm lint           # oxlint
+pnpm fmt:check      # oxfmt --check
+pnpm test           # Vitest unit tests
+pnpm check          # full typecheck, lint, format, test, and build check
 ```
+
+For testing the Owlbear bridge locally or running the live-room checklist, see [`obr/HARNESS.md`](obr/HARNESS.md) and [`obr/MANUAL-ACCEPTANCE.md`](obr/MANUAL-ACCEPTANCE.md).

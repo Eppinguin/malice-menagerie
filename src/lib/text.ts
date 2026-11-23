@@ -57,7 +57,9 @@ function fenceChanged(value: string, printed: string | undefined | null): string
   const now = value.split(/(\d+)/);
   const was = printed.split(/(\d+)/);
   if (now.length !== was.length) return value;
-  return now.map((part, i) => (i % 2 && part !== was[i] ? PEN_OPEN + part + PEN_CLOSE : part)).join("");
+  return now
+    .map((part, i) => (i % 2 && part !== was[i] ? PEN_OPEN + part + PEN_CLOSE : part))
+    .join("");
 }
 
 /** Escaped-then-decorated HTML, for dangerouslySetInnerHTML targets only.

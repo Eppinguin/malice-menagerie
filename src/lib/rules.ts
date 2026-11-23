@@ -1,5 +1,12 @@
 import { numberFrom, signed } from "./text.ts";
-import type { ActiveEffect, Difficulty, EdgeState, Monster, Party, PowerRollResult } from "../types.ts";
+import type {
+  ActiveEffect,
+  Difficulty,
+  EdgeState,
+  Monster,
+  Party,
+  PowerRollResult,
+} from "../types.ts";
 
 export interface PartyMathResult {
   /** One hero's encounter strength: 4, plus 2 per level. */
@@ -22,16 +29,11 @@ export function partyMath(party: Party): PartyMathResult {
  * hero over it, hard up to three heroes over it, extreme beyond that.
  */
 export function difficultyFor(ev: number, partyES: number, oneHeroES: number): Difficulty {
-  if (!ev)
-    return { label: "Trivial", tier: "trivial" };
-  if (ev < partyES - oneHeroES)
-    return { label: "Trivial", tier: "trivial" };
-  if (ev < partyES)
-    return { label: "Easy", tier: "easy" };
-  if (ev <= partyES + oneHeroES)
-    return { label: "Standard", tier: "standard" };
-  if (ev <= partyES + 3 * oneHeroES)
-    return { label: "Hard", tier: "hard" };
+  if (!ev) return { label: "Trivial", tier: "trivial" };
+  if (ev < partyES - oneHeroES) return { label: "Trivial", tier: "trivial" };
+  if (ev < partyES) return { label: "Easy", tier: "easy" };
+  if (ev <= partyES + oneHeroES) return { label: "Standard", tier: "standard" };
+  if (ev <= partyES + 3 * oneHeroES) return { label: "Hard", tier: "hard" };
   return { label: "Extreme", tier: "extreme" };
 }
 
@@ -111,10 +113,18 @@ function baseTierForTotal(total: number): 1 | 2 | 3 {
 }
 
 function rollDiceWithBonus(statBonus: number, edge: EdgeState = "normal"): PowerRollResult {
-  const modifier = edgeModifier(edge);
   const d1 = 1 + Math.floor(Math.random() * 10);
   const d2 = 1 + Math.floor(Math.random() * 10);
-  const bonus = statBonus + modifier;
+  return resolvePowerRollDice([d1, d2], statBonus, edge);
+}
+
+/** Resolve local or Connected Dice values through the same Draw Steel rules. */
+export function resolvePowerRollDice(
+  [d1, d2]: [number, number],
+  statBonus: number,
+  edge: EdgeState = "normal",
+): PowerRollResult {
+  const bonus = statBonus + edgeModifier(edge);
   const total = d1 + d2 + bonus;
   const base = baseTierForTotal(total);
   // A natural 19 or 20 is always a tier 3 outcome, even under a double bane.

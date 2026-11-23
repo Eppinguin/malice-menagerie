@@ -5,7 +5,7 @@
  * (Round, Malice, Next round) steps out of the way while reading down and
  * returns on the first flick up, so it is never more than a gesture away.
  */
-export const PHONE = '(max-width: 620px)';
+export const PHONE = "(max-width: 620px)";
 
 /** Travel in one direction before the head hides or returns, so a finger
     resting on the glass never makes it flicker. A deliberate flick up clears
@@ -20,7 +20,7 @@ const SHOW_AFTER = 24;
 const DRIVEN_MS = 160;
 
 /** Keys that scroll the page when no field has focus. */
-const SCROLL_KEYS = new Set(['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' ']);
+const SCROLL_KEYS = new Set(["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "]);
 
 let quietUntil = 0;
 
@@ -30,14 +30,14 @@ export function holdChrome(ms = 700): void {
 }
 
 export function prefersReducedMotion(): boolean {
-  return matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /** Height the pinned chrome covers at the top of the page right now. */
 export function chromeOffset(): number {
   const root = document.documentElement;
   const read = (name: string) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
-  return root.classList.contains('chrome-hidden') ? 0 : read('--chrome-h');
+  return root.classList.contains("chrome-hidden") ? 0 : read("--chrome-h");
 }
 
 export function installPhoneScroll(): () => void {
@@ -58,7 +58,7 @@ export function installPhoneScroll(): () => void {
   };
 
   const setHidden = (hidden: boolean) => {
-    root.classList.toggle('chrome-hidden', hidden);
+    root.classList.toggle("chrome-hidden", hidden);
     travel = 0;
   };
 
@@ -72,7 +72,7 @@ export function installPhoneScroll(): () => void {
     const resized = height !== lastHeight;
     lastHeight = height;
     if (!phone.matches) return setHidden(false);
-    const head = document.querySelector<HTMLElement>('.topbar');
+    const head = document.querySelector<HTMLElement>(".topbar");
     // Near the top the head is simply part of the page.
     if (!head || y <= head.offsetHeight) return setHidden(false);
     if (dy === 0) return;
@@ -88,7 +88,7 @@ export function installPhoneScroll(): () => void {
     drive();
     // Count travel in one direction; turning around starts the count again.
     travel = Math.sign(dy) === Math.sign(travel) ? travel + dy : dy;
-    if (travel > HIDE_AFTER && !root.classList.contains('chrome-hidden')) {
+    if (travel > HIDE_AFTER && !root.classList.contains("chrome-hidden")) {
       // Never pull the controls away from under a focused field.
       if (!head.contains(document.activeElement)) setHidden(true);
     } else if (travel < -SHOW_AFTER) setHidden(false);
@@ -97,7 +97,9 @@ export function installPhoneScroll(): () => void {
     if (!frame) frame = requestAnimationFrame(update);
   };
   const onKey = (event: KeyboardEvent) => {
-    const field = (event.target as Element | null)?.closest?.('input, textarea, select, [contenteditable]');
+    const field = (event.target as Element | null)?.closest?.(
+      "input, textarea, select, [contenteditable]",
+    );
     if (!field && SCROLL_KEYS.has(event.key)) drive();
   };
   // Scroll events from inner scrollers (the board, filter
@@ -106,40 +108,40 @@ export function installPhoneScroll(): () => void {
     if (event.target !== document) sidewaysUntil = performance.now() + DRIVEN_MS;
   };
   const onFocus = (event: FocusEvent) => {
-    if ((event.target as Element | null)?.closest?.('.topbar')) setHidden(false);
+    if ((event.target as Element | null)?.closest?.(".topbar")) setHidden(false);
   };
 
   // The pinned head's height feeds scroll padding and the pinned name bands' offset.
-  const measure = new ResizeObserver(entries => {
+  const measure = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      root.style.setProperty('--chrome-h', `${(entry.target as HTMLElement).offsetHeight}px`);
+      root.style.setProperty("--chrome-h", `${(entry.target as HTMLElement).offsetHeight}px`);
     }
   });
   const watchHead = () => {
-    const head = document.querySelector('.topbar');
+    const head = document.querySelector(".topbar");
     if (head) measure.observe(head);
   };
   watchHead();
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  document.addEventListener('scroll', onInnerScroll, { capture: true, passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true });
+  document.addEventListener("scroll", onInnerScroll, { capture: true, passive: true });
   // Only a finger that moves drives the page, never a tap, so a tap that
   // opens or closes something is not read as a scroll.
-  window.addEventListener('touchmove', drive, { passive: true });
-  window.addEventListener('wheel', drive, { passive: true });
-  window.addEventListener('keydown', onKey);
-  document.addEventListener('focusin', onFocus);
-  phone.addEventListener('change', onScroll);
+  window.addEventListener("touchmove", drive, { passive: true });
+  window.addEventListener("wheel", drive, { passive: true });
+  window.addEventListener("keydown", onKey);
+  document.addEventListener("focusin", onFocus);
+  phone.addEventListener("change", onScroll);
   return () => {
     cancelAnimationFrame(frame);
     measure.disconnect();
-    window.removeEventListener('scroll', onScroll);
-    document.removeEventListener('scroll', onInnerScroll, { capture: true });
-    window.removeEventListener('touchmove', drive);
-    window.removeEventListener('wheel', drive);
-    window.removeEventListener('keydown', onKey);
-    document.removeEventListener('focusin', onFocus);
-    phone.removeEventListener('change', onScroll);
-    root.classList.remove('chrome-hidden');
+    window.removeEventListener("scroll", onScroll);
+    document.removeEventListener("scroll", onInnerScroll, { capture: true });
+    window.removeEventListener("touchmove", drive);
+    window.removeEventListener("wheel", drive);
+    window.removeEventListener("keydown", onKey);
+    document.removeEventListener("focusin", onFocus);
+    phone.removeEventListener("change", onScroll);
+    root.classList.remove("chrome-hidden");
   };
 }

@@ -51,10 +51,7 @@ function cancelPress(): void {
  * hold is swallowed so it never double-rolls. Plain factory (no hooks), so it
  * can be spread onto any button during render.
  */
-export function rollPress(
-  onTap: (event: PressMods) => void,
-  onPick: (edge: EdgeState) => void,
-) {
+export function rollPress(onTap: (event: PressMods) => void, onPick: (edge: EdgeState) => void) {
   return {
     onPointerDown: (event: PointerEvent): void => {
       if (event.pointerType === "mouse" && event.button !== 0) return;

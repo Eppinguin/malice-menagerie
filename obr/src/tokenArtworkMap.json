@@ -1,0 +1,2435 @@
+{
+  "schemaVersion": 1,
+  "keyPrefix": "en/unified/json/monster/",
+  "imageSources": {
+    "dnd": "https://raw.githubusercontent.com/IsThisMyRealName/too-many-tokens-dnd/main/",
+    "pf": "https://raw.githubusercontent.com/IsThisMyRealName/too-many-tokens-pf/main/Tokens/"
+  },
+  "format": ["system", "category", "filename", "fit"],
+  "fitLegend": {
+    "equivalent": "A creature type that directly matches the Draw Steel monster's general kind (not necessarily its exact depiction).",
+    "analogue": "A visually or thematically plausible substitute from another system; not an exact Draw Steel depiction.",
+    "null": "No sufficiently defensible assignment in this first pass."
+  },
+  "reviewNotes": {
+    "methodology": "Manually chosen categories by monster lore, ancestry, abilities and role; filenames selected using role/race filters and deterministic per-monster variants. A limited set of galleries was visually sampled; NOT every selected image was visually examined.",
+    "visuallySampledGalleries": [
+      "dnd/Goblin",
+      "dnd/Bullywug",
+      "pf/Boggard Warrior",
+      "pf/Ratfolk Grenadier",
+      "pf/Elf Ranger",
+      "dnd/Githyanki Warrior",
+      "dnd/Spectator"
+    ],
+    "copyright": "Too Many Tokens repositories show MIT license files; verify artwork redistribution terms before public hosting. MCDM Draw Steel artwork is not included.",
+    "usage": "For an entry [system, category, filename, fit], image URL = imageSources[system] + encodeURIComponent(category) + '/' + encodeURIComponent(filename). The full lookup key = keyPrefix + entry key."
+  },
+  "totals": {
+    "monsters": 459,
+    "equivalent": 85,
+    "analogue": 365,
+    "unassigned": 9
+  },
+  "entries": {
+    "ajax-the-invincible/statblock/ajax-the-invincible.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanMaleEvil (1).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-cleaver.json": [
+      "pf",
+      "Boggard Warrior",
+      "BoggardWarrior (11).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-dart.json": [
+      "pf",
+      "Boggard Scout",
+      "BoggardScout (12).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-daybringer.json": [
+      "pf",
+      "Boggard Swampseer",
+      "BoggardSwampseer (8).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-needler.json": [
+      "pf",
+      "Boggard Scout",
+      "BoggardScout (22).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-pollywog.json": ["dnd", "Frog", "Toad (2).webp", "analogue"],
+    "angulotl/statblock/angulotl-slink.json": [
+      "pf",
+      "Boggard Scout",
+      "BoggardScout (10).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/angulotl-wave.json": [
+      "pf",
+      "Boggard Swampseer",
+      "BoggardSwampseer (19).webp",
+      "analogue"
+    ],
+    "angulotl/statblock/clawfish.json": ["dnd", "Giant Crab", "GiantCrab (6).webp", "analogue"],
+    "animal/statblock/animal-swarm.json": null,
+    "animal/statblock/animal.json": null,
+    "animal/statblock/big-animal-a.json": null,
+    "animal/statblock/big-animal-b.json": null,
+    "animal/statblock/predator-a.json": null,
+    "animal/statblock/predator-b.json": null,
+    "arixx/statblock/arixx.json": null,
+    "ashen-hoarder/statblock/ashen-hoarder.json": [
+      "dnd",
+      "Flesh Golem",
+      "FleshGolem (2).webp",
+      "analogue"
+    ],
+    "basilisk/statblock/basilisk-tonguesnapper.json": [
+      "dnd",
+      "Basilisk",
+      "Basilisk (14).webp",
+      "equivalent"
+    ],
+    "basilisk/statblock/basilisk.json": ["dnd", "Basilisk", "Basilisk (9).webp", "equivalent"],
+    "bredbeddle/statblock/bredbeddle.json": null,
+    "bugbear/statblock/bugbear-channeler.json": [
+      "pf",
+      "Bugbear Tormentor",
+      "BugbearTormentorForestMale (15).webp",
+      "analogue"
+    ],
+    "bugbear/statblock/bugbear-commander.json": [
+      "dnd",
+      "Bugbear Chief",
+      "BugbearChief (10).webp",
+      "analogue"
+    ],
+    "bugbear/statblock/bugbear-knightmare.json": [
+      "dnd",
+      "Bugbear Chief",
+      "BugbearChief (8).webp",
+      "analogue"
+    ],
+    "bugbear/statblock/bugbear-mob.json": ["dnd", "Bugbear", "Bugbear (21).webp", "equivalent"],
+    "bugbear/statblock/bugbear-roughneck.json": [
+      "dnd",
+      "Bugbear",
+      "Bugbear (3).webp",
+      "equivalent"
+    ],
+    "bugbear/statblock/bugbear-snare.json": [
+      "pf",
+      "Bugbear Prowler",
+      "BugbearProwlerForestFemale (5).webp",
+      "analogue"
+    ],
+    "bugbear/statblock/bugbear-sneak.json": [
+      "pf",
+      "Bugbear Prowler",
+      "BugbearProwlerForestFemale (10).webp",
+      "analogue"
+    ],
+    "chimera/statblock/chimera.json": ["dnd", "Chimera", "Chimera (1).webp", "equivalent"],
+    "count-rhodar-von-glauer/statblock/count-rhodar-von-glauer.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnHumanMale (1).webp",
+      "analogue"
+    ],
+    "demon/1st-echelon/statblock/bendrak.json": [
+      "dnd",
+      "Shadow Demon",
+      "ShadowDemon (15).webp",
+      "analogue"
+    ],
+    "demon/1st-echelon/statblock/chorogaunt.json": ["dnd", "Vrock", "Vrock (7).webp", "analogue"],
+    "demon/1st-echelon/statblock/ensnarer.json": ["dnd", "Chasme", "Chasme (28).webp", "analogue"],
+    "demon/1st-echelon/statblock/frenzied.json": [
+      "dnd",
+      "Barlgura",
+      "Barlgura (28).webp",
+      "analogue"
+    ],
+    "demon/1st-echelon/statblock/muceron.json": [
+      "dnd",
+      "Hezrou",
+      "HezrouGrey (8).webp",
+      "analogue"
+    ],
+    "demon/1st-echelon/statblock/pitling.json": ["dnd", "Dretch", "Dretch (28).webp", "analogue"],
+    "demon/1st-echelon/statblock/remasch.json": [
+      "dnd",
+      "Shadow Demon",
+      "ShadowDemon (6).webp",
+      "analogue"
+    ],
+    "demon/1st-echelon/statblock/ruinant.json": ["dnd", "Dretch", "Dretch (4).webp", "analogue"],
+    "demon/1st-echelon/statblock/torlas.json": ["dnd", "Yochol", "Yochol (4).webp", "analogue"],
+    "demon/2nd-echelon/statblock/bale-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (3).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/fangling.json": [
+      "dnd",
+      "Barlgura",
+      "Barlgura (21).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/fiktin.json": [
+      "dnd",
+      "Doppelganger",
+      "Doppelganger (20).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/grulqin.json": [
+      "dnd",
+      "Glabrezu",
+      "Glabrezu (14).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/gunge.json": [
+      "dnd",
+      "Gibbering Mouther",
+      "GibberingMouther (9).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/lumbering-egress.json": [
+      "dnd",
+      "Hezrou",
+      "HezrouGrey (4).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/orliq.json": [
+      "dnd",
+      "Gas Spore",
+      "GasSpore (18).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/tormenauk.json": [
+      "dnd",
+      "Glabrezu",
+      "Glabrezu (15).webp",
+      "analogue"
+    ],
+    "demon/2nd-echelon/statblock/wobalas.json": ["dnd", "Vrock", "Vrock (2).webp", "analogue"],
+    "demon/3rd-echelon/statblock/blight-phage.json": [
+      "dnd",
+      "Hezrou",
+      "HezrouGrey (6).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/chimeron.json": [
+      "dnd",
+      "Chimera",
+      "Chimera (16).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-handmaiden.json": [
+      "dnd",
+      "Thri-kreen",
+      "ThriKreen (4).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-hivequeen.json": [
+      "dnd",
+      "Giant Wasp",
+      "GiantWaspBeehive (1).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-praetorian.json": [
+      "dnd",
+      "Thri-kreen",
+      "ThriKreen (15).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-scout.json": [
+      "dnd",
+      "Giant Wasp",
+      "GiantWaspBeehive (11).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-soldier.json": [
+      "dnd",
+      "Thri-kreen",
+      "ThriKreen (16).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/soulraker-stinger.json": [
+      "dnd",
+      "Giant Wasp",
+      "GiantWaspBeehive (11).webp",
+      "analogue"
+    ],
+    "demon/3rd-echelon/statblock/styrich.json": [
+      "dnd",
+      "Night Hag",
+      "NightHagThrone (15).webp",
+      "analogue"
+    ],
+    "demon/4th-echelon/statblock/aurumvas.json": [
+      "dnd",
+      "Glabrezu",
+      "Glabrezu (9).webp",
+      "analogue"
+    ],
+    "demon/4th-echelon/statblock/izyak.json": ["dnd", "Incubus", "Incubus (9).webp", "analogue"],
+    "demon/4th-echelon/statblock/optacus.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (20).webp",
+      "analogue"
+    ],
+    "demon/4th-echelon/statblock/tyburaki.json": [
+      "dnd",
+      "Barlgura",
+      "Barlgura (20).webp",
+      "analogue"
+    ],
+    "demon/4th-echelon/statblock/unguloid.json": ["dnd", "Gorgon", "Gorgon (12).webp", "analogue"],
+    "demon/4th-echelon/statblock/vicisitator.json": [
+      "dnd",
+      "Doppelganger",
+      "Doppelganger (10).webp",
+      "analogue"
+    ],
+    "devil/statblock/devil-adjudicator.json": [
+      "dnd",
+      "Bearded Devil",
+      "BeardedDevil (8).webp",
+      "analogue"
+    ],
+    "devil/statblock/devil-clerk.json": ["dnd", "Imp", "Imp (22).webp", "analogue"],
+    "devil/statblock/devil-high-judge.json": [
+      "dnd",
+      "Bone Devil",
+      "BoneDevil (29).webp",
+      "analogue"
+    ],
+    "devil/statblock/devil-jurist.json": ["dnd", "Chain Devil", "ChainDevil (10).webp", "analogue"],
+    "devil/statblock/devil-legate.json": [
+      "dnd",
+      "Bearded Devil",
+      "BeardedDevil (8).webp",
+      "analogue"
+    ],
+    "devil/statblock/devil-magistrate.json": [
+      "dnd",
+      "Chain Devil",
+      "ChainDevil (14).webp",
+      "analogue"
+    ],
+    "devil/statblock/devil-notary.json": ["dnd", "Imp", "Imp (18).webp", "analogue"],
+    "devil/statblock/devil-scrivener.json": ["dnd", "Imp", "Imp (10).webp", "analogue"],
+    "draconian/statblock/aeolyxria-the-uncanny.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (8).webp",
+      "analogue"
+    ],
+    "draconian/statblock/dorzinuuth-the-base.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (13).webp",
+      "analogue"
+    ],
+    "draconian/statblock/locratix-the-morningstar.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (14).webp",
+      "analogue"
+    ],
+    "draconian/statblock/lydixavus-the-deadeye.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (4).webp",
+      "analogue"
+    ],
+    "draconian/statblock/myxovidan-the-sintaker.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (10).webp",
+      "analogue"
+    ],
+    "draconian/statblock/phrrygalax-the-subduer.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (6).webp",
+      "analogue"
+    ],
+    "dragon/statblock/crucible-dragon.json": [
+      "dnd",
+      "Young Brass Dragon",
+      "YoungBrassDragon (11).webp",
+      "analogue"
+    ],
+    "dragon/statblock/gloom-dragon.json": [
+      "dnd",
+      "Young Black Dragon",
+      "YoungBlackDragon (17).webp",
+      "analogue"
+    ],
+    "dragon/statblock/meteor-dragon.json": [
+      "dnd",
+      "Young Red Dragon",
+      "YoungRedDragon (21).webp",
+      "analogue"
+    ],
+    "dragon/statblock/omen-dragon.json": [
+      "dnd",
+      "Young Blue Dragon",
+      "YoungBlueDragon (44).webp",
+      "analogue"
+    ],
+    "dragon/statblock/thorn-dragon.json": [
+      "dnd",
+      "Young Green Dragon",
+      "YoungGreenDragon (14).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-axethrower.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (4).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-catchpole.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (10).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-driver.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (5).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-gunner.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (12).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-hunter.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorMale (9).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-launcher.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorMale (7).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-marauder.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (6).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-reel-winch.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorMale (7).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-shieldwall.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (10).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-stone-whisperer.json": [
+      "pf",
+      "Dwarf Stonecaster",
+      "DwarfStonecasterFemale (10).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-trapper.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorMale (1).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/dwarf-warden.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorMale (6).webp",
+      "analogue"
+    ],
+    "dwarf/statblock/servitor-war-walker.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (4).webp",
+      "analogue"
+    ],
+    "elemental/statblock/crux-of-fire.json": [
+      "dnd",
+      "Fire Elemental",
+      "FireElemental (18).webp",
+      "equivalent"
+    ],
+    "elemental/statblock/essence-of-storms.json": [
+      "dnd",
+      "Air Elemental",
+      "AirElementalDessert (2).webp",
+      "equivalent"
+    ],
+    "elemental/statblock/essence-of-tides.json": [
+      "dnd",
+      "Water Elemental",
+      "WaterElementalSea (2).webp",
+      "equivalent"
+    ],
+    "elemental/statblock/field-of-growth.json": [
+      "dnd",
+      "Treant",
+      "TreantNormal (20).webp",
+      "analogue"
+    ],
+    "elemental/statblock/force-of-earth.json": [
+      "dnd",
+      "Earth Elemental",
+      "EarthElemental (10).webp",
+      "equivalent"
+    ],
+    "elf-high/statblock/brambleguard.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestMale (7).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/ceramic-horse.json": ["dnd", "Warhorse", "Warhorse (10).webp", "analogue"],
+    "elf-high/statblock/elemental-mote.json": [
+      "dnd",
+      "Fire Elemental",
+      "FireElemental (12).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-bloodletter.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistShieldFemale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-dawn-mage.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistLightningFemale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-deathtouch.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistLightningMale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-orbweaver.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistLightningFemale (1).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-ordinator.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistShieldFemale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-palinode.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (7).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-quiver.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-wyrd.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistShield (1).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/high-elf-zephyr.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistLightningFemale (2).webp",
+      "analogue"
+    ],
+    "elf-high/statblock/soot-crow.json": ["dnd", "Raven", "RavenUrban (10).webp", "analogue"],
+    "elf-shadow/statblock/brush-stalker.json": [
+      "dnd",
+      "Drow",
+      "DrowMaleMelee (8).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-assassin.json": [
+      "dnd",
+      "Drow Elite Warrior",
+      "DrowEliteWarriorFemaleRanged (2).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-cloak.json": [
+      "dnd",
+      "Drow",
+      "DrowMaleMelee (9).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-dusk-mage.json": [
+      "dnd",
+      "Drow Mage",
+      "DrowMageFemale (8).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-duskcaller.json": [
+      "dnd",
+      "Drow Mage",
+      "DrowMageMale (1).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-eclipse.json": [
+      "dnd",
+      "Drow Mage",
+      "DrowMageMale (7).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-knightfell.json": [
+      "dnd",
+      "Drow",
+      "DrowFemaleMelee (5).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-luminator.json": [
+      "dnd",
+      "Drow Mage",
+      "DrowMageFemale (9).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-moondancer.json": [
+      "dnd",
+      "Drow",
+      "DrowMaleMelee (4).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-mournblade.json": [
+      "dnd",
+      "Drow",
+      "DrowFemaleMelee (7).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-nightstrike.json": [
+      "dnd",
+      "Drow Elite Warrior",
+      "DrowEliteWarriorFemaleMelee (1).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-noctis-mage.json": [
+      "dnd",
+      "Drow Mage",
+      "DrowMageFemale (6).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-panther.json": [
+      "dnd",
+      "Panther",
+      "Panther (8).webp",
+      "analogue"
+    ],
+    "elf-shadow/statblock/shadow-elf-sniper.json": [
+      "dnd",
+      "Drow Elite Warrior",
+      "DrowEliteWarriorMaleRanged (1).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-chirurgeon.json": [
+      "dnd",
+      "Druid",
+      "DruidElfFemale (1).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-druid.json": ["dnd", "Druid", "DruidElfMale (2).webp", "analogue"],
+    "elf-wode/statblock/wode-elf-green-seer.json": [
+      "dnd",
+      "Druid",
+      "DruidElfMale (4).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-greenskeeper.json": [
+      "dnd",
+      "Druid",
+      "DruidElfMale.webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-guerrilla.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestMale (2).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-gweiadur.json": [
+      "dnd",
+      "Druid",
+      "DruidElfFemale (4).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-lookout.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestMale (7).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-runner.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (3).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-scout.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (3).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-sentry.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (2).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-warleader.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (5).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wode-elf-yeoman.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestFemale (5).webp",
+      "analogue"
+    ],
+    "elf-wode/statblock/wodenelg.json": [
+      "dnd",
+      "Giant Elk",
+      "GiantElkForest (13).webp",
+      "analogue"
+    ],
+    "fossil-cryptic/statblock/fossil-cryptic.json": [
+      "dnd",
+      "Earth Elemental",
+      "EarthElemental (4).webp",
+      "analogue"
+    ],
+    "giant/statblock/basalt-stone-giant.json": [
+      "dnd",
+      "Stone Giant",
+      "StoneGiantFemale (1).webp",
+      "equivalent"
+    ],
+    "giant/statblock/fire-giant-chief.json": [
+      "dnd",
+      "Fire Giant",
+      "FireGiantFemale (1).webp",
+      "equivalent"
+    ],
+    "giant/statblock/fire-giant-fireballer.json": [
+      "dnd",
+      "Fire Giant",
+      "FireGiantMale (8).webp",
+      "equivalent"
+    ],
+    "giant/statblock/fire-giant-lightbearer.json": [
+      "dnd",
+      "Fire Giant",
+      "FireGiantFemale (3).webp",
+      "equivalent"
+    ],
+    "giant/statblock/fire-giant-red-fist.json": [
+      "dnd",
+      "Fire Giant",
+      "FireGiantMale (12).webp",
+      "equivalent"
+    ],
+    "giant/statblock/frost-giant-snowblaster.json": [
+      "dnd",
+      "Frost Giant",
+      "FrostGiantMale (5).webp",
+      "equivalent"
+    ],
+    "giant/statblock/frost-giant-storm-hurler.json": [
+      "dnd",
+      "Frost Giant",
+      "FrostGiantFemale (10).webp",
+      "equivalent"
+    ],
+    "giant/statblock/frost-giant-wind-sprinter.json": [
+      "dnd",
+      "Frost Giant",
+      "FrostGiantMale (21).webp",
+      "equivalent"
+    ],
+    "giant/statblock/granite-stone-giant.json": [
+      "dnd",
+      "Stone Giant",
+      "StoneGiantFemale (2).webp",
+      "equivalent"
+    ],
+    "giant/statblock/hill-giant-clobberer.json": [
+      "dnd",
+      "Hill Giant",
+      "HillGiantMale (9).webp",
+      "equivalent"
+    ],
+    "giant/statblock/hill-giant-mosstooth.json": [
+      "dnd",
+      "Hill Giant",
+      "HillGiantMale (9).webp",
+      "equivalent"
+    ],
+    "giant/statblock/marble-stone-giant.json": [
+      "dnd",
+      "Stone Giant",
+      "StoneGiantFemale (14).webp",
+      "equivalent"
+    ],
+    "giant/statblock/sand-stone-giant.json": [
+      "dnd",
+      "Stone Giant",
+      "StoneGiantFemale (10).webp",
+      "equivalent"
+    ],
+    "gnoll/statblock/abyssal-hyena.json": ["dnd", "Giant Hyena", "GiantHyena (9).webp", "analogue"],
+    "gnoll/statblock/gnoll-abyssal-archer.json": [
+      "dnd",
+      "Gnoll",
+      "GnollSpear (14).webp",
+      "equivalent"
+    ],
+    "gnoll/statblock/gnoll-abyssal-summoner.json": [
+      "dnd",
+      "Gnoll Fang of Yeenoghu",
+      "GnollFangOfYeenoghu (7).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-bonesplitter.json": [
+      "dnd",
+      "Gnoll",
+      "GnollSpear (6).webp",
+      "equivalent"
+    ],
+    "gnoll/statblock/gnoll-cackler.json": [
+      "dnd",
+      "Gnoll Fang of Yeenoghu",
+      "GnollFangOfYeenoghu (18).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-carnage.json": [
+      "dnd",
+      "Gnoll Pack Lord",
+      "GnollPackLord (10).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-chainflail.json": [
+      "dnd",
+      "Gnoll Pack Lord",
+      "GnollPackLordDemonic (7).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-mage-mauler.json": [
+      "dnd",
+      "Gnoll Fang of Yeenoghu",
+      "GnollFangOfYeenoghu (2).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-marauder.json": [
+      "dnd",
+      "Gnoll Pack Lord",
+      "GnollPackLordDemonic (2).webp",
+      "analogue"
+    ],
+    "gnoll/statblock/gnoll-wildling.json": ["dnd", "Gnoll", "GnollSpear (17).webp", "equivalent"],
+    "gnoll/statblock/tusker-demon.json": [
+      "dnd",
+      "Giant Boar",
+      "GiantBoarSummer (10).webp",
+      "analogue"
+    ],
+    "goblin/statblock/goblin-assassin.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleGreenMelee (2).webp",
+      "equivalent"
+    ],
+    "goblin/statblock/goblin-cursespitter.json": [
+      "pf",
+      "Goblin Pyro",
+      "GoblinPyroForestMale (4).webp",
+      "analogue"
+    ],
+    "goblin/statblock/goblin-monarch.json": [
+      "dnd",
+      "Goblin Boss",
+      "GoblinBossMaleOrangeHills (2).webp",
+      "analogue"
+    ],
+    "goblin/statblock/goblin-runner.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleGreenMelee (1).webp",
+      "equivalent"
+    ],
+    "goblin/statblock/goblin-sniper.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleGreenRanged (4).webp",
+      "equivalent"
+    ],
+    "goblin/statblock/goblin-spinecleaver.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleGreenMelee (4).webp",
+      "equivalent"
+    ],
+    "goblin/statblock/goblin-stinker.json": [
+      "pf",
+      "Goblin Pyro",
+      "GoblinPyroCaveFemale (1).webp",
+      "analogue"
+    ],
+    "goblin/statblock/goblin-underboss.json": [
+      "dnd",
+      "Goblin Boss",
+      "GoblinBossMaleOrangeGrassland (2).webp",
+      "analogue"
+    ],
+    "goblin/statblock/goblin-warrior.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleGraygreenMelee (1).webp",
+      "equivalent"
+    ],
+    "goblin/statblock/skitterling.json": [
+      "dnd",
+      "Giant Spider",
+      "GiantSpiderUrban (4).webp",
+      "analogue"
+    ],
+    "goblin/statblock/war-spider.json": [
+      "dnd",
+      "Giant Spider",
+      "GiantSpiderUrban (2).webp",
+      "analogue"
+    ],
+    "goblin/statblock/worg.json": ["dnd", "Worg", "Worg (3).webp", "equivalent"],
+    "griffon/statblock/griffon.json": ["dnd", "Griffon", "Griffon (16).webp", "equivalent"],
+    "griffon/statblock/striped-condor-griffon.json": [
+      "dnd",
+      "Griffon",
+      "Griffon (6).webp",
+      "equivalent"
+    ],
+    "hag/statblock/wode-hag.json": ["dnd", "Green Hag", "GreenHag (22).webp", "analogue"],
+    "hobgoblin/statblock/grilp.json": [
+      "dnd",
+      "Hobgoblin",
+      "HobgoblinForestMelee (5).webp",
+      "equivalent"
+    ],
+    "hobgoblin/statblock/hobgoblin-bloodlord.json": [
+      "dnd",
+      "Hobgoblin Warlord",
+      "HobgoblinWarlordForest (5).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-brandbearer.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainUnderdark (31).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-burning-witch.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainForest (4).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-death-captain.json": [
+      "dnd",
+      "Hobgoblin Warlord",
+      "HobgoblinWarlordForest (1).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-firerunner.json": [
+      "pf",
+      "Hobgoblin Archer",
+      "HobgoblinArcherMale (7).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-grandguard.json": [
+      "dnd",
+      "Hobgoblin Warlord",
+      "HobgoblinWarlordForest (4).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-hell-trooper.json": [
+      "dnd",
+      "Hobgoblin",
+      "HobgoblinForestMelee (14).webp",
+      "equivalent"
+    ],
+    "hobgoblin/statblock/hobgoblin-incendiarist.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainArmy (2).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-lancer.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainHills (11).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-recruit.json": [
+      "dnd",
+      "Hobgoblin",
+      "HobgoblinForestMelee (9).webp",
+      "equivalent"
+    ],
+    "hobgoblin/statblock/hobgoblin-redglare.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainUnderdark (5).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-smokebinder.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainUnderdark (26).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/hobgoblin-war-mage.json": [
+      "dnd",
+      "Hobgoblin Captain",
+      "HobgoblinCaptainHills (11).webp",
+      "analogue"
+    ],
+    "hobgoblin/statblock/slaughter-demon.json": [
+      "dnd",
+      "Barlgura",
+      "Barlgura (3).webp",
+      "analogue"
+    ],
+    "human/statblock/giant-hawk.json": ["dnd", "Giant Eagle", "GiantEagle (6).webp", "analogue"],
+    "human/statblock/human-apprentice-mage.json": [
+      "dnd",
+      "Mage",
+      "MageHumanMale (22).webp",
+      "analogue"
+    ],
+    "human/statblock/human-archer.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanMaleDesert (2).webp",
+      "analogue"
+    ],
+    "human/statblock/human-bandit-chief.json": [
+      "dnd",
+      "Bandit Captain",
+      "BanditCaptainHumanUrbanMale (8).webp",
+      "analogue"
+    ],
+    "human/statblock/human-blackguard.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleEvil (5).webp",
+      "analogue"
+    ],
+    "human/statblock/human-brawler.json": [
+      "dnd",
+      "Thug",
+      "ThugHumanMaleMelee (1).webp",
+      "analogue"
+    ],
+    "human/statblock/human-death-acolyte.json": [
+      "dnd",
+      "Acolyte",
+      "AcolyteDarkHumanFemale (13).webp",
+      "analogue"
+    ],
+    "human/statblock/human-death-cultist.json": [
+      "dnd",
+      "Cultist",
+      "CultistUrban (2).webp",
+      "analogue"
+    ],
+    "human/statblock/human-guard.json": ["dnd", "Guard", "GuardHumanFemale (6).webp", "analogue"],
+    "human/statblock/human-knave.json": [
+      "dnd",
+      "Bandit",
+      "BanditHumanUrbanMaleMelee (17).webp",
+      "analogue"
+    ],
+    "human/statblock/human-raider.json": [
+      "dnd",
+      "Berserker",
+      "BerserkerHumanMale (5).webp",
+      "analogue"
+    ],
+    "human/statblock/human-rogue.json": ["dnd", "Assassin", "Assassin (15).webp", "analogue"],
+    "human/statblock/human-scoundrel.json": [
+      "dnd",
+      "Bandit",
+      "BanditHumanDesertMaleMelee (2).webp",
+      "analogue"
+    ],
+    "human/statblock/human-storm-mage.json": [
+      "dnd",
+      "Mage",
+      "MageHumanFemale (13).webp",
+      "analogue"
+    ],
+    "human/statblock/human-trickshot.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanMaleArctic (6).webp",
+      "analogue"
+    ],
+    "kingfissure-worm/statblock/kingfissure-worm.json": [
+      "dnd",
+      "Young Remorhaz",
+      "YoungRemorhaz (4).webp",
+      "analogue"
+    ],
+    "kobold/statblock/kobold-adeptus.json": [
+      "pf",
+      "Kobold Cavern Mage",
+      "KoboldCavernMage (8).webp",
+      "analogue"
+    ],
+    "kobold/statblock/kobold-artifex.json": [
+      "pf",
+      "Kobold Cavern Mage",
+      "KoboldCavernMage (10).webp",
+      "analogue"
+    ],
+    "kobold/statblock/kobold-centurion.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorGreen (9).webp",
+      "equivalent"
+    ],
+    "kobold/statblock/kobold-legionary.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorIce (12).webp",
+      "equivalent"
+    ],
+    "kobold/statblock/kobold-princeps.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorIce (8).webp",
+      "equivalent"
+    ],
+    "kobold/statblock/kobold-sagittarion.json": [
+      "pf",
+      "Kobold Scout",
+      "KoboldScoutRed (2).webp",
+      "analogue"
+    ],
+    "kobold/statblock/kobold-signifer.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorBlack (2).webp",
+      "equivalent"
+    ],
+    "kobold/statblock/kobold-tiro.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorRed (7).webp",
+      "equivalent"
+    ],
+    "kobold/statblock/kobold-veles.json": [
+      "pf",
+      "Kobold Scout",
+      "KoboldScoutFey (2).webp",
+      "analogue"
+    ],
+    "kobold/statblock/kobold-venator.json": [
+      "pf",
+      "Kobold Scout",
+      "KoboldScoutBlack (12).webp",
+      "analogue"
+    ],
+    "kobold/statblock/shieldscale-drangolin.json": [
+      "dnd",
+      "Winged Kobold",
+      "WingedKobold (3).webp",
+      "analogue"
+    ],
+    "kobold/statblock/trained-gummy-brick.json": [
+      "dnd",
+      "Animated Armor",
+      "AnimatedArmor (7).webp",
+      "analogue"
+    ],
+    "lich/statblock/lich.json": [
+      "pf",
+      "Dhampir Wizard",
+      "DhampirWizardGnomeFemale (2).webp",
+      "analogue"
+    ],
+    "lightbender/statblock/lightbender-pouncer.json": [
+      "dnd",
+      "Displacer Beast",
+      "DisplacerBeast (4).webp",
+      "analogue"
+    ],
+    "lightbender/statblock/lightbender.json": [
+      "dnd",
+      "Displacer Beast",
+      "DisplacerBeast (3).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-bloodeye.json": [
+      "pf",
+      "Lizardfolk Stargazer",
+      "LizardfolkStargazer (16).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-deathrex.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (10).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-grunt.json": [
+      "pf",
+      "Lizardfolk Scout",
+      "LizardfolkScoutBlue (1).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-scaletooth.json": [
+      "pf",
+      "Lizardfolk Scout",
+      "LizardfolkScoutGreen (4).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-shellguard.json": [
+      "pf",
+      "Lizardfolk Defender",
+      "LizardfolkDefender (12).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-skyterror.json": [
+      "dnd",
+      "Pteranodon",
+      "Pteranodon (13).webp",
+      "analogue"
+    ],
+    "lizardfolk/statblock/lizardfolk-tonguer.json": [
+      "pf",
+      "Lizardfolk Stargazer",
+      "LizardfolkStargazer (13).webp",
+      "analogue"
+    ],
+    "lord-syuul/statblock/lord-syuul.json": [
+      "dnd",
+      "Mindflayer Arcanist",
+      "MindflayerArcanist (4).webp",
+      "analogue"
+    ],
+    "manticore/statblock/manticore.json": ["dnd", "Manticore", "Manticore (3).webp", "equivalent"],
+    "medusa/statblock/medusa.json": ["dnd", "Medusa", "MedusaMale (3).webp", "equivalent"],
+    "minotaur/statblock/minotaur-bully.json": [
+      "dnd",
+      "Minotaur",
+      "MinotaurFemale (3).webp",
+      "equivalent"
+    ],
+    "minotaur/statblock/minotaur-lackey.json": [
+      "dnd",
+      "Minotaur",
+      "MinotaurMale (6).webp",
+      "equivalent"
+    ],
+    "minotaur/statblock/minotaur-stampede.json": [
+      "dnd",
+      "Minotaur",
+      "MinotaurMale (16).webp",
+      "equivalent"
+    ],
+    "minotaur/statblock/minotaur-sunderer.json": [
+      "dnd",
+      "Minotaur",
+      "MinotaurMale (17).webp",
+      "equivalent"
+    ],
+    "minotaur/statblock/minotaur.json": ["dnd", "Minotaur", "MinotaurMale (9).webp", "equivalent"],
+    "noncombatant/statblock/noncombatant.json": [
+      "dnd",
+      "Commoner",
+      "CommonerHumanTavernFemale (22).webp",
+      "analogue"
+    ],
+    "ogre/statblock/cyclops.json": [
+      "dnd",
+      "Cyclops",
+      "CyclopsFemaleMountains (8).webp",
+      "equivalent"
+    ],
+    "ogre/statblock/ogre-blue-blood.json": ["dnd", "Ogre", "Ogre (2).webp", "equivalent"],
+    "ogre/statblock/ogre-goon.json": ["dnd", "Ogre", "Ogre (16).webp", "equivalent"],
+    "ogre/statblock/ogre-juggernaut.json": ["dnd", "Ogre", "Ogre (7).webp", "equivalent"],
+    "ogre/statblock/ogre-tantrum.json": ["dnd", "Ogre", "Ogre (4).webp", "equivalent"],
+    "olothec/statblock/olothec.json": ["dnd", "Aboleth", "AbolethPike (6).webp", "analogue"],
+    "orc/statblock/mohler.json": ["dnd", "Orog", "Orog (9).webp", "analogue"],
+    "orc/statblock/orc-blitzer.json": ["dnd", "Orc", "OrcSwampAxe (10).webp", "equivalent"],
+    "orc/statblock/orc-bloodrunner.json": ["dnd", "Orc", "OrcArcticAxe (2).webp", "equivalent"],
+    "orc/statblock/orc-bloodspark.json": [
+      "dnd",
+      "Orc Eye of Gruumsh",
+      "OrcEyeOfGruumsh (24).webp",
+      "analogue"
+    ],
+    "orc/statblock/orc-chainlock.json": ["dnd", "Orc", "OrcUnderdarkAxe (12).webp", "equivalent"],
+    "orc/statblock/orc-eye-of-grole.json": [
+      "dnd",
+      "Orc Eye of Gruumsh",
+      "OrcEyeOfGruumsh (36).webp",
+      "analogue"
+    ],
+    "orc/statblock/orc-garotter.json": ["dnd", "Orc", "OrcSwampAxe (6).webp", "equivalent"],
+    "orc/statblock/orc-glorifier.json": [
+      "dnd",
+      "Orc Eye of Gruumsh",
+      "OrcEyeOfGruumsh (9).webp",
+      "analogue"
+    ],
+    "orc/statblock/orc-godcaller.json": [
+      "dnd",
+      "Orc Eye of Gruumsh",
+      "OrcEyeOfGruumsh (35).webp",
+      "analogue"
+    ],
+    "orc/statblock/orc-juggernaut.json": [
+      "dnd",
+      "Orc War Chief",
+      "OrcWarchief (19).webp",
+      "analogue"
+    ],
+    "orc/statblock/orc-rampart.json": ["dnd", "Orc War Chief", "OrcWarchief (20).webp", "analogue"],
+    "orc/statblock/orc-razor.json": ["dnd", "Orc", "OrcRoadAxe (2).webp", "equivalent"],
+    "orc/statblock/orc-terranova.json": ["dnd", "Orog", "Orog (5).webp", "analogue"],
+    "orc/statblock/orc-warleader.json": [
+      "dnd",
+      "Orc War Chief",
+      "OrcWarchief (4).webp",
+      "analogue"
+    ],
+    "orc/statblock/scyza.json": ["dnd", "Orog", "Orog (6).webp", "analogue"],
+    "radenwight/statblock/radenwight-bruxer.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (5).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-maestro.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (4).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-mischiever.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (8).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-piper.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (13).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-ratcrobat.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (9).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-redeye.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (3).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-scrapper.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (3).webp",
+      "analogue"
+    ],
+    "radenwight/statblock/radenwight-swiftpaw.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (2).webp",
+      "analogue"
+    ],
+    "retainer/statblock/angulotl-hopper.json": [
+      "pf",
+      "Boggard Warrior",
+      "BoggardWarrior (9).webp",
+      "analogue"
+    ],
+    "retainer/statblock/bugbear-commando.json": ["dnd", "Bugbear", "Bugbear (1).webp", "analogue"],
+    "retainer/statblock/devil-defector.json": [
+      "dnd",
+      "Bearded Devil",
+      "BeardedDevil (19).webp",
+      "analogue"
+    ],
+    "retainer/statblock/devil-detective.json": [
+      "dnd",
+      "Bearded Devil",
+      "BeardedDevil (6).webp",
+      "analogue"
+    ],
+    "retainer/statblock/dwarf-mortar.json": [
+      "pf",
+      "Dwarf Warrior",
+      "DwarfWarriorFemale (8).webp",
+      "analogue"
+    ],
+    "retainer/statblock/gnoll-gnasher.json": ["dnd", "Gnoll", "GnollBow (1).webp", "analogue"],
+    "retainer/statblock/goblin-guide.json": [
+      "dnd",
+      "Goblin",
+      "GoblinForestMaleYellowMelee (7).webp",
+      "analogue"
+    ],
+    "retainer/statblock/high-elf-weatherwise.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerMountainsFemale (3).webp",
+      "analogue"
+    ],
+    "retainer/statblock/hobgoblin-flameslinger.json": [
+      "dnd",
+      "Goblin",
+      "GoblinGrasslandMaleGreenMelee (15).webp",
+      "analogue"
+    ],
+    "retainer/statblock/human-warrior.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (12).webp",
+      "analogue"
+    ],
+    "retainer/statblock/kobold-shieldbearer.json": [
+      "pf",
+      "Kobold Warrior",
+      "KoboldWarriorBlue (3).webp",
+      "analogue"
+    ],
+    "retainer/statblock/minotaur-gorer.json": [
+      "dnd",
+      "Minotaur",
+      "MinotaurMale (16).webp",
+      "analogue"
+    ],
+    "retainer/statblock/orc-charger.json": ["dnd", "Orc", "OrcUnderdarkAxe (6).webp", "analogue"],
+    "retainer/statblock/radenwight-sidekick.json": [
+      "pf",
+      "Ratfolk Grenadier",
+      "RatfolkGrenadierAcid (7).webp",
+      "analogue"
+    ],
+    "retainer/statblock/shadow-elf-shade.json": [
+      "dnd",
+      "Drow",
+      "DrowFemaleMelee (8).webp",
+      "analogue"
+    ],
+    "retainer/statblock/the-nameless.json": null,
+    "retainer/statblock/time-raider-mind-healer.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorFemale (6).webp",
+      "analogue"
+    ],
+    "retainer/statblock/troll-mercenary.json": [
+      "dnd",
+      "Troll",
+      "TrollMountains (2).webp",
+      "analogue"
+    ],
+    "retainer/statblock/undead-servitor.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonBow (4).webp",
+      "analogue"
+    ],
+    "retainer/statblock/unquiet-spirit.json": ["dnd", "Ghost", "GhostMale (6).webp", "analogue"],
+    "retainer/statblock/vampire-rebel.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnHumanFemale (4).webp",
+      "analogue"
+    ],
+    "retainer/statblock/wode-elf-arrowswift.json": [
+      "pf",
+      "Elf Ranger",
+      "ElfRangerForestMale (2).webp",
+      "analogue"
+    ],
+    "retainer/summoner/minion/statblock/gorrre.json": [
+      "dnd",
+      "Ghoul",
+      "GhoulMale (23).webp",
+      "analogue"
+    ],
+    "retainer/summoner/minion/statblock/razor.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (7).webp",
+      "analogue"
+    ],
+    "retainer/summoner/minion/statblock/violent.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHalfElfMale (5).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-conduit.json": [
+      "dnd",
+      "Priest",
+      "PriestNatureHumanMale (1).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-elementalist.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistLightningMale (2).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-fury.json": [
+      "dnd",
+      "Gladiator",
+      "GladiatorHumanFemale (17).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-null.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorror (24).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-shadow.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (2).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-summoner.json": [
+      "dnd",
+      "Mage",
+      "MageHumanMale (16).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-tactician.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleGood (2).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/statblock/rival-talent.json": [
+      "dnd",
+      "Githzerai Monk",
+      "GitheraiMonkFemale (4).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/summoner/minion/statblock/accursed-mummy.json": [
+      "dnd",
+      "Mummy",
+      "Mummy (9).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/summoner/minion/statblock/skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (40).webp",
+      "analogue"
+    ],
+    "rival/1st-echelon/summoner/minion/statblock/zombie-lumberer.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHumanMale (18).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-conduit.json": [
+      "dnd",
+      "Priest",
+      "PriestDarkHumanMale (2).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-elementalist.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistShieldFemale (3).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-fury.json": [
+      "dnd",
+      "Gladiator",
+      "GladiatorHumanMale (2).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-null.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorrorSamurai (5).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-shadow.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (14).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-summoner.json": [
+      "dnd",
+      "Mage",
+      "MageHumanMale (8).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-tactician.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemale (4).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/statblock/rival-talent.json": [
+      "dnd",
+      "Githzerai Monk",
+      "GitheraiMonkFemale (10).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/summoner/minion/statblock/ceaseless-mournling.json": [
+      "dnd",
+      "Ghost",
+      "GhostFemale (15).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/summoner/minion/statblock/grave-knight.json": [
+      "dnd",
+      "Wight",
+      "WightHumanMale (2).webp",
+      "analogue"
+    ],
+    "rival/2nd-echelon/summoner/minion/statblock/skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (56).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-conduit.json": [
+      "dnd",
+      "Priest",
+      "PriestNatureHumanFemale (7).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-elementalist.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistWindMale (1).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-fury.json": [
+      "dnd",
+      "Gladiator",
+      "GladiatorHumanMale (3).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-null.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorrorSamurai (2).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-shadow.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (12).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-summoner.json": [
+      "dnd",
+      "Mage",
+      "MageHumanMale (3).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-tactician.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemale (3).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/statblock/rival-talent.json": [
+      "dnd",
+      "Githzerai Monk",
+      "GitheraiMonkFemale (9).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/summoner/minion/statblock/ceaseless-mournling.json": [
+      "dnd",
+      "Ghost",
+      "GhostFemale (6).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/summoner/minion/statblock/false-vampire.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnHumanMale (1).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/summoner/minion/statblock/skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (19).webp",
+      "analogue"
+    ],
+    "rival/3rd-echelon/summoner/minion/statblock/zombie-lumberer.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHumanMale (7).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-conduit.json": [
+      "dnd",
+      "Priest",
+      "PriestLightHumanFemale (5).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-elementalist.json": [
+      "pf",
+      "Aiuvarin Elementalist",
+      "AiuvarinElementalistShieldFemale (2).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-fury.json": [
+      "dnd",
+      "Gladiator",
+      "GladiatorHumanFemale (11).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-null.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorror (2).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-shadow.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (1).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-summoner.json": [
+      "dnd",
+      "Mage",
+      "MageHumanFemale (1).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-tactician.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleEvil (5).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/statblock/rival-talent.json": [
+      "dnd",
+      "Githzerai Monk",
+      "GitheraiMonkFemale (7).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/summoner/minion/statblock/ceaseless-mournling.json": [
+      "dnd",
+      "Ghost",
+      "GhostFemale (1).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/summoner/minion/statblock/grave-knight.json": [
+      "dnd",
+      "Wight",
+      "WightHumanMale (6).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/summoner/minion/statblock/skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonBow (17).webp",
+      "analogue"
+    ],
+    "rival/4th-echelon/summoner/minion/statblock/zombie-titan.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHumanFemale (13).webp",
+      "analogue"
+    ],
+    "shambling-mound/statblock/shambling-mound.json": [
+      "dnd",
+      "Shambling Mound",
+      "ShamblingMound (22).webp",
+      "equivalent"
+    ],
+    "time-raider/statblock/time-raider-archon.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorFemale (1).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-armiger.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorMale (2).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-cannonfall.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorFemale (11).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-helix.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorFemale (17).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-hijack.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorMale (3).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-mind-punk.json": [
+      "dnd",
+      "Githzerai Zerth",
+      "GitheraiZerthFemale (2).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-myriad.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorMale (5).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-nemesis.json": [
+      "dnd",
+      "Githyanki Warrior",
+      "GithyankiWarriorFemale (17).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-tyrannis.json": [
+      "dnd",
+      "Githyanki Knight",
+      "GithyankiKnightFemale (8).webp",
+      "analogue"
+    ],
+    "time-raider/statblock/time-raider-vertex.json": [
+      "dnd",
+      "Githzerai Zerth",
+      "GitheraiZerthFemale (5).webp",
+      "analogue"
+    ],
+    "troll/statblock/troll-butcher.json": ["dnd", "Troll", "TrollMountains (6).webp", "equivalent"],
+    "troll/statblock/troll-crack-trooper.json": [
+      "dnd",
+      "Troll",
+      "TrollUnderdark (1).webp",
+      "equivalent"
+    ],
+    "troll/statblock/troll-glutton.json": ["dnd", "Troll", "TrollSwamp (4).webp", "equivalent"],
+    "troll/statblock/troll-limbjumble.json": ["dnd", "Troll", "TrollSwamp (10).webp", "equivalent"],
+    "troll/statblock/troll-ravager.json": ["dnd", "Troll", "TrollSwamp (12).webp", "equivalent"],
+    "troll/statblock/troll-whelp.json": ["dnd", "Troll", "TrollMountains (6).webp", "equivalent"],
+    "undead/1st-echelon/statblock/crawling-claw.json": [
+      "dnd",
+      "Crawling Claw",
+      "CrawlingClawStone (10).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/decrepit-skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (54).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/ghost.json": ["dnd", "Ghost", "GhostFemale (2).webp", "analogue"],
+    "undead/1st-echelon/statblock/ghoul.json": [
+      "dnd",
+      "Ghoul",
+      "GhoulFemale (16).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/rotting-zombie.json": [
+      "dnd",
+      "Zombie",
+      "ZombieDwarfFemale (6).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/shade.json": ["dnd", "Shadow", "Shadow (19).webp", "analogue"],
+    "undead/1st-echelon/statblock/skeleton.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonDwarfSword (1).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/soulwight.json": [
+      "dnd",
+      "Shadow",
+      "Shadow (19).webp",
+      "analogue"
+    ],
+    "undead/1st-echelon/statblock/specter.json": [
+      "dnd",
+      "Specter",
+      "SpecterTieflingMale (4).webp",
+      "equivalent"
+    ],
+    "undead/1st-echelon/statblock/umbral-stalker.json": [
+      "dnd",
+      "Shadow",
+      "Shadow (12).webp",
+      "analogue"
+    ],
+    "undead/1st-echelon/statblock/zombie.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHalfElfFemale (19).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/flesh-mournling.json": [
+      "dnd",
+      "Banshee",
+      "BansheeForest (5).webp",
+      "analogue"
+    ],
+    "undead/2nd-echelon/statblock/fleshflayed-shambler-zombie.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHalfElfMale (24).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/ghoul-craver.json": [
+      "dnd",
+      "Ghoul",
+      "GhoulFemale (1).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/giant-zombie.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHalflingFemale (16).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/hollowbone-launcher.json": [
+      "dnd",
+      "Skeleton",
+      "SkeletonSword (56).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/mummy-lord.json": [
+      "dnd",
+      "Mummy",
+      "Mummy (18).webp",
+      "equivalent"
+    ],
+    "undead/2nd-echelon/statblock/mummy.json": ["dnd", "Mummy", "Mummy (20).webp", "equivalent"],
+    "undead/2nd-echelon/statblock/vampire-spawn.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnDragonborn (1).webp",
+      "analogue"
+    ],
+    "undead/2nd-echelon/statblock/wraith.json": ["dnd", "Wraith", "Wraith (18).webp", "equivalent"],
+    "undead/3rd-echelon/statblock/blood-starved-vampire.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnElfFemale (2).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/dirt-mournling.json": [
+      "dnd",
+      "Banshee",
+      "BansheeCoast (3).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/faded-echo-spirit.json": [
+      "dnd",
+      "Ghost",
+      "Ghost (7).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/haunt.json": [
+      "dnd",
+      "Ghost",
+      "GhostFemale (21).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/koptourok.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHalfOrcFemale (10).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/mummy-rotwrap.json": [
+      "dnd",
+      "Mummy",
+      "Mummy (19).webp",
+      "equivalent"
+    ],
+    "undead/3rd-echelon/statblock/vampire-lord.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnHalfElfMale (2).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/vampire.json": [
+      "dnd",
+      "Vampire Spawn",
+      "VampireSpawnElfFemale (3).webp",
+      "analogue"
+    ],
+    "undead/3rd-echelon/statblock/waxen.json": [
+      "dnd",
+      "Zombie",
+      "ZombieTieflingMale (11).webp",
+      "analogue"
+    ],
+    "undead/4th-echelon/statblock/bonecage.json": [
+      "dnd",
+      "Bone Naga",
+      "BoneNaga (22).webp",
+      "analogue"
+    ],
+    "undead/4th-echelon/statblock/giant-shambler-zombie.json": [
+      "dnd",
+      "Zombie",
+      "ZombieHumanFemale (12).webp",
+      "equivalent"
+    ],
+    "undead/4th-echelon/statblock/lithgekh.json": [
+      "dnd",
+      "Bone Naga",
+      "BoneNaga (15).webp",
+      "analogue"
+    ],
+    "undead/4th-echelon/statblock/skeleton-knight.json": [
+      "pf",
+      "Skeletal Champion",
+      "SkeletalChampion (14).webp",
+      "analogue"
+    ],
+    "undead/4th-echelon/statblock/wraith-skulker.json": [
+      "dnd",
+      "Wraith",
+      "Wraith (21).webp",
+      "equivalent"
+    ],
+    "valok/statblock/multivok-bodyguard.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorror (22).webp",
+      "analogue"
+    ],
+    "valok/statblock/multivok-chief.json": [
+      "dnd",
+      "Helmed Horror",
+      "HelmedHorror (18).webp",
+      "analogue"
+    ],
+    "valok/statblock/servok-builder.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (10).webp",
+      "analogue"
+    ],
+    "valok/statblock/servok-miner.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (21).webp",
+      "analogue"
+    ],
+    "valok/statblock/servok-war-engine.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (21).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/hulking-brain.json": ["dnd", "Grell", "Grell (4).webp", "analogue"],
+    "voiceless-talker/statblock/mindkiller-whelp.json": [
+      "dnd",
+      "Intellect Devourer",
+      "IntellectDevourer (1).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/mindkiller.json": [
+      "dnd",
+      "Intellect Devourer",
+      "IntellectDevourer (14).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/voiceless-talker-artillerist.json": [
+      "dnd",
+      "Mindflayer",
+      "Mindflayer (19).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/voiceless-talker-evolutionist.json": [
+      "dnd",
+      "Mindflayer Arcanist",
+      "MindflayerArcanist (10).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/voiceless-talker-graywarper.json": [
+      "dnd",
+      "Mindflayer",
+      "Mindflayer (14).webp",
+      "analogue"
+    ],
+    "voiceless-talker/statblock/voiceless-talker-invader.json": [
+      "dnd",
+      "Mindflayer",
+      "Mindflayer (17).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-amalgamite.json": [
+      "dnd",
+      "Orog",
+      "Orog (5).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-commando.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (4).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-conscript.json": [
+      "dnd",
+      "Guard",
+      "GuardHumanMale (6).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-crucibite.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanFemaleUnderdark (1).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-eviscerite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (6).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-ground-commander.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleGood (13).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-neuronite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (27).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-pestilite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (25).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-phosphorite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (15).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-sharpshooter.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanMaleArctic (5).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-subcommander.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleEvil (10).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-teletalite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (11).webp",
+      "analogue"
+    ],
+    "war-dog/1st-echelon/statblock/war-dog-tetherite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (7).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-arachnite.json": [
+      "dnd",
+      "Drider",
+      "Drider (6).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-doomthief.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (7).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-equivite.json": [
+      "dnd",
+      "Orog",
+      "Orog (3).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-hypokrite.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (15).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-mischievite.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (2).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-sparkslinger.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanMaleMountains (3).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-sweeper.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (19).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-tetrarch.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanMaleGood (5).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-thanatite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (15).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-tormentite.json": [
+      "dnd",
+      "Cult Fanatic",
+      "CultFanaticTemple (12).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-war-doc.json": [
+      "dnd",
+      "Cult Fanatic",
+      "CultFanaticTemple (18).webp",
+      "analogue"
+    ],
+    "war-dog/2nd-echelon/statblock/war-dog-war-frog.json": [
+      "pf",
+      "Boggard Warrior",
+      "BoggardWarrior (12).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-aerocite.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanFemaleMelee (5).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-ballistite.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (20).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-blackcap.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (1).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-breaker.json": [
+      "dnd",
+      "Orog",
+      "Orog (8).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-draconite.json": [
+      "dnd",
+      "Lizardfolk",
+      "Lizardfolk (30).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-firestarter.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (3).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-geomancer.json": [
+      "dnd",
+      "Druid",
+      "DruidHumanMale (1).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-iron-priest.json": [
+      "dnd",
+      "Cult Fanatic",
+      "CultFanaticTemple (22).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-prismite.json": [
+      "dnd",
+      "Shield Guardian",
+      "ShieldGuardian (4).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-saboteur.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (3).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-shriketroop.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanFemaleUnderdark (3).webp",
+      "analogue"
+    ],
+    "war-dog/3rd-echelon/statblock/war-dog-taxiarch.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanMaleEvil (6).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/castellan-hoplon.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemale (1).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/iron-champion-doru.json": [
+      "dnd",
+      "Orog",
+      "Orog (16).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/logostician-vesper.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (7).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/soulbinder-psyche.json": [
+      "dnd",
+      "Cult Fanatic",
+      "CultFanaticTemple (3).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/strategos-alkestis.json": [
+      "dnd",
+      "Knight",
+      "KnightHumanFemaleGood (5).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/war-dog-blood-jumper.json": [
+      "dnd",
+      "Veteran",
+      "VeteranHumanMaleMelee (11).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/war-dog-hunter-killer.json": [
+      "dnd",
+      "Scout",
+      "ScoutHumanMaleArctic (5).webp",
+      "analogue"
+    ],
+    "war-dog/4th-echelon/statblock/war-dog-socialite.json": [
+      "dnd",
+      "Assassin",
+      "Assassin (10).webp",
+      "analogue"
+    ],
+    "werewolf/statblock/werewolf.json": ["dnd", "Werewolf", "Werewolf (14).webp", "equivalent"],
+    "wyvern/statblock/wyvern-lurker.json": ["dnd", "Wyvern", "Wyvern (8).webp", "equivalent"],
+    "wyvern/statblock/wyvern-predator.json": ["dnd", "Wyvern", "Wyvern (12).webp", "equivalent"],
+    "xorannox-the-tyract/statblock/compulsion-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (12).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/demolition.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (17).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/mover-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (14).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/necrotic-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (10).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/toxic-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (14).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/xorannox-the-tyract.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (10).webp",
+      "analogue"
+    ],
+    "xorannox-the-tyract/statblock/zapper-eye.json": [
+      "dnd",
+      "Spectator",
+      "Spectator (5).webp",
+      "analogue"
+    ]
+  }
+}

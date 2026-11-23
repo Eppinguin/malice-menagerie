@@ -1,9 +1,12 @@
+import { requestSharedDice, setSharedRollReset } from "./lib/rollTransport.ts";
 import { effect, signal } from "@preact/signals";
 import { clampInt, normalizeToken, uid } from "./lib/text.ts";
 import {
   clickEdgeOverride,
   makeCharacteristicRoll,
   makePowerRoll,
+  resolvePowerRollBonus,
+  resolvePowerRollDice,
   partyMath,
 } from "./lib/rules.ts";
 import type { CharacteristicKey } from "./lib/rules.ts";
@@ -134,9 +137,13 @@ function restoreTurns(item: Record<string, unknown>): { turns: number; turnsTake
 
 function restoreReactions(value: unknown): CombatInstance["reactions"] {
   if (!Array.isArray(value)) return [];
-  return value.filter(isRecord).flatMap((item) =>
-    typeof item["name"] === "string" ? [{ name: item["name"], malice: clampInt(item["malice"] ?? 0, 0, 99) }] : [],
-  );
+  return value
+    .filter(isRecord)
+    .flatMap((item) =>
+      typeof item["name"] === "string"
+        ? [{ name: item["name"], malice: clampInt(item["malice"] ?? 0, 0, 99) }]
+        : [],
+    );
 }
 
 const asBool = (value: unknown, fallback: boolean): boolean =>
@@ -234,7 +241,9 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
               conditions: asStringArray(item["conditions"]),
               reactions: restoreReactions(item["reactions"]),
               villainRounds: [0, 1, 2].map((i) =>
-                Array.isArray(item["villainRounds"]) ? clampInt(item["villainRounds"][i] ?? 0, 0, 999) : 0,
+                Array.isArray(item["villainRounds"])
+                  ? clampInt(item["villainRounds"][i] ?? 0, 0, 999)
+                  : 0,
               ),
               ...(typeof item["captainId"] === "string" ? { captainId: item["captainId"] } : {}),
               ...(typeof item["summonedBy"] === "string" ? { summonedBy: item["summonedBy"] } : {}),
@@ -285,7 +294,8 @@ function linkInstances(enc: Encounter): void {
     if (instance.entryId && ids.has(instance.entryId)) continue;
     delete instance.entryId;
     const entry = enc.items.find((item) => {
-      if (item.sourcePath !== instance.sourcePath || item.groupId !== instance.groupId) return false;
+      if (item.sourcePath !== instance.sourcePath || item.groupId !== instance.groupId)
+        return false;
       return (taken.get(item.id) ?? 0) < (item.squad ? 1 : item.count);
     });
     if (!entry) continue;
@@ -341,10 +351,7 @@ function sanitizeState(value: unknown): AppState {
   const encounters = rawEncounters.map((raw, index) => sanitizeEncounter(raw, index));
   if (encounters.length) {
     base.encounters = encounters;
-    base.activeEncounterId = asString(
-      value["activeEncounterId"],
-      (encounters[0] as Encounter).id,
-    );
+    base.activeEncounterId = asString(value["activeEncounterId"], (encounters[0] as Encounter).id);
   }
 
   // Legacy migration: `view` used to be a single global `ui.view`. Seed the
@@ -549,6 +556,7 @@ export const previewPath = signal<string | null>(null);
 export const qtyDrafts = signal<ReadonlyMap<string, number>>(new Map());
 export const lastRolls = signal<ReadonlyMap<string, PowerRollResult>>(new Map());
 export const lastMaliceRolls = signal<ReadonlyMap<string, PowerRollResult>>(new Map());
+export const sharedRollActive = signal<boolean>(false);
 export const toastState = signal<{ message: string; shown: boolean }>({
   message: "",
   shown: false,
@@ -556,12 +564,13 @@ export const toastState = signal<{ message: string; shown: boolean }>({
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
-export function toast(message: string): void {
+export function toast(message: string, durationMs?: number): void {
   clearTimeout(toastTimer);
+  const timeout = durationMs ?? (message.length > 48 ? 4_200 : 1_800);
   toastState.value = { message, shown: true };
   toastTimer = setTimeout(() => {
     toastState.value = { message, shown: false };
-  }, 1800);
+  }, timeout);
 }
 
 export function qtyFor(path: string): number {
@@ -664,8 +673,12 @@ export function createEncounter(): string {
 /** Switch the active encounter. Each encounter restores its own last view. */
 export function selectEncounter(encounterId: string): void {
   if (state.value.activeEncounterId === encounterId) return;
+  if (!state.value.encounters.some((enc) => enc.id === encounterId)) return;
+  if (sharedRollPending) {
+    sharedRollGeneration += 1;
+    clearSharedRollPending();
+  }
   mutateApp((draft) => {
-    if (!draft.encounters.some((enc) => enc.id === encounterId)) return;
     draft.activeEncounterId = encounterId;
   });
   void hydrateSavedStateSources();
@@ -681,8 +694,12 @@ export function renameEncounter(encounterId: string, name: string): void {
   });
 }
 
-/** Deep-copy an encounter under a new id and make the copy active. */
+/** Deep-copy an encounter under fresh ids and make the copy active. */
 export function duplicateEncounter(encounterId: string): void {
+  if (sharedRollPending) {
+    sharedRollGeneration += 1;
+    clearSharedRollPending();
+  }
   mutateApp((draft) => {
     const source = draft.encounters.find((item) => item.id === encounterId);
     if (!source) return;
@@ -690,6 +707,51 @@ export function duplicateEncounter(encounterId: string): void {
     copy.id = uid("enc");
     copy.name = `${source.name} (copy)`;
     copy.updatedAt = Date.now();
+    // Regenerate all internal ids so the copy never collides with the source
+    // encounter's Owlbear token/minion-group links or selection state.
+    const groupIds = new Map<string, string>();
+    for (const group of copy.groups) {
+      const nextId = uid("group");
+      groupIds.set(group.id, nextId);
+      group.id = nextId;
+    }
+    copy.activePrepGroupId = groupIds.get(copy.activePrepGroupId) ?? copy.groups[0]?.id ?? "";
+    const entryIds = new Map<string, string>();
+    for (const item of copy.items) {
+      const nextId = uid("entry");
+      entryIds.set(item.id, nextId);
+      item.id = nextId;
+      item.groupId = groupIds.get(item.groupId) ?? copy.activePrepGroupId;
+    }
+    const instanceIds = new Map<string, string>();
+    for (const instance of copy.combat.instances) {
+      const nextId = uid("inst");
+      instanceIds.set(instance.id, nextId);
+      instance.id = nextId;
+    }
+    for (const instance of copy.combat.instances) {
+      instance.groupId = groupIds.get(instance.groupId) ?? copy.activePrepGroupId;
+      if (instance.entryId) {
+        const mapped = entryIds.get(instance.entryId);
+        if (mapped) instance.entryId = mapped;
+      }
+      if (instance.captainId) {
+        const mapped = instanceIds.get(instance.captainId);
+        if (mapped) instance.captainId = mapped;
+        else delete instance.captainId;
+      }
+      if (instance.summonedBy) {
+        const mapped = instanceIds.get(instance.summonedBy);
+        if (mapped) instance.summonedBy = mapped;
+        else delete instance.summonedBy;
+      }
+    }
+    if (copy.combat.activeGroupFilter) {
+      copy.combat.activeGroupFilter = groupIds.get(copy.combat.activeGroupFilter) ?? null;
+    }
+    for (const effect of copy.combat.activeEffects) {
+      effect.id = uid("eff");
+    }
     const index = draft.encounters.indexOf(source);
     draft.encounters.splice(index + 1, 0, copy);
     draft.activeEncounterId = copy.id;
@@ -941,13 +1003,25 @@ export async function addToEncounterInGroup(
       if (isMinion(monster)) {
         // Minions arrive as squads of their own, four to a squad.
         for (const size of defaultSquads(amount))
-          draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: size, squad: true });
+          draft.encounter.push({
+            id: uid("enc"),
+            sourcePath,
+            groupId: targetGroupId,
+            count: size,
+            squad: true,
+          });
       } else {
         const existing = draft.encounter.find(
           (item) => item.sourcePath === sourcePath && item.groupId === targetGroupId,
         );
         if (existing) existing.count += amount;
-        else draft.encounter.push({ id: uid("enc"), sourcePath, groupId: targetGroupId, count: amount });
+        else
+          draft.encounter.push({
+            id: uid("enc"),
+            sourcePath,
+            groupId: targetGroupId,
+            count: amount,
+          });
       }
       draft.activePrepGroupId = targetGroupId;
     });
@@ -1029,7 +1103,8 @@ export function peelToGroup(itemId: string, groupId: string, amount = 1): void {
       const peeled: EncounterItem = { id, sourcePath: source.sourcePath, groupId, count: amount };
       if (source.squad) peeled.squad = true;
       // Next to its stack when it stays in the group, at the end of a new one.
-      if (groupId === source.groupId) draft.encounter.splice(draft.encounter.indexOf(source) + 1, 0, peeled);
+      if (groupId === source.groupId)
+        draft.encounter.splice(draft.encounter.indexOf(source) + 1, 0, peeled);
       else draft.encounter.push(peeled);
     }
     for (const instance of moving) {
@@ -1048,7 +1123,11 @@ export function canTransferMinions(fromId: string, toId: string): boolean {
   const from = items.find((entry) => entry.id === fromId);
   const to = items.find((entry) => entry.id === toId);
   return Boolean(
-    from?.squad && to?.squad && from.id !== to.id && !combat.active && from.sourcePath === to.sourcePath,
+    from?.squad &&
+    to?.squad &&
+    from.id !== to.id &&
+    !combat.active &&
+    from.sourcePath === to.sourcePath,
   );
 }
 
@@ -1143,7 +1222,10 @@ export function groupBalance(): Map<string, GroupBalance> {
       result.set(group.id, { ev: null, off: null });
       continue;
     }
-    const ev = members.reduce((sum, item) => sum + (monsterAt(item.sourcePath)?.ev ?? 0) * item.count, 0);
+    const ev = members.reduce(
+      (sum, item) => sum + (monsterAt(item.sourcePath)?.ev ?? 0) * item.count,
+      0,
+    );
     const single = members.length === 1 && !members[0]?.squad && members[0]?.count === 1;
     const off = ev > 2 * oneHeroES && !single ? "heavy" : ev < oneHeroES ? "light" : null;
     result.set(group.id, { ev, off });
@@ -1154,10 +1236,17 @@ export function groupBalance(): Map<string, GroupBalance> {
 /** The book's group count, about as many groups as heroes give or take
     two, when the roster's groups fall outside it. Encounters with a solo
     creature are exempt; empty groups don't count. */
-export function groupCountAdvice(): { groups: number; heroes: number; lo: number; hi: number } | null {
+export function groupCountAdvice(): {
+  groups: number;
+  heroes: number;
+  lo: number;
+  hi: number;
+} | null {
   const { items, party } = activeEncounter();
   const groups = groupBalance().size;
-  const solo = items.some((item) => monsterAt(item.sourcePath)?.organization.toLowerCase() === "solo");
+  const solo = items.some(
+    (item) => monsterAt(item.sourcePath)?.organization.toLowerCase() === "solo",
+  );
   const heroes = Math.max(1, party.heroes);
   const lo = Math.max(1, heroes - 2);
   const hi = heroes + 2;
@@ -1263,18 +1352,16 @@ function newSquad(entry: EncounterItem, m: Monster, size: number, n: number): Co
   };
 }
 
-export async function startCombat(): Promise<void> {
-  const encounter = activeEncounter().items;
-  if (!encounter.length) return;
-  const paths = [...new Set(encounter.map((item) => item.sourcePath))];
+export async function startCombat(options: { switchView?: boolean } = {}): Promise<void> {
+  const encounter = activeEncounter();
+  if (!encounter.items.length) return;
+  const paths = [...new Set(encounter.items.map((item) => item.sourcePath))];
   const loaded = await Promise.allSettled(paths.map(loadMonster));
+  if (activeEncounter() !== encounter) return;
   if (loaded.some((result) => result.status === "rejected")) {
     toast("Some SteelCompendium statblocks could not be loaded.");
     return;
   }
-  mutate(() => {
-    normalizeEntries(activeEncounter());
-  });
 
   const counters = new Map<string, number>();
   const bump = (path: string) => {
@@ -1282,14 +1369,15 @@ export async function startCombat(): Promise<void> {
     counters.set(path, next);
     return next;
   };
-  const instances: CombatInstance[] = [];
-  for (const entry of activeEncounter().items) {
-    const m = monsterAt(entry.sourcePath);
-    if (!m) continue;
-    instances.push(...buildInstancesForEntry(entry, m, () => bump(basePath(entry.sourcePath))));
-  }
-
   mutate((draft) => {
+    normalizeEntries(encounter);
+    const instances: CombatInstance[] = [];
+    for (const entry of encounter.items) {
+      const m = monsterAt(entry.sourcePath);
+      if (!m) continue;
+      instances.push(...buildInstancesForEntry(entry, m, () => bump(basePath(entry.sourcePath))));
+    }
+
     draft.combat = {
       active: true,
       round: 1,
@@ -1300,9 +1388,11 @@ export async function startCombat(): Promise<void> {
       selectedMaliceFeatureIds: [],
       maliceSelectionInitialized: false,
     };
-    draft.view = "combat";
+    if (options.switchView !== false) draft.view = "combat";
   });
-  toast(`Combat started · ${activeEncounter().combat.malice} Malice`);
+  if (options.switchView === false)
+    toast(`Combat roster prepared · ${encounter.combat.malice} Malice`);
+  else toast(`Combat started · ${encounter.combat.malice} Malice`);
 }
 
 /** Jump to the Run view for an already-active combat without rebuilding it,
@@ -1388,7 +1478,8 @@ export function reconcileCombat(): void {
 
     // A captain who left the board leaves their squad without one.
     for (const squad of kept) {
-      if (squad.captainId && !kept.some((item) => item.id === squad.captainId)) detachCaptain(squad);
+      if (squad.captainId && !kept.some((item) => item.id === squad.captainId))
+        detachCaptain(squad);
     }
     draft.combat.instances = kept;
   });
@@ -1553,8 +1644,12 @@ export async function summonCreatures(
     }
     // Beside their own kind, or else beside the summoner, so a new statblock
     // opens next to the one that called it.
-    const near = same.length ? same : instances.filter((item) => item.sourcePath === summoner.sourcePath);
-    const after = near.length ? instances.indexOf(near[near.length - 1] as CombatInstance) + 1 : instances.length;
+    const near = same.length
+      ? same
+      : instances.filter((item) => item.sourcePath === summoner.sourcePath);
+    const after = near.length
+      ? instances.indexOf(near[near.length - 1] as CombatInstance) + 1
+      : instances.length;
     instances.splice(after, 0, ...added);
     draft.combat.malice -= malice;
     summoned =
@@ -1592,7 +1687,7 @@ function detachCaptain(squad: CombatInstance): void {
 
 /** Free every squad `captainId` leads (they fell, or left the board); returns
     the squads that lost their captain. */
-function releaseCaptain(instances: CombatInstance[], captainId: string): CombatInstance[] {
+export function releaseCaptain(instances: CombatInstance[], captainId: string): CombatInstance[] {
   const led = instances.filter((item) => item.captainId === captainId);
   led.forEach(detachCaptain);
   return led;
@@ -1602,11 +1697,13 @@ function releaseCaptain(instances: CombatInstance[], captainId: string): CombatI
     non-mount creatures, including one leading another squad (a creature
     captains one squad at a time, so picking it moves it here). */
 export function captainCandidates(squad: CombatInstance): CombatInstance[] {
-  return activeEncounter().combat.instances.filter((item) => {
-    if (item.kind !== "creature" || item.currentStamina <= 0) return false;
-    const m = monsterAt(item.sourcePath);
-    return !!m && canCaptain(m);
-  }).filter((item) => item.id !== squad.id);
+  return activeEncounter()
+    .combat.instances.filter((item) => {
+      if (item.kind !== "creature" || item.currentStamina <= 0) return false;
+      const m = monsterAt(item.sourcePath);
+      return !!m && canCaptain(m);
+    })
+    .filter((item) => item.id !== squad.id);
 }
 
 /** Put `captainId` in charge of a squad, or clear its captain with null. A
@@ -1617,7 +1714,8 @@ export function setSquadCaptain(squadId: string, captainId: string | null): void
   mutate((draft) => {
     const instances = draft.combat.instances;
     const squad = instances.find((item) => item.id === squadId);
-    if (!squad || squad.kind !== "minion-squad" || squad.captainId === (captainId ?? undefined)) return;
+    if (!squad || squad.kind !== "minion-squad" || squad.captainId === (captainId ?? undefined))
+      return;
     if (squad.captainId) detachCaptain(squad);
     if (!captainId) return;
     const captain = instances.find((item) => item.id === captainId);
@@ -1654,7 +1752,12 @@ export function setInstanceGroup(instanceId: string, groupId: string): void {
       return;
     }
     entry.count -= 1;
-    const split: EncounterItem = { id: uid("enc"), sourcePath: entry.sourcePath, groupId, count: 1 };
+    const split: EncounterItem = {
+      id: uid("enc"),
+      sourcePath: entry.sourcePath,
+      groupId,
+      count: 1,
+    };
     draft.encounter.splice(draft.encounter.indexOf(entry) + 1, 0, split);
     instance.entryId = split.id;
   });
@@ -1670,7 +1773,8 @@ function rescaleStamina(instance: CombatInstance, from: Monster, to: Monster): v
   const ratio = to.stamina / from.stamina;
   const max = Math.max(1, Math.ceil(instance.maxStamina * ratio - 1e-9));
   const share = instance.maxStamina ? instance.currentStamina / instance.maxStamina : 1;
-  instance.currentStamina = instance.currentStamina <= 0 ? instance.currentStamina : Math.round(max * share);
+  instance.currentStamina =
+    instance.currentStamina <= 0 ? instance.currentStamina : Math.round(max * share);
   instance.maxStamina = max;
 }
 
@@ -1679,7 +1783,13 @@ function rescaleStamina(instance: CombatInstance, from: Monster, to: Monster): v
  * creature entry that lands on an entry of the same monster at that level in
  * its group joins it, as moving it between groups would.
  */
-function relevel(draft: MutableDraft, entryIds: ReadonlySet<string>, fromKey: string, level: number, summoned: boolean): void {
+function relevel(
+  draft: MutableDraft,
+  entryIds: ReadonlySet<string>,
+  fromKey: string,
+  level: number,
+  summoned: boolean,
+): void {
   const printed = monsterAt(basePath(fromKey));
   const from = monsterAt(fromKey);
   if (!printed || !from) return;
@@ -1698,11 +1808,16 @@ function relevel(draft: MutableDraft, entryIds: ReadonlySet<string>, fromKey: st
     entry.sourcePath = key;
     if (entry.squad) continue;
     const join = draft.encounter.find(
-      (item) => item.id !== entry.id && !item.squad && item.sourcePath === key && item.groupId === entry.groupId,
+      (item) =>
+        item.id !== entry.id &&
+        !item.squad &&
+        item.sourcePath === key &&
+        item.groupId === entry.groupId,
     );
     if (!join) continue;
     join.count += entry.count;
-    for (const instance of draft.combat.instances) if (instance.entryId === entry.id) instance.entryId = join.id;
+    for (const instance of draft.combat.instances)
+      if (instance.entryId === entry.id) instance.entryId = join.id;
     draft.encounter = draft.encounter.filter((item) => item.id !== entry.id);
   }
 }
@@ -1712,7 +1827,11 @@ function relevel(draft: MutableDraft, entryIds: ReadonlySet<string>, fromKey: st
 export function setLaneLevel(key: string, level: number): string | null {
   const printed = monsterAt(basePath(key));
   if (!printed) return null;
-  const ids = new Set(activeEncounter().items.filter((item) => item.sourcePath === key).map((item) => item.id));
+  const ids = new Set(
+    activeEncounter()
+      .items.filter((item) => item.sourcePath === key)
+      .map((item) => item.id),
+  );
   mutate((draft) => relevel(draft, ids, key, level, true));
   const next = levelKey(key, level, printed.level);
   return activeEncounter().combat.instances.some((item) => item.sourcePath === next) ? next : null;
@@ -1721,7 +1840,10 @@ export function setLaneLevel(key: string, level: number): string | null {
 /** Set one prep entry to `level`; returns the key it is now at. */
 /** Set one prep entry to `level`; returns the key it is now at and the
     entry that holds it (another one, when it joined it). */
-export function setEntryLevel(entryId: string, level: number): { key: string; entryId: string } | null {
+export function setEntryLevel(
+  entryId: string,
+  level: number,
+): { key: string; entryId: string } | null {
   const entry = activeEncounter().items.find((item) => item.id === entryId);
   const printed = entry && monsterAt(basePath(entry.sourcePath));
   if (!entry || !printed) return null;
@@ -1729,7 +1851,8 @@ export function setEntryLevel(entryId: string, level: number): { key: string; en
   mutate((draft) => relevel(draft, new Set([entryId]), sourcePath, level, false));
   const key = levelKey(sourcePath, level, printed.level);
   const items = activeEncounter().items;
-  const holder = items.find((item) => item.id === entryId) ??
+  const holder =
+    items.find((item) => item.id === entryId) ??
     items.find((item) => !item.squad && item.sourcePath === key && item.groupId === groupId);
   return { key, entryId: holder?.id ?? entryId };
 }
@@ -1814,6 +1937,82 @@ function takeEdge(input?: EdgeInput): EdgeState {
   return clickEdgeOverride(input ?? {}) ?? "normal";
 }
 
+const SHARED_ROLL_MAX_WAIT_MS = 22_000;
+let sharedRollGeneration = 0;
+let sharedRollPending = false;
+let sharedRollStartedAt = 0;
+let sharedRollGuard: ReturnType<typeof setTimeout> | undefined;
+
+function clearSharedRollPending(generation?: number): void {
+  if (generation !== undefined && generation !== sharedRollGeneration) return;
+  sharedRollPending = false;
+  sharedRollActive.value = false;
+  sharedRollStartedAt = 0;
+  if (sharedRollGuard !== undefined) {
+    clearTimeout(sharedRollGuard);
+    sharedRollGuard = undefined;
+  }
+}
+
+setSharedRollReset(() => {
+  sharedRollGeneration += 1;
+  clearSharedRollPending();
+});
+
+function performRoll(
+  bonus: number,
+  edge: EdgeState,
+  local: () => PowerRollResult,
+  apply: (roll: PowerRollResult) => void,
+): void {
+  if (sharedRollPending) {
+    // Background tabs can throttle promise timeouts; clear an overdue lock by
+    // wall clock so rolling can never remain wedged until reload.
+    if (Date.now() - sharedRollStartedAt >= SHARED_ROLL_MAX_WAIT_MS) {
+      sharedRollGeneration += 1;
+      clearSharedRollPending();
+    } else {
+      toast("Wait for the current dice roll to finish.");
+      return;
+    }
+  }
+  const shared = requestSharedDice(bonus, edge);
+  if (!shared) {
+    apply(local());
+    return;
+  }
+  const encounterId = activeEncounter().id;
+  const generation = ++sharedRollGeneration;
+  sharedRollPending = true;
+  sharedRollActive.value = true;
+  sharedRollStartedAt = Date.now();
+  sharedRollGuard = setTimeout(() => {
+    if (generation !== sharedRollGeneration || !sharedRollPending) return;
+    sharedRollGeneration += 1;
+    clearSharedRollPending();
+    toast("Shared roll timed out. Check Owlbear before rolling again.");
+  }, SHARED_ROLL_MAX_WAIT_MS);
+  toast("Rolling…");
+  void shared
+    .then((result) => {
+      if (generation !== sharedRollGeneration) return;
+      if (activeEncounter().id !== encounterId) return;
+      apply(result.dice ? resolvePowerRollDice(result.dice, bonus, edge) : local());
+      result.onApplied?.();
+    })
+    .catch((error: unknown) => {
+      if (generation !== sharedRollGeneration) return;
+      toast(
+        error instanceof Error
+          ? error.message
+          : "Shared roll failed. Check Owlbear before rolling again.",
+      );
+    })
+    .finally(() => {
+      clearSharedRollPending(generation);
+    });
+}
+
 export function rollFeature(
   monsterPath: string,
   featureIndex: number,
@@ -1824,12 +2023,20 @@ export function rollFeature(
   const effect = m?.features[featureIndex]?.effects?.[effectIndex];
   if (!m || !effect?.roll) return;
   const key = `${m.id}|${featureIndex}|${effectIndex}`;
-  const next = new Map(lastRolls.value);
-  // Map.set keeps an existing key's position: delete first so insertion
-  // order always reflects recency (readers pick the "latest" roll by order).
-  next.delete(key);
-  next.set(key, makePowerRoll(effect.roll, m, takeEdge(input)));
-  lastRolls.value = next;
+  const edge = takeEdge(input);
+  performRoll(
+    resolvePowerRollBonus(effect.roll, m),
+    edge,
+    () => makePowerRoll(effect.roll, m, edge),
+    (roll) => {
+      const next = new Map(lastRolls.value);
+      // Map.set keeps an existing key's position: delete first so insertion
+      // order always reflects recency (readers pick the "latest" roll by order).
+      next.delete(key);
+      next.set(key, roll);
+      lastRolls.value = next;
+    },
+  );
 }
 
 export function rollCharacteristic(
@@ -1840,27 +2047,40 @@ export function rollCharacteristic(
   const m = monsterAt(monsterPath);
   if (!m) return;
   const rollKey = `${m.id}|char|${key}`;
-  const next = new Map(lastRolls.value);
-  // See rollFeature: delete first so a re-roll moves to the end (recency).
-  next.delete(rollKey);
-  next.set(rollKey, makeCharacteristicRoll(m, key, takeEdge(input)));
-  lastRolls.value = next;
+  const edge = takeEdge(input);
+  performRoll(
+    Number(m.chars[key]) || 0,
+    edge,
+    () => makeCharacteristicRoll(m, key, edge),
+    (roll) => {
+      const next = new Map(lastRolls.value);
+      // See rollFeature: delete first so a re-roll moves to the end (recency).
+      next.delete(rollKey);
+      next.set(rollKey, roll);
+      lastRolls.value = next;
+    },
+  );
 }
 
-export function rollMaliceFeature(
-  featureId: string,
-  effectIndex: number,
-  input?: EdgeInput,
-): void {
+export function rollMaliceFeature(featureId: string, effectIndex: number, input?: EdgeInput): void {
   const feature = maliceFeatures.value.find((item) => item.id === featureId);
   const effect = feature?.effects[effectIndex];
   if (!feature || !effect || !(effect.tier1 || effect.tier2 || effect.tier3)) return;
   const key = `${feature.id}|${effectIndex}`;
-  const next = new Map(lastMaliceRolls.value);
-  // See rollFeature: delete first so a re-roll moves to the end (recency).
-  next.delete(key);
-  next.set(key, makePowerRoll(effect.roll || "Power Roll", null, takeEdge(input)));
-  lastMaliceRolls.value = next;
+  const edge = takeEdge(input);
+  const rollText = effect.roll || "Power Roll";
+  performRoll(
+    resolvePowerRollBonus(rollText, null),
+    edge,
+    () => makePowerRoll(rollText, null, edge),
+    (roll) => {
+      const next = new Map(lastMaliceRolls.value);
+      // See rollFeature: delete first so a re-roll moves to the end (recency).
+      next.delete(key);
+      next.set(key, roll);
+      lastMaliceRolls.value = next;
+    },
+  );
 }
 
 // ---------- Malice selection ----------
@@ -2094,11 +2314,17 @@ export function takeBackReaction(instanceId: string, name: string, all = false):
  * while the creature has any left, and the tap after that wraps this one back
  * to none, refunding it. With one a round that is a plain tick and untick.
  */
-export function cycleReaction(instanceId: string, name: string, malice: number, capacity: number): void {
+export function cycleReaction(
+  instanceId: string,
+  name: string,
+  malice: number,
+  capacity: number,
+): void {
   const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
   if (!instance) return;
   const uses = instance.reactions.filter((item) => item.name === name).length;
-  if (uses && (capacity === 1 || instance.reactions.length >= capacity)) takeBackReaction(instanceId, name, true);
+  if (uses && (capacity === 1 || instance.reactions.length >= capacity))
+    takeBackReaction(instanceId, name, true);
   else useReaction(instanceId, name, malice, capacity);
 }
 
@@ -2108,7 +2334,12 @@ export function cycleReaction(instanceId: string, name: string, malice: number, 
  * the same one twice, so each use is counted. With one a round the box is a
  * toggle: tapping the marked one takes it back, tapping another swaps them.
  */
-export function useReaction(instanceId: string, name: string, malice: number, capacity: number): void {
+export function useReaction(
+  instanceId: string,
+  name: string,
+  malice: number,
+  capacity: number,
+): void {
   const instance = activeEncounter().combat.instances.find((item) => item.id === instanceId);
   if (!instance) return;
   if (capacity === 1 && instance.reactions.some((item) => item.name === name)) {

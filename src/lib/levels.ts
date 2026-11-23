@@ -66,7 +66,14 @@ const ROLE_DAMAGE: Record<string, number> = { ambusher: 1, artillery: 1, brute: 
 /** Organization Modifier Table: EV (a minion's is for four together), and
     Stamina (a minion's is one minion's). Organizations it doesn't list are
     taken as a platoon. */
-const EV_ORGANIZATION: Record<string, number> = { minion: 0.5, horde: 0.5, platoon: 1, leader: 2, elite: 2, solo: 6 };
+const EV_ORGANIZATION: Record<string, number> = {
+  minion: 0.5,
+  horde: 0.5,
+  platoon: 1,
+  leader: 2,
+  elite: 2,
+  solo: 6,
+};
 const STAMINA_ORGANIZATION: Record<string, number> = {
   minion: 0.125,
   horde: 0.5,
@@ -151,7 +158,8 @@ export function levelScale(m: Monster, to: number): LevelScale {
     damage types may stand between, so "within 3 squares of the damage"
     and thresholds ("5 or more damage") stay as printed. The data's own
     typos ("fir", "lighting") are types too. */
-const TYPE = "(?:acid|cold|corruption|fire|fir|holy|lightning|lighting|poison|psychic|sonic|affinity)";
+const TYPE =
+  "(?:acid|cold|corruption|fire|fir|holy|lightning|lighting|poison|psychic|sonic|affinity)";
 const DAMAGE_RE = new RegExp(
   `\\b(\\d+)((?:\\s+extra)?(?:\\s+${TYPE}(?:,?\\s+(?:or\\s+)?${TYPE})*)?\\s+\\[?damage\\b)`,
   "gi",

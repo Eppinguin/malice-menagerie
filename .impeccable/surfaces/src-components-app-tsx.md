@@ -25,3 +25,7 @@ FIRST VIEWPORT: Run view. Left: cloth spine (wordmark, Prep/Run ribbons, encount
 FORM: The Bestiary Page, position 1 on my ordered list (my pick, chosen by the user over the roll). Seed key a1742ee7.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Settings and optional integrations
+
+Remove dedicated Owlbear navigation. Group the page theme and optional integrations under one Settings entry, including collapsed and mobile navigation. Settings opens a compact non-modal popover; Owlbear starts collapsed for disconnected users. The running head shows Connecting… while pairing, then a direct Send tokens action when connected (Sending… while busy). Keep its action label visible on phones. Connection setup remains in Settings. Expand connection and token controls on demand; retain controller behavior. Use existing page tokens and Bitter typography. Bound expanded content to the viewport with scrolling.

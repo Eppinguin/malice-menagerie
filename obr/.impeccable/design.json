@@ -1,0 +1,364 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-16T13:23:58.515395+00:00",
+  "title": "Design System: Malice Menagerie · Owlbear extension",
+  "extensions": {
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-color",
+        "value": "background-color 120ms ease-out",
+        "purpose": "Button hover feedback; removed for reduced motion."
+      },
+      {
+        "name": "switch-thumb",
+        "value": "transform 150ms ease-out",
+        "purpose": "Artwork switch state; removed for reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "320px"
+      }
+    ],
+    "colorMeta": {
+      "page": {
+        "role": "neutral",
+        "displayName": "Page",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(15% 0.1862 294.78)",
+          "oklch(26% 0.1862 294.78)",
+          "oklch(38% 0.1862 294.78)",
+          "oklch(49% 0.1862 294.78)",
+          "oklch(61% 0.1862 294.78)",
+          "oklch(72% 0.1862 294.78)",
+          "oklch(84% 0.1862 294.78)",
+          "oklch(95% 0.1862 294.78)"
+        ]
+      },
+      "on-accent": {
+        "role": "primary",
+        "displayName": "On Accent",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "error": {
+        "role": "semantic",
+        "displayName": "Error",
+        "tonalRamp": [
+          "oklch(15% 0.1783 28.70)",
+          "oklch(26% 0.1783 28.70)",
+          "oklch(38% 0.1783 28.70)",
+          "oklch(49% 0.1783 28.70)",
+          "oklch(61% 0.1783 28.70)",
+          "oklch(72% 0.1783 28.70)",
+          "oklch(84% 0.1783 28.70)",
+          "oklch(95% 0.1783 28.70)"
+        ]
+      },
+      "ok": {
+        "role": "semantic",
+        "displayName": "Ok",
+        "tonalRamp": [
+          "oklch(15% 0.1347 144.17)",
+          "oklch(26% 0.1347 144.17)",
+          "oklch(38% 0.1347 144.17)",
+          "oklch(49% 0.1347 144.17)",
+          "oklch(61% 0.1347 144.17)",
+          "oklch(72% 0.1347 144.17)",
+          "oklch(84% 0.1347 144.17)",
+          "oklch(95% 0.1347 144.17)"
+        ]
+      },
+      "dark-page": {
+        "role": "neutral",
+        "displayName": "Dark Page",
+        "tonalRamp": [
+          "oklch(15% 0.0358 274.66)",
+          "oklch(26% 0.0358 274.66)",
+          "oklch(38% 0.0358 274.66)",
+          "oklch(49% 0.0358 274.66)",
+          "oklch(61% 0.0358 274.66)",
+          "oklch(72% 0.0358 274.66)",
+          "oklch(84% 0.0358 274.66)",
+          "oklch(95% 0.0358 274.66)"
+        ]
+      },
+      "dark-paper": {
+        "role": "neutral",
+        "displayName": "Dark Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0397 275.98)",
+          "oklch(26% 0.0397 275.98)",
+          "oklch(38% 0.0397 275.98)",
+          "oklch(49% 0.0397 275.98)",
+          "oklch(61% 0.0397 275.98)",
+          "oklch(72% 0.0397 275.98)",
+          "oklch(84% 0.0397 275.98)",
+          "oklch(95% 0.0397 275.98)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0000 89.88)",
+          "oklch(26% 0.0000 89.88)",
+          "oklch(38% 0.0000 89.88)",
+          "oklch(49% 0.0000 89.88)",
+          "oklch(61% 0.0000 89.88)",
+          "oklch(72% 0.0000 89.88)",
+          "oklch(84% 0.0000 89.88)",
+          "oklch(95% 0.0000 89.88)"
+        ]
+      },
+      "dark-secondary": {
+        "role": "neutral",
+        "displayName": "Dark Secondary",
+        "tonalRamp": [
+          "oklch(15% 0.0183 278.99)",
+          "oklch(26% 0.0183 278.99)",
+          "oklch(38% 0.0183 278.99)",
+          "oklch(49% 0.0183 278.99)",
+          "oklch(61% 0.0183 278.99)",
+          "oklch(72% 0.0183 278.99)",
+          "oklch(84% 0.0183 278.99)",
+          "oklch(95% 0.0183 278.99)"
+        ]
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Dark Accent",
+        "tonalRamp": [
+          "oklch(15% 0.1464 298.17)",
+          "oklch(26% 0.1464 298.17)",
+          "oklch(38% 0.1464 298.17)",
+          "oklch(49% 0.1464 298.17)",
+          "oklch(61% 0.1464 298.17)",
+          "oklch(72% 0.1464 298.17)",
+          "oklch(84% 0.1464 298.17)",
+          "oklch(95% 0.1464 298.17)"
+        ]
+      },
+      "dark-on-accent": {
+        "role": "primary",
+        "displayName": "Dark On Accent",
+        "tonalRamp": [
+          "oklch(15% 0.0832 295.53)",
+          "oklch(26% 0.0832 295.53)",
+          "oklch(38% 0.0832 295.53)",
+          "oklch(49% 0.0832 295.53)",
+          "oklch(61% 0.0832 295.53)",
+          "oklch(72% 0.0832 295.53)",
+          "oklch(84% 0.0832 295.53)",
+          "oklch(95% 0.0832 295.53)"
+        ]
+      },
+      "dark-rule": {
+        "role": "neutral",
+        "displayName": "Dark Rule",
+        "tonalRamp": [
+          "oklch(15% 0.0316 275.71)",
+          "oklch(26% 0.0316 275.71)",
+          "oklch(38% 0.0316 275.71)",
+          "oklch(49% 0.0316 275.71)",
+          "oklch(61% 0.0316 275.71)",
+          "oklch(72% 0.0316 275.71)",
+          "oklch(84% 0.0316 275.71)",
+          "oklch(95% 0.0316 275.71)"
+        ]
+      },
+      "dark-error": {
+        "role": "semantic",
+        "displayName": "Dark Error",
+        "tonalRamp": [
+          "oklch(15% 0.0891 26.76)",
+          "oklch(26% 0.0891 26.76)",
+          "oklch(38% 0.0891 26.76)",
+          "oklch(49% 0.0891 26.76)",
+          "oklch(61% 0.0891 26.76)",
+          "oklch(72% 0.0891 26.76)",
+          "oklch(84% 0.0891 26.76)",
+          "oklch(95% 0.0891 26.76)"
+        ]
+      },
+      "dark-ok": {
+        "role": "semantic",
+        "displayName": "Dark Ok",
+        "tonalRamp": [
+          "oklch(15% 0.1179 145.30)",
+          "oklch(26% 0.1179 145.30)",
+          "oklch(38% 0.1179 145.30)",
+          "oklch(49% 0.1179 145.30)",
+          "oklch(61% 0.1179 145.30)",
+          "oklch(72% 0.1179 145.30)",
+          "oklch(84% 0.1179 145.30)",
+          "oklch(95% 0.1179 145.30)"
+        ]
+      }
+    },
+    "hostSurface": {
+      "documentBackground": "transparent",
+      "fieldBackground": "transparent",
+      "canvasColorScheme": "normal",
+      "nativeControlColorScheme": "host mode on body",
+      "owner": "Owlbear supplies translucency and elevation"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Connect to the selected Malice app.",
+      "html": "<button class=\"ds-primary\">Connect</button>",
+      "css": ".ds-primary{font:500 14px Roboto,\"Helvetica Neue\",Arial,sans-serif;min-height:36px;padding:7px 14px;border-radius:4px;cursor:pointer;transition:background-color 120ms ease-out;background:var(--accent,#673ab7);border:1px solid var(--accent,#673ab7);color:var(--on-accent,#fff)}.ds-primary:hover{background:color-mix(in srgb,var(--accent,#673ab7),var(--ink,#212121) 12%)}.ds-primary:focus-visible{outline:2px solid var(--accent,#673ab7);outline-offset:3px}.ds-primary:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Supporting app and dice actions.",
+      "html": "<button class=\"ds-secondary\">Open app</button>",
+      "css": ".ds-secondary{font:500 14px Roboto,\"Helvetica Neue\",Arial,sans-serif;min-height:36px;padding:7px 14px;border-radius:4px;cursor:pointer;transition:background-color 120ms ease-out;background:transparent;border:1px solid var(--rule,#dedede);color:var(--accent,#673ab7)}.ds-secondary:hover{background:color-mix(in srgb,var(--accent,#673ab7) 8%,transparent)}.ds-secondary:focus-visible{outline:2px solid var(--accent,#673ab7);outline-offset:3px}.ds-secondary:disabled{opacity:.5;cursor:default}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Address field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Custom hosting address inside Advanced.",
+      "html": "<label class=\"ds-field\">Malice Menagerie address<input class=\"ds-url\" type=\"url\" placeholder=\"https://your-malice.example\"></label>",
+      "css": ".ds-field{display:grid;gap:7px;font:13px Roboto,\"Helvetica Neue\",Arial,sans-serif;color:var(--secondary,#616161)}.ds-url{font:14px Roboto,\"Helvetica Neue\",Arial,sans-serif;width:100%;min-width:0;min-height:40px;border:1px solid var(--rule,#dedede);border-radius:4px;padding:9px 10px;color:var(--ink,#212121);background:transparent;caret-color:var(--accent,#673ab7)}.ds-url::placeholder{color:var(--secondary,#616161);opacity:1}.ds-url:focus-visible{outline:2px solid var(--accent,#673ab7);outline-offset:3px}"
+    },
+    {
+      "name": "Artwork preference",
+      "kind": "input",
+      "refersTo": "switch",
+      "description": "Default-off opt-in for TooManyTokens artwork.",
+      "html": "<label class=\"ds-switch-row\"><span>Use TooManyTokens artwork</span><input class=\"ds-switch\" type=\"checkbox\" role=\"switch\"></label>",
+      "css": ".ds-switch-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:44px;font:14px Roboto,\"Helvetica Neue\",Arial,sans-serif;color:var(--ink,#212121);cursor:pointer}.ds-switch{appearance:none;position:relative;flex:0 0 36px;width:36px;height:20px;border:0;border-radius:12px;margin:0;background:color-mix(in srgb,var(--secondary,#616161) 38%,var(--page,#fff));cursor:pointer}.ds-switch::after{content:\"\";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:var(--page,#fff);transition:transform 150ms ease-out}.ds-switch:checked{background:var(--accent,#673ab7)}.ds-switch:checked::after{transform:translateX(16px);background:var(--on-accent,#fff)}.ds-switch:focus-visible{outline:2px solid var(--accent,#673ab7);outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-switch::after{transition:none}}"
+    },
+    {
+      "name": "Initials preview",
+      "kind": "custom",
+      "refersTo": "initials-preview",
+      "description": "A local preview of the default token appearance.",
+      "html": "<span class=\"ds-initials\" aria-label=\"Example initials GW\">GW</span>",
+      "css": ".ds-initials{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--accent,#673ab7);background:var(--paper,#f5f5f5);color:var(--ink,#212121);font:600 14px Roboto,\"Helvetica Neue\",Arial,sans-serif}"
+    }
+  ],
+  "narrative": {
+    "northStar": "At home in Owlbear",
+    "overview": "This document governs the embedded settings popover in `index.html`. It is a deliberate host-native exception to the main application's printed-book system in [../DESIGN.md](../DESIGN.md). The extension uses Owlbear's live palette, a compact sans-serif hierarchy, modest control corners and flat dividers. The main application's Bitter typography, book panels and pen marks remain governed by its own design system.\n\nSettings follow everyday usefulness: connection actions, token appearance, dice, then collapsed advanced hosting and usage help. Initials are the default; TooManyTokens artwork requires an explicit switch. The official deployed Malice app is the default destination. This surface helps a Director configure a companion and return to the table.",
+    "keyCharacteristics": [
+      "Host-controlled light and dark colors.",
+      "Compact sans-serif type and flat section dividers.",
+      "Everyday preferences visible; hosting details disclosed on demand.",
+      "Initials preview and explicit artwork consent."
+    ],
+    "rules": [
+      {
+        "name": "The Host Palette Rule",
+        "body": "Read and react to Owlbear's theme; use the extension's CSS role variables throughout this surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Explicit Artwork Rule",
+        "body": "New tokens use initials until the Director opts into TooManyTokens; changing the preference preserves existing artwork.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** use Owlbear's live theme and CSS role variables for this embedded surface.",
+      "**Do** preserve the visible connection, Tokens and Dice order with advanced hosting in a disclosure.",
+      "**Do** retain text labels, keyboard focus and status explanations alongside visual cues.",
+      "**Do** keep initials as the default and external artwork as an explicit preference.",
+      "**Do** check both host modes and the 360px and 320px widths when extending this panel."
+    ],
+    "donts": [
+      "**Don't** apply the main application's Bitter/book styling to the Owlbear settings panel.",
+      "**Don't** hardcode the fallback purple when a live host accent is available.",
+      "**Don't** add card shadows to this flat settings list.",
+      "**Don't** replace existing token artwork when the appearance preference changes."
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Malice Menagerie",
+  "version": "0.1.0",
+  "manifest_version": 1,
+  "author": "Malice Menagerie",
+  "description": "Send a Malice Menagerie encounter to this Owlbear scene and keep Stamina in sync.",
+  "icon": "/obr/malice-menagerie-mark.svg",
+  "action": {
+    "title": "Malice Menagerie",
+    "icon": "/obr/malice-menagerie-mark.svg",
+    "popover": "/obr/index.html",
+    "width": 360,
+    "height": 700
+  },
+  "background_url": "/obr/background.html",
+  "permissions": []
+}

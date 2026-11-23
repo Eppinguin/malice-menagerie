@@ -42,7 +42,9 @@ export function PreviewDrawer() {
   // only while the drawer slides out.
   const shownPath = path ?? renderedPath;
   const monster = shownPath ? monsterAt(shownPath) : undefined;
-  const failed = Boolean(renderedPath && !monster && catalogByPath.get(basePath(shownPath ?? ""))?.error);
+  const failed = Boolean(
+    renderedPath && !monster && catalogByPath.get(basePath(shownPath ?? ""))?.error,
+  );
 
   return (
     <>

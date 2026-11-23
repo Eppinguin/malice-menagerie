@@ -273,6 +273,8 @@ components:
 
 ## Overview
 
+The embedded Owlbear settings popover follows its host-native [extension design system](obr/DESIGN.md); the book styling below governs the main application.
+
 **Creative North Star: "The Bestiary Page"**
 
 The app is the Draw Steel Monsters book lying open on the Director's table, set in the book's own statblock grammar. Everything printed is black ink on white stock. Each statblock opens with a flat grey header panel carrying the creature's name in a bold slab serif. Below it, a row of stats prints the number above its bold label, characteristics read as "Might +5" with a glyph block for the first letter, and abilities are laid out line by line as the book prints them. Draw Steel's own glyphs mark tiers, ability types, distance and target, and potency. The chrome uses the statblock's bold serif too, in normal case: "Round 1", "Next round", "Roll". Geometric capitals survive only on the wordmark, tags and the smallest labels, as the book keeps its sans for the page tab.
@@ -282,6 +284,7 @@ Everything the Director does is written on top of that print in a second hand, i
 Density is the density of a rulebook, not a dashboard. Structure comes from thin rules, V-notched dividers and a 3px double rule under the running head, not from floating cards. Statblocks sit side by side on the board as whole pages divided by vertical rules. Colour is law rather than decoration: each hue has one meaning. The same book also exists as a night page (charcoal stock, bone ink, the same roles), a user toggle persisted in `localStorage` that defaults to `prefers-color-scheme`. The world refuses the dark SaaS dashboard of boxed cards and a single neon accent.
 
 **Key Characteristics:**
+
 - Printed ink and the Director's pen are two separate layers, and the palette keeps them apart.
 - Flat grey header panels with slab-serif names open every statblock and the Encounter box.
 - One voice: bold Bitter sets the statblock and the chrome, in normal case. Poppins capitals are for the wordmark, tags and small labels only.
@@ -296,32 +299,41 @@ Density is the density of a rulebook, not a dashboard. Structure comes from thin
 Neutral black ink on white stock, with flat grey header panels and two reserved inks laid over it: ballpoint blue and Malice crimson.
 
 ### Primary
+
 - **Ink** (`ink`, also `tab-black`): statblock and body text, primary buttons, active chips, the Down cross, the double rule under the running head. On the night page ink becomes bone (#ece5d6), so the night primary button and toast invert to bone on charcoal.
 - **Ink Secondary / Tertiary** (`ink-secondary`, `ink-tertiary`): keywords, legends and meta lines, then small labels, placeholders and disabled text.
 
 ### Secondary
+
 - **Ballpoint Pen** (`ballpoint-pen`, with `pen-wash` and `pen-line`): everything the Director writes or rolls. Instance names, stamina values, the stamina fill and its handle, acted ticks and the acted strike-through, condition chips, roll buttons and results, the rolled tier badge and the loop around the rolled tier, quantity numbers, party inputs, the caret, focus outlines and focused input borders. Night #93b4f0.
 
 ### Tertiary
+
 - **Highlighter** (`highlighter`, text `on-highlighter`): native text selection only. Night #e6c73e. Selected text is always dark ink on the yellow (night #1a1815), never the page ink, which is bone at night.
 - **Malice Crimson** (`malice-crimson`, `malice-ink`, `on-malice`): the outlined Malice counter in the running head and its −/+ steps, the opened Encounter Malice panel's 2px top rule, the strip's heading and skull glyph, Malice costs, the outlined Malice use and spend buttons, and the Round 1 Malice figure in Prep. `malice-crimson` draws borders and hover fills (night #c83a30, lifted so outlines hold 3:1 on charcoal); `malice-ink` is the text form (night #ef7a6e); `on-malice` is text on a filled hover.
 
 ### Neutral
+
 - **White Stock** (`white-stock`): the ground of every view, the colour of the active spine tab, and the fill of the V-notch. Night #1a1815.
 - **Panel Grey** (`panel-grey`, CSS `--tint`): the flat header panel on statblocks and the Encounter box, and the hover wash on outlined controls. Night #27231e.
 - **Sheet / Field** (`sheet`, `field`): instance cards and the Encounter box body; input wells.
 - **Hairline Rule / Strong Rule** (`hairline-rule`, `strong-rule`): cell and card borders; statblock dividers and V-notches, lane dividers, outlined buttons, chip and tag borders, scrollbars.
 - **Spine Black** (`spine-black`, `spine-raised`, `spine-line`, `on-spine`, `on-spine-dim`): the spine only, a flat black with no texture.
+
 ### Brand
+
 - **Brand Horn / Brand Eye** (`brand-horn`, `brand-eye`; night horn #e8665a, eye #f2d85a): the horns and eyes of the horned M, on the spine and in the favicon only. Horn is a lifted crimson so it holds on spine black, where `malice-crimson` would sink.
 
 ### Group Tinctures
+
 - **Ochre, Vert, Purpure, Teal, Sanguine, Slate** (`tincture-*`, CSS `--g0`..`--g5`): a small square swatch on activation-group selects, filters and headings. Night values are lifted (for example ochre #d9a653).
 
 ### Difficulty Ramp
+
 - **Trivial, Easy, Standard, Hard, Extreme** (`diff-*`): the Monsters book's five bands, as the Prep difficulty word and the budget ruler fill. Extreme, the top band, is heavy ink with an underline. It is never red.
 
 ### Named Rules
+
 **The Malice Is Crimson Rule.** Crimson (`--malice`) means Malice and nothing else. A crimson element that does not show, change or spend the Malice pool is wrong.
 
 **The Crimson Ink Rule.** Malice is written in crimson ink and outline on the page: the counter, its steps and the use buttons are transparent with a 1px crimson border and crimson text, and fill solid crimson only on hover.
@@ -353,6 +365,7 @@ Bitter and Poppins are self-hosted through Fontsource.
 **Character:** A bold slab serif does what the Monsters book does: names, labels, stats, rules text and here the chrome as well, all in normal case. A heavy geometric sans in small capitals is the book's page tab, kept to the wordmark, tags and the smallest labels.
 
 ### Hierarchy
+
 - **Running Head** (Bitter 700, clamp(30px, 3vw, 40px), 1, 0.015em): "Round 3", "Prep". 32px on phones. Beside it, the encounter legend in Bitter 17px, ink-secondary.
 - **Section** (Bitter 700, 26px, 1): Prep section headings ("Monster library"); the party line title at 21px.
 - **Headline** (Bitter 700, 21px, 1.15): creature names in the statblock header panel and the Encounter box heading. Library entries use 19px.
@@ -370,6 +383,7 @@ Bitter and Poppins are self-hosted through Fontsource.
 Live sizes in the stylesheet: 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15, 16, 17, 18, 19, 20, 21, 24, 26, 27, 30, 32, 34 and 40px, plus clamp(30px, 3vw, 40px) and 1.05em. Every one of these is a legitimate step (12px is the inline glyph in Malice costs and the movement line; 34px is the wordmark). The stylesheet also still declares 10, 25, 31 and 36px and two older running-head clamps, all overridden later by the "Book fidelity" and "One voice" sections, so they never render. Sizes below 10.5px are not part of the ramp (see Don'ts); the library `.tag` (8.5px), the spine count badge (9px) and the drag ghost's label (10px) currently break that floor and are defects, not steps.
 
 ### Named Rules
+
 **The One Voice Rule.** Bold Bitter in normal case speaks for the statblock and the chrome alike: names, stats, labels, rules text, the running head, buttons, chips, navigation, Roll and Malice controls. Poppins capitals are allowed only on the wordmark, tags and the small label group.
 
 **The Glyph Rule.** Draw Steel Glyphs sets only the book's own symbols: tier badges (`!` `@` `#` for ≤11 / 12–16 / 17+), ability icons mapped from the data's emoji, distance and target marks, characteristic letter blocks, the Malice skull and potency blocks such as "M<4". A glyph is always `aria-hidden` beside real text, or carries `role="img"` with a spoken label ("Might less than 4"). One exception: a potency a level change rewrote is not a glyph. It is the outlined pen potency, Bitter 700 text "M<3" at 0.86em in a 1px pen outline with 2px corners, transparent fill and pen text, keeping `role="img"` and its spoken label, because a solid block reprinted in blue would read as print.
@@ -401,10 +415,12 @@ Spacing runs 4 / 8 / 12 / 18 / 28 / 36px, with 2px between stacked rows. At 900p
 The page is flat. Depth comes from ink weight, the flat grey header panel and tonal stock (page, sheet, panel grey, field), not from shadows or gradients. Statblocks and the Encounter box sit flat on the page. Shadows are reserved for things physically lifted off it: drag ghosts, pop-up menus, the toast and the preview drawer (over a 45% ink backdrop).
 
 ### Shadow Vocabulary
+
 - **Lift** (`box-shadow: 0 1px 2px rgba(40, 30, 20, 0.12), 0 8px 24px -6px rgba(40, 30, 20, 0.22)`): drag ghost, edge menu, toast. Night: `0 1px 2px rgba(0,0,0,0.4), 0 10px 28px -8px rgba(0,0,0,0.6)`.
 - **Drawer** (`box-shadow: 0 12px 48px rgba(20, 15, 10, 0.35)`): the preview drawer. Night alpha 0.6.
 
 ### Named Rules
+
 **The Rules Not Boxes Rule.** Separate printed content with rules: 1px strong rules under header panels, stat rows, abilities and traits, a V-notch at the centre of each divider, and a 3px double rule under running heads and drawer heads. Enclosing boxes are only for Director-writable surfaces (instance cards, inputs), the Malice counter and the Encounter box.
 
 ## Shapes
@@ -420,7 +436,9 @@ UI icons (menu, eye, plus, minus, close, drag) are a single stroke family: 24px 
 ## Components
 
 ### Buttons
+
 Solid ink for the one committing action, outline for everything else, all in bold serif, normal case.
+
 - **Shape:** print corners (2px).
 - **Primary:** tab-black with page-coloured Bitter 700, 11px 18px ("Next round", "Run encounter", "Add"). Hover lightens to `ink-hover`. At night it inverts to bone with charcoal text. Disabled drops to transparent with a hairline border.
 - **Secondary:** transparent, strong-rule border, ink text. Hover fills with panel grey. `.active` fills solid ink.
@@ -429,12 +447,14 @@ Solid ink for the one committing action, outline for everything else, all in bol
 - **Transitions:** 0.12–0.14s ease on background, colour and border.
 
 ### Chips and Tags
+
 - **Filter chips:** outlined Bitter 600 13.5px ("All", "Horde", "Minion"). Active is solid ink on page.
 - **Tags:** small outlined Poppins capitals in a strong-rule outline (MINION, ELITE, SOLO).
 - **Condition and active-effect notes:** Bitter 600 14px in pen, no box, ringed by a single hand-drawn pen loop. Hovering (or focusing) one previews the strike that tapping it makes; a small × stays at 60% for touch. Hovering or focusing a condition on a slip also opens the shared rule-preview card with that condition's rules text, the same card that reads cross-referenced terms in statblock text; the click still crosses it off. The add-condition control sits on the slip's name line, directly above the conditions it adds: a printed 28px dashed strong-rule button with a plus that turns pen on hover, spelled out as "+ Condition" only where the slip is 420px or wider, so the name keeps its room everywhere else.
 - **Health notes:** Winded as an ink-outlined tag leading the conditions row, sized like a condition note, Bitter 600 14px. Down has no note; the slip is crossed through in ink.
 
 ### Cards / Containers
+
 - **Statblock header panel:** flat panel grey, 6px top corners, a 1px strong-rule bottom edge with the V-notch. Name in headline Bitter; the level line in 14px 700; keywords and EV in 13.5px.
 - **Stat and characteristic rows:** five even columns with no cell dividers, each row closed by a 1px strong rule.
 - **Ability and trait blocks:** no fill, no border, 12px 0 13px padding, a 1px strong rule with the V-notch beneath.
@@ -442,6 +462,7 @@ Solid ink for the one committing action, outline for everything else, all in bol
 - **Encounter box:** strong-rule border, sheet fill, 6px corners, no shadow, opened by the same flat grey panel as a statblock.
 
 ### Inputs / Fields
+
 - **Style:** field fill, 1px strong-rule border, 2px corners, 9px 11px. Hover darkens the border to ink-secondary. Director-entered values are pen blue.
 - **Focus:** pen border plus a 2px pen-wash ring. Global `:focus-visible` is a 2px pen outline offset 2px.
 - **Stamina field:** borderless with a dashed pen-line underline, 21px Bitter 700 pen numerals over a muted "/ max". While the track is dragged it shows the previewed value and the underline turns solid.
@@ -454,30 +475,37 @@ Solid ink for the one committing action, outline for everything else, all in bol
 - **Group tally (Prep):** each non-empty group heading prints "7 enemies · EV 21" in 13.5px 600 ink-tertiary, worded rather than "7 × EV 21", which would read as a multiplication. Creature rows likewise read "EV 18 · 3 each" (or "EV 3" for one). An EV outside the book's one-to-two-hero range changes alone: bold ink with a dotted 1.5px underline offset 3px and a help cursor, followed by a 12px ink chevron pointing up (over two heroes) or down (under one hero) so the direction reads without hovering, explained in the shared rule-preview card (heading "Encounter value above recommendation", or below; body "Recommended value is between 6–12.", with "One group below it is fine." when below), never a native tooltip. The card opens on hover and focus, and on touch a tap opens it and a second tap (or a tap elsewhere) puts it away; tapping the EV does not select the group. Until every statblock in a group has loaded, its EV prints "EV …" and is never flagged. Nothing else is added to the group. Below the groups, only when off and with no solo in the fight, a centred 13.5px italic ink-secondary note: "2 groups for 5 heroes · aim for 3 to 7". Groups are size containers: under 340px the "Adding here" words give way so the group name keeps its room.
 
 ### Navigation
+
 - **Spine:** flat black. The wordmark is Poppins 800 capitals opened by the horned M; no plate or frame, the mark sits directly on the spine.
 - **Tabs:** Bitter 700 17px with an icon and a count badge, in `on-spine-dim`. Hover is the raised spine tone. The active tab is cut from page stock with inverted corners.
 - **Encounter list:** Bitter name with a subtitle. The active row gets a 1px bar.
 - **Mobile:** below 900px, a 40px menu toggle in the running head.
 
 ### Malice Counter (signature)
+
 The only crimson in the running head, written in crimson ink rather than filled: a 1px crimson border around a MALICE tab label, outlined crimson −/+ steps (32px, 34px on phones) that fill solid crimson on hover, a 32px Bitter numeral in malice ink, and "+N next" after a crimson divider. It is 50px tall, matching the acted tally and the "Next round" button beside it. The acted tally turns pen blue and is ringed by hand, not filled, once every turn is taken.
 
 ### Ability Block with Tier Rows (signature)
+
 The book's layout, line for line: a glyph icon, the bold name and the bold kind at the right ("Signature Ability", "2 Malice", "Main action"); keywords with the action type at the right; the distance glyph and distance, then the target glyph and target at the right. Below it the "Power Roll + 5" line with an outlined pen "Roll" button and the roll worked out in pen: both d10s sketched as kites (pen-line outline, 13px numeral), the bonus, a pen-line "=", and the 20px total ruled off twice. The tally takes whatever the line has left and never wraps: under 150px the dice and bonus give way, leaving the total and any edge or bane note. Then three tier rows led by glyph badges. Potency renders inline as the book's black glyph block ("M<4"), or as the outlined pen potency once a level change has rewritten it. The rolled row turns its badge pen blue and is circled with the pen loop, two quick laps that cross, drawn on as one stroke.
 
 ### Level Mark (signature)
+
 "Level N" on the header's second line is the level control, printed until the Director writes on it.
+
 - **At rest:** print, with a faint dashed 1px strong-rule underline offset 3px, the writable-field mark the Stamina field wears. Hover turns the numeral pen and the underline pen.
 - **Adjusted:** the numeral in pen, the underline in pen-line, and the printed level in 12.5px 600 ink-tertiary beside it, "(1)", read aloud as "printed level 1".
 - **Editing:** a tap turns the line itself into Level [−] N [+] [Party P] [Printed L], so the stats it rewrites stay in view. The steps are 26px outlined print controls (strong-rule border, field fill, 2px corners, 14px stroke icons) that take a pen border, pen wash and pen icon on hover; the value is 17px pen; the jumps are 26px outlined Bitter 600 13px, Party's value in pen and Printed's in ink, each shown only when it would change the level. The organization, role and keywords step aside while it is open, so the header keeps its two lines (The Glance Budget Rule). No popover and no close button: a tap elsewhere, Escape or Enter closes it, and the arrow keys step.
 - **Run board:** changing a lane's level rescales each creature's current Stamina at its same share of the maximum.
 
 ### Motion
+
 **The Pen-Stroke Rule.** Marks the Director makes are drawn on as a pen stroke traced along its own path (a stroke-dashoffset draw, ease-out `cubic-bezier(0.16, 1, 0.3, 1)`): about 0.3s for strikes and ticks, 0.45s for rings, 0.72s for the two-lap tier loop, with multi-stroke marks (the Down cross, the answer rules) drawing one stroke after the other. Typeset pen text is revealed left to right with a clip-path (`inset(0 100% 0 0)` to `inset(0 0 0 0)`). The roll tally writes itself in order: kites, sum, rules. Nothing else uses these animations. Everything else is a short transition: 0.12–0.2s for colour, 0.24–0.3s for the spine collapse, drawer slide, meters and budget ruler, and a 0.16s menu-in. `prefers-reduced-motion` collapses all of it.
 
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** open every statblock and the Encounter box with the flat panel-grey header (`--tint`), a 1px strong-rule bottom edge, and a Bitter 700 name in normal case.
 - **Do** set stats as number over bold label, characteristics as "Might +5" with a glyph first letter, and abilities as icon + name + kind / keywords + action / distance + target.
 - **Do** close statblock sections, abilities and traits with a 1px strong rule and its centred V-notch.
@@ -491,6 +519,7 @@ The book's layout, line for line: a glyph icon, the bold name and the bold kind 
 - **Do** give every new colour role a night value and reference it by token.
 
 ### Don't:
+
 - **Don't** put a gradient or a black band on a statblock or panel header; header panels are flat panel grey.
 - **Don't** set Poppins or uppercase anywhere but the wordmark, tags and the small label group; the one serif exception is the capitalised difficulty word (EXTREME) under the Heavy Ink Rule.
 - **Don't** set any text below 10.5px.
@@ -503,3 +532,9 @@ The book's layout, line for line: a glyph icon, the bold name and the bold kind 
 - **Don't** add a second animation grammar or reuse the pen stroke for non-mark UI.
 - **Don't** put shadows on statblocks or panels; shadows are only for lifted things.
 - **Don't** hardcode colour literals in components; the night page depends on role tokens.
+
+## Settings and optional integrations
+
+The sidebar footer has one Settings control, including the collapsed rail and mobile navigation. It opens a compact, non-modal popover beside the spine, inset at the bottom on phones, with a viewport-bounded scrolling body when expanded. Night page is the first setting. Owlbear Rodeo lives under Integrations as a disclosure (collapsed for standalone users, staying open after explicit Disconnect or Cancel): there is no dedicated Owlbear navigation entry for standalone users. The running head shows Connecting… during pairing, Syncing… during scene/encounter reconciliation, Sending… while writing tokens, Send tokens (with a `+N` pending badge when partially linked), and Synced once all active tokens are on the map; holding, right-clicking, or pressing ArrowDown opens the Send options menu (`OwlbearSendMenu`). When Connected Dice is enabled, a compact dice status pill (`OwlbearDiceButton`) sits beside the send control with a lock/eye-off indicator for GM-only rolls and quick controls in Settings (private toggle, retry, and cancel pending roll). Linked combatant cards share compact visibility, select, locate, send/`+N`, fallen `−N`, and defeated remove controls (`OwlbearTokenActions`) in the Stamina row, wrapping cleanly on narrow lanes and touch screens. Sending is disabled until a scene is ready and the encounter has monsters. Lost or failed connections offer Reconnect Owlbear. Token controls appear after connecting; saved statblock overrides, trusted origins, and diagnostics remain under Advanced settings. Escape, close, and outside clicks dismiss Settings; keyboard dismissal restores focus to whichever control opened Settings. Panel-grey headers and Bitter titles follow the page grammar.
+
+The Owlbear send action uses a tray-and-arrow glyph, Bitter 700 at the shared 15px button size, and a panel-grey fill with a strong rule. It matches neighboring toolbar heights (40px in Prep, 50px beside combat controls). Hover inverts ink and stock; keyboard focus uses the existing pen outline. Pending states replace the send glyph with pulsing sync arrows, respecting reduced motion. State text stays visible on phones.

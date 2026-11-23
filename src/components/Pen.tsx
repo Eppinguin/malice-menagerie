@@ -74,7 +74,11 @@ function PenMark({
           key={index}
           pathLength={1}
           d={d}
-          style={stagger ? { animationDelay: `calc(var(--pen-delay, 0s) + ${index * stagger}s)` } : undefined}
+          style={
+            stagger
+              ? { animationDelay: `calc(var(--pen-delay, 0s) + ${index * stagger}s)` }
+              : undefined
+          }
         />
       ))}
     </svg>
@@ -179,7 +183,9 @@ export function PenD10({ seed, value }: { seed: string | number; value: number }
   const kiteFoot = at(16, 27.8);
   const kiteEast = at(25.8, 21.8);
   const p = ([x, y]: Pt) => pt(x, y);
-  const outline = [top, west, southWest, foot, southEast, east, top].map((point, i) => `${i ? "L" : "M"}${p(point)}`);
+  const outline = [top, west, southWest, foot, southEast, east, top].map(
+    (point, i) => `${i ? "L" : "M"}${p(point)}`,
+  );
   // The pen runs on past where it started, a little way down the west edge.
   outline.push(`L${pt(top[0] - 2.4, top[1] + 3.2)}`);
   const kite = `M${p(top)} L${p(kiteWest)} L${p(kiteFoot)} L${p(kiteEast)} Z`;

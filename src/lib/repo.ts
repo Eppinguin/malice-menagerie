@@ -15,7 +15,7 @@ export const STATBLOCK_RE = /^en\/(unified)\/json\/monster\/(.+?)\/statblock\/([
  * one), so they are kept out of the library.
  */
 export const HERO_SIDE_FAMILY_RE = /^(minion|champion|companion|summon)(\/|$)/i;
-export const CONDITION_RE =/^en\/unified\/json\/condition\/([^/]+)\.json$/i;
+export const CONDITION_RE = /^en\/unified\/json\/condition\/([^/]+)\.json$/i;
 /** A content reference in the data, e.g. "scc.v1:mcdm.heroes.v1/rule.combat/adjacent". */
 const SCC_REF_RE = /^scc\.v\d+:(.+)$/i;
 

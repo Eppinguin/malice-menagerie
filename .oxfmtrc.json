@@ -1,0 +1,3 @@
+{
+  "ignorePatterns": ["shared/obr/statblockIndex.generated.ts", "obr/src/tokenArtworkMap.json"]
+}

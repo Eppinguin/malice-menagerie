@@ -150,7 +150,8 @@ export function RulePreview() {
     const open = (link: HTMLElement, pinOpen: boolean): void => {
       stopTimers();
       const hint = link.dataset.hint;
-      const path = link.dataset.rulePath ?? (hint ? `hint:${hint}|${link.dataset.hintBody ?? ""}` : "");
+      const path =
+        link.dataset.rulePath ?? (hint ? `hint:${hint}|${link.dataset.hintBody ?? ""}` : "");
       if (!path) return;
       if (link !== described) pin(pinOpen);
       else if (pinOpen) pin(true);
@@ -163,7 +164,9 @@ export function RulePreview() {
         path,
         url: urlOf(link),
         label: (link.textContent || "").trim(),
-        ...(hint ? { inline: { name: hint, kind: "", html: escapeHtml(link.dataset.hintBody ?? "") } } : {}),
+        ...(hint
+          ? { inline: { name: hint, kind: "", html: escapeHtml(link.dataset.hintBody ?? "") } }
+          : {}),
         x: Math.max(GUTTER, Math.min(rect.left, window.innerWidth - width - GUTTER)),
         linkTop: rect.top,
         linkBottom: rect.bottom,
@@ -336,21 +339,23 @@ export function RulePreview() {
         ) : (
           <p class="rule-preview-pending">{pending ? "Loading…" : "No preview for this term."}</p>
         )}
-        {anchor.url || (overflows && !pinned) ? <div class="rule-preview-foot">
-          {/* The full rule, one tap away on a touch screen. Kept out of the tab
+        {anchor.url || (overflows && !pinned) ? (
+          <div class="rule-preview-foot">
+            {/* The full rule, one tap away on a touch screen. Kept out of the tab
               order: it belongs to the term, itself one keystroke from it. */}
-          {anchor.url ? (
-            <a href={anchor.url} target="_blank" rel="noreferrer" tabIndex={-1}>
-              Open on SteelCompendium
-              <ExternalIcon />
-            </a>
-          ) : null}
-          {overflows && !pinned ? (
-            <span class="rule-preview-hint" aria-hidden="true">
-              Press <kbd>Shift</kbd> to scroll
-            </span>
-          ) : null}
-        </div> : null}
+            {anchor.url ? (
+              <a href={anchor.url} target="_blank" rel="noreferrer" tabIndex={-1}>
+                Open on SteelCompendium
+                <ExternalIcon />
+              </a>
+            ) : null}
+            {overflows && !pinned ? (
+              <span class="rule-preview-hint" aria-hidden="true">
+                Press <kbd>Shift</kbd> to scroll
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );
