@@ -3,14 +3,28 @@ import { loadMonster, monsterAt } from "./data.ts";
 import { resetPendingSharedRoll, setDiceTransport } from "./lib/rollTransport.ts";
 import {
   activeEncounter,
+  addToEncounter,
+  applyStaminaCommand,
+  clearHistory,
   createEncounter,
+  decrementMonster,
   duplicateEncounter,
+  hasCombatProgress,
   lastRolls,
+  markTurn,
   mutateApp,
+  nextRound,
+  previousRound,
+  redoStep,
+  removeInstance,
+  removeLane,
+  resetCombat,
   rollCharacteristic,
   selectEncounter,
   startCombat,
+  undoStep,
 } from "./store.ts";
+import type { Monster } from "./types.ts";
 
 vi.mock("./data.ts", async (importOriginal) => ({
   ...(await importOriginal<typeof import("./data.ts")>()),
@@ -211,4 +225,128 @@ it("unblocks a pending shared roll when switching encounters", async () => {
     resetPendingSharedRoll();
     vi.useRealTimers();
   }
+});
+
+function fakeMonster(path: string, name: string, stamina = 30): Monster {
+  return {
+    id: path,
+    path,
+    book: "unified",
+    familyPath: "goblin",
+    slug: name.toLowerCase(),
+    name,
+    level: 1,
+    organization: "Horde",
+    role: "Harrier",
+    ev: 6,
+    evLabel: "6",
+    defaultQty: 1,
+    keywords: ["Goblin"],
+    ancestry: "Goblin",
+    size: "1S",
+    speed: 6,
+    stamina,
+    stability: 0,
+    freeStrike: 3,
+    movement: "",
+    immunities: [],
+    weaknesses: [],
+    withCaptain: "",
+    turnsPerRound: 1,
+    chars: { M: 0, A: 2, R: 0, I: 0, P: 0 },
+    features: [],
+    source: "",
+    raw: {},
+  };
+}
+
+it("auto-readies Run on add, syncs Run removals back to Prep, and undoes/redoes cleanly", async () => {
+  createEncounter();
+  clearHistory();
+  const goblin = fakeMonster("test/goblin.json", "Goblin Runner", 20);
+  vi.mocked(loadMonster).mockResolvedValue(goblin);
+  vi.mocked(monsterAt).mockImplementation((key) => (key === goblin.path ? goblin : undefined));
+
+  await addToEncounter(goblin.path, 2);
+  expect(activeEncounter().combat.active).toBe(true);
+  expect(activeEncounter().combat.instances).toHaveLength(2);
+  expect(activeEncounter().items[0]?.count).toBe(2);
+  expect(hasCombatProgress(activeEncounter())).toBe(false);
+
+  // Damage the first goblin using appended math and verify progress + undo.
+  const firstId = activeEncounter().combat.instances[0]!.id;
+  expect(applyStaminaCommand(firstId, "20-7")).toBe(13);
+  expect(activeEncounter().combat.instances[0]?.currentStamina).toBe(13);
+  expect(hasCombatProgress(activeEncounter())).toBe(true);
+
+  // decrementMonster removes the newest untouched goblin (index 1), preserving the wounded one.
+  decrementMonster(goblin.path);
+  expect(activeEncounter().combat.instances).toHaveLength(1);
+  expect(activeEncounter().combat.instances[0]?.id).toBe(firstId);
+  expect(activeEncounter().items[0]?.count).toBe(1);
+
+  // Undo restores the removed goblin in both Run and Prep.
+  undoStep();
+  expect(activeEncounter().combat.instances).toHaveLength(2);
+  expect(activeEncounter().items[0]?.count).toBe(2);
+
+  // Redo re-applies the removal.
+  redoStep();
+  expect(activeEncounter().combat.instances).toHaveLength(1);
+  expect(activeEncounter().items[0]?.count).toBe(1);
+
+  // Removing the last instance clears both Run and Prep; lane removal is also undoable.
+  removeInstance(firstId);
+  expect(activeEncounter().combat.instances).toHaveLength(0);
+  expect(activeEncounter().items).toHaveLength(0);
+
+  undoStep();
+  expect(activeEncounter().combat.instances).toHaveLength(1);
+  removeLane(goblin.path);
+  expect(activeEncounter().combat.instances).toHaveLength(0);
+  expect(activeEncounter().items).toHaveLength(0);
+
+  undoStep();
+  expect(activeEncounter().combat.instances).toHaveLength(1);
+});
+
+it("restores turn marks and expired effects on previousRound, and supports undoable resetCombat", async () => {
+  createEncounter();
+  clearHistory();
+  const orc = fakeMonster("test/orc.json", "Orc Brute", 35);
+  vi.mocked(loadMonster).mockResolvedValue(orc);
+  vi.mocked(monsterAt).mockImplementation((key) => (key === orc.path ? orc : undefined));
+
+  await addToEncounter(orc.path, 1);
+  const inst = activeEncounter().combat.instances[0]!;
+  markTurn(inst.id, 0);
+  mutateApp(() => {
+    activeEncounter().combat.activeEffects.push({
+      id: "eff-r1",
+      name: "Blood Frenzy",
+      expiresRound: 1,
+      sourcePath: orc.path,
+    });
+  });
+
+  nextRound();
+  expect(activeEncounter().combat.round).toBe(2);
+  expect(activeEncounter().combat.instances[0]?.turnsTaken).toBe(0);
+  expect(activeEncounter().combat.activeEffects).toHaveLength(0);
+
+  // Step back to Round 1: turn mark and expired effect are restored.
+  previousRound();
+  expect(activeEncounter().combat.round).toBe(1);
+  expect(activeEncounter().combat.instances[0]?.turnsTaken).toBe(1);
+  expect(activeEncounter().combat.activeEffects.map((e) => e.name)).toContain("Blood Frenzy");
+
+  // Damage then resetCombat restores full Stamina, and Undo brings back the wounded fight.
+  applyStaminaCommand(inst.id, "-15");
+  expect(activeEncounter().combat.instances[0]?.currentStamina).toBe(20);
+  await resetCombat();
+  expect(activeEncounter().combat.instances[0]?.currentStamina).toBe(35);
+  expect(activeEncounter().combat.activeEffects).toHaveLength(0);
+
+  undoStep();
+  expect(activeEncounter().combat.instances[0]?.currentStamina).toBe(20);
 });

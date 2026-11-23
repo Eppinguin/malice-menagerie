@@ -1,6 +1,25 @@
 import { requestSharedDice, setSharedRollReset } from "./lib/rollTransport.ts";
-import { effect, signal } from "@preact/signals";
+import { computed, effect, signal } from "@preact/signals";
 import { clampInt, normalizeToken, uid } from "./lib/text.ts";
+import {
+  type History,
+  navigate as navigateHistory,
+  packHistory,
+  record as recordHistory,
+  redo as redoHistory,
+  SESSION_HISTORY_KEY,
+  startHistory,
+  undo as undoHistory,
+  unpackHistory,
+} from "./lib/history.ts";
+import { parseStaminaCommand } from "./lib/stamina.ts";
+import {
+  type CatalogMatch,
+  fitsEvBudget,
+  matchCatalogEntry,
+  parseQuery,
+  type ParsedQuery,
+} from "./lib/browse.ts";
 import {
   clickEdgeOverride,
   makeCharacteristicRoll,
@@ -26,7 +45,6 @@ import {
 } from "./lib/minions.ts";
 import {
   catalog,
-  catalogSearchText,
   hydrateCatalogInBackground,
   hydrateConditionsInBackground,
   hydrateMaliceInBackground,
@@ -35,6 +53,7 @@ import {
   maliceFeatures,
   maliceLoading,
   monsterAt,
+  monsterNameForPath,
   monstersVersion,
 } from "./data.ts";
 import { basePath, levelKey } from "./lib/levels.ts";
@@ -136,6 +155,8 @@ function defaultState(): AppState {
       levelMax: null,
       evMin: null,
       evMax: null,
+      fitsBudget: false,
+      inEncounter: false,
     },
   };
 }
@@ -501,6 +522,8 @@ function sanitizeState(value: unknown): AppState {
       levelMax: asNullableNumber(ui["levelMax"]),
       evMin: asNullableNumber(ui["evMin"]),
       evMax: asNullableNumber(ui["evMax"]),
+      fitsBudget: asBool(ui["fitsBudget"], false),
+      inEncounter: asBool(ui["inEncounter"], false),
     };
   }
 
@@ -547,7 +570,53 @@ function loadState(): AppState {
   }
 }
 
-export const state = signal<AppState>(loadState());
+function loadInitialHistory(): History<AppState> {
+  try {
+    const rawStored = localStorage.getItem(STORAGE_KEY);
+    const rawSession =
+      typeof sessionStorage !== "undefined" ? sessionStorage.getItem(SESSION_HISTORY_KEY) : null;
+    const restored = unpackHistory(rawSession, rawStored, sanitizeState);
+    if (restored) return restored;
+  } catch {
+    // Storage disabled or unavailable.
+  }
+  return startHistory(loadState());
+}
+
+const initialHistory = loadInitialHistory();
+export const historyState = signal<History<AppState>>(initialHistory);
+export const state = signal<AppState>(initialHistory.present);
+
+export const canUndo = computed(() => historyState.value.past.length > 0);
+export const canRedo = computed(() => historyState.value.future.length > 0);
+export const undoLabel = computed(
+  () => historyState.value.past[historyState.value.past.length - 1]?.label ?? "",
+);
+export const redoLabel = computed(
+  () => historyState.value.future[historyState.value.future.length - 1]?.label ?? "",
+);
+
+export function persistSessionHistory(): void {
+  if (typeof sessionStorage === "undefined") return;
+  try {
+    const current = historyState.peek();
+    const packed = packHistory({ ...current, present: state.peek() });
+    sessionStorage.setItem(SESSION_HISTORY_KEY, packed);
+  } catch {
+    try {
+      sessionStorage.removeItem(SESSION_HISTORY_KEY);
+    } catch {
+      // Storage disabled.
+    }
+  }
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("pagehide", persistSessionHistory);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") persistSessionHistory();
+  });
+}
 
 // Older minion entries become one entry per squad as their statblocks load.
 effect(() => {
@@ -648,27 +717,106 @@ function draftView(app: AppState, enc: Encounter): MutableDraft {
   };
 }
 
+export interface HistoryStepMeta {
+  label: string;
+  key?: string;
+  kind?: string;
+}
+
 /**
  * Apply a mutation against the active encounter (and global UI), stamp its
- * updated-at time, persist, and notify subscribers.
+ * updated-at time, persist, and notify subscribers. When `step` is provided,
+ * snapshots before/after onto the session undo/redo stack and returns the step id.
  */
-export function mutate(fn: (draft: MutableDraft) => void): void {
+export function mutate(fn: (draft: MutableDraft) => void, step?: HistoryStepMeta): string {
+  const before = step ? structuredClone(state.value) : null;
   const app = state.value;
   const enc = activeEncounter();
   fn(draftView(app, enc));
   enc.updatedAt = Date.now();
   ensureIntegrity(app);
   persist(app);
-  state.value = { ...app };
+  const next = { ...app };
+  if (step && before) {
+    const stepId = uid("step");
+    historyState.value = recordHistory({ ...historyState.value, present: before }, next, {
+      id: stepId,
+      ...step,
+    });
+    state.value = next;
+    return stepId;
+  }
+  historyState.value = navigateHistory(historyState.value, next);
+  state.value = next;
+  return "";
 }
 
 /** Apply a mutation to the whole app state (encounter library, active id). */
-export function mutateApp(fn: (draft: AppState) => void): void {
+export function mutateApp(fn: (draft: AppState) => void, step?: HistoryStepMeta): string {
+  const before = step ? structuredClone(state.value) : null;
   const app = state.value;
   fn(app);
   ensureIntegrity(app);
   persist(app);
-  state.value = { ...app };
+  const next = { ...app };
+  if (step && before) {
+    const stepId = uid("step");
+    historyState.value = recordHistory({ ...historyState.value, present: before }, next, {
+      id: stepId,
+      ...step,
+    });
+    state.value = next;
+    return stepId;
+  }
+  historyState.value = navigateHistory(historyState.value, next);
+  state.value = next;
+  return "";
+}
+
+export function undoStep(): void {
+  const current = historyState.value;
+  const step = current.past[current.past.length - 1];
+  if (!step) {
+    toast("Nothing to undo");
+    return;
+  }
+  const prevActiveId = state.value.activeEncounterId;
+  const updated = undoHistory({ ...current, present: structuredClone(state.value) });
+  const next = structuredClone(updated.present);
+  ensureIntegrity(next);
+  historyState.value = { ...updated, present: next };
+  persist(next);
+  state.value = next;
+  const elsewhere =
+    next.activeEncounterId !== prevActiveId
+      ? next.encounters.find((item) => item.id === next.activeEncounterId)?.name
+      : undefined;
+  toast(`Undone: ${step.label}${elsewhere ? ` · ${elsewhere}` : ""}`, {
+    redoStepId: step.id,
+  });
+}
+
+export function redoStep(): void {
+  const current = historyState.value;
+  const step = current.future[current.future.length - 1];
+  if (!step) {
+    toast("Nothing to redo");
+    return;
+  }
+  const updated = redoHistory({ ...current, present: structuredClone(state.value) });
+  const next = structuredClone(updated.present);
+  ensureIntegrity(next);
+  historyState.value = { ...updated, present: next };
+  persist(next);
+  state.value = next;
+  toast(`Redone: ${step.label}`, {
+    undoStepId: step.id,
+  });
+}
+
+/** Clear undo/redo stacks (used by tests to isolate history across cases). */
+export function clearHistory(): void {
+  historyState.value = startHistory(state.value);
 }
 
 function persist(app: AppState): void {
@@ -683,6 +831,22 @@ function persist(app: AppState): void {
 
 /** Whether the off-canvas mobile navigation drawer is open. Ephemeral. */
 export const mobileNavOpen = signal<boolean>(false);
+/** Whether the Run Quick-Add monster drawer is open. Ephemeral. */
+export const quickAddOpen = signal<boolean>(false);
+
+export function openQuickAdd(): void {
+  mobileNavOpen.value = false;
+  quickAddOpen.value = true;
+}
+
+export function closeQuickAdd(): void {
+  quickAddOpen.value = false;
+}
+
+export function toggleQuickAdd(): void {
+  if (quickAddOpen.value) closeQuickAdd();
+  else openQuickAdd();
+}
 
 export const expandedMaliceFeatures = signal<ReadonlySet<string>>(new Set());
 export const openConditionPickerFor = signal<string | null>(null);
@@ -700,32 +864,58 @@ export const toastState = signal<{
   message: string;
   shown: boolean;
   action: ToastAction | null;
+  undoStepId: string | null;
+  redoStepId: string | null;
 }>({
   message: "",
   shown: false,
   action: null,
+  undoStepId: null,
+  redoStepId: null,
 });
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
 
 export function dismissToast(): void {
   clearTimeout(toastTimer);
-  toastState.value = { ...toastState.value, shown: false, action: null };
+  toastState.value = {
+    ...toastState.value,
+    shown: false,
+    action: null,
+    undoStepId: null,
+    redoStepId: null,
+  };
 }
 
 export function toast(
   message: string,
-  options?: number | { durationMs?: number; action?: ToastAction },
+  options?:
+    | number
+    | {
+        durationMs?: number;
+        action?: ToastAction;
+        undoStepId?: string;
+        redoStepId?: string;
+      },
 ): void {
   clearTimeout(toastTimer);
   const action = typeof options === "object" ? (options.action ?? null) : null;
+  const undoStepId = typeof options === "object" ? (options.undoStepId ?? null) : null;
+  const redoStepId = typeof options === "object" ? (options.redoStepId ?? null) : null;
+  const hasInteractive = Boolean(action || undoStepId || redoStepId);
   const duration =
     typeof options === "number"
       ? options
-      : (options?.durationMs ?? (action ? 5_200 : message.length > 48 ? 4_200 : 1_800));
-  toastState.value = { message, shown: true, action };
+      : (options?.durationMs ?? (hasInteractive ? 5_200 : message.length > 48 ? 4_200 : 1_800));
+  toastState.value = { message, shown: true, action, undoStepId, redoStepId };
   toastTimer = setTimeout(() => {
-    toastState.value = { ...toastState.value, shown: false, action: null };
+    toastState.value = {
+      ...toastState.value,
+      shown: false,
+      action: null,
+      undoStepId: null,
+      redoStepId: null,
+    };
   }, duration);
 }
 
@@ -762,6 +952,9 @@ async function hydrateSavedStateSources(): Promise<void> {
     for (const instance of enc.combat.instances) needed.add(instance.sourcePath);
   }
   await Promise.allSettled([...needed].map(loadMonster));
+  if (activeEncounter().items.length > 0 && activeEncounter().view === "combat") {
+    void ensureCombatReady();
+  }
 }
 
 export function retrySource(): void {
@@ -771,9 +964,11 @@ export function retrySource(): void {
 // ---------- View / party ----------
 
 export function setView(view: ViewName): void {
+  if (view !== "combat") quickAddOpen.value = false;
   mutate((draft) => {
     draft.view = view;
   });
+  if (view === "combat") void ensureCombatReady();
 }
 
 /** Collapse/expand the desktop sidebar (persisted preference). */
@@ -784,6 +979,7 @@ export function toggleSidebar(): void {
 }
 
 export function setMobileNav(open: boolean): void {
+  if (open) quickAddOpen.value = false;
   mobileNavOpen.value = open;
 }
 
@@ -793,12 +989,20 @@ export function updateParty(values: {
   victories: unknown;
   bonusMalice: unknown;
 }): void {
-  mutate((draft) => {
-    draft.party.heroes = clampInt(values.heroes, 1, 12);
-    draft.party.level = clampInt(values.level, 1, 10);
-    draft.party.victories = clampInt(values.victories, 0, 20);
-    draft.party.bonusMalice = clampInt(values.bonusMalice, 0, 99);
-  });
+  mutate(
+    (draft) => {
+      const enc = activeEncounter();
+      const pristine = !hasCombatProgress(enc);
+      draft.party.heroes = clampInt(values.heroes, 1, 12);
+      draft.party.level = clampInt(values.level, 1, 10);
+      draft.party.victories = clampInt(values.victories, 0, 20);
+      draft.party.bonusMalice = clampInt(values.bonusMalice, 0, 99);
+      if (pristine && draft.combat.active) {
+        draft.combat.malice = partyMath(draft.party).roundOne;
+      }
+    },
+    { label: "Updated party", key: "party" },
+  );
 }
 
 // ---------- Encounter library ----------
@@ -815,14 +1019,20 @@ function defaultEncounterName(existing: Encounter[]): string {
 /** Create a fresh empty encounter, make it active, and switch to Prep. */
 export function createEncounter(): string {
   let newId = "";
-  mutateApp((draft) => {
-    const enc = newEncounter(defaultEncounterName(draft.encounters));
-    enc.activePrepGroupId = (enc.groups[0] as Group).id;
-    draft.encounters.push(enc);
-    draft.activeEncounterId = enc.id;
-    newId = enc.id;
-  });
-  toast("New encounter");
+  let newName = "";
+  mutateApp(
+    (draft) => {
+      const enc = newEncounter(defaultEncounterName(draft.encounters));
+      enc.activePrepGroupId = (enc.groups[0] as Group).id;
+      draft.encounters.push(enc);
+      draft.activeEncounterId = enc.id;
+      newId = enc.id;
+      newName = enc.name;
+    },
+    { label: "Created encounter" },
+  );
+  quickAddOpen.value = false;
+  toast(newName || "New encounter");
   return newId;
 }
 
@@ -834,20 +1044,28 @@ export function selectEncounter(encounterId: string): void {
     sharedRollGeneration += 1;
     clearSharedRollPending();
   }
+  quickAddOpen.value = false;
   mutateApp((draft) => {
     draft.activeEncounterId = encounterId;
   });
-  void hydrateSavedStateSources();
+  void hydrateSavedStateSources().then(() => {
+    if (activeEncounter().view === "combat") void ensureCombatReady();
+  });
 }
 
 export function renameEncounter(encounterId: string, name: string): void {
-  mutateApp((draft) => {
-    const enc = draft.encounters.find((item) => item.id === encounterId);
-    if (enc) {
-      enc.name = name.trim() || enc.name;
-      enc.updatedAt = Date.now();
-    }
-  });
+  const trimmed = name.trim();
+  if (!trimmed) return;
+  mutateApp(
+    (draft) => {
+      const enc = draft.encounters.find((item) => item.id === encounterId);
+      if (enc) {
+        enc.name = trimmed;
+        enc.updatedAt = Date.now();
+      }
+    },
+    { label: `Renamed to ${trimmed}` },
+  );
 }
 
 /** Deep-copy an encounter under fresh ids and make the copy active. */
@@ -856,63 +1074,68 @@ export function duplicateEncounter(encounterId: string): void {
     sharedRollGeneration += 1;
     clearSharedRollPending();
   }
-  mutateApp((draft) => {
-    const source = draft.encounters.find((item) => item.id === encounterId);
-    if (!source) return;
-    const copy: Encounter = structuredClone(source);
-    copy.id = uid("enc");
-    copy.name = `${source.name} (copy)`;
-    copy.updatedAt = Date.now();
-    // Regenerate all internal ids so the copy never collides with the source
-    // encounter's Owlbear token/minion-group links or selection state.
-    const groupIds = new Map<string, string>();
-    for (const group of copy.groups) {
-      const nextId = uid("group");
-      groupIds.set(group.id, nextId);
-      group.id = nextId;
-    }
-    copy.activePrepGroupId = groupIds.get(copy.activePrepGroupId) ?? copy.groups[0]?.id ?? "";
-    const entryIds = new Map<string, string>();
-    for (const item of copy.items) {
-      const nextId = uid("entry");
-      entryIds.set(item.id, nextId);
-      item.id = nextId;
-      item.groupId = groupIds.get(item.groupId) ?? copy.activePrepGroupId;
-    }
-    const instanceIds = new Map<string, string>();
-    for (const instance of copy.combat.instances) {
-      const nextId = uid("inst");
-      instanceIds.set(instance.id, nextId);
-      instance.id = nextId;
-    }
-    for (const instance of copy.combat.instances) {
-      instance.groupId = groupIds.get(instance.groupId) ?? copy.activePrepGroupId;
-      if (instance.entryId) {
-        const mapped = entryIds.get(instance.entryId);
-        if (mapped) instance.entryId = mapped;
+  const sourceName =
+    state.value.encounters.find((item) => item.id === encounterId)?.name ?? "encounter";
+  const stepId = mutateApp(
+    (draft) => {
+      const source = draft.encounters.find((item) => item.id === encounterId);
+      if (!source) return;
+      const copy: Encounter = structuredClone(source);
+      copy.id = uid("enc");
+      copy.name = `${source.name} (copy)`;
+      copy.updatedAt = Date.now();
+      // Regenerate all internal ids so the copy never collides with the source
+      // encounter's Owlbear token/minion-group links or selection state.
+      const groupIds = new Map<string, string>();
+      for (const group of copy.groups) {
+        const nextId = uid("group");
+        groupIds.set(group.id, nextId);
+        group.id = nextId;
       }
-      if (instance.captainId) {
-        const mapped = instanceIds.get(instance.captainId);
-        if (mapped) instance.captainId = mapped;
-        else delete instance.captainId;
+      copy.activePrepGroupId = groupIds.get(copy.activePrepGroupId) ?? copy.groups[0]?.id ?? "";
+      const entryIds = new Map<string, string>();
+      for (const item of copy.items) {
+        const nextId = uid("entry");
+        entryIds.set(item.id, nextId);
+        item.id = nextId;
+        item.groupId = groupIds.get(item.groupId) ?? copy.activePrepGroupId;
       }
-      if (instance.summonedBy) {
-        const mapped = instanceIds.get(instance.summonedBy);
-        if (mapped) instance.summonedBy = mapped;
-        else delete instance.summonedBy;
+      const instanceIds = new Map<string, string>();
+      for (const instance of copy.combat.instances) {
+        const nextId = uid("inst");
+        instanceIds.set(instance.id, nextId);
+        instance.id = nextId;
       }
-    }
-    if (copy.combat.activeGroupFilter) {
-      copy.combat.activeGroupFilter = groupIds.get(copy.combat.activeGroupFilter) ?? null;
-    }
-    for (const effect of copy.combat.activeEffects) {
-      effect.id = uid("eff");
-    }
-    const index = draft.encounters.indexOf(source);
-    draft.encounters.splice(index + 1, 0, copy);
-    draft.activeEncounterId = copy.id;
-  });
-  toast("Encounter duplicated");
+      for (const instance of copy.combat.instances) {
+        instance.groupId = groupIds.get(instance.groupId) ?? copy.activePrepGroupId;
+        if (instance.entryId) {
+          const mapped = entryIds.get(instance.entryId);
+          if (mapped) instance.entryId = mapped;
+        }
+        if (instance.captainId) {
+          const mapped = instanceIds.get(instance.captainId);
+          if (mapped) instance.captainId = mapped;
+          else delete instance.captainId;
+        }
+        if (instance.summonedBy) {
+          const mapped = instanceIds.get(instance.summonedBy);
+          if (mapped) instance.summonedBy = mapped;
+          else delete instance.summonedBy;
+        }
+      }
+      if (copy.combat.activeGroupFilter) {
+        copy.combat.activeGroupFilter = groupIds.get(copy.combat.activeGroupFilter) ?? null;
+      }
+      for (const effect of copy.combat.activeEffects) {
+        effect.id = uid("eff");
+      }
+      const index = draft.encounters.indexOf(source);
+      draft.encounters.splice(index + 1, 0, copy);
+      draft.activeEncounterId = copy.id;
+    },
+    { label: `Duplicated ${sourceName}` },
+  );
+  toast("Encounter duplicated", { undoStepId: stepId });
 }
 
 export function deleteEncounter(encounterId: string): void {
@@ -920,31 +1143,40 @@ export function deleteEncounter(encounterId: string): void {
     toast("At least one encounter is required.");
     return;
   }
-  mutateApp((draft) => {
-    const index = draft.encounters.findIndex((item) => item.id === encounterId);
-    if (index === -1) return;
-    draft.encounters.splice(index, 1);
-    if (draft.activeEncounterId === encounterId) {
-      const fallback = draft.encounters[Math.max(0, index - 1)] as Encounter;
-      draft.activeEncounterId = fallback.id;
-    }
-  });
-  toast("Encounter deleted");
+  const target = state.value.encounters.find((item) => item.id === encounterId);
+  if (!target) return;
+  const name = target.name;
+  const stepId = mutateApp(
+    (draft) => {
+      const index = draft.encounters.findIndex((item) => item.id === encounterId);
+      if (index === -1) return;
+      draft.encounters.splice(index, 1);
+      if (draft.activeEncounterId === encounterId) {
+        const fallback = draft.encounters[Math.max(0, index - 1)] as Encounter;
+        draft.activeEncounterId = fallback.id;
+      }
+    },
+    { label: `Deleted ${name}` },
+  );
+  toast(`Deleted ${name}`, { undoStepId: stepId });
 }
 
 /** Clear the active encounter back to empty (party params preserved). */
 export function resetActiveEncounter(): void {
-  mutate((draft) => {
-    draft.groups = [
-      { id: uid("group"), name: "A" },
-      { id: uid("group"), name: "B" },
-    ];
-    draft.activePrepGroupId = (draft.groups[0] as Group).id;
-    draft.encounter = [];
-    draft.combat = defaultCombat();
-    draft.view = "builder";
-  });
-  toast("Encounter reset");
+  const stepId = mutate(
+    (draft) => {
+      draft.groups = [
+        { id: uid("group"), name: "A" },
+        { id: uid("group"), name: "B" },
+      ];
+      draft.activePrepGroupId = (draft.groups[0] as Group).id;
+      draft.encounter = [];
+      draft.combat = defaultCombat();
+      draft.view = "builder";
+    },
+    { label: "Cleared encounter" },
+  );
+  toast("Encounter cleared", { undoStepId: stepId });
 }
 
 // ---------- Library filters ----------
@@ -980,6 +1212,20 @@ export function clearAllFilters(): void {
     draft.ui.sizes = [];
     draft.ui.keywords = [];
     draft.ui.levelMin = draft.ui.levelMax = draft.ui.evMin = draft.ui.evMax = null;
+    draft.ui.fitsBudget = false;
+    draft.ui.inEncounter = false;
+  });
+}
+
+export function toggleFitsBudget(): void {
+  mutate((draft) => {
+    draft.ui.fitsBudget = !draft.ui.fitsBudget;
+  });
+}
+
+export function toggleInEncounter(): void {
+  mutate((draft) => {
+    draft.ui.inEncounter = !draft.ui.inEncounter;
   });
 }
 
@@ -1000,11 +1246,16 @@ export function setRangeFilter(key: "level" | "ev", min: number | null, max: num
 }
 
 export function activeFilterCount(ui: UIState): number {
-  return (ui.role !== "all" ? 1 : 0) + hiddenFilterCount(ui);
+  return (
+    (ui.role !== "all" ? 1 : 0) +
+    (ui.fitsBudget ? 1 : 0) +
+    (ui.inEncounter ? 1 : 0) +
+    hiddenFilterCount(ui)
+  );
 }
 
 // Active filters that live inside the collapsible "More" panel (everything
-// except Type, which is always visible in the bar).
+// except primary bar chips).
 export function hiddenFilterCount(ui: UIState): number {
   let count = ui.roles.length + ui.sizes.length + ui.keywords.length;
   if (ui.levelMin !== null || ui.levelMax !== null) count += 1;
@@ -1012,8 +1263,31 @@ export function hiddenFilterCount(ui: UIState): number {
   return count;
 }
 
-function monsterMatchesFilters(m: Monster, ui: UIState): boolean {
+/** Remaining EV before crossing the next difficulty threshold: before Hard
+    while still under the Standard ceiling, then before Extreme while under the
+    Hard ceiling, else 0. */
+export function evBudgetRemaining(): { remaining: number; nextBand: "Hard" | "Extreme" } {
+  const { ev } = encounterTotals();
+  const { partyES, oneHeroES } = partyMath(activeEncounter().party);
+  const standardCap = partyES + oneHeroES;
+  if (ev < standardCap) return { remaining: Math.max(0, standardCap - ev), nextBand: "Hard" };
+  const hardCap = partyES + 3 * oneHeroES;
+  return { remaining: Math.max(0, hardCap - ev), nextBand: "Extreme" };
+}
+
+/** Map of base monster path -> total count currently in the encounter roster. */
+export function fieldedCounts(): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const item of activeEncounter().items) {
+    const path = basePath(item.sourcePath);
+    counts.set(path, (counts.get(path) ?? 0) + item.count);
+  }
+  return counts;
+}
+
+function monsterMatchesFilters(m: Monster, ui: UIState, remainingEv: number): boolean {
   if (ui.role !== "all" && normalizeToken(m.organization) !== normalizeToken(ui.role)) return false;
+  if (ui.fitsBudget && !fitsEvBudget(m, remainingEv)) return false;
   if (ui.roles.length && !ui.roles.includes(normalizeToken(m.role))) return false;
   if (ui.sizes.length && !ui.sizes.includes(normalizeToken(m.size))) return false;
   if (ui.keywords.length) {
@@ -1027,9 +1301,11 @@ function monsterMatchesFilters(m: Monster, ui: UIState): boolean {
   return true;
 }
 
-export function needsMonsterData(ui: UIState): boolean {
+export function needsMonsterData(ui: UIState, parsed?: ParsedQuery): boolean {
+  const q = parsed ?? parseQuery(ui.search);
   return (
     ui.role !== "all" ||
+    ui.fitsBudget ||
     ui.roles.length > 0 ||
     ui.sizes.length > 0 ||
     ui.keywords.length > 0 ||
@@ -1037,42 +1313,72 @@ export function needsMonsterData(ui: UIState): boolean {
     ui.levelMax !== null ||
     ui.evMin !== null ||
     ui.evMax !== null ||
-    ui.sort !== "name"
+    ui.sort !== "name" ||
+    Boolean(q.level || q.ev)
   );
 }
 
-export function filteredCatalog(): CatalogEntry[] {
-  void monstersVersion.value; // subscribe: matches change as statblocks hydrate
-  const ui = state.value.ui;
-  const search = ui.search.trim().toLowerCase();
-  const requiresData = needsMonsterData(ui);
-  const matches = catalog.value.filter((entry) => {
-    if (search && !catalogSearchText(entry).includes(search)) return false;
-    if (requiresData) {
-      if (!entry.monster) return false;
-      if (!monsterMatchesFilters(entry.monster, ui)) return false;
-    }
-    return true;
-  });
-  return sortCatalog(matches, ui.sort);
+export function parsedSearch(search = state.value.ui.search): ParsedQuery {
+  return parseQuery(search);
 }
 
-function sortCatalog(entries: CatalogEntry[], sort: SortKey): CatalogEntry[] {
-  if (sort === "name") return entries;
-  const sorted = entries.slice();
-  if (sort === "level") {
-    sorted.sort(
-      (a, b) =>
-        (a.monster?.level ?? 0) - (b.monster?.level ?? 0) ||
-        a.derivedName.localeCompare(b.derivedName),
-    );
-  } else {
-    sorted.sort(
-      (a, b) =>
-        (a.monster?.ev ?? 0) - (b.monster?.ev ?? 0) || a.derivedName.localeCompare(b.derivedName),
-    );
+export function matchedCatalog(): {
+  matches: CatalogMatch[];
+  parsed: ParsedQuery;
+  hiddenByFilters: number;
+} {
+  void monstersVersion.value; // subscribe: matches change as statblocks hydrate
+  const ui = state.value.ui;
+  const parsed = parseQuery(ui.search);
+  const requiresData = needsMonsterData(ui, parsed);
+  const { remaining } = evBudgetRemaining();
+  const fielded = ui.inEncounter ? fieldedCounts() : null;
+  const matches: CatalogMatch[] = [];
+  let hiddenByFilters = 0;
+
+  for (const entry of catalog.value) {
+    const found = matchCatalogEntry(entry, parsed);
+    if (!found) continue;
+    if (fielded && !fielded.has(entry.path)) {
+      hiddenByFilters += 1;
+      continue;
+    }
+    if (requiresData) {
+      if (!entry.monster) continue;
+      if (!monsterMatchesFilters(entry.monster, ui, remaining)) {
+        hiddenByFilters += 1;
+        continue;
+      }
+    }
+    matches.push(found);
   }
-  return sorted;
+
+  const searching = parsed.words.length > 0;
+  matches.sort((a, b) => {
+    if (ui.sort === "level") {
+      return (
+        (a.entry.monster?.level ?? 0) - (b.entry.monster?.level ?? 0) ||
+        (searching ? b.score - a.score : 0) ||
+        a.entry.derivedName.localeCompare(b.entry.derivedName)
+      );
+    }
+    if (ui.sort === "ev") {
+      return (
+        (a.entry.monster?.ev ?? 0) - (b.entry.monster?.ev ?? 0) ||
+        (searching ? b.score - a.score : 0) ||
+        a.entry.derivedName.localeCompare(b.entry.derivedName)
+      );
+    }
+    return (
+      (searching ? b.score - a.score : 0) || a.entry.derivedName.localeCompare(b.entry.derivedName)
+    );
+  });
+
+  return { matches, parsed, hiddenByFilters };
+}
+
+export function filteredCatalog(): CatalogEntry[] {
+  return matchedCatalog().matches.map((item) => item.entry);
 }
 
 // ---------- Groups & encounter ----------
@@ -1095,16 +1401,22 @@ function createGroupRecord(draft: MutableDraft): Group {
 }
 
 export function addGroup(): void {
-  mutate((draft) => {
-    createGroupRecord(draft);
-  });
+  mutate(
+    (draft) => {
+      createGroupRecord(draft);
+    },
+    { label: "Added group" },
+  );
 }
 
 export function createGroupForDrop(): Group {
   let created: Group | undefined;
-  mutate((draft) => {
-    created = createGroupRecord(draft);
-  });
+  mutate(
+    (draft) => {
+      created = createGroupRecord(draft);
+    },
+    { label: "Added group" },
+  );
   if (!created) throw new Error("group creation failed");
   return created;
 }
@@ -1114,33 +1426,166 @@ export function removeGroup(groupId: string): void {
     toast("At least one group is required.");
     return;
   }
-  mutate((draft) => {
-    const remaining = draft.groups.filter((group) => group.id !== groupId);
-    const fallback = remaining[0];
-    if (!fallback) return;
-    draft.groups = remaining;
-    draft.encounter.forEach((item) => {
-      if (item.groupId === groupId) item.groupId = fallback.id;
-    });
-    draft.combat.instances.forEach((instance) => {
-      if (instance.groupId === groupId) instance.groupId = fallback.id;
-    });
-    if (draft.activePrepGroupId === groupId) draft.activePrepGroupId = fallback.id;
-    if (draft.combat.activeGroupFilter === groupId) draft.combat.activeGroupFilter = null;
-  });
+  const name = activeEncounter().groups.find((g) => g.id === groupId)?.name ?? "group";
+  const stepId = mutate(
+    (draft) => {
+      const remaining = draft.groups.filter((group) => group.id !== groupId);
+      const fallback = remaining[0];
+      if (!fallback) return;
+      draft.groups = remaining;
+      draft.encounter.forEach((item) => {
+        if (item.groupId === groupId) item.groupId = fallback.id;
+      });
+      draft.combat.instances.forEach((instance) => {
+        if (instance.groupId === groupId) instance.groupId = fallback.id;
+      });
+      if (draft.activePrepGroupId === groupId) draft.activePrepGroupId = fallback.id;
+      if (draft.combat.activeGroupFilter === groupId) draft.combat.activeGroupFilter = null;
+    },
+    { label: `Removed group ${name}` },
+  );
+  toast(`Removed group ${name}`, { undoStepId: stepId });
 }
 
 export function renameGroup(groupId: string, name: string): void {
-  mutate((draft) => {
-    const group = draft.groups.find((item) => item.id === groupId);
-    if (group) group.name = name.trim() || group.name;
-  });
+  const trimmed = name.trim();
+  if (!trimmed) return;
+  mutate(
+    (draft) => {
+      const group = draft.groups.find((item) => item.id === groupId);
+      if (group) group.name = trimmed;
+    },
+    { label: `Renamed group to ${trimmed}`, key: `group-name:${groupId}` },
+  );
 }
 
 export function selectPrepGroup(groupId: string): void {
   mutate((draft) => {
     draft.activePrepGroupId = groupId;
   });
+}
+
+/** True once combat has progressed past a fresh Round 1 board (turns taken,
+    damage dealt, Malice spent, conditions, active effects, summons, or round > 1). */
+export function hasCombatProgress(enc: Encounter): boolean {
+  const c = enc.combat;
+  if (!c.active) return false;
+  if (c.round > 1) return true;
+  if (c.activeEffects.length > 0) return true;
+  if (c.instances.length > 0 && c.malice !== partyMath(enc.party).roundOne) return true;
+  return c.instances.some(
+    (inst) =>
+      inst.currentStamina !== inst.maxStamina ||
+      inst.turnsTaken > 0 ||
+      inst.conditions.length > 0 ||
+      inst.reactions.length > 0 ||
+      inst.villainRounds.some((r) => r > 0) ||
+      Boolean(inst.captainId) ||
+      inst.summonedBy !== undefined,
+  );
+}
+
+function squadInFight(entryId: string): boolean {
+  const inst = activeEncounter().combat.instances.find((item) => item.entryId === entryId);
+  if (!inst) return false;
+  return (
+    inst.currentStamina !== inst.maxStamina ||
+    inst.turnsTaken > 0 ||
+    inst.conditions.length > 0 ||
+    inst.reactions.length > 0 ||
+    Boolean(inst.captainId)
+  );
+}
+
+/** Reconcile combat instances in-place against `draft.encounter`, auto-starting
+    combat at Round 1 once the encounter has any monsters. */
+function syncCombatDraft(draft: MutableDraft, autoActivate = true): void {
+  if (!draft.encounter.length) {
+    const summons = draft.combat.instances.filter((item) => item.summonedBy !== undefined);
+    draft.combat.instances = summons;
+    if (!summons.length) {
+      draft.combat.active = false;
+      draft.combat.activeGroupFilter = null;
+    }
+    return;
+  }
+  if (!draft.combat.active) {
+    if (!autoActivate) return;
+    draft.combat.active = true;
+    draft.combat.round = 1;
+    draft.combat.malice = partyMath(draft.party).roundOne;
+  }
+
+  // Normalize any legacy minion entries whose statblocks are now loaded.
+  draft.encounter = draft.encounter.flatMap((item) => {
+    if (item.squad) return [item];
+    const m = monsterAt(item.sourcePath);
+    if (!item.squads?.length && !(m && isMinion(m))) return [item];
+    const sizes = squadSizes(item);
+    const entries = sizes.map((size, i): EncounterItem => ({
+      id: i ? uid("enc") : item.id,
+      sourcePath: item.sourcePath,
+      groupId: item.groupId,
+      count: size,
+      squad: true,
+    }));
+    draft.combat.instances
+      .filter((instance) => instance.entryId === item.id)
+      .forEach((instance, i) => {
+        const entry = entries[i];
+        if (entry) instance.entryId = entry.id;
+      });
+    return entries;
+  });
+
+  const kept: CombatInstance[] = [];
+  const counters = new Map<string, number>();
+  const bump = (path: string) => {
+    const next = (counters.get(path) || 0) + 1;
+    counters.set(path, next);
+    return next;
+  };
+
+  const byEntry = new Map<string, CombatInstance[]>();
+  for (const instance of draft.combat.instances) {
+    if (!instance.entryId) continue;
+    const list = byEntry.get(instance.entryId);
+    if (list) list.push(instance);
+    else byEntry.set(instance.entryId, [instance]);
+  }
+
+  for (const entry of draft.encounter) {
+    const m = monsterAt(entry.sourcePath);
+    if (!m) continue;
+    const current = byEntry.get(entry.id) ?? [];
+    for (const instance of current) instance.groupId = entry.groupId;
+
+    if (entry.squad) {
+      const squad = current[0];
+      const n = bump(basePath(entry.sourcePath));
+      if (!squad) {
+        kept.push(newSquad(entry, m, entry.count, n));
+      } else {
+        resizeSquad(squad, entry.count, minionStamina(squad, m));
+        kept.push(squad);
+      }
+      continue;
+    }
+
+    const survivors = current.slice(0, entry.count);
+    for (const survivor of survivors) {
+      bump(basePath(entry.sourcePath));
+      kept.push(survivor);
+    }
+    for (let i = survivors.length; i < entry.count; i += 1)
+      kept.push(newCreature(entry, m, bump(basePath(entry.sourcePath))));
+  }
+  kept.push(...draft.combat.instances.filter((instance) => instance.summonedBy !== undefined));
+
+  for (const squad of kept) {
+    if (squad.captainId && !kept.some((item) => item.id === squad.captainId)) detachCaptain(squad);
+  }
+  draft.combat.instances = kept;
 }
 
 export async function addToEncounterInGroup(
@@ -1151,38 +1596,41 @@ export async function addToEncounterInGroup(
 ): Promise<boolean> {
   try {
     const monster = await loadMonster(sourcePath);
-    mutate((draft) => {
-      const targetGroupId = draft.groups.some((group) => group.id === groupId)
-        ? groupId
-        : draft.activePrepGroupId;
-      const amount = Math.max(1, Math.min(30, Number(count) || 1));
-      if (isMinion(monster)) {
-        // Minions arrive as squads of their own, four to a squad.
-        for (const size of defaultSquads(amount))
-          draft.encounter.push({
-            id: uid("enc"),
-            sourcePath,
-            groupId: targetGroupId,
-            count: size,
-            squad: true,
-          });
-      } else {
-        const existing = draft.encounter.find(
-          (item) => item.sourcePath === sourcePath && item.groupId === targetGroupId,
-        );
-        if (existing) existing.count += amount;
-        else
-          draft.encounter.push({
-            id: uid("enc"),
-            sourcePath,
-            groupId: targetGroupId,
-            count: amount,
-          });
-      }
-      draft.activePrepGroupId = targetGroupId;
-    });
-    reconcileCombat();
-    if (announce) toast(`Added ${Math.max(1, Math.min(30, Number(count) || 1))} × ${monster.name}`);
+    const amount = Math.max(1, Math.min(30, Number(count) || 1));
+    const stepId = mutate(
+      (draft) => {
+        const targetGroupId = draft.groups.some((group) => group.id === groupId)
+          ? groupId
+          : draft.activePrepGroupId;
+        if (isMinion(monster)) {
+          // Minions arrive as squads of their own, four to a squad.
+          for (const size of defaultSquads(amount))
+            draft.encounter.push({
+              id: uid("enc"),
+              sourcePath,
+              groupId: targetGroupId,
+              count: size,
+              squad: true,
+            });
+        } else {
+          const existing = draft.encounter.find(
+            (item) => item.sourcePath === sourcePath && item.groupId === targetGroupId,
+          );
+          if (existing) existing.count += amount;
+          else
+            draft.encounter.push({
+              id: uid("enc"),
+              sourcePath,
+              groupId: targetGroupId,
+              count: amount,
+            });
+        }
+        draft.activePrepGroupId = targetGroupId;
+        syncCombatDraft(draft);
+      },
+      { label: `Added ${amount} × ${monster.name}` },
+    );
+    if (announce) toast(`Added ${amount} × ${monster.name}`, { undoStepId: stepId });
     return true;
   } catch {
     toast("Could not load that statblock.");
@@ -1197,17 +1645,28 @@ export async function addToEncounter(sourcePath: string, count: number): Promise
 /** Step an entry's count; an entry stepped to nothing leaves the roster.
     Squads may pass the book's eight (the roster hints at it). */
 export function changeEncounterCount(itemId: string, delta: number): void {
-  mutate((draft) => {
-    const item = draft.encounter.find((entry) => entry.id === itemId);
-    if (!item) return;
-    const next = item.count + delta;
-    if (next <= 0) {
-      draft.encounter = draft.encounter.filter((entry) => entry.id !== itemId);
-      return;
-    }
-    item.count = next;
-  });
-  reconcileCombat();
+  const existing = activeEncounter().items.find((entry) => entry.id === itemId);
+  if (!existing) return;
+  const name = monsterNameForPath(existing.sourcePath);
+  const nextCount = existing.count + delta;
+  const stepId = mutate(
+    (draft) => {
+      const item = draft.encounter.find((entry) => entry.id === itemId);
+      if (!item) return;
+      const next = item.count + delta;
+      if (next <= 0) {
+        draft.encounter = draft.encounter.filter((entry) => entry.id !== itemId);
+      } else {
+        item.count = next;
+      }
+      syncCombatDraft(draft);
+    },
+    {
+      label: nextCount <= 0 ? `Removed ${name}` : `${name}: ${nextCount}`,
+      ...(nextCount > 0 ? { key: `entry-count:${itemId}` } : {}),
+    },
+  );
+  if (nextCount <= 0) toast(`Removed ${name}`, { undoStepId: stepId });
 }
 
 /** The entry a peel just made, marked for a moment so the eye finds it. */
@@ -1221,11 +1680,10 @@ function markFresh(id: string): void {
 }
 
 /** Whether `amount` can be taken off an entry now, leaving some behind: a
-    squad on the board can't give any up, since its wounds can't be divided
-    fairly. */
+    squad that has already taken wounds or combat marks can't be split fairly. */
 export function canPeelEntry(item: EncounterItem, amount = 1): boolean {
   if (item.count <= amount) return false;
-  return !(item.squad && activeEncounter().combat.active);
+  return !(item.squad && squadInFight(item.id));
 }
 
 /**
@@ -1236,53 +1694,60 @@ export function canPeelEntry(item: EncounterItem, amount = 1): boolean {
 export function peelToGroup(itemId: string, groupId: string, amount = 1): void {
   const item = activeEncounter().items.find((entry) => entry.id === itemId);
   if (!item || !canPeelEntry(item, amount)) return;
+  const name = monsterNameForPath(item.sourcePath);
   const id = uid("enc");
   let landed = id;
-  mutate((draft) => {
-    const source = draft.encounter.find((entry) => entry.id === itemId);
-    if (!source || !draft.groups.some((group) => group.id === groupId)) return;
-    source.count -= amount;
-    const moving = draft.combat.instances.filter((each) => each.entryId === itemId).slice(-amount);
-    const join = source.squad
-      ? undefined
-      : draft.encounter.find(
-          (entry) =>
-            entry.id !== source.id &&
-            !entry.squad &&
-            entry.sourcePath === source.sourcePath &&
-            entry.groupId === groupId,
-        );
-    if (join) {
-      join.count += amount;
-      landed = join.id;
-    } else {
-      const peeled: EncounterItem = { id, sourcePath: source.sourcePath, groupId, count: amount };
-      if (source.squad) peeled.squad = true;
-      // Next to its stack when it stays in the group, at the end of a new one.
-      if (groupId === source.groupId)
-        draft.encounter.splice(draft.encounter.indexOf(source) + 1, 0, peeled);
-      else draft.encounter.push(peeled);
-    }
-    for (const instance of moving) {
-      instance.entryId = landed;
-      instance.groupId = groupId;
-    }
-  });
-  reconcileCombat();
+  mutate(
+    (draft) => {
+      const source = draft.encounter.find((entry) => entry.id === itemId);
+      if (!source || !draft.groups.some((group) => group.id === groupId)) return;
+      source.count -= amount;
+      const moving = draft.combat.instances
+        .filter((each) => each.entryId === itemId)
+        .slice(-amount);
+      const join = source.squad
+        ? undefined
+        : draft.encounter.find(
+            (entry) =>
+              entry.id !== source.id &&
+              !entry.squad &&
+              entry.sourcePath === source.sourcePath &&
+              entry.groupId === groupId,
+          );
+      if (join) {
+        join.count += amount;
+        landed = join.id;
+      } else {
+        const peeled: EncounterItem = { id, sourcePath: source.sourcePath, groupId, count: amount };
+        if (source.squad) peeled.squad = true;
+        // Next to its stack when it stays in the group, at the end of a new one.
+        if (groupId === source.groupId)
+          draft.encounter.splice(draft.encounter.indexOf(source) + 1, 0, peeled);
+        else draft.encounter.push(peeled);
+      }
+      for (const instance of moving) {
+        instance.entryId = landed;
+        instance.groupId = groupId;
+      }
+      syncCombatDraft(draft);
+    },
+    { label: `Split ${name}` },
+  );
   markFresh(landed);
 }
 
 /** Whether minions can move from squad `fromId` into squad `toId`: two
-    squads of the same minion, before the fight. */
+    squads of the same minion, before either squad has taken combat wounds. */
 export function canTransferMinions(fromId: string, toId: string): boolean {
-  const { items, combat } = activeEncounter();
+  const { items } = activeEncounter();
   const from = items.find((entry) => entry.id === fromId);
   const to = items.find((entry) => entry.id === toId);
   return Boolean(
     from?.squad &&
     to?.squad &&
     from.id !== to.id &&
-    !combat.active &&
+    !squadInFight(from.id) &&
+    !squadInFight(to.id) &&
     from.sourcePath === to.sourcePath,
   );
 }
@@ -1290,65 +1755,88 @@ export function canTransferMinions(fromId: string, toId: string): boolean {
 /** Move `amount` minions from one squad into another of the same minion. */
 export function transferMinions(fromId: string, toId: string, amount = 1): void {
   if (!canTransferMinions(fromId, toId)) return;
-  mutate((draft) => {
-    const from = draft.encounter.find((entry) => entry.id === fromId);
-    const to = draft.encounter.find((entry) => entry.id === toId);
-    if (!from || !to) return;
-    const moved = Math.min(amount, from.count);
-    to.count += moved;
-    from.count -= moved;
-    if (!from.count) draft.encounter = draft.encounter.filter((entry) => entry.id !== fromId);
-  });
+  const fromEntry = activeEncounter().items.find((entry) => entry.id === fromId);
+  const name = fromEntry ? monsterNameForPath(fromEntry.sourcePath) : "minions";
+  mutate(
+    (draft) => {
+      const from = draft.encounter.find((entry) => entry.id === fromId);
+      const to = draft.encounter.find((entry) => entry.id === toId);
+      if (!from || !to) return;
+      const moved = Math.min(amount, from.count);
+      to.count += moved;
+      from.count -= moved;
+      if (!from.count) draft.encounter = draft.encounter.filter((entry) => entry.id !== fromId);
+      syncCombatDraft(draft);
+    },
+    { label: `Moved ${name}` },
+  );
   markFresh(toId);
 }
 
 export function removeEncounterEntry(itemId: string): void {
-  mutate((draft) => {
-    draft.encounter = draft.encounter.filter((item) => item.id !== itemId);
-  });
-  reconcileCombat();
+  const entry = activeEncounter().items.find((item) => item.id === itemId);
+  if (!entry) return;
+  const name = monsterNameForPath(entry.sourcePath);
+  const stepId = mutate(
+    (draft) => {
+      draft.encounter = draft.encounter.filter((item) => item.id !== itemId);
+      syncCombatDraft(draft);
+    },
+    { label: `Removed ${name}` },
+  );
+  toast(`Removed ${name}`, { undoStepId: stepId });
 }
 
 /** Move an entry, and its creatures on the board, to another group. Plain
     creatures join an entry of the same monster already there; a squad stays
     its own squad. */
 export function moveEncounterEntryToGroup(itemId: string, groupId: string): void {
-  mutate((draft) => {
-    const item = draft.encounter.find((entry) => entry.id === itemId);
-    if (!item || !draft.groups.some((group) => group.id === groupId) || item.groupId === groupId)
-      return;
-    const linked = draft.combat.instances.filter((instance) => instance.entryId === itemId);
-    linked.forEach((instance) => {
-      instance.groupId = groupId;
-    });
-    const existing = item.squad
-      ? undefined
-      : draft.encounter.find(
-          (entry) =>
-            entry.id !== item.id &&
-            !entry.squad &&
-            entry.sourcePath === item.sourcePath &&
-            entry.groupId === groupId,
-        );
-    if (existing) {
-      existing.count += item.count;
+  const entry = activeEncounter().items.find((item) => item.id === itemId);
+  if (!entry || entry.groupId === groupId) return;
+  const name = monsterNameForPath(entry.sourcePath);
+  const groupName = activeEncounter().groups.find((g) => g.id === groupId)?.name ?? "group";
+  mutate(
+    (draft) => {
+      const item = draft.encounter.find((each) => each.id === itemId);
+      if (!item || !draft.groups.some((group) => group.id === groupId) || item.groupId === groupId)
+        return;
+      const linked = draft.combat.instances.filter((instance) => instance.entryId === itemId);
       linked.forEach((instance) => {
-        instance.entryId = existing.id;
+        instance.groupId = groupId;
       });
-      draft.encounter = draft.encounter.filter((entry) => entry.id !== item.id);
-    } else {
-      item.groupId = groupId;
-    }
-  });
-  reconcileCombat();
+      const existing = item.squad
+        ? undefined
+        : draft.encounter.find(
+            (each) =>
+              each.id !== item.id &&
+              !each.squad &&
+              each.sourcePath === item.sourcePath &&
+              each.groupId === groupId,
+          );
+      if (existing) {
+        existing.count += item.count;
+        linked.forEach((instance) => {
+          instance.entryId = existing.id;
+        });
+        draft.encounter = draft.encounter.filter((each) => each.id !== item.id);
+      } else {
+        item.groupId = groupId;
+      }
+      syncCombatDraft(draft);
+    },
+    { label: `Moved ${name} to ${groupName}` },
+  );
 }
 
 export function clearEncounter(): void {
-  mutate((draft) => {
-    draft.encounter = [];
-  });
-  reconcileCombat();
-  toast("Encounter cleared");
+  const stepId = mutate(
+    (draft) => {
+      draft.encounter = [];
+      syncCombatDraft(draft);
+    },
+    { label: "Cleared encounter" },
+  );
+  toast("Encounter cleared", { undoStepId: stepId });
 }
 
 export interface GroupBalance {
@@ -1551,14 +2039,6 @@ export async function startCombat(options: { switchView?: boolean } = {}): Promi
   else toast(`Combat started · ${encounter.combat.malice} Malice`);
 }
 
-/** Jump to the Run view for an already-active combat without rebuilding it,
-    so in-progress stamina/conditions/malice are preserved. */
-export function resumeCombat(): void {
-  mutate((draft) => {
-    draft.view = "combat";
-  });
-}
-
 /**
  * Reconcile the live combat roster with the current prep roster after a prep
  * edit, preserving the state (stamina, conditions, acted, custom names) of
@@ -1579,110 +2059,165 @@ export function resumeCombat(): void {
  * unaffected. `mutate`'s own draft would fight a nested `mutate`, so this must
  * be called on its own, not from inside another mutation.
  */
+/** Ensure the active encounter's combat board is hydrated and reconciled from
+    Prep without discarding any in-progress stamina, conditions, or Malice. */
+export async function ensureCombatReady(): Promise<void> {
+  const encounter = activeEncounter();
+  if (!encounter.items.length) return;
+  const paths = [...new Set(encounter.items.map((item) => item.sourcePath))];
+  const missing = paths.filter((path) => !monsterAt(path));
+  if (missing.length) {
+    await Promise.allSettled(missing.map(loadMonster));
+    if (activeEncounter() !== encounter) return;
+  }
+  const expectedEntries = new Set(encounter.items.map((item) => item.id));
+  const covered = new Set(encounter.combat.instances.map((item) => item.entryId).filter(Boolean));
+  const needsSync = !encounter.combat.active || [...expectedEntries].some((id) => !covered.has(id));
+  if (!needsSync) return;
+  mutate((draft) => {
+    syncCombatDraft(draft, true);
+  });
+}
+
+/** Reset combat back to Round 1 with full Stamina, no conditions/effects,
+    no summons, and recalculated Round 1 Malice — backed by Undo. */
+export async function resetCombat(encounterId?: string): Promise<void> {
+  const targetId = encounterId ?? state.value.activeEncounterId;
+  const encounter = state.value.encounters.find((item) => item.id === targetId);
+  if (!encounter || !encounter.items.length) return;
+  const paths = [...new Set(encounter.items.map((item) => item.sourcePath))];
+  const loaded = await Promise.allSettled(paths.map(loadMonster));
+  if (!state.value.encounters.some((item) => item.id === targetId)) return;
+  if (loaded.some((result) => result.status === "rejected")) {
+    toast("Some SteelCompendium statblocks could not be loaded.");
+    return;
+  }
+
+  const counters = new Map<string, number>();
+  const bump = (path: string) => {
+    const next = (counters.get(path) || 0) + 1;
+    counters.set(path, next);
+    return next;
+  };
+  let resetMalice = 0;
+  const stepId = mutateApp(
+    (app) => {
+      const target = app.encounters.find((item) => item.id === targetId);
+      if (!target) return;
+      normalizeEntries(target);
+      const instances: CombatInstance[] = [];
+      for (const entry of target.items) {
+        const m = monsterAt(entry.sourcePath);
+        if (!m) continue;
+        instances.push(...buildInstancesForEntry(entry, m, () => bump(basePath(entry.sourcePath))));
+      }
+      resetMalice = partyMath(target.party).roundOne;
+      target.combat = {
+        active: true,
+        round: 1,
+        malice: resetMalice,
+        instances,
+        activeGroupFilter: null,
+        activeEffects: [],
+        selectedMaliceFeatureIds: target.combat.selectedMaliceFeatureIds,
+        maliceSelectionInitialized: target.combat.maliceSelectionInitialized,
+      };
+      target.updatedAt = Date.now();
+    },
+    { label: `Reset combat (${encounter.name})` },
+  );
+  toast(`Combat reset · ${resetMalice} Malice`, { undoStepId: stepId });
+}
+
 export function reconcileCombat(): void {
   if (!activeEncounter().combat.active) return;
   mutate((draft) => {
-    normalizeEntries(activeEncounter());
-    const kept: CombatInstance[] = [];
-    // Ordinal counter per monster, spanning surviving + newly spawned, so
-    // added instances get names that don't collide with the survivors.
-    const counters = new Map<string, number>();
-    const bump = (path: string) => {
-      const next = (counters.get(path) || 0) + 1;
-      counters.set(path, next);
-      return next;
-    };
-
-    // Bucket existing instances by the prep entry they belong to.
-    const byEntry = new Map<string, CombatInstance[]>();
-    for (const instance of draft.combat.instances) {
-      if (!instance.entryId) continue;
-      const list = byEntry.get(instance.entryId);
-      if (list) list.push(instance);
-      else byEntry.set(instance.entryId, [instance]);
-    }
-
-    for (const entry of draft.encounter) {
-      const m = monsterAt(entry.sourcePath);
-      if (!m) continue;
-      const current = byEntry.get(entry.id) ?? [];
-      for (const instance of current) instance.groupId = entry.groupId;
-
-      if (entry.squad) {
-        const squad = current[0];
-        const n = bump(basePath(entry.sourcePath));
-        if (!squad) {
-          kept.push(newSquad(entry, m, entry.count, n));
-        } else {
-          resizeSquad(squad, entry.count, minionStamina(squad, m));
-          kept.push(squad);
-        }
-        continue;
-      }
-
-      // Keep up to `count` existing instances (lowest ordinals first — those
-      // are the ones that entered play earliest), spawn the rest.
-      const survivors = current.slice(0, entry.count);
-      for (const survivor of survivors) {
-        bump(basePath(entry.sourcePath));
-        kept.push(survivor);
-      }
-      for (let i = survivors.length; i < entry.count; i += 1)
-        kept.push(newCreature(entry, m, bump(basePath(entry.sourcePath))));
-    }
-    kept.push(...draft.combat.instances.filter((instance) => instance.summonedBy !== undefined));
-
-    // A captain who left the board leaves their squad without one.
-    for (const squad of kept) {
-      if (squad.captainId && !kept.some((item) => item.id === squad.captainId))
-        detachCaptain(squad);
-    }
-    draft.combat.instances = kept;
+    syncCombatDraft(draft, false);
   });
 }
 
 export function nextRound(): void {
   if (!activeEncounter().combat.instances.length) return;
-  mutate((draft) => {
-    const endingRound = draft.combat.round;
-    draft.combat.activeEffects = draft.combat.activeEffects.filter(
-      (effect) => effect.expiresRound > endingRound,
-    );
-    draft.combat.round += 1;
-    draft.combat.malice += draft.party.heroes + draft.combat.round;
-    draft.combat.instances.forEach((instance) => {
-      instance.turnsTaken = 0;
-      instance.reactions = [];
-    });
-  });
+  const enc = activeEncounter();
+  const next = enc.combat.round + 1;
+  const stepId = mutate(
+    (draft) => {
+      const endingRound = draft.combat.round;
+      draft.combat.activeEffects = draft.combat.activeEffects.filter(
+        (effect) => effect.expiresRound > endingRound,
+      );
+      draft.combat.round += 1;
+      draft.combat.malice += draft.party.heroes + draft.combat.round;
+      draft.combat.instances.forEach((instance) => {
+        instance.turnsTaken = 0;
+        instance.reactions = [];
+      });
+    },
+    { label: `Round ${next}`, kind: `round:${enc.id}:${next}` },
+  );
   const combat = activeEncounter().combat;
-  toast(`Round ${combat.round} · +${activeEncounter().party.heroes + combat.round} Malice`);
+  toast(`Round ${combat.round} · +${activeEncounter().party.heroes + combat.round} Malice`, {
+    undoStepId: stepId,
+  });
 }
 
 /**
- * Undo an accidental {@link nextRound}: step back one round and remove the Malice
- * that advancing into the current round granted (heroes + currentRound). Effects that
- * `nextRound` expired can't be recovered, so this is a best-effort misclick undo.
+ * Step back one round and remove the Malice that advancing into the current
+ * round granted. When that round advance is in this session's undo history,
+ * restores the turn marks, reactions, and active effects that were live when
+ * the round ended without discarding Stamina changes made since.
  */
 export function previousRound(): void {
-  if (activeEncounter().combat.round <= 1) return;
-  mutate((draft) => {
-    const undoneGain = draft.party.heroes + draft.combat.round;
-    draft.combat.malice = Math.max(0, draft.combat.malice - undoneGain);
-    draft.combat.round -= 1;
-    draft.combat.instances.forEach((instance) => {
-      instance.turnsTaken = 0;
-      instance.reactions = [];
-    });
-  });
+  const enc = activeEncounter();
+  if (enc.combat.round <= 1) return;
+  const currentRound = enc.combat.round;
+  const targetRound = currentRound - 1;
+  const roundStep = [...historyState.value.past]
+    .reverse()
+    .find((step) => step.kind === `round:${enc.id}:${currentRound}`);
+  const prevEnc = roundStep?.before.encounters.find((item) => item.id === enc.id);
+  const prevMarks = prevEnc
+    ? new Map(
+        prevEnc.combat.instances.map((item) => [
+          item.id,
+          { turnsTaken: item.turnsTaken, reactions: structuredClone(item.reactions) },
+        ]),
+      )
+    : null;
+  const prevEffects = prevEnc ? structuredClone(prevEnc.combat.activeEffects) : null;
+
+  const stepId = mutate(
+    (draft) => {
+      const undoneGain = draft.party.heroes + draft.combat.round;
+      draft.combat.malice = Math.max(0, draft.combat.malice - undoneGain);
+      draft.combat.round -= 1;
+      draft.combat.instances.forEach((instance) => {
+        const saved = prevMarks?.get(instance.id);
+        instance.turnsTaken = saved ? Math.min(instance.turns, saved.turnsTaken) : 0;
+        instance.reactions = saved ? saved.reactions : [];
+      });
+      if (prevEffects) {
+        const existingIds = new Set(draft.combat.activeEffects.map((effect) => effect.id));
+        for (const effect of prevEffects) {
+          if (!existingIds.has(effect.id)) draft.combat.activeEffects.push(effect);
+        }
+      }
+    },
+    { label: `Back to round ${targetRound}` },
+  );
   const combat = activeEncounter().combat;
-  toast(`Round ${combat.round} · −${activeEncounter().party.heroes + (combat.round + 1)} Malice`);
+  toast(`Round ${combat.round} · −${activeEncounter().party.heroes + (combat.round + 1)} Malice`, {
+    undoStepId: stepId,
+  });
 }
 
 export function adjustMalice(delta: number): void {
-  mutate((draft) => {
-    draft.combat.malice = Math.max(0, draft.combat.malice + delta);
-  });
+  mutate(
+    (draft) => {
+      draft.combat.malice = Math.max(0, draft.combat.malice + delta);
+    },
+    { label: delta > 0 ? `+${delta} Malice` : `−${Math.abs(delta)} Malice`, key: "malice" },
+  );
 }
 
 export function setGroupFilter(groupId: string | null): void {
@@ -1698,28 +2233,153 @@ export function hasActed(instance: CombatInstance): boolean {
 /** Tap turn box `index` (0-based): an open box marks every turn up to and
     including it; a marked box clears it and every turn after it. */
 export function markTurn(instanceId: string, index: number): void {
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!instance) return;
-    instance.turnsTaken = index < instance.turnsTaken ? index : Math.min(instance.turns, index + 1);
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst) return;
+  const clearing = index < inst.turnsTaken;
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!instance) return;
+      instance.turnsTaken =
+        index < instance.turnsTaken ? index : Math.min(instance.turns, index + 1);
+    },
+    { label: `${clearing ? "Unmarked" : "Marked"} turn for ${inst.name}` },
+  );
 }
 
 /** Override how many turns a creature takes each round. */
 export function adjustTurns(instanceId: string, delta: number): void {
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!instance) return;
-    instance.turns = clampInt(instance.turns + delta, 1, MAX_TURNS);
-    instance.turnsTaken = Math.min(instance.turnsTaken, instance.turns);
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst) return;
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!instance) return;
+      instance.turns = clampInt(instance.turns + delta, 1, MAX_TURNS);
+      instance.turnsTaken = Math.min(instance.turnsTaken, instance.turns);
+    },
+    { label: `Turns for ${inst.name}` },
+  );
 }
 
+/** Remove one creature or squad from Run, syncing its Prep entry and EV.
+    Summoned creatures have no Prep entry and leave only the board. */
 export function removeInstance(instanceId: string): void {
-  mutate((draft) => {
-    releaseCaptain(draft.combat.instances, instanceId);
-    draft.combat.instances = draft.combat.instances.filter((item) => item.id !== instanceId);
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst) return;
+  let lost: string[] = [];
+  const stepId = mutate(
+    (draft) => {
+      const target = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!target) return;
+      lost = releaseCaptain(draft.combat.instances, instanceId).map((squad) => squad.name);
+      draft.combat.instances = draft.combat.instances.filter((item) => item.id !== instanceId);
+      if (target.entryId) {
+        const entry = draft.encounter.find((item) => item.id === target.entryId);
+        if (entry) {
+          if (entry.squad || entry.count <= 1) {
+            draft.encounter = draft.encounter.filter((item) => item.id !== entry.id);
+          } else {
+            entry.count -= 1;
+          }
+        }
+      }
+      if (!draft.encounter.length && !draft.combat.instances.length) {
+        draft.combat.active = false;
+        draft.combat.activeGroupFilter = null;
+      }
+    },
+    { label: `Removed ${inst.name}` },
+  );
+  const captainNote = lost.length
+    ? ` · ${lost.join(", ")} lost ${lost.length > 1 ? "their" : "its"} captain`
+    : "";
+  toast(`Removed ${inst.name}${captainNote}`, { undoStepId: stepId });
+}
+
+/** Remove an entire monster lane (all copies/squads, including summons) from
+    both Run and Prep in one undoable step. */
+export function removeLane(sourcePath: string): void {
+  const enc = activeEncounter();
+  const matching = enc.combat.instances.filter((item) => item.sourcePath === sourcePath);
+  const entries = enc.items.filter((item) => item.sourcePath === sourcePath);
+  if (!matching.length && !entries.length) return;
+  const name = monsterNameForPath(sourcePath);
+  const count = matching.length || entries.reduce((sum, item) => sum + item.count, 0);
+  const label = count > 1 ? `Removed ${name} (${count})` : `Removed ${name}`;
+  const stepId = mutate(
+    (draft) => {
+      const removedIds = new Set(
+        draft.combat.instances
+          .filter((item) => item.sourcePath === sourcePath)
+          .map((item) => item.id),
+      );
+      for (const id of removedIds) releaseCaptain(draft.combat.instances, id);
+      draft.combat.instances = draft.combat.instances.filter(
+        (item) => item.sourcePath !== sourcePath,
+      );
+      draft.encounter = draft.encounter.filter((item) => item.sourcePath !== sourcePath);
+      if (!draft.encounter.length && !draft.combat.instances.length) {
+        draft.combat.active = false;
+        draft.combat.activeGroupFilter = null;
+      }
+    },
+    { label },
+  );
+  toast(label, { undoStepId: stepId });
+}
+
+/** Add one more copy (or one default minion squad) directly onto an existing
+    Run lane, keeping Prep and EV in sync. */
+export async function addAnotherInLane(sourcePath: string): Promise<boolean> {
+  const enc = activeEncounter();
+  const filterGroup = enc.combat.activeGroupFilter;
+  const laneInstances = enc.combat.instances.filter((item) => item.sourcePath === sourcePath);
+  const fallbackGroup =
+    [...laneInstances].reverse().find((item) => item.summonedBy === undefined)?.groupId ??
+    laneInstances[laneInstances.length - 1]?.groupId ??
+    enc.activePrepGroupId;
+  const groupId = filterGroup ?? fallbackGroup;
+  try {
+    const monster = await loadMonster(sourcePath);
+    const count = isMinion(monster) ? Math.max(1, monster.defaultQty) : 1;
+    return await addToEncounterInGroup(sourcePath, count, groupId);
+  } catch {
+    toast("Could not load that statblock.");
+    return false;
+  }
+}
+
+function isUntouchedInstance(instance: CombatInstance, all: CombatInstance[]): boolean {
+  return (
+    instance.currentStamina === instance.maxStamina &&
+    instance.turnsTaken === 0 &&
+    instance.conditions.length === 0 &&
+    instance.reactions.length === 0 &&
+    !instance.captainId &&
+    !all.some((other) => other.captainId === instance.id)
+  );
+}
+
+/** Smart decrement for library FieldSteppers: removes the newest untouched
+    non-summoned instance of `monsterPath`, falling back to the newest copy. */
+export function decrementMonster(monsterPath: string): void {
+  const enc = activeEncounter();
+  const targetBase = basePath(monsterPath);
+  const candidates = enc.combat.instances.filter(
+    (item) => basePath(item.sourcePath) === targetBase && item.summonedBy === undefined,
+  );
+  if (candidates.length) {
+    const pick =
+      [...candidates].reverse().find((item) => isUntouchedInstance(item, enc.combat.instances)) ??
+      candidates[candidates.length - 1]!;
+    removeInstance(pick.id);
+    return;
+  }
+  const entry = [...enc.items].reverse().find((item) => basePath(item.sourcePath) === targetBase);
+  if (!entry) return;
+  if (entry.squad || entry.count <= 1) removeEncounterEntry(entry.id);
+  else changeEncounterCount(entry.id, -1);
 }
 
 // ---------- Summons ----------
@@ -1759,60 +2419,63 @@ export async function summonCreatures(
     return;
   }
   let summoned = "";
-  mutate((draft) => {
-    const instances = draft.combat.instances;
-    const summoner = instances.find((item) => item.id === summonerId);
-    if (!summoner || malice > draft.combat.malice) return;
-    const same = instances.filter((item) => item.sourcePath === sourcePath);
-    const stub: EncounterItem = { id: "", sourcePath, groupId: summoner.groupId, count };
-    const tag = (instance: CombatInstance): CombatInstance => {
-      delete instance.entryId;
-      instance.summonedBy = summonerId;
-      return instance;
-    };
-    const added: CombatInstance[] = [];
-    let dropped = 0;
-    if (isMinion(m)) {
-      const plan = planSummon(
-        instances,
-        summonerId,
-        sourcePath,
-        count,
-        summonerRules(summoner),
-        SQUAD_MAX,
-        (squad) => standing(squad.currentStamina, minionStamina(squad, m)),
-      );
-      if (!plan.top.length && !plan.fresh.length) {
-        summoned = `${summoner.name}'s squads have no room for ${m.name}`;
-        return;
+  const stepId = mutate(
+    (draft) => {
+      const instances = draft.combat.instances;
+      const summoner = instances.find((item) => item.id === summonerId);
+      if (!summoner || malice > draft.combat.malice) return;
+      const same = instances.filter((item) => item.sourcePath === sourcePath);
+      const stub: EncounterItem = { id: "", sourcePath, groupId: summoner.groupId, count };
+      const tag = (instance: CombatInstance): CombatInstance => {
+        delete instance.entryId;
+        instance.summonedBy = summonerId;
+        return instance;
+      };
+      const added: CombatInstance[] = [];
+      let dropped = 0;
+      if (isMinion(m)) {
+        const plan = planSummon(
+          instances,
+          summonerId,
+          sourcePath,
+          count,
+          summonerRules(summoner),
+          SQUAD_MAX,
+          (squad) => standing(squad.currentStamina, minionStamina(squad, m)),
+        );
+        if (!plan.top.length && !plan.fresh.length) {
+          summoned = `${summoner.name}'s squads have no room for ${m.name}`;
+          return;
+        }
+        // A squad's dead make way for the newcomers rather than holding their places.
+        for (const { id, size } of plan.top) {
+          const squad = instances.find((item) => item.id === id);
+          if (squad) resizeSquad(squad, size, minionStamina(squad, m));
+        }
+        let n = same.filter((item) => item.kind === "minion-squad").length;
+        for (const size of plan.fresh) added.push(tag(newSquad(stub, m, size, (n += 1))));
+        dropped = plan.dropped;
+      } else {
+        let n = same.length;
+        for (let left = count; left > 0; left -= 1) added.push(tag(newCreature(stub, m, (n += 1))));
       }
-      // A squad's dead make way for the newcomers rather than holding their places.
-      for (const { id, size } of plan.top) {
-        const squad = instances.find((item) => item.id === id);
-        if (squad) resizeSquad(squad, size, minionStamina(squad, m));
-      }
-      let n = same.filter((item) => item.kind === "minion-squad").length;
-      for (const size of plan.fresh) added.push(tag(newSquad(stub, m, size, (n += 1))));
-      dropped = plan.dropped;
-    } else {
-      let n = same.length;
-      for (let left = count; left > 0; left -= 1) added.push(tag(newCreature(stub, m, (n += 1))));
-    }
-    // Beside their own kind, or else beside the summoner, so a new statblock
-    // opens next to the one that called it.
-    const near = same.length
-      ? same
-      : instances.filter((item) => item.sourcePath === summoner.sourcePath);
-    const after = near.length
-      ? instances.indexOf(near[near.length - 1] as CombatInstance) + 1
-      : instances.length;
-    instances.splice(after, 0, ...added);
-    draft.combat.malice -= malice;
-    summoned =
-      `${summoner.name} summons ${count - dropped} × ${m.name}${malice ? ` · −${malice} Malice` : ""}` +
-      (dropped ? ` · ${dropped} more find no room in their squads` : "");
-  });
-  if (summoned) toast(summoned);
+      // Beside their own kind, or else beside the summoner, so a new statblock
+      // opens next to the one that called it.
+      const near = same.length
+        ? same
+        : instances.filter((item) => item.sourcePath === summoner.sourcePath);
+      const after = near.length
+        ? instances.indexOf(near[near.length - 1] as CombatInstance) + 1
+        : instances.length;
+      instances.splice(after, 0, ...added);
+      draft.combat.malice -= malice;
+      summoned =
+        `${summoner.name} summons ${count - dropped} × ${m.name}${malice ? ` · −${malice} Malice` : ""}` +
+        (dropped ? ` · ${dropped} more find no room in their squads` : "");
+    },
+    { label: `Summoned ${count} × ${m.name}` },
+  );
+  if (summoned) toast(summoned, { undoStepId: stepId });
 }
 
 // ---------- Squad captains ----------
@@ -1866,57 +2529,85 @@ export function captainCandidates(squad: CombatInstance): CombatInstance[] {
     squad has one captain and a captain leads one squad, so both sides let go
     of any previous link. */
 export function setSquadCaptain(squadId: string, captainId: string | null): void {
+  const existingSquad = activeEncounter().combat.instances.find((item) => item.id === squadId);
+  if (
+    !existingSquad ||
+    existingSquad.kind !== "minion-squad" ||
+    existingSquad.captainId === (captainId ?? undefined)
+  )
+    return;
+  const captainName = captainId
+    ? activeEncounter().combat.instances.find((item) => item.id === captainId)?.name
+    : undefined;
   let named = "";
-  mutate((draft) => {
-    const instances = draft.combat.instances;
-    const squad = instances.find((item) => item.id === squadId);
-    if (!squad || squad.kind !== "minion-squad" || squad.captainId === (captainId ?? undefined))
-      return;
-    if (squad.captainId) detachCaptain(squad);
-    if (!captainId) return;
-    const captain = instances.find((item) => item.id === captainId);
-    if (!captain || captain.kind !== "creature") return;
-    releaseCaptain(instances, captainId);
-    attachCaptain(squad, captainId);
-    named = `${captain.name} leads ${squad.name}`;
-  });
-  if (named) toast(named);
+  const stepId = mutate(
+    (draft) => {
+      const instances = draft.combat.instances;
+      const squad = instances.find((item) => item.id === squadId);
+      if (!squad || squad.kind !== "minion-squad" || squad.captainId === (captainId ?? undefined))
+        return;
+      if (squad.captainId) detachCaptain(squad);
+      if (!captainId) return;
+      const captain = instances.find((item) => item.id === captainId);
+      if (!captain || captain.kind !== "creature") return;
+      releaseCaptain(instances, captainId);
+      attachCaptain(squad, captainId);
+      named = `${captain.name} leads ${squad.name}`;
+    },
+    {
+      label: captainName
+        ? `${captainName} leads ${existingSquad.name}`
+        : `Cleared captain on ${existingSquad.name}`,
+    },
+  );
+  if (named) toast(named, { undoStepId: stepId });
 }
 
 export function renameInstance(instanceId: string, name: string): void {
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (instance) instance.name = name.trim() || instance.name;
-  });
+  const trimmed = name.trim();
+  if (!trimmed) return;
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (instance) instance.name = trimmed;
+    },
+    { label: `Renamed to ${trimmed}`, key: `inst-name:${instanceId}` },
+  );
 }
 
 /** Move one creature or squad to another group from the board. Prep follows:
     an entry that holds only this instance moves with it, and a creature from
     a larger entry splits off into an entry of its own. */
 export function setInstanceGroup(instanceId: string, groupId: string): void {
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!instance || instance.groupId === groupId) return;
-    instance.groupId = groupId;
-    const entry = draft.encounter.find((item) => item.id === instance.entryId);
-    if (!entry) return;
-    if (entry.squad || entry.count <= 1) {
-      entry.groupId = groupId;
-      draft.combat.instances.forEach((item) => {
-        if (item.entryId === entry.id) item.groupId = groupId;
-      });
-      return;
-    }
-    entry.count -= 1;
-    const split: EncounterItem = {
-      id: uid("enc"),
-      sourcePath: entry.sourcePath,
-      groupId,
-      count: 1,
-    };
-    draft.encounter.splice(draft.encounter.indexOf(entry) + 1, 0, split);
-    instance.entryId = split.id;
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst || inst.groupId === groupId) return;
+  const groupName = activeEncounter().groups.find((g) => g.id === groupId)?.name ?? "group";
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!instance || instance.groupId === groupId) return;
+      instance.groupId = groupId;
+      const entry = draft.encounter.find((item) => item.id === instance.entryId);
+      if (!entry) return;
+      if (entry.squad || entry.count <= 1) {
+        entry.groupId = groupId;
+        draft.combat.instances.forEach((item) => {
+          if (item.entryId === entry.id) item.groupId = groupId;
+        });
+        return;
+      }
+      entry.count -= 1;
+      const split: EncounterItem = {
+        id: uid("enc"),
+        sourcePath: entry.sourcePath,
+        groupId,
+        count: 1,
+      };
+      draft.encounter.splice(draft.encounter.indexOf(entry) + 1, 0, split);
+      instance.entryId = split.id;
+    },
+    { label: `Moved ${inst.name} to ${groupName}` },
+  );
 }
 
 // ---------- Monster levels ----------
@@ -1988,12 +2679,14 @@ export function setLaneLevel(key: string, level: number): string | null {
       .items.filter((item) => item.sourcePath === key)
       .map((item) => item.id),
   );
-  mutate((draft) => relevel(draft, ids, key, level, true));
+  mutate((draft) => relevel(draft, ids, key, level, true), {
+    label: `${printed.name}: Level ${level}`,
+    key: `level:${basePath(key)}`,
+  });
   const next = levelKey(key, level, printed.level);
   return activeEncounter().combat.instances.some((item) => item.sourcePath === next) ? next : null;
 }
 
-/** Set one prep entry to `level`; returns the key it is now at. */
 /** Set one prep entry to `level`; returns the key it is now at and the
     entry that holds it (another one, when it joined it). */
 export function setEntryLevel(
@@ -2004,7 +2697,10 @@ export function setEntryLevel(
   const printed = entry && monsterAt(basePath(entry.sourcePath));
   if (!entry || !printed) return null;
   const { groupId, sourcePath } = entry;
-  mutate((draft) => relevel(draft, new Set([entryId]), sourcePath, level, false));
+  mutate((draft) => relevel(draft, new Set([entryId]), sourcePath, level, false), {
+    label: `${printed.name}: Level ${level}`,
+    key: `level:${entryId}`,
+  });
   const key = levelKey(sourcePath, level, printed.level);
   const items = activeEncounter().items;
   const holder =
@@ -2013,26 +2709,41 @@ export function setEntryLevel(
   return { key, entryId: holder?.id ?? entryId };
 }
 
-export function applyStaminaCommand(instanceId: string, rawValue: string): void {
-  const raw = rawValue.trim();
+export function applyStaminaCommand(instanceId: string, rawValue: string): number | null {
+  const existing = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!existing) return null;
+  const parsed = parseStaminaCommand(rawValue, existing.currentStamina);
+  if (!parsed) return null;
+  // A squad's pool can't gain temporary Stamina; a raise only puts back
+  // what a slip of the pen took.
+  const ceiling = existing.kind === "minion-squad" ? existing.maxStamina : Infinity;
+  const clamped = Math.max(0, Math.min(ceiling, parsed.next));
+  if (clamped === existing.currentStamina) return clamped;
+  const diff = clamped - existing.currentStamina;
+  const label =
+    parsed.kind === "set"
+      ? `${existing.name}: Stamina ${clamped}`
+      : diff < 0
+        ? `${existing.name}: −${Math.abs(diff)} Stamina`
+        : `${existing.name}: +${diff} Stamina`;
   let lost: string[] = [];
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!instance) return;
-    let next: number;
-    if (/^[+-]\s*\d+(?:\.\d+)?$/.test(raw))
-      next = instance.currentStamina + Number(raw.replace(/\s/g, ""));
-    else if (/^\d+(?:\.\d+)?$/.test(raw)) next = Number(raw);
-    else return;
-    // A squad's pool can't gain temporary Stamina; a raise only puts back
-    // what a slip of the pen took.
-    const ceiling = instance.kind === "minion-squad" ? instance.maxStamina : Infinity;
-    instance.currentStamina = Math.max(0, Math.min(ceiling, Math.round(next)));
-    if (instance.kind === "creature" && instance.currentStamina <= 0) {
-      lost = releaseCaptain(draft.combat.instances, instance.id).map((squad) => squad.name);
-    }
-  });
-  if (lost.length) toast(`${lost.join(", ")} lost ${lost.length > 1 ? "their" : "its"} captain`);
+  const stepId = mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!instance) return;
+      instance.currentStamina = clamped;
+      if (instance.kind === "creature" && instance.currentStamina <= 0) {
+        lost = releaseCaptain(draft.combat.instances, instance.id).map((squad) => squad.name);
+      }
+    },
+    { label },
+  );
+  if (lost.length) {
+    toast(`${lost.join(", ")} lost ${lost.length > 1 ? "their" : "its"} captain`, {
+      undoStepId: stepId,
+    });
+  }
+  return clamped;
 }
 
 export function toggleConditionPicker(instanceId: string): void {
@@ -2041,25 +2752,41 @@ export function toggleConditionPicker(instanceId: string): void {
 
 export function addCondition(instanceId: string, condition: string): void {
   openConditionPickerFor.value = null;
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (instance) instance.conditions = [...new Set([...instance.conditions, condition])];
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst || inst.conditions.includes(condition)) return;
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (instance) instance.conditions = [...new Set([...instance.conditions, condition])];
+    },
+    { label: `${condition} on ${inst.name}` },
+  );
 }
 
 export function removeCondition(instanceId: string, condition: string): void {
-  mutate((draft) => {
-    const instance = draft.combat.instances.find((item) => item.id === instanceId);
-    if (instance) instance.conditions = instance.conditions.filter((item) => item !== condition);
-  });
+  const inst = activeEncounter().combat.instances.find((item) => item.id === instanceId);
+  if (!inst || !inst.conditions.includes(condition)) return;
+  mutate(
+    (draft) => {
+      const instance = draft.combat.instances.find((item) => item.id === instanceId);
+      if (instance) instance.conditions = instance.conditions.filter((item) => item !== condition);
+    },
+    { label: `Cleared ${condition} from ${inst.name}` },
+  );
 }
 
 export function removeActiveEffect(effectId: string): void {
-  mutate((draft) => {
-    draft.combat.activeEffects = draft.combat.activeEffects.filter(
-      (effect) => effect.id !== effectId,
-    );
-  });
+  const eff = activeEncounter().combat.activeEffects.find((item) => item.id === effectId);
+  if (!eff) return;
+  const stepId = mutate(
+    (draft) => {
+      draft.combat.activeEffects = draft.combat.activeEffects.filter(
+        (effect) => effect.id !== effectId,
+      );
+    },
+    { label: `Ended ${eff.name}` },
+  );
+  toast(`Ended ${eff.name}`, { undoStepId: stepId });
 }
 
 export function groupInstancesByMonster(): [string, CombatInstance[]][] {
@@ -2456,13 +3183,18 @@ export function takeBackReaction(instanceId: string, name: string, all = false):
   if (!instance || index < 0) return;
   const drop = (item: { name: string }, i: number) => (all ? item.name === name : i === index);
   const refund = instance.reactions.filter(drop).reduce((sum, item) => sum + item.malice, 0);
-  mutate((draft) => {
-    const target = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!target) return;
-    target.reactions = target.reactions.filter((item, i) => !drop(item, i));
-    draft.combat.malice += refund;
+  const stepId = mutate(
+    (draft) => {
+      const target = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!target) return;
+      target.reactions = target.reactions.filter((item, i) => !drop(item, i));
+      draft.combat.malice += refund;
+    },
+    { label: `Took back ${name}` },
+  );
+  toast(refund ? `${name} taken back · +${refund} Malice` : `${name} taken back`, {
+    undoStepId: stepId,
   });
-  toast(refund ? `${name} taken back · +${refund} Malice` : `${name} taken back`);
 }
 
 /**
@@ -2517,14 +3249,19 @@ export function useReaction(
     toast(`${name} needs ${malice} Malice.`);
     return;
   }
-  mutate((draft) => {
-    const target = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!target) return;
-    if (swapped) target.reactions = target.reactions.slice(0, -1);
-    draft.combat.malice += refund - malice;
-    target.reactions.push({ name, malice });
+  const stepId = mutate(
+    (draft) => {
+      const target = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!target) return;
+      if (swapped) target.reactions = target.reactions.slice(0, -1);
+      draft.combat.malice += refund - malice;
+      target.reactions.push({ name, malice });
+    },
+    { label: `${instance.name}: ${name}` },
+  );
+  toast(malice ? `${instance.name} · ${name} · −${malice} Malice` : `${instance.name} · ${name}`, {
+    undoStepId: stepId,
   });
-  toast(malice ? `${instance.name} · ${name} · −${malice} Malice` : `${instance.name} · ${name}`);
 }
 
 /** The creature that used a villain action this round, if any: the rules
@@ -2540,13 +3277,16 @@ export function toggleVillainAction(instanceId: string, n: number): void {
   if (!instance) return;
   const marking = !instance.villainRounds[n - 1];
   const earlier = villainActionThisRound();
-  mutate((draft) => {
-    const target = draft.combat.instances.find((item) => item.id === instanceId);
-    if (!target) return;
-    const rounds = [0, 1, 2].map((i) => target.villainRounds[i] ?? 0);
-    rounds[n - 1] = marking ? draft.combat.round : 0;
-    target.villainRounds = rounds;
-  });
+  mutate(
+    (draft) => {
+      const target = draft.combat.instances.find((item) => item.id === instanceId);
+      if (!target) return;
+      const rounds = [0, 1, 2].map((i) => target.villainRounds[i] ?? 0);
+      rounds[n - 1] = marking ? draft.combat.round : 0;
+      target.villainRounds = rounds;
+    },
+    { label: `${marking ? "Used" : "Cleared"} villain action ${n}` },
+  );
   if (marking && earlier) toast(`${earlier.name} already used this round's villain action.`);
 }
 
@@ -2557,28 +3297,31 @@ export function useMaliceFeature(featureId: string): void {
     toast(`Need ${feature.cost} Malice.`);
     return;
   }
-  mutate((draft) => {
-    draft.combat.malice -= feature.cost;
-    const text = featureText(feature).toLowerCase();
-    if (
-      text.includes("until the end of the round") ||
-      text.includes("until end of the round") ||
-      feature.name.toLowerCase() === "goblin mode"
-    ) {
-      const existing = draft.combat.activeEffects.find(
-        (effect) => effect.name.toLowerCase() === feature.name.toLowerCase(),
-      );
-      if (!existing) {
-        draft.combat.activeEffects.push({
-          id: uid("effect"),
-          name: feature.name,
-          expiresRound: draft.combat.round,
-          sourcePath: feature.path,
-        });
+  const stepId = mutate(
+    (draft) => {
+      draft.combat.malice -= feature.cost;
+      const text = featureText(feature).toLowerCase();
+      if (
+        text.includes("until the end of the round") ||
+        text.includes("until end of the round") ||
+        feature.name.toLowerCase() === "goblin mode"
+      ) {
+        const existing = draft.combat.activeEffects.find(
+          (effect) => effect.name.toLowerCase() === feature.name.toLowerCase(),
+        );
+        if (!existing) {
+          draft.combat.activeEffects.push({
+            id: uid("effect"),
+            name: feature.name,
+            expiresRound: draft.combat.round,
+            sourcePath: feature.path,
+          });
+        }
       }
-    }
-  });
-  toast(`${feature.name} · −${feature.cost} Malice`);
+    },
+    { label: `Used ${feature.name}` },
+  );
+  toast(`${feature.name} · −${feature.cost} Malice`, { undoStepId: stepId });
 }
 
 export function spendAbilityMalice(cost: number, name: string): void {
@@ -2586,10 +3329,13 @@ export function spendAbilityMalice(cost: number, name: string): void {
     toast(`Need ${cost} Malice.`);
     return;
   }
-  mutate((draft) => {
-    draft.combat.malice -= cost;
-  });
-  toast(`${name} · −${cost} Malice`);
+  const stepId = mutate(
+    (draft) => {
+      draft.combat.malice -= cost;
+    },
+    { label: `${name} (−${cost} Malice)` },
+  );
+  toast(`${name} · −${cost} Malice`, { undoStepId: stepId });
 }
 
 // ---------- Negotiation ----------

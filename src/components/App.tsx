@@ -2,20 +2,28 @@ import {
   activeEncounter,
   activeNegotiation,
   adjustMalice,
+  canRedo,
+  canUndo,
+  closeQuickAdd,
   createEncounter,
   creatingNegotiation,
   mobileNavOpen,
   nextRound,
+  openConditionPickerFor,
   openNewNegotiation,
   previousRound,
-  resumeCombat,
+  quickAddOpen,
+  redoLabel,
+  redoStep,
   selectEncounter,
   selectNegotiation,
   setMobileNav,
   setView,
-  startCombat,
   state,
+  toggleQuickAdd,
   toggleSidebar,
+  undoLabel,
+  undoStep,
 } from "../store.ts";
 import { useEffect, useRef } from "preact/hooks";
 import { installPhoneScroll } from "../lib/phoneScroll.ts";
@@ -23,14 +31,17 @@ import type { ViewName } from "../types.ts";
 import { BuilderView } from "./builder/BuilderView.tsx";
 import { CombatView } from "./combat/CombatView.tsx";
 import { EdgeMenu } from "./combat/EdgeMenu.tsx";
+import { QuickAddDrawer } from "./combat/QuickAddDrawer.tsx";
 import { EncounterSwitcher } from "./EncounterSwitcher.tsx";
 import {
+  ChevronLeftIcon,
   CloseIcon,
   CollapseIcon,
   MenuIcon,
   MinusIcon,
   PlusIcon,
   PrepIcon,
+  RedoIcon,
   RunIcon,
   NegotiateIcon,
   UndoIcon,
@@ -279,7 +290,7 @@ function MobileNav() {
           </button>
         </div>
         <NavButtons collapsed={false} onNavigate={close} />
-        {view === "talk" ? <NegotiationSwitcher /> : <EncounterSwitcher />}
+        {view === "talk" ? <NegotiationSwitcher /> : <EncounterSwitcher onNavigate={close} />}
         <div class="spine-foot">
           <AppSettingsButton onOpen={close} />
         </div>
@@ -289,26 +300,17 @@ function MobileNav() {
 }
 
 function CombatControls() {
-  const combat = activeEncounter().combat;
+  const enc = activeEncounter();
+  const combat = enc.combat;
   // Counted in turns, so a solo's second turn keeps the round open.
   const acted = combat.instances.reduce((sum, instance) => sum + instance.turnsTaken, 0);
   const total = combat.instances.reduce((sum, instance) => sum + instance.turns, 0);
-  const nextGain = activeEncounter().party.heroes + combat.round + 1;
-  const undoGain = activeEncounter().party.heroes + combat.round;
+  const nextGain = enc.party.heroes + combat.round + 1;
+  const undoGain = enc.party.heroes + combat.round;
   const atStart = combat.round <= 1;
   const complete = total > 0 && acted === total;
   return (
     <div class="combat-controls">
-      <button
-        class="secondary compact-button prev-round"
-        disabled={atStart}
-        aria-label="Previous round"
-        title={atStart ? "Already on round 1" : `Undo last round · −${undoGain} Malice`}
-        onClick={previousRound}
-      >
-        <UndoIcon />
-        <span class="prev-round-label">Prev round</span>
-      </button>
       <div
         class="malice-counter"
         title={`${combat.malice} Malice in the pool · next round adds ${nextGain}`}
@@ -335,7 +337,20 @@ function CombatControls() {
             {complete ? <PenRing key={combat.round} seed={`acted:${combat.round}`} /> : null}
           </strong>
         </div>
-        <button class="primary" onClick={nextRound}>
+        <button
+          class="secondary compact-button prev-round"
+          disabled={atStart}
+          aria-label={atStart ? "Previous round" : `Back to round ${combat.round - 1}`}
+          title={
+            atStart
+              ? "Already on round 1"
+              : `Step back to round ${combat.round - 1} · −${undoGain} Malice`
+          }
+          onClick={previousRound}
+        >
+          <ChevronLeftIcon />
+        </button>
+        <button class="primary" disabled={!combat.instances.length} onClick={nextRound}>
           Next round
         </button>
       </div>
@@ -349,7 +364,8 @@ function Topbar() {
   const view = enc.view;
   const isBuilder = view === "builder";
   const isTalk = view === "talk";
-  const combatActive = combat.active && combat.instances.length > 0;
+  const isCombat = view === "combat";
+  const undoGain = enc.party.heroes + combat.round;
   const negotiation = activeNegotiation();
   const creating = creatingNegotiation.value;
   const legend = isTalk
@@ -369,7 +385,19 @@ function Topbar() {
         <MenuIcon />
       </button>
       <div class="topbar-title">
-        <h1>{isBuilder ? "Prep" : isTalk ? "Negotiation" : `Round ${combat.round}`}</h1>
+        <div class="topbar-heading">
+          {isCombat && combat.round > 1 ? (
+            <button
+              class="icon-button round-back"
+              aria-label={`Back to round ${combat.round - 1}`}
+              title={`Step back to round ${combat.round - 1} · −${undoGain} Malice`}
+              onClick={previousRound}
+            >
+              <ChevronLeftIcon />
+            </button>
+          ) : null}
+          <h1>{isBuilder ? "Prep" : isTalk ? "Negotiation" : `Round ${combat.round}`}</h1>
+        </div>
         {/* The running head carries the negotiation's state while the sheet
             is scrolled below it. When the tracks move, the pen writes the
             new line again — the key remounts the span so the stroke
@@ -386,28 +414,31 @@ function Topbar() {
         <OwlbearDiceButton />
         <OwlbearSendButton />
         {isBuilder ? (
-          combatActive ? (
-            <>
+          <>
+            <div class="history-controls" role="group" aria-label="Undo and redo">
               <button
-                class="secondary"
-                title="Rebuild the roster from Prep, discarding current stamina, conditions, and Malice"
-                onClick={() => void startCombat()}
+                class="icon-button"
+                disabled={!canUndo.value}
+                aria-label={canUndo.value ? `Undo: ${undoLabel.value}` : "Nothing to undo"}
+                title={canUndo.value ? `Undo: ${undoLabel.value} (Ctrl/Cmd+Z)` : "Nothing to undo"}
+                onClick={undoStep}
               >
-                Restart
+                <UndoIcon />
               </button>
-              <button class="primary" onClick={resumeCombat}>
-                Resume combat
+              <button
+                class="icon-button"
+                disabled={!canRedo.value}
+                aria-label={canRedo.value ? `Redo: ${redoLabel.value}` : "Nothing to redo"}
+                title={canRedo.value ? `Redo: ${redoLabel.value} (Ctrl+Y)` : "Nothing to redo"}
+                onClick={redoStep}
+              >
+                <RedoIcon />
               </button>
-            </>
-          ) : (
-            <button
-              class="primary"
-              disabled={!activeEncounter().items.length}
-              onClick={() => void startCombat()}
-            >
+            </div>
+            <button class="primary" disabled={!enc.items.length} onClick={() => setView("combat")}>
               Run encounter
             </button>
-          )
+          </>
         ) : isTalk ? (
           !creating && negotiation ? (
             <button class="primary talk-new-btn" aria-label="New NPC" onClick={openNewNegotiation}>
@@ -451,13 +482,87 @@ export function App() {
   const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(installPhoneScroll, []);
   useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return;
+      const target = event.target;
+      const typing =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        (target instanceof HTMLElement && target.isContentEditable);
+
+      if (event.key === "Escape") {
+        // Modals/popovers with their own Escape listeners close first; peel the
+        // remaining board layers one at a time.
+        if (
+          document.querySelector(
+            ".preview-drawer.open, .owlbear-panel, .edge-menu, .owlbear-send-menu",
+          )
+        ) {
+          return;
+        }
+        if (mobileNavOpen.value) {
+          setMobileNav(false);
+          return;
+        }
+        if (openConditionPickerFor.value) {
+          openConditionPickerFor.value = null;
+          return;
+        }
+        if (quickAddOpen.value) {
+          closeQuickAdd();
+          return;
+        }
+      }
+
+      const key = event.key.toLowerCase();
+      const pristineStamina =
+        target instanceof HTMLInputElement && target.dataset["pristine"] === "true";
+
+      // Ctrl/Cmd+Z undo, Ctrl+Y / Shift+Cmd+Z redo (Prep & Run views).
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        !event.altKey &&
+        (key === "z" || key === "y") &&
+        (!typing || pristineStamina) &&
+        activeEncounter().view !== "talk"
+      ) {
+        event.preventDefault();
+        if (key === "y" || event.shiftKey) redoStep();
+        else undoStep();
+        return;
+      }
+
+      // `/` or Ctrl/Cmd+K: in Run, toggle Quick-Add drawer; in Prep, focus search.
+      const isQuickAddSearchEmpty =
+        target instanceof HTMLInputElement && target.id === "quickAddSearch" && !target.value;
+      const slashTrigger =
+        event.key === "/" && !event.metaKey && !event.ctrlKey && (!typing || isQuickAddSearchEmpty);
+      const kTrigger = (event.metaKey || event.ctrlKey) && !event.altKey && key === "k";
+      if (slashTrigger || kTrigger) {
+        const currentView = activeEncounter().view;
+        if (currentView === "combat") {
+          event.preventDefault();
+          toggleQuickAdd();
+        } else if (currentView === "builder") {
+          event.preventDefault();
+          const input = document.getElementById("prepLibrarySearch") as HTMLInputElement | null;
+          input?.focus();
+          input?.select();
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+  useEffect(() => {
     if (view !== "talk") return;
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
     if (typeof window !== "undefined") window.scrollTo(0, 0);
   }, [view, activeNegId, creating]);
   return (
     <>
-      <div class="app-shell">
+      <div class={`app-shell ${quickAddOpen.value && view === "combat" ? "quick-add-open" : ""}`}>
         <Sidebar />
         <MobileNav />
         <main class="main">
@@ -552,6 +657,7 @@ export function App() {
         </main>
         <AppSettingsPanel />
       </div>
+      <QuickAddDrawer />
       <PreviewDrawer />
       <RulePreview />
       <EdgeMenu />

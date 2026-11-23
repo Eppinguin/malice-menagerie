@@ -14,8 +14,11 @@ import {
   activeFilterCount,
   addToEncounter,
   clearAllFilters,
-  filteredCatalog,
+  decrementMonster,
+  evBudgetRemaining,
+  fieldedCounts,
   hiddenFilterCount,
+  matchedCatalog,
   needsMonsterData,
   openPreview,
   qtyFor,
@@ -26,13 +29,16 @@ import {
   state,
   toggleFacetValue,
   toggleFiltersOpen,
+  toggleFitsBudget,
+  toggleInEncounter,
   setRangeFilter,
 } from "../../store.ts";
 import { beginPrepDrag, shouldSuppressClick } from "../../dnd.ts";
+import { describeRange, highlightName, type CatalogMatch } from "../../lib/browse.ts";
 import { familyLabel, fmt } from "../../lib/text.ts";
-import type { CatalogEntry, FacetKey, SortKey } from "../../types.ts";
+import type { FacetKey, SortKey } from "../../types.ts";
 import { QtyControl } from "../QtyControl.tsx";
-import { CaretIcon, GripIcon, SearchIcon } from "../Icons.tsx";
+import { CaretIcon, GripIcon, MinusIcon, SearchIcon } from "../Icons.tsx";
 
 const ROLE_CHIPS = ["all", "Horde", "Minion", "Elite", "Leader", "Solo"] as const;
 
@@ -55,13 +61,39 @@ function SourceStatus() {
 function FilterBar() {
   const ui = state.value.ui;
   const hidden = hiddenFilterCount(ui);
+  const fielded = fieldedCounts();
+  const budget = evBudgetRemaining();
   return (
     <div class="filter-bar">
       <div class="filter-row primary-filters">
+        {(fielded.size > 0 || ui.inEncounter) && (
+          <button
+            class={`chip ${ui.inEncounter ? "active" : ""}`}
+            aria-pressed={ui.inEncounter}
+            title="Only monsters currently in this encounter"
+            onClick={toggleInEncounter}
+          >
+            In encounter <i class="chip-count">{fielded.size}</i>
+          </button>
+        )}
+        <button
+          class={`chip ${ui.fitsBudget ? "active" : ""}`}
+          aria-pressed={ui.fitsBudget}
+          disabled={budget.remaining <= 0 && !ui.fitsBudget}
+          title={
+            budget.remaining <= 0
+              ? "At or above the Extreme EV threshold"
+              : `Monsters that stay within ${fmt(budget.remaining)} EV left before ${budget.nextBand}`
+          }
+          onClick={toggleFitsBudget}
+        >
+          Fits EV
+        </button>
         {ROLE_CHIPS.map((role) => (
           <button
             key={role}
             class={`chip ${ui.role === role ? "active" : ""}`}
+            aria-pressed={ui.role === role}
             onClick={() => setRole(role)}
           >
             {role === "all" ? "All" : role}
@@ -238,7 +270,7 @@ function FiltersPanel() {
   );
 }
 
-/** Eye glyph for the "preview statblock" button, replacing the stray emoji. */
+/** Eye glyph for the "preview statblock" button. */
 function EyeIcon() {
   return (
     <svg
@@ -257,7 +289,8 @@ function EyeIcon() {
   );
 }
 
-function MonsterCard({ entry }: { entry: CatalogEntry }) {
+function MonsterCard({ match, here }: { match: CatalogMatch; here: number }) {
+  const { entry, nameHits, hit } = match;
   const m = entry.monster;
   const startDrag = (event: PointerEvent, card: HTMLElement) => {
     beginPrepDrag(
@@ -287,7 +320,17 @@ function MonsterCard({ entry }: { entry: CatalogEntry }) {
         <div class="monster-main">
           <div class="monster-title-row">
             <GripIcon class="card-drag-handle" />
-            <h3>{entry.derivedName}</h3>
+            <h3>
+              {highlightName(entry.derivedName, nameHits).map((run, i) =>
+                run.hit ? (
+                  <mark class="search-hit" key={i}>
+                    {run.text}
+                  </mark>
+                ) : (
+                  run.text
+                ),
+              )}
+            </h3>
             <span class="tag">{familyLabel(entry.familyPath)}</span>
           </div>
           <div class="monster-meta">
@@ -311,11 +354,38 @@ function MonsterCard({ entry }: { entry: CatalogEntry }) {
     .join(" · ");
   return (
     <article class="monster-card" onPointerDown={(event) => startDrag(event, event.currentTarget)}>
-      <div class="monster-main preview-target" title="Click to preview statblock" onClick={preview}>
+      <div
+        class="monster-main preview-target"
+        tabIndex={0}
+        role="button"
+        title="Click to preview statblock"
+        onClick={preview}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            preview();
+          }
+        }}
+      >
         <div class="monster-title-row">
           <GripIcon class="card-drag-handle" />
-          <h3>{m.name}</h3>
+          <h3>
+            {highlightName(m.name, nameHits).map((run, i) =>
+              run.hit ? (
+                <mark class="search-hit" key={i}>
+                  {run.text}
+                </mark>
+              ) : (
+                run.text
+              ),
+            )}
+          </h3>
           <span class="tag">{m.organization}</span>
+          {here > 0 ? (
+            <span class="fielded-pill" title={`${here} in this encounter`}>
+              ×{here}
+            </span>
+          ) : null}
         </div>
         <div class="monster-meta">
           <span>
@@ -326,12 +396,25 @@ function MonsterCard({ entry }: { entry: CatalogEntry }) {
             EV <b>{m.evLabel}</b>
           </span>
           <span>{m.size}</span>
+          {hit ? <span class="monster-hit-gloss">· {hit}</span> : null}
         </div>
         <div class="monster-preview">
           {featurePreview || m.ancestry || familyLabel(m.familyPath)}
         </div>
       </div>
       <div class="add-controls">
+        {here > 0 ? (
+          <button
+            class="icon-button fielded-trim"
+            title={`Remove one ${m.name} from encounter · Undo available`}
+            aria-label={`Remove one ${m.name} from encounter`}
+            onClick={() => {
+              if (!shouldSuppressClick()) decrementMonster(m.path);
+            }}
+          >
+            <MinusIcon />
+          </button>
+        ) : null}
         <button
           class="preview-button"
           title="Preview statblock"
@@ -373,38 +456,70 @@ function LibraryList() {
   }
 
   const ui = state.value.ui;
-  const matches = filteredCatalog();
+  const { matches, parsed, hiddenByFilters } = matchedCatalog();
   const visible = matches.slice(0, MAX_LIBRARY_RESULTS);
   const stillLoading = hydratedCount.value < catalog.value.length;
   const filters = activeFilterCount(ui);
+  const fielded = fieldedCounts();
+  const budget = evBudgetRemaining();
+
+  const onListKeyDown = (event: KeyboardEvent) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    const rows = Array.from(
+      (event.currentTarget as HTMLElement).querySelectorAll<HTMLElement>(
+        ".monster-main.preview-target",
+      ),
+    );
+    const index = rows.findIndex((row) => row === document.activeElement);
+    if (index < 0) return;
+    event.preventDefault();
+    if (event.key === "ArrowUp" && index === 0) {
+      document.getElementById("prepLibrarySearch")?.focus();
+    } else {
+      const next = Math.max(
+        0,
+        Math.min(rows.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)),
+      );
+      rows[next]?.focus();
+    }
+  };
 
   if (!visible.length) {
     const note =
-      filters && stillLoading
+      (filters || parsed.level || parsed.ev) && stillLoading
         ? "No matches yet — statblock data is still loading."
         : filters
-          ? "No monsters match these filters."
-          : "No matching monsters.";
+          ? `No monsters match${ui.search.trim() ? ` “${ui.search.trim()}”` : " these filters"}.`
+          : `No matching monsters${ui.search.trim() ? ` for “${ui.search.trim()}”` : ""}.`;
     return (
       <div class="monster-library panel" id="monsterLibrary">
         <div class="empty-state">
-          {note}
-          {filters ? (
+          <p>{note}</p>
+          {hiddenByFilters > 0 ? (
+            <button class="secondary" onClick={clearAllFilters}>
+              Show {hiddenByFilters} more outside filters
+            </button>
+          ) : filters ? (
             <button class="secondary" onClick={clearAllFilters}>
               Clear filters
             </button>
-          ) : null}
+          ) : (
+            <small>Try a family, an ability like “grab”, or “lv 1-3 ev&lt;=12”.</small>
+          )}
         </div>
       </div>
     );
   }
 
   return (
-    <div class="monster-library panel" id="monsterLibrary">
+    <div class="monster-library panel" id="monsterLibrary" onKeyDown={onListKeyDown}>
       <div class="library-results-bar">
-        <span>
+        <span class="results-meta">
           {matches.length} result{matches.length === 1 ? "" : "s"}
-          {needsMonsterData(ui) && stillLoading ? (
+          {parsed.level ? <i class="query-token">{describeRange("Level", parsed.level)}</i> : null}
+          {parsed.ev ? <i class="query-token">{describeRange("EV", parsed.ev)}</i> : null}
+          {ui.fitsBudget ? <i class="query-token">≤ {fmt(budget.remaining)} EV</i> : null}
+          {needsMonsterData(ui, parsed) && stillLoading ? (
             <span class="results-loading">loading more…</span>
           ) : null}
         </span>
@@ -412,8 +527,12 @@ function LibraryList() {
           <span>Showing first {MAX_LIBRARY_RESULTS}</span>
         ) : null}
       </div>
-      {visible.map((entry) => (
-        <MonsterCard key={entry.path} entry={entry} />
+      {visible.map((match) => (
+        <MonsterCard
+          key={match.entry.path}
+          match={match}
+          here={fielded.get(match.entry.path) ?? 0}
+        />
       ))}
     </div>
   );
@@ -421,6 +540,25 @@ function LibraryList() {
 
 export function LibraryColumn() {
   const ui = state.value.ui;
+  const onSearchKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowDown") {
+      const first = document.querySelector<HTMLElement>(
+        "#monsterLibrary .monster-main.preview-target",
+      );
+      if (first) {
+        event.preventDefault();
+        first.focus();
+      }
+    } else if (event.key === "Enter" && ui.search.trim()) {
+      const first = document.querySelector<HTMLElement>(
+        "#monsterLibrary .monster-main.preview-target",
+      );
+      if (first) {
+        event.preventDefault();
+        first.click();
+      }
+    }
+  };
   return (
     <section class="library-column">
       <div class="section-heading">
@@ -431,10 +569,13 @@ export function LibraryColumn() {
         <label class="search">
           <SearchIcon />
           <input
-            placeholder="Search monsters"
+            id="prepLibrarySearch"
+            placeholder="Name, ability, lv 2, ev<=12…"
             value={ui.search}
+            onKeyDown={onSearchKeyDown}
             onInput={(event) => setSearch(event.currentTarget.value)}
           />
+          <kbd aria-hidden="true">/</kbd>
         </label>
       </div>
       <FilterBar />

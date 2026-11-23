@@ -8,21 +8,32 @@ import {
   createEncounter,
   deleteEncounter,
   duplicateEncounter,
+  hasCombatProgress,
   renameEncounter,
+  resetCombat,
   selectEncounter,
   state,
 } from "../store.ts";
 import type { Encounter } from "../types.ts";
-import { CloseIcon, CopyIcon, PencilIcon, PlusIcon } from "./Icons.tsx";
+import { CloseIcon, CopyIcon, PencilIcon, PlusIcon, ResetIcon } from "./Icons.tsx";
 
 function encounterSummary(enc: Encounter): string {
   const enemies = enc.items.reduce((sum, item) => sum + item.count, 0);
-  if (enc.combat.active) return `In combat · round ${enc.combat.round}`;
+  if (hasCombatProgress(enc))
+    return `Round ${enc.combat.round} · ${enemies} ${enemies === 1 ? "enemy" : "enemies"}`;
   if (!enemies) return "Empty";
   return `${enemies} ${enemies === 1 ? "enemy" : "enemies"}`;
 }
 
-function EncounterRow({ enc, active }: { enc: Encounter; active: boolean }) {
+function EncounterRow({
+  enc,
+  active,
+  onNavigate,
+}: {
+  enc: Encounter;
+  active: boolean;
+  onNavigate?: (() => void) | undefined;
+}) {
   const [editing, setEditing] = useState(false);
 
   const commitName = (value: string) => {
@@ -35,7 +46,10 @@ function EncounterRow({ enc, active }: { enc: Encounter; active: boolean }) {
       class={`encounter-row ${active ? "active" : ""}`}
       aria-selected={active}
       onClick={() => {
-        if (!editing) selectEncounter(enc.id);
+        if (!editing) {
+          selectEncounter(enc.id);
+          onNavigate?.();
+        }
       }}
     >
       <div class="encounter-row-main">
@@ -83,6 +97,16 @@ function EncounterRow({ enc, active }: { enc: Encounter; active: boolean }) {
         >
           <CopyIcon />
         </button>
+        {hasCombatProgress(enc) ? (
+          <button
+            class="icon-button"
+            title="Reset combat to Round 1 · Undo available"
+            aria-label={`Reset combat for ${enc.name}`}
+            onClick={() => void resetCombat(enc.id)}
+          >
+            <ResetIcon />
+          </button>
+        ) : null}
         {(() => {
           const linked = linkedTokensForEncounter(enc.id);
           const deleteBlocked =
@@ -94,28 +118,26 @@ function EncounterRow({ enc, active }: { enc: Encounter; active: boolean }) {
               title={
                 linked > 0 && owlbearBusy.value
                   ? "Wait for Owlbear sync to finish before deleting"
-                  : "Delete encounter"
+                  : "Delete encounter · Undo available"
               }
               aria-label={`Delete ${enc.name}`}
               disabled={deleteBlocked}
               onClick={async () => {
                 const count = linkedTokensForEncounter(enc.id);
-                const prompt = count
-                  ? `Delete “${enc.name}”? This will also remove ${count} linked ${count === 1 ? "token" : "tokens"} from the active Owlbear scene and can’t be undone.`
-                  : `Delete “${enc.name}”? This can’t be undone.`;
+                if (!count) {
+                  deleteEncounter(enc.id);
+                  return;
+                }
+                const prompt = `Delete “${enc.name}”? This will also remove ${count} linked ${count === 1 ? "token" : "tokens"} from the active Owlbear scene.`;
                 if (!confirm(prompt)) return;
-                if (count) {
-                  const deleted = await cleanupEncounterTokens(enc.id);
-                  if (deleted >= 0) {
-                    deleteEncounter(enc.id);
-                  } else if (
-                    confirm(
-                      `Could not remove linked tokens for “${enc.name}” from Owlbear. Delete the encounter in Malice anyway (tokens will stay on the map)?`,
-                    )
-                  ) {
-                    deleteEncounter(enc.id);
-                  }
-                } else {
+                const deleted = await cleanupEncounterTokens(enc.id);
+                if (deleted >= 0) {
+                  deleteEncounter(enc.id);
+                } else if (
+                  confirm(
+                    `Could not remove linked tokens for “${enc.name}” from Owlbear. Delete the encounter in Malice anyway (tokens will stay on the map)?`,
+                  )
+                ) {
                   deleteEncounter(enc.id);
                 }
               }}
@@ -129,20 +151,32 @@ function EncounterRow({ enc, active }: { enc: Encounter; active: boolean }) {
   );
 }
 
-export function EncounterSwitcher() {
+export function EncounterSwitcher({ onNavigate }: { onNavigate?: () => void } = {}) {
   const { encounters, activeEncounterId } = state.value;
   return (
     <section class="encounter-switcher">
       <div class="encounter-switcher-head">
         <h2 class="spine-heading">Encounters</h2>
-        <button class="mini-button" title="New encounter" onClick={() => createEncounter()}>
+        <button
+          class="mini-button"
+          title="New encounter"
+          onClick={() => {
+            createEncounter();
+            onNavigate?.();
+          }}
+        >
           <PlusIcon />
           New
         </button>
       </div>
       <div class="encounter-list">
         {encounters.map((enc) => (
-          <EncounterRow key={enc.id} enc={enc} active={enc.id === activeEncounterId} />
+          <EncounterRow
+            key={enc.id}
+            enc={enc}
+            active={enc.id === activeEncounterId}
+            onNavigate={onNavigate}
+          />
         ))}
       </div>
     </section>

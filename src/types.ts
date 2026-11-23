@@ -94,6 +94,8 @@ export interface UIState {
   levelMax: number | null;
   evMin: number | null;
   evMax: number | null;
+  fitsBudget: boolean;
+  inEncounter: boolean;
 }
 
 /**

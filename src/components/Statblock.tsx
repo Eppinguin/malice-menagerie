@@ -14,7 +14,7 @@ import {
 import type { EdgeState, PowerRollResult } from "../types.ts";
 import { rollPress } from "./combat/EdgeMenu.tsx";
 import type { FeatureEffect, Monster, MonsterFeature } from "../types.ts";
-import { CaretIcon, ExternalIcon, MinusIcon, PlusIcon } from "./Icons.tsx";
+import { CaretIcon, ExternalIcon, MinusIcon, PlusIcon, TrashIcon } from "./Icons.tsx";
 import type { ComponentChildren } from "preact";
 import { signal } from "@preact/signals";
 import { useEffect, useRef } from "preact/hooks";
@@ -245,6 +245,7 @@ export function LaneHeader({
   nav,
   scope = "lane",
   onLevel,
+  onRemove,
 }: {
   monster: Monster;
   nav?: LaneNav;
@@ -254,6 +255,8 @@ export function LaneHeader({
   /** Lets the Director put this statblock at another level; returns the
       key the statblock is at afterwards, or null if nothing changed. */
   onLevel?: (level: number) => string | null;
+  /** Removes every creature/squad of this statblock from the encounter. */
+  onRemove?: { count: number; onClick: () => void };
 }) {
   const was = monster.printed;
   const speed = effectiveSpeed(monster, activeEncounter().combat.activeEffects);
@@ -292,12 +295,28 @@ export function LaneHeader({
         <div class="lane-band-text">
           <div class="lane-band-row">
             <h2>{monster.name}</h2>
-            <span
-              class="ev-badge"
-              dangerouslySetInnerHTML={{
-                __html: richText(`EV ${monster.evLabel}`, was && `EV ${was.evLabel}`),
-              }}
-            />
+            <div class="lane-band-right">
+              <span
+                class="ev-badge"
+                dangerouslySetInnerHTML={{
+                  __html: richText(`EV ${monster.evLabel}`, was && `EV ${was.evLabel}`),
+                }}
+              />
+              {onRemove ? (
+                <button
+                  type="button"
+                  class="icon-button lane-remove"
+                  title={`Remove ${onRemove.count > 1 ? `all ${onRemove.count} ` : ""}${monster.name} · Undo available`}
+                  aria-label={`Remove all ${monster.name} from encounter`}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onRemove.onClick();
+                  }}
+                >
+                  <TrashIcon />
+                </button>
+              ) : null}
+            </div>
           </div>
           <div class="lane-band-row lane-keys">
             <span class="lane-level">

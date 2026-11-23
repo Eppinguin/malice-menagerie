@@ -1487,10 +1487,10 @@ input[type="number"]::-webkit-inner-spin-button {
   color: var(--ink-3);
 }
 .add-controls {
-  display: grid;
-  grid-template-columns: auto auto auto;
+  display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 .add-controls .primary {
   padding: 10px 14px;
@@ -1594,10 +1594,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .encounter-column > :not(.panel-heading) {
   margin-left: 14px;
   margin-right: 14px;
-}
-.encounter-column > .primary.wide {
-  width: calc(100% - 28px);
-  margin-bottom: 14px;
 }
 
 .balance-card {
@@ -3943,25 +3939,61 @@ body.dragging-encounter-entry .monster-library.drop-remove-active {
   font-size: 14px;
   color: var(--ink-3);
 }
-/* On a phone the open strip keeps to one line: the title steps down and
-   the count, which the open panel already shows, goes to screen readers. */
+/* On a phone the strip keeps Malice + Undo/Redo/+ Add on one row: the title
+   steps down and the closed count goes to screen readers so the tools never
+   wrap into an orphan line. Active effects and group filters drop cleanly
+   below when present. */
 @media (max-width: 620px) {
-  .malice-dock-header {
-    gap: 10px;
+  .run-strip {
+    gap: 6px 8px;
+    min-height: 44px;
+    padding: 4px 0;
   }
-  .malice-dock-toggle {
+  .malice-dock-header {
+    flex: 1 1 auto;
     gap: 8px;
   }
-  .malice-dock-toggle strong {
-    font-size: 17px;
+  .malice-dock-toggle {
+    gap: 6px;
+    padding: 6px 0;
   }
-  .malice-dock.open .malice-dock-count {
+  .malice-dock-toggle .malice-skull {
+    font-size: 18px;
+  }
+  .malice-dock-toggle strong {
+    font-size: 16px;
+  }
+  .malice-dock-count {
     position: absolute;
     width: 1px;
     height: 1px;
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
+  }
+  .active-effects {
+    order: 2;
+    flex: 1 0 100%;
+  }
+  .run-strip .group-filter-bar {
+    order: 3;
+    flex: 1 0 100%;
+    width: 100%;
+    padding-top: 6px;
+    border-top: 1px solid var(--rule);
+    gap: 8px;
+  }
+  .combat-group-rail {
+    flex: 1 1 auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    padding-bottom: 2px;
+  }
+  .combat-group-rail::-webkit-scrollbar {
+    display: none;
+  }
+  .combat-group-button {
+    flex: 0 0 auto;
   }
 }
 .dock-loading {
@@ -6479,7 +6511,7 @@ button.malice-cost:focus-visible:not(.short) {
   justify-content: space-between;
   gap: 12px;
   margin: 0 18px;
-  padding: 14px 0 12px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 0 12px;
   border-bottom: 3px double var(--ink);
 }
 .preview-drawer-title {
@@ -6504,7 +6536,7 @@ button.malice-cost:focus-visible:not(.short) {
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 10px;
-  padding: 12px 18px;
+  padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--rule-strong);
   background: var(--sheet);
 }
@@ -6803,7 +6835,8 @@ body.preview-open {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 18px 0 18px 16px;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 0
+    calc(18px + env(safe-area-inset-bottom, 0px)) 16px;
   background: var(--cloth);
   color: var(--on-cloth);
   box-shadow: var(--shadow-drawer);
@@ -6844,6 +6877,15 @@ body.preview-open {
 }
 .mobile-nav .encounter-row-actions {
   opacity: 1;
+  gap: 3px;
+}
+.mobile-nav .encounter-row-actions .icon-button {
+  width: 34px;
+  height: 34px;
+}
+.mobile-nav .encounter-row-actions .icon-button .icon {
+  width: 15px;
+  height: 15px;
 }
 @keyframes fade-in {
   to {
@@ -7276,9 +7318,8 @@ body.dragging-encounter-entry .monster-library::before {
   font-size: 13.5px;
 }
 
-/* Controls that share a row share a height: the running head's four
-   controls, and the group filter's buttons with its "All". */
-.combat-controls > .prev-round,
+/* Controls that share a row share a height: the running head's three
+   combat controls, and the group filter's buttons with its "All". */
 .malice-counter,
 .acted-tally,
 .round-progress .primary {
@@ -7342,31 +7383,8 @@ body.dragging-encounter-entry .monster-library::before {
   .search {
     min-width: 220px;
   }
-  /* No room for the label: Prev round becomes an undo square and moves in
-     beside Next round, so the round's two steps sit together. */
   .round-progress {
     display: contents;
-  }
-  .combat-controls > .malice-counter {
-    order: 0;
-  }
-  .acted-tally {
-    order: 1;
-  }
-  .combat-controls > .prev-round {
-    order: 2;
-    width: 50px;
-    padding: 0 !important;
-  }
-  .combat-controls > .prev-round .icon {
-    width: 20px;
-    height: 20px;
-  }
-  .round-progress .primary {
-    order: 3;
-  }
-  .prev-round-label {
-    display: none;
   }
 }
 @media (max-width: 900px) {
@@ -7422,11 +7440,15 @@ body.dragging-encounter-entry .monster-library::before {
   .topbar {
     margin: 0 14px;
     min-height: 0;
-    padding: 12px 0 10px;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 0 10px;
     display: grid;
-    grid-template-columns: 40px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr);
     align-items: center;
-    gap: 10px 12px;
+    gap: 10px 10px;
+  }
+  .menu-toggle {
+    width: 44px;
+    height: 44px;
   }
   .topbar-title {
     flex-wrap: wrap;
@@ -7444,20 +7466,25 @@ body.dragging-encounter-entry .monster-library::before {
     width: 100%;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
   }
   .top-actions > .secondary {
     display: none;
   }
   .top-actions > .primary {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 44px;
+  }
+  .top-actions .history-controls .icon-button {
+    width: 44px;
+    height: 44px;
   }
   /* On Talk, keep the phone topbar to one slim row (~64px) with a compact
      "+ New NPC" button so the live legend stays visible without wasting
      vertical space. */
   .topbar.topbar-talk {
     grid-template-columns: 44px minmax(0, 1fr) auto;
-    padding: 8px 0;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) 0 8px;
     gap: 6px 10px;
   }
   .topbar.topbar-talk .topbar-title {
@@ -7492,17 +7519,17 @@ body.dragging-encounter-entry .monster-library::before {
     grid-column: 1 / -1;
   }
   .malice-counter {
-    grid-template-columns: auto 34px minmax(40px, 1fr) 34px auto;
+    grid-template-columns: auto 38px minmax(40px, 1fr) 38px auto;
     min-height: 48px;
-    padding: 4px 12px;
+    padding: 4px 10px;
   }
   .malice-counter strong {
     min-width: 40px;
     font-size: 30px;
   }
   .malice-counter .square {
-    width: 34px;
-    height: 34px;
+    width: 38px;
+    height: 38px;
   }
   .malice-next {
     margin-left: 4px;
@@ -7516,14 +7543,10 @@ body.dragging-encounter-entry .monster-library::before {
   .acted-tally strong {
     font-size: 20px;
   }
-  .combat-controls > .prev-round {
-    width: 46px;
-    min-height: 46px;
-  }
   .round-progress .primary {
     min-height: 46px;
     padding-inline: 12px;
-    font-size: 14px;
+    font-size: 15px;
   }
   .view {
     padding: 16px 14px 28px;
@@ -7531,7 +7554,7 @@ body.dragging-encounter-entry .monster-library::before {
   .combat-view.active {
     height: auto;
     min-height: 100%;
-    padding: 12px 14px 16px;
+    padding: 10px 14px 16px;
   }
   .party-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7560,11 +7583,31 @@ body.dragging-encounter-entry .monster-library::before {
     gap: 10px;
   }
   .add-controls {
-    grid-template-columns: auto auto 1fr;
-    margin-left: 23px;
+    width: 100%;
+    margin-left: 0;
+  }
+  .add-controls .primary {
+    flex: 1 1 auto;
+    min-height: 40px;
+  }
+  .add-controls .preview-button,
+  .add-controls .fielded-trim {
+    width: 40px;
+    height: 40px;
+  }
+  .add-controls .qty-control {
+    height: 40px;
   }
   .group-filter-bar {
     margin-left: 0;
+  }
+  .roster-groups {
+    max-height: none;
+    overflow: visible;
+  }
+  .encounter-name-input,
+  .squad-captain-select {
+    font-size: 16px;
   }
   .talk-head {
     padding: 10px 12px 12px;
@@ -7713,13 +7756,13 @@ body.dragging-encounter-entry .monster-library::before {
   .chrome-hidden .monster-lane .lane-band {
     top: 0;
   }
-  /* The arrows run the band's full height, so the whole edge of the head
-     is the tap; the page count sits under the way forward. */
+  /* The arrows run the band's full height, separated from the header text by
+     hairlines so paging taps stay clear of the lane remove button. */
   .lane-band.has-nav {
     display: grid;
-    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
     align-items: stretch;
-    gap: 0 2px;
+    gap: 0;
     padding: 0;
   }
   /* A long EV ("EV 4 for four minions") folds under itself at the right
@@ -7733,7 +7776,11 @@ body.dragging-encounter-entry .monster-library::before {
   .lane-band-text {
     align-self: center;
     min-width: 0;
-    padding: 9px 0;
+    padding: 9px 8px;
+  }
+  .lane-nav.prev {
+    border-top-left-radius: inherit;
+    border-right: 1px solid var(--rule);
   }
   .lane-nav {
     display: grid;
@@ -7748,9 +7795,6 @@ body.dragging-encounter-entry .monster-library::before {
     transition:
       color 0.12s ease,
       background-color 0.12s ease;
-  }
-  .lane-nav.prev {
-    border-top-left-radius: inherit;
   }
   .lane-nav svg {
     width: 20px;
@@ -7772,6 +7816,7 @@ body.dragging-encounter-entry .monster-library::before {
     display: flex;
     flex-direction: column;
     border-top-right-radius: inherit;
+    border-left: 1px solid var(--rule);
   }
   .lane-nav-end .lane-nav {
     flex: 1 1 auto;
@@ -7883,13 +7928,16 @@ body.dragging-encounter-entry .monster-library::before {
     max-height: none;
     overflow: visible;
   }
+  .library-results-bar {
+    position: static;
+  }
   .section-heading {
     display: contents;
   }
   .section-heading > div {
     margin-bottom: 10px;
   }
-  .search {
+  .library-column .search {
     position: sticky;
     display: block;
     width: auto;
@@ -7900,11 +7948,14 @@ body.dragging-encounter-entry .monster-library::before {
     background: var(--page);
     transition: top 0.28s var(--ease-out);
   }
-  .chrome-hidden .search {
+  .chrome-hidden .library-column .search {
     top: 0;
   }
-  .search .icon {
+  .library-column .search .icon {
     left: 25px;
+  }
+  .library-column .search kbd {
+    right: 24px;
   }
   .search input {
     min-height: 46px;
@@ -8000,6 +8051,11 @@ body.dragging-encounter-entry .monster-library::before {
     right: 14px;
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     max-width: none;
+    justify-content: space-between;
+    text-align: left;
+  }
+  .toast:not(:has(.toast-action)) {
+    justify-content: center;
     text-align: center;
   }
   .encounter-bar-shown .toast {
@@ -9177,5 +9233,989 @@ body.dragging-encounter-entry .monster-library::before {
     left: 12px;
     max-height: calc(100dvh - 24px);
     width: min(380px, calc(100vw - 24px));
+  }
+}
+
+/* ==========================================================================
+   Quick & Easy UX: Undo/Redo, Quick-Add Drawer, Smart Search, Stamina Hint,
+   Lane Actions & Spent-Lane Hygiene
+   ========================================================================== */
+
+/* Round step-back chevron beside "Round N", and Run-strip board utilities */
+.topbar-heading {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+/* Desktop keeps the step-back chevron beside "Round N"; phones put it beside
+   "Next round" in the combat controls row (matching main). */
+.round-progress .prev-round {
+  display: none;
+}
+.round-back {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--ink-2);
+}
+.round-back .icon {
+  width: 16px;
+  height: 16px;
+}
+.round-back:hover {
+  border-color: var(--ink);
+  background: var(--tint);
+  color: var(--ink);
+}
+.round-back:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+/* Run strip: Malice + effects + Groups left; Undo/Redo + Add anchored right */
+.run-strip .group-filter-bar {
+  margin-left: 0;
+}
+.run-strip-tools {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.run-strip-tools .history-controls .icon-button {
+  width: 34px;
+  height: 32px;
+}
+.run-strip-tools .quick-add-trigger {
+  min-height: 34px;
+  padding: 0 11px;
+}
+
+.history-controls {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: transparent;
+}
+.history-controls .icon-button {
+  width: 38px;
+  height: 40px;
+  border: 0;
+  border-radius: 0;
+  color: var(--ink-2);
+}
+.history-controls .icon-button + .icon-button {
+  border-left: 1px solid var(--rule);
+}
+.history-controls .icon-button:hover:not(:disabled) {
+  background: var(--tint);
+  color: var(--ink);
+}
+.history-controls .icon-button:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: -2px;
+}
+.history-controls .icon-button:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+.history-controls .icon-button .icon {
+  width: 16px;
+  height: 16px;
+}
+
+.quick-add-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.quick-add-trigger .icon {
+  width: 15px;
+  height: 15px;
+}
+.quick-add-trigger:focus-visible,
+.lane-action-btn:focus-visible,
+.qa-group-pill:focus-visible,
+.qa-group-remove:focus-visible,
+.qa-group-add:focus-visible,
+.field-stepper button:focus-visible,
+.fielded-trim:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+}
+
+/* Toast Undo/Redo icon alignment */
+.toast-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.toast-action .icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Prep footer: Run + optional Reset combat */
+.encounter-run-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.encounter-run-foot .primary {
+  flex: 1 1 160px;
+}
+
+/* Search kbd hint (anchored inside right edge of input), inline parsed tokens,
+   match highlights & fielded badge */
+.search {
+  position: relative;
+  display: block;
+}
+.search input {
+  padding-right: 34px;
+}
+.search kbd {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 6px 1px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink-3);
+  pointer-events: none;
+}
+.search:focus-within kbd {
+  border-color: var(--pen-line);
+  color: var(--pen);
+  background: var(--pen-wash);
+}
+.monster-main.preview-target:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+.search-hit {
+  background: transparent;
+  color: var(--pen);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--pen-line);
+  text-underline-offset: 2px;
+}
+.results-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.query-token {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-style: normal;
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.chip-count {
+  margin-left: 4px;
+  font-style: normal;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  opacity: 0.85;
+}
+.fielded-pill {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border: 1px solid var(--pen-line);
+  border-radius: var(--radius);
+  background: var(--pen-wash);
+  color: var(--pen);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums lining-nums;
+  line-height: 1.2;
+}
+.fielded-trim {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--down);
+}
+.fielded-trim:hover {
+  border-color: var(--down);
+  background: var(--tint);
+}
+.monster-hit-gloss {
+  color: var(--pen);
+  font-weight: 600;
+}
+
+/* Lane header right cluster: EV badge + heavy-ink lane remove button */
+.lane-band-right {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 6px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.lane-remove {
+  width: 26px;
+  height: 26px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-2);
+  opacity: 0.65;
+  transition:
+    opacity 0.12s ease,
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.lane-remove .icon {
+  width: 15px;
+  height: 15px;
+}
+.lane-remove:hover,
+.lane-remove:focus-visible {
+  opacity: 1;
+  border-color: var(--down);
+  background: var(--page);
+  color: var(--down);
+}
+
+/* Spent-lane visual step-back (all standing acted, or all down).
+   Steps primary ink down to --ink-2 without multiplying opacity so --ink-3
+   keeps WCAG AA contrast on both Day and Night pages. */
+.monster-lane[data-spent="true"] .lane-band {
+  background: var(--page);
+  border-color: var(--rule);
+}
+.monster-lane[data-spent="true"] .lane-band h2,
+.monster-lane[data-spent="true"] .lane-core-stats b,
+.monster-lane[data-spent="true"] .statblock-body {
+  color: var(--ink-2);
+}
+.monster-lane[data-spent="true"] .lane-keys,
+.monster-lane[data-spent="true"] .ev-badge {
+  color: var(--ink-3);
+}
+.monster-lane[data-spent="true"]:hover .statblock-body,
+.monster-lane[data-spent="true"]:focus-within .statblock-body {
+  color: var(--ink);
+}
+
+/* Lane utility row: + Add another / N more / N down · show */
+.lane-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 2px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.lane-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.lane-action-btn .icon {
+  width: 13px;
+  height: 13px;
+}
+.lane-action-btn:hover {
+  border-color: var(--ink);
+  background: var(--tint);
+  color: var(--ink);
+}
+.lane-add-btn {
+  color: var(--pen);
+  border-color: var(--pen-line);
+}
+.lane-add-btn:hover {
+  border-color: var(--pen);
+  background: var(--pen-wash);
+  color: var(--pen);
+}
+.lane-down-toggle {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Focused Stamina command micro-hint: lift the focused slip above sibling
+   slips so the syntax hint is never clipped behind the next creature card. */
+.instance-card:focus-within {
+  z-index: 6;
+}
+.stamina-field {
+  position: relative;
+}
+.stamina-hint {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 5px);
+  z-index: 30;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--band);
+  color: var(--on-band);
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.25;
+  box-shadow: var(--shadow-lift);
+  pointer-events: none;
+}
+.stamina-hint b {
+  font-weight: 700;
+  color: var(--on-band);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Empty Run state */
+.combat-empty {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  max-width: 440px;
+  margin: 40px auto;
+  padding: 28px 24px;
+}
+.combat-empty h2 {
+  font-family: var(--font-head);
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.combat-empty p {
+  font-family: var(--font-prose);
+  font-size: 14.5px;
+  color: var(--ink-2);
+  max-width: 38ch;
+}
+.combat-empty kbd {
+  padding: 1px 6px;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-family: var(--font-tab);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.combat-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.combat-empty-actions .primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.combat-empty-actions .icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Quick-Add Slide-Over Drawer (Run view) */
+.quick-add-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 54;
+  background: var(--scrim);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.quick-add-backdrop.open {
+  opacity: 1;
+}
+.quick-add-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 56;
+  width: min(396px, 94vw);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  border-left: 1px solid var(--rule-strong);
+  background: var(--page);
+  box-shadow: var(--shadow-drawer);
+  transform: translateX(100%);
+  transition: transform 0.24s var(--ease-out);
+}
+.quick-add-drawer.open {
+  transform: translateX(0);
+}
+@media (min-width: 960px) {
+  .app-shell.quick-add-open .main {
+    padding-right: 396px;
+  }
+}
+@media (max-width: 959px) {
+  .quick-add-backdrop {
+    display: block;
+  }
+  body.quick-add-open {
+    overflow: hidden;
+  }
+}
+.qa-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px 12px;
+  background: var(--tint);
+  border-bottom: 3px double var(--ink);
+}
+.qa-head-title {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.qa-head-title h2 {
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.qa-budget {
+  font-size: 13px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qa-budget b {
+  color: var(--ink);
+}
+.qa-budget strong[data-tier="trivial"] {
+  color: var(--diff-trivial);
+}
+.qa-budget strong[data-tier="easy"] {
+  color: var(--diff-easy);
+}
+.qa-budget strong[data-tier="standard"] {
+  color: var(--diff-standard);
+}
+.qa-budget strong[data-tier="hard"] {
+  color: var(--diff-hard);
+}
+.qa-budget strong[data-tier="extreme"] {
+  color: var(--diff-extreme);
+  text-decoration: underline;
+}
+.qa-budget-left {
+  color: var(--ink-3);
+}
+.qa-head .icon-button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.qa-controls {
+  display: grid;
+  gap: 10px;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--page);
+}
+.qa-group-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qa-bar-label {
+  flex: 0 0 auto;
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.qa-group-pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+.qa-group-chip {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-2);
+  overflow: hidden;
+}
+.qa-group-chip[data-group="0"] {
+  --g-color: var(--g0);
+}
+.qa-group-chip[data-group="1"] {
+  --g-color: var(--g1);
+}
+.qa-group-chip[data-group="2"] {
+  --g-color: var(--g2);
+}
+.qa-group-chip[data-group="3"] {
+  --g-color: var(--g3);
+}
+.qa-group-chip[data-group="4"] {
+  --g-color: var(--g4);
+}
+.qa-group-chip[data-group="5"] {
+  --g-color: var(--g5);
+}
+.qa-group-chip.active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--page);
+}
+.qa-group-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: inherit;
+  cursor: pointer;
+}
+.qa-group-pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 1px;
+  background: var(--g-color, var(--ink-3));
+}
+.qa-group-remove {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.qa-group-remove .icon {
+  width: 12px;
+  height: 12px;
+}
+.qa-group-remove:hover {
+  background: var(--tint);
+  color: var(--down);
+}
+.qa-group-chip.active .qa-group-remove {
+  border-left-color: color-mix(in srgb, var(--page) 25%, transparent);
+  color: color-mix(in srgb, var(--page) 75%, transparent);
+}
+.qa-group-chip.active .qa-group-remove:hover {
+  background: var(--ink-hover);
+  color: var(--page);
+}
+.qa-group-add {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+.qa-group-add:hover {
+  border-color: var(--ink);
+  background: var(--tint);
+  color: var(--ink);
+}
+.qa-group-add .icon {
+  width: 14px;
+  height: 14px;
+}
+.qa-search {
+  min-width: 0;
+  width: 100%;
+}
+.qa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.qa-chips .chip {
+  padding: 4px 9px;
+  font-size: 12.5px;
+}
+.qa-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+.qa-count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qa-count b {
+  color: var(--ink);
+}
+
+.qa-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 0 calc(20px + env(safe-area-inset-bottom, 0px));
+}
+.qa-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 7px 14px 7px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.qa-row:hover {
+  background: var(--tint);
+}
+.qa-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.qa-row-main:focus-visible {
+  outline: 2px solid var(--pen);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+.qa-row-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.qa-row-title strong {
+  font-family: var(--font-head);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qa-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.qa-row-hit {
+  color: var(--pen);
+  font-weight: 600;
+}
+.qa-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 28px 18px;
+  text-align: center;
+}
+.qa-empty small {
+  color: var(--ink-3);
+  font-size: 12.5px;
+}
+
+/* FieldStepper: compact + button that expands into − N + once fielded */
+.field-stepper {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--pen-line);
+  border-radius: var(--radius);
+  background: var(--sheet);
+  overflow: hidden;
+}
+.field-stepper[data-here="true"] {
+  border-color: var(--pen);
+}
+.field-stepper button {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--pen);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.field-stepper button .icon {
+  width: 15px;
+  height: 15px;
+}
+.field-stepper .stepper-plus:hover {
+  background: var(--pen);
+  color: var(--field);
+}
+.field-stepper .stepper-minus {
+  color: var(--down);
+  border-right: 1px solid var(--rule);
+}
+.field-stepper .stepper-minus:hover {
+  background: var(--tint);
+}
+.field-stepper .stepper-count {
+  min-width: 24px;
+  padding: 0 4px;
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pen);
+  font-variant-numeric: tabular-nums lining-nums;
+  border-right: 1px solid var(--rule);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .search kbd {
+    display: none;
+  }
+  .search input {
+    padding-right: 11px;
+  }
+}
+
+@media (pointer: coarse) {
+  .round-back {
+    width: 38px;
+    height: 38px;
+  }
+  .history-controls .icon-button,
+  .run-strip-tools .history-controls .icon-button {
+    width: 38px;
+    height: 38px;
+  }
+  .run-strip-tools .quick-add-trigger {
+    min-height: 38px;
+  }
+  .lane-remove {
+    width: 34px;
+    height: 34px;
+    opacity: 1;
+  }
+  .lane-action-btn {
+    min-height: 40px;
+    padding: 6px 10px;
+  }
+  .instance-topline {
+    grid-template-columns: auto minmax(0, 1fr) auto auto 34px;
+  }
+  .acted-toggle {
+    width: 30px;
+    height: 30px;
+  }
+  .acted-toggle::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+  }
+  .condition-add,
+  .captain-add {
+    min-width: 34px;
+    height: 34px;
+  }
+  .instance-topline .icon-button {
+    width: 34px;
+    height: 34px;
+  }
+  .condition-picker button {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+  .group-actions {
+    gap: 4px;
+  }
+  .group-actions button {
+    width: 34px;
+    height: 34px;
+  }
+  .toast-action {
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+  .qa-head .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .field-stepper button {
+    width: 40px;
+    height: 40px;
+  }
+  .qa-group-pill {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+  .qa-group-remove,
+  .qa-group-add {
+    width: 36px;
+    height: 36px;
+  }
+  .fielded-trim {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 620px) {
+  .round-back {
+    display: none;
+  }
+  .round-progress .prev-round {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    min-height: 46px;
+    padding: 0 !important;
+  }
+  .round-progress .prev-round .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .run-strip-tools {
+    margin-left: auto;
+    gap: 6px;
+  }
+  .lane-remove {
+    width: 32px;
+    height: 32px;
+  }
+  .encounter-run-foot .primary,
+  .encounter-run-foot .secondary {
+    min-height: 44px;
+  }
+  .quick-add-drawer {
+    width: 100vw;
+    border-left: 0;
+  }
+  .qa-group-pills {
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    padding-bottom: 2px;
+  }
+  .qa-group-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .qa-group-chip,
+  .qa-group-add {
+    flex: 0 0 auto;
+  }
+  .qa-chips {
+    flex-wrap: nowrap;
+    margin: 0 -16px;
+    padding: 0 16px 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .qa-chips::-webkit-scrollbar {
+    display: none;
+  }
+  .qa-chips .chip {
+    flex: 0 0 auto;
+    min-height: 34px;
+    padding: 5px 11px;
+  }
+  .qa-search input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .stamina-hint {
+    right: 0;
+    left: auto;
+    max-width: calc(100vw - 44px);
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-add-drawer,
+  .quick-add-backdrop {
+    transition: none;
   }
 }

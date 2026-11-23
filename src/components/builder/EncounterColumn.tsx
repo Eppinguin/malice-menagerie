@@ -14,10 +14,11 @@ import {
   resetActiveEncounter,
   canPeelEntry,
   freshEntry,
+  hasCombatProgress,
   openPreview,
-  resumeCombat,
+  resetCombat,
   selectPrepGroup,
-  startCombat,
+  setView,
 } from "../../store.ts";
 import { beginPrepDrag, shouldSuppressClick } from "../../dnd.ts";
 import { difficultyFor, partyMath } from "../../lib/rules.ts";
@@ -414,10 +415,10 @@ function GroupCountNote() {
 
 export function EncounterColumn() {
   void monstersVersion.value; // subscribe: roster names/EV settle as statblocks hydrate
+  const enc = activeEncounter();
   const { count } = encounterTotals();
-  const combat = activeEncounter().combat;
-  const hasEncounter = activeEncounter().items.length > 0;
-  const combatActive = combat.active && combat.instances.length > 0;
+  const hasEncounter = enc.items.length > 0;
+  const inProgress = hasCombatProgress(enc);
   return (
     <aside class="encounter-column panel">
       <div class="panel-heading">
@@ -467,15 +468,20 @@ export function EncounterColumn() {
         <PlusIcon />
         <strong>New group</strong>
       </div>
-      {combatActive ? (
-        <button class="primary wide" onClick={resumeCombat}>
-          Resume combat
+      <div class="encounter-run-foot">
+        <button class="primary wide" disabled={!hasEncounter} onClick={() => setView("combat")}>
+          Run encounter
         </button>
-      ) : (
-        <button class="primary wide" disabled={!hasEncounter} onClick={() => void startCombat()}>
-          Run this encounter
-        </button>
-      )}
+        {inProgress ? (
+          <button
+            class="secondary compact-button"
+            title="Restore full Stamina, clear conditions, and return to Round 1 · Undo available"
+            onClick={() => void resetCombat()}
+          >
+            Reset combat
+          </button>
+        ) : null}
+      </div>
     </aside>
   );
 }

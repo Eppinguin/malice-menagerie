@@ -76,11 +76,27 @@ export const MinusIcon = (p: IconProps) => (
   </Glyph>
 );
 
-/** Undo: an arrow curling back, for stepping to the previous round. */
+/** Undo: an arrow curling back. */
 export const UndoIcon = (p: IconProps) => (
   <Glyph {...p}>
     <path d="M9 14 4 9l5-5" />
     <path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" />
+  </Glyph>
+);
+
+/** Redo: an arrow curling forward. */
+export const RedoIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m15 14 5-5-5-5" />
+    <path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13" />
+  </Glyph>
+);
+
+/** Reset: a circular counter-clockwise arrow. */
+export const ResetIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+    <path d="M3 3v5h5" />
   </Glyph>
 );
 
@@ -129,6 +145,12 @@ export const GripIcon = (p: IconProps) => (
 export const CaretIcon = (p: IconProps) => (
   <Glyph {...p}>
     <path d="m6 9 6 6 6-6" />
+  </Glyph>
+);
+
+export const ChevronLeftIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m15 6-6 6 6 6" />
   </Glyph>
 );
 

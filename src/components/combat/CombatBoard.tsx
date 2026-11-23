@@ -3,17 +3,21 @@ import { sourceUrl } from "../../lib/repo.ts";
 import { fmt } from "../../lib/text.ts";
 import {
   activeEncounter,
+  addAnotherInLane,
   addCondition,
   applyStaminaCommand,
   captainCandidates,
   groupInstancesByMonster,
   openConditionPickerFor,
+  openQuickAdd,
   removeCondition,
   removeInstance,
+  removeLane,
   renameInstance,
   setGroupFilter,
   setInstanceGroup,
   setSquadCaptain,
+  setView,
   hasActed,
   markTurn,
   toggleConditionPicker,
@@ -33,7 +37,7 @@ import {
 } from "../OwlbearLink.tsx";
 import { PenCross, PenRing, PenStrike, PenTick } from "../Pen.tsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
-import { minionStamina, standing } from "../../lib/minions.ts";
+import { isMinion, minionStamina, standing } from "../../lib/minions.ts";
 import { PHONE, chromeOffset, holdChrome, prefersReducedMotion } from "../../lib/phoneScroll.ts";
 
 /** How far a press must travel before it counts as a drag, so a stray tap
@@ -497,6 +501,92 @@ function SquadCaptain({ squad, monster }: { squad: CombatInstance; monster: Mons
   );
 }
 
+/**
+ * Forgiving inline Stamina command input. While unfocused it displays Stamina;
+ * while focused it accepts `-12`, `+5`, `45-12`, or `20` (`=20`). Enter commits
+ * and re-selects the new value for chained hits; Escape or blur discards drafts
+ * so navigating the board never commits a stray number.
+ */
+function StaminaCommandInput({
+  instanceId,
+  name,
+  current,
+  max,
+  preview,
+}: {
+  instanceId: string;
+  name: string;
+  current: number;
+  max: number;
+  preview: number | null;
+}) {
+  const shown = preview ?? current;
+  const [draft, setDraft] = useState(fmt(shown));
+  const [focused, setFocused] = useState(false);
+  const lastShown = useRef(shown);
+
+  // Keep an unfocused, dragging, or pristine field synced with live Stamina
+  // so Ctrl/Cmd+Z after Enter immediately updates the number in place.
+  useEffect(() => {
+    setDraft((prev) =>
+      !focused || preview !== null || prev === fmt(lastShown.current) ? fmt(shown) : prev,
+    );
+    lastShown.current = shown;
+  }, [shown, focused, preview]);
+
+  const pristine = draft === fmt(current);
+
+  return (
+    <label class={`stamina-field ${focused ? "focused" : ""}`}>
+      <input
+        class={`stamina-command ${preview !== null ? "previewing" : ""}`}
+        type="text"
+        inputMode="text"
+        enterKeyHint="done"
+        autoComplete="off"
+        spellcheck={false}
+        value={draft}
+        data-pristine={pristine ? "true" : "false"}
+        aria-label={`${name} Stamina: ${fmt(current)} of ${fmt(max)}. Enter -12 damage, +5 heal, 20 to set, or append -12 after the number`}
+        onFocus={(event) => {
+          setFocused(true);
+          event.currentTarget.select();
+        }}
+        onInput={(event) => setDraft(event.currentTarget.value)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            event.stopPropagation();
+            setDraft(fmt(current));
+            event.currentTarget.blur();
+            return;
+          }
+          if (event.key === "Enter") {
+            event.preventDefault();
+            const result = applyStaminaCommand(instanceId, event.currentTarget.value);
+            if (result !== null) {
+              setDraft(fmt(result));
+              lastShown.current = result;
+              event.currentTarget.select();
+            } else {
+              toast("Enter -12 damage, +5 heal, 20 set, or 45-12");
+            }
+          }
+        }}
+        onBlur={() => {
+          setFocused(false);
+          setDraft(fmt(current));
+        }}
+      />
+      <span>/ {fmt(max)}</span>
+      {focused ? (
+        <small class="stamina-hint" aria-hidden="true">
+          <b>-12</b> dmg · <b>+5</b> heal · <b>20</b> set · <b>45-12</b>
+        </small>
+      ) : null}
+    </label>
+  );
+}
+
 function InstanceCard({ instance, monster }: { instance: CombatInstance; monster: Monster }) {
   const group = activeEncounter().groups.find((item) => item.id === instance.groupId);
   const [preview, setPreview] = useState<number | null>(null);
@@ -513,10 +603,6 @@ function InstanceCard({ instance, monster }: { instance: CombatInstance; monster
       ? null
       : (activeEncounter().combat.instances.find((item) => item.id === instance.summonedBy)?.name ??
         "");
-  const commitStamina = (event: Event) => {
-    const input = event.currentTarget as HTMLInputElement;
-    applyStaminaCommand(instance.id, input.value);
-  };
   const health = staminaState(instance.currentStamina, instance.maxStamina, squad);
   const owlbearSelected = isOwlbearSelectedInstance(instance.id);
   return (
@@ -559,7 +645,7 @@ function InstanceCard({ instance, monster }: { instance: CombatInstance; monster
         </select>
         <button
           class="icon-button"
-          title="Remove creature"
+          title="Remove creature · Undo available"
           aria-label={`Remove ${instance.name}`}
           onClick={() => removeInstance(instance.id)}
         >
@@ -582,23 +668,13 @@ function InstanceCard({ instance, monster }: { instance: CombatInstance; monster
           perMinion={squad ? perMinion : null}
           onPreview={setPreview}
         />
-        <label class="stamina-field">
-          <input
-            class={`stamina-command ${preview !== null ? "previewing" : ""}`}
-            value={fmt(shownStamina)}
-            inputMode="numeric"
-            aria-label="Current stamina"
-            onFocus={(event) => event.currentTarget.select()}
-            onChange={commitStamina}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                commitStamina(event);
-              }
-            }}
-          />
-          <span>/ {fmt(instance.maxStamina)}</span>
-        </label>
+        <StaminaCommandInput
+          instanceId={instance.id}
+          name={instance.name}
+          current={instance.currentStamina}
+          max={instance.maxStamina}
+          preview={preview}
+        />
         {remaining !== null ? (
           <strong class="minion-count" title="Minions standing">
             {remaining}/{instance.count}
@@ -1351,11 +1427,22 @@ function alignTop(board: HTMLElement) {
   window.scrollBy({ top: gap, behavior: prefersReducedMotion() ? "auto" : "smooth" });
 }
 
+const ROSTER_PREVIEW = 6;
+
 export function CombatBoard() {
   void monstersVersion.value; // subscribe: lanes render once statblocks are cached
   const encounter = activeEncounter();
   const combat = encounter.combat;
   const filter = combat.activeGroupFilter;
+  const [laneUi, setLaneUi] = useState<
+    Record<string, { showDefeated?: boolean; expanded?: boolean }>
+  >({});
+  const toggleLaneFlag = (path: string, key: "showDefeated" | "expanded") => {
+    setLaneUi((prev) => ({
+      ...prev,
+      [path]: { ...prev[path], [key]: !prev[path]?.[key] },
+    }));
+  };
   // A picked group is a plain filter: only its statblocks, and in them only
   // its creatures, in their usual order. Nothing moves but what is hidden.
   const lanes = groupInstancesByMonster()
@@ -1394,6 +1481,19 @@ export function CombatBoard() {
         handledSelectionSeq.current = selectionPulse.seq;
       }
       return;
+    }
+    const targetLane = lanes[laneIndex];
+    const targetInst = targetLane?.shown.find((item) => item.id === selectionPulse.instanceId);
+    if (
+      targetLane &&
+      targetInst &&
+      targetInst.currentStamina <= 0 &&
+      !laneUi[targetLane.path]?.showDefeated
+    ) {
+      setLaneUi((prev) => ({
+        ...prev,
+        [targetLane.path]: { ...prev[targetLane.path], showDefeated: true },
+      }));
     }
     handledSelectionSeq.current = selectionPulse.seq;
     const reveal = () => {
@@ -1446,7 +1546,21 @@ export function CombatBoard() {
   if (!combat.instances.length) {
     return (
       <div class="combat-board" id="combatBoard">
-        <div class="combat-empty panel">Build an encounter in Prep.</div>
+        <div class="combat-empty panel">
+          <h2>No monsters on the board yet</h2>
+          <p>
+            Add monsters straight into the fight, or balance activation groups in Prep. Press{" "}
+            <kbd>/</kbd> anytime to search.
+          </p>
+          <div class="combat-empty-actions">
+            <button class="primary" onClick={openQuickAdd}>
+              <PlusIcon /> Add monsters
+            </button>
+            <button class="secondary" onClick={() => setView("builder")}>
+              Go to Prep
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1455,10 +1569,15 @@ export function CombatBoard() {
     return (
       <div class="combat-board" id="combatBoard">
         <div class="combat-empty panel">
-          No creatures in group {name}.{" "}
-          <button class="secondary compact-button" onClick={() => setGroupFilter(null)}>
-            Show all
-          </button>
+          <p>No creatures in group {name}.</p>
+          <div class="combat-empty-actions">
+            <button class="secondary compact-button" onClick={() => setGroupFilter(null)}>
+              Show all
+            </button>
+            <button class="primary compact-button" onClick={openQuickAdd}>
+              <PlusIcon /> Add to {name}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -1475,11 +1594,21 @@ export function CombatBoard() {
               </section>
             );
           }
+          const ui = laneUi[path] ?? {};
+          const standingCards = shown.filter((instance) => instance.currentStamina > 0);
+          const defeatedCount = shown.length - standingCards.length;
+          const allDown = shown.length > 0 && standingCards.length === 0;
+          const spent = allDown || (standingCards.length > 0 && standingCards.every(hasActed));
+          const visibleList = ui.showDefeated ? shown : standingCards;
+          const shownCards = ui.expanded ? visibleList : visibleList.slice(0, ROSTER_PREVIEW);
+          const extraCount = visibleList.length - ROSTER_PREVIEW;
+          const minion = isMinion(monster);
           return (
             <section
               class="monster-lane panel"
               key={path}
               data-path={path}
+              data-spent={spent ? "true" : undefined}
               onClick={backToTop}
               onScroll={markScrolled}
             >
@@ -1487,12 +1616,43 @@ export function CombatBoard() {
                 monster={monster}
                 nav={{ index, count: lanes.length, turnTo }}
                 onLevel={(level) => setLaneLevel(path, level)}
+                onRemove={{ count: instances.length, onClick: () => removeLane(path) }}
               />
               <div class="instance-stack">
-                {shown.map((instance) => (
+                {shownCards.map((instance) => (
                   <InstanceCard key={instance.id} instance={instance} monster={monster} />
                 ))}
                 {hidden ? <p class="lane-hidden-note">+{hidden} in other groups</p> : null}
+              </div>
+              <div class="lane-actions">
+                <button
+                  class="lane-action-btn lane-add-btn"
+                  title={
+                    minion ? `Add another ${monster.name} squad` : `Add another ${monster.name}`
+                  }
+                  onClick={() => void addAnotherInLane(path)}
+                >
+                  <PlusIcon />
+                  {minion ? "Add squad" : "Add another"}
+                </button>
+                {extraCount > 0 ? (
+                  <button
+                    class="lane-action-btn"
+                    aria-expanded={Boolean(ui.expanded)}
+                    onClick={() => toggleLaneFlag(path, "expanded")}
+                  >
+                    {ui.expanded ? "Show fewer" : `${extraCount} more`}
+                  </button>
+                ) : null}
+                {defeatedCount > 0 ? (
+                  <button
+                    class="lane-action-btn lane-down-toggle"
+                    aria-expanded={Boolean(ui.showDefeated)}
+                    onClick={() => toggleLaneFlag(path, "showDefeated")}
+                  >
+                    {ui.showDefeated ? "Hide down" : `${defeatedCount} down · show`}
+                  </button>
+                ) : null}
               </div>
               <StatblockBody
                 monster={monster}
