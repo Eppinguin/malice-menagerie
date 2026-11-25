@@ -5,12 +5,14 @@ import {
   creatingNegotiation,
   editNegotiation,
   liveNegotiation,
+  openShareDialog,
   reopenNegotiation,
   resetNegotiation,
   setNegotiationArchetype,
   setNegotiationAttitude,
   setNegotiationLanguageBonus,
 } from "../../store.ts";
+import { ShareIcon } from "../Icons.tsx";
 import {
   ARCHETYPES,
   ATTITUDES,
@@ -166,6 +168,15 @@ function TalkHead({ negotiation: given }: { negotiation: Negotiation }) {
           aria-label="What the heroes want"
           onInput={(event) => editNegotiation({ ask: event.currentTarget.value })}
         />
+        <button
+          type="button"
+          class="icon-button"
+          title="Share NPC link or export JSON"
+          aria-label={`Share ${negotiation.name || "NPC"}`}
+          onClick={() => openShareDialog("negotiation", negotiation.id)}
+        >
+          <ShareIcon />
+        </button>
         <button
           class={`chip talk-setup-toggle${setupOpen ? " active" : ""}`}
           aria-expanded={setupOpen}

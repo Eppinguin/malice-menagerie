@@ -29,8 +29,8 @@ import {
 } from "../../integration/controller.ts";
 import { mappingsFor } from "../../integration/identity.ts";
 import type { ExtensionSettingsSummary } from "../../../shared/obr/protocol.ts";
-import { activeEncounter, sharedRollActive } from "../../store.ts";
-import { CloseIcon } from "../Icons.tsx";
+import { activeEncounter, openImportDialog, sharedRollActive, state, toast } from "../../store.ts";
+import { CloseIcon, DownloadIcon, ImportIcon } from "../Icons.tsx";
 import { OwlbearConnectForm } from "./ConnectForm.tsx";
 import { closeSettingsPanel } from "./panelFocus.ts";
 import { isSendMenuOpen, sendTokenPress } from "./SendMenu.tsx";
@@ -198,6 +198,71 @@ export function AppSettingsPanel() {
           <span>Night page</span>
           <input type="checkbox" checked={pageTheme.value === "night"} onChange={togglePageTheme} />
         </label>
+
+        <section class="app-settings-data">
+          <h3>Data &amp; Homebrew</h3>
+          <p class="owlbear-hint small">
+            {state.value.homebrewMonsters.length} homebrew{" "}
+            {state.value.homebrewMonsters.length === 1 ? "monster" : "monsters"} ·{" "}
+            {state.value.homebrewMalice.length} custom Malice · {state.value.encounters.length}{" "}
+            {state.value.encounters.length === 1 ? "encounter" : "encounters"} ·{" "}
+            {state.value.negotiations.length}{" "}
+            {state.value.negotiations.length === 1 ? "NPC" : "NPCs"}
+          </p>
+          <div class="app-settings-data-actions">
+            <button
+              type="button"
+              class="secondary compact-button"
+              onClick={() => {
+                closeSettingsPanel(true);
+                openImportDialog();
+              }}
+            >
+              <ImportIcon />
+              <span>Import file or link</span>
+            </button>
+            <button
+              type="button"
+              class="secondary compact-button"
+              disabled={
+                state.value.homebrewMonsters.length === 0 && state.value.homebrewMalice.length === 0
+              }
+              onClick={() => {
+                void import("../../lib/share.ts").then(
+                  ({ buildPackBundle, downloadBundleJson }) => {
+                    downloadBundleJson(
+                      buildPackBundle(state.value, "homebrew"),
+                      "malice-homebrew-pack",
+                    );
+                    toast("Exported homebrew pack (.json)");
+                  },
+                );
+              }}
+            >
+              <DownloadIcon />
+              <span>Export homebrew</span>
+            </button>
+            <button
+              type="button"
+              class="secondary compact-button"
+              onClick={() => {
+                void import("../../lib/share.ts").then(
+                  ({ buildPackBundle, downloadBundleJson }) => {
+                    downloadBundleJson(
+                      buildPackBundle(state.value, "all"),
+                      "malice-menagerie-backup",
+                    );
+                    toast("Exported full backup (.json)");
+                  },
+                );
+              }}
+            >
+              <DownloadIcon />
+              <span>Full backup</span>
+            </button>
+          </div>
+        </section>
+
         <section class="app-settings-integrations">
           <h3>Integrations</h3>
           <details

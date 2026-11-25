@@ -28,6 +28,7 @@ Used mid-session under time pressure, between player turns, often in dim room li
 - Monster, Malice, and condition data fetched live from SteelCompendium (steelcompendium.io).
 - Three views: Prep (party parameters, monster library with filters/sort/search, encounter groups with drag & drop, difficulty meter), Run (round counter, Malice counter and dock, acted tally, statblock columns with trackers, conditions, dice rolling), and Negotiate (a library of saved negotiations with 1-tap quick-improv & archetype creation, collapsible setup, a one-screen cockpit of Interest and Patience beside tap-to-stage motivations/pitfalls and a player-first Argument / Read resolver with optional in-app rolling, and a log of what has been said). Multiple saved encounters and multiple saved NPCs each live in their own spine list.
 - Multiple saved encounters in a sidebar.
+- Local-first Homebrew Studio (create, clone, or kitbash monsters and custom Malice with Draw Steel baseline math, compendium rule auto-linking, and live preview) plus serverless `#s=` link and `.json` bundle sharing/import with conflict resolution.
 
 ## Brand Commitments
 

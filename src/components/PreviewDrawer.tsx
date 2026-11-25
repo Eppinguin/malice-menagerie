@@ -3,17 +3,27 @@ import { catalogByPath, maliceLoading, monsterAt, monstersVersion } from "../dat
 import {
   addToEncounter,
   closePreview,
+  customMaliceEditorState,
+  duplicateHomebrewMonster,
+  homebrewStudioState,
+  importDialogState,
   maliceFeaturesForMonster,
+  openCloneMonster,
+  openEditHomebrewMonster,
+  openNewSiblingMonster,
+  openShareDialog,
   previewPath,
   qtyFor,
   setPreviewLevel,
+  shareDialogState,
 } from "../store.ts";
+import { isHomebrewMonsterPath } from "../lib/id.ts";
 import { basePath } from "../lib/levels.ts";
 import { familyLabel } from "../lib/text.ts";
 import { LaneHeader, StatblockBody } from "./Statblock.tsx";
 import { MaliceFeaturePreview } from "./combat/MaliceDock.tsx";
 import { QtyControl } from "./QtyControl.tsx";
-import { CloseIcon } from "./Icons.tsx";
+import { CloseIcon, CopyIcon, PencilIcon, PlusIcon, ShareIcon } from "./Icons.tsx";
 
 function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<typeof monsterAt>> }) {
   const [openIds, setOpenIds] = useState<Set<string>>(() => new Set());
@@ -21,7 +31,7 @@ function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<type
     setOpenIds(new Set());
   }, [monster.path]);
 
-  if (maliceLoading.value) return null;
+  if (maliceLoading.value && !monster.customMaliceIds?.length) return null;
   const features = maliceFeaturesForMonster(monster);
   if (!features.length) return null;
 
@@ -40,7 +50,9 @@ function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<type
         <span class="ds-glyph malice-skull" aria-hidden="true">
           d
         </span>
-        <h3>{familyLabel(monster.familyPath)} Malice</h3>
+        <h3>
+          {monster.familyPath ? `${familyLabel(monster.familyPath)} Malice` : "Encounter Malice"}
+        </h3>
         <span>
           {features.length} {features.length === 1 ? "feature" : "features"}
         </span>
@@ -83,6 +95,15 @@ export function PreviewDrawer() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return;
+      if (
+        homebrewStudioState.value ||
+        customMaliceEditorState.value ||
+        shareDialogState.value ||
+        importDialogState.value
+      ) {
+        return;
+      }
       if (event.key === "Escape" && previewPath.value) closePreview();
     };
     window.addEventListener("keydown", onKeyDown);
@@ -96,7 +117,9 @@ export function PreviewDrawer() {
   const shownPath = path ?? renderedPath;
   const monster = shownPath ? monsterAt(shownPath) : undefined;
   const failed = Boolean(
-    renderedPath && !monster && catalogByPath.get(basePath(shownPath ?? ""))?.error,
+    renderedPath &&
+    !monster &&
+    (isHomebrewMonsterPath(shownPath ?? "") || catalogByPath.get(basePath(shownPath ?? ""))?.error),
   );
 
   return (
@@ -115,15 +138,82 @@ export function PreviewDrawer() {
         aria-label="Monster statblock preview"
       >
         <header class="preview-drawer-head">
-          <h2 class="preview-drawer-title">Statblock preview</h2>
-          <button
-            class="icon-button"
-            onClick={closePreview}
-            title="Close preview"
-            aria-label="Close preview"
-          >
-            <CloseIcon />
-          </button>
+          <div>
+            <h2 class="preview-drawer-title">
+              {monster?.isHomebrew ? "Homebrew statblock" : "Statblock preview"}
+            </h2>
+            {monster?.origin?.sourceName || monster?.origin?.author ? (
+              <p class="preview-drawer-origin">
+                {monster.origin.sourceName
+                  ? `${monster.origin.kind === "official-fork" ? "Forked from" : "From"} ${monster.origin.sourceName}`
+                  : ""}
+                {monster.origin.sourceName && monster.origin.author ? " · " : ""}
+                {monster.origin.author ? `By ${monster.origin.author}` : ""}
+              </p>
+            ) : null}
+          </div>
+          <div class="preview-drawer-head-actions">
+            {monster ? (
+              monster.isHomebrew && monster.homebrewId ? (
+                <>
+                  <button
+                    type="button"
+                    class="secondary compact-button"
+                    title="Edit homebrew statblock"
+                    onClick={() => openEditHomebrewMonster(monster.homebrewId!)}
+                  >
+                    <PencilIcon />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="icon-button"
+                    title="Create another monster in this family"
+                    aria-label={`New monster in ${monster.name}'s family`}
+                    onClick={() => openNewSiblingMonster(monster.homebrewId!)}
+                  >
+                    <PlusIcon />
+                  </button>
+                  <button
+                    type="button"
+                    class="icon-button"
+                    title="Duplicate homebrew monster"
+                    aria-label={`Duplicate ${monster.name}`}
+                    onClick={() => duplicateHomebrewMonster(monster.homebrewId!)}
+                  >
+                    <CopyIcon />
+                  </button>
+                  <button
+                    type="button"
+                    class="icon-button"
+                    title="Share link or export JSON"
+                    aria-label={`Share ${monster.name}`}
+                    onClick={() => openShareDialog("monster", monster.homebrewId!)}
+                  >
+                    <ShareIcon />
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  class="secondary compact-button"
+                  title="Fork this official statblock into an editable homebrew monster"
+                  onClick={() => openCloneMonster(monster.path)}
+                >
+                  <CopyIcon />
+                  <span>Clone &amp; edit</span>
+                </button>
+              )
+            ) : null}
+            <button
+              class="icon-button"
+              onClick={closePreview}
+              title="Close preview"
+              aria-label="Close preview"
+            >
+              <CloseIcon />
+            </button>
+          </div>
         </header>
         <div class="preview-drawer-body">
           {monster ? (

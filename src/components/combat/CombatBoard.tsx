@@ -1,4 +1,5 @@
 import { conditionCatalog, conditionInfo, monsterAt, monstersVersion } from "../../data.ts";
+import { isHomebrewMonsterPath } from "../../lib/id.ts";
 import { sourceUrl } from "../../lib/repo.ts";
 import { fmt } from "../../lib/text.ts";
 import {
@@ -1590,9 +1591,25 @@ export function CombatBoard() {
         {lanes.map(({ path, instances, shown, hidden }, index) => {
           const monster = monsterAt(path);
           if (!monster) {
+            const missingHomebrew = isHomebrewMonsterPath(path);
             return (
               <section class="monster-lane panel" key={path}>
-                <div class="lane-loading">Loading statblock…</div>
+                <div class="lane-loading">
+                  {missingHomebrew ? (
+                    <>
+                      <span>Missing homebrew statblock.</span>{" "}
+                      <button
+                        type="button"
+                        class="secondary compact-button"
+                        onClick={() => removeLane(path)}
+                      >
+                        Remove lane
+                      </button>
+                    </>
+                  ) : (
+                    "Loading statblock…"
+                  )}
+                </div>
               </section>
             );
           }

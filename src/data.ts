@@ -20,10 +20,14 @@ import {
 } from "./lib/text.ts";
 import { flattenMalicePayload, isMaliceCandidatePath } from "./lib/malice.ts";
 import { atLevel, basePath, keyLevel } from "./lib/levels.ts";
+import { homebrewToCatalogEntry, homebrewToMaliceFeature } from "./lib/homebrew.ts";
+import { isHomebrewMonsterPath } from "./lib/id.ts";
 import { isRecord } from "./types.ts";
 import type {
   CatalogEntry,
   ConditionEntry,
+  HomebrewMalice,
+  HomebrewMonster,
   MaliceFeature,
   Monster,
   MonsterFeature,
@@ -38,18 +42,32 @@ const CONDITION_CONCURRENCY = 8;
 // ---------- Reactive source-data state ----------
 
 export const catalog = signal<CatalogEntry[]>([]);
+export const homebrewCatalog = signal<CatalogEntry[]>([]);
+export const allCatalog = computed<CatalogEntry[]>(() => [
+  ...homebrewCatalog.value,
+  ...catalog.value,
+]);
 export const sourceLoading = signal(true);
 export const sourceError = signal("");
 export const hydratedCount = signal(0);
 export const hydrationErrors = signal(0);
 /** Bumped (throttled) whenever any monster finishes loading into the cache. */
 export const monstersVersion = signal(0);
+/** Bumped coarsely during/after official SteelCompendium hydration (never on homebrew edits). */
+export const officialHydrationEpoch = signal(0);
 export const maliceFeatures = signal<MaliceFeature[]>([]);
+export const homebrewMaliceFeatures = signal<MaliceFeature[]>([]);
+export const allMaliceFeatures = computed<MaliceFeature[]>(() => [
+  ...homebrewMaliceFeatures.value,
+  ...maliceFeatures.value,
+]);
 export const maliceLoading = signal(true);
 export const conditionCatalog = signal<ConditionEntry[]>([]);
 
 export const catalogByPath = new Map<string, CatalogEntry>();
 export const monsterCache = new Map<string, Monster>();
+export const homebrewCatalogByPath = new Map<string, CatalogEntry>();
+export const homebrewMonsterCache = new Map<string, Monster>();
 const monsterPromises = new Map<string, Promise<Monster>>();
 let maliceCandidates: string[] = [];
 
@@ -181,13 +199,70 @@ function normalizeMonster(raw: RawStatblock, path: string): Monster {
 const leveled = new Map<string, Monster>();
 
 /**
+ * Synchronize user-authored / imported homebrew monsters and custom Malice
+ * into the live lookup caches and reactive catalog signals. Clears cached
+ * leveled variants of homebrew monsters so edits reflect immediately.
+ */
+export function syncHomebrewData(
+  monsters: readonly HomebrewMonster[],
+  malice: readonly HomebrewMalice[],
+): void {
+  homebrewMonsterCache.clear();
+  homebrewCatalogByPath.clear();
+  for (const key of leveled.keys()) {
+    if (isHomebrewMonsterPath(key)) leveled.delete(key);
+  }
+  const entries = monsters
+    .map(homebrewToCatalogEntry)
+    .sort((a, b) => a.derivedName.localeCompare(b.derivedName));
+  for (const entry of entries) {
+    homebrewCatalogByPath.set(entry.path, entry);
+    if (entry.monster) homebrewMonsterCache.set(entry.path, entry.monster);
+  }
+  const maliceList = malice.map(homebrewToMaliceFeature);
+  batch(() => {
+    homebrewCatalog.value = entries;
+    homebrewMaliceFeatures.value = maliceList;
+    monstersVersion.value += 1;
+  });
+}
+
+/** Official SteelCompendium family slugs known from the loaded catalog & Malice. */
+export const officialFamilies = computed<
+  readonly { slug: string; label: string; maliceCount: number }[]
+>(() => {
+  const map = new Map<string, { label: string; maliceCount: number }>();
+  for (const entry of catalog.value) {
+    const slug = entry.familyPath.toLowerCase().split("/").filter(Boolean)[0];
+    if (slug && !map.has(slug)) map.set(slug, { label: slugToLabel(slug), maliceCount: 0 });
+  }
+  for (const feature of maliceFeatures.value) {
+    if (feature.scope === "family" && feature.family) {
+      const existing = map.get(feature.family);
+      map.set(feature.family, {
+        label: feature.familyLabel || existing?.label || slugToLabel(feature.family),
+        maliceCount: (existing?.maliceCount ?? 0) + 1,
+      });
+    }
+  }
+  return [...map.entries()]
+    .map(([slug, info]) => ({ slug, label: info.label, maliceCount: info.maliceCount }))
+    .sort((a, b) => {
+      const aHas = a.maliceCount > 0 ? 0 : 1;
+      const bHas = b.maliceCount > 0 ? 0 : 1;
+      return aHas - bHas || a.label.localeCompare(b.label);
+    });
+});
+
+/**
  * The statblock a key names: the printed one for a plain source path, or
  * the same statblock at another level for "path@level" (see lib/levels).
  * Undefined until the printed statblock has loaded.
  */
 export function monsterAt(key: string): Monster | undefined {
   const level = keyLevel(key);
-  const printed = monsterCache.get(level === null ? key : basePath(key));
+  const plain = level === null ? key : basePath(key);
+  const printed = homebrewMonsterCache.get(plain) ?? monsterCache.get(plain);
   if (!printed || level === null || level === printed.level) return printed;
   let m = leveled.get(key);
   if (!m || m.printed !== printed) {
@@ -200,6 +275,11 @@ export function monsterAt(key: string): Monster | undefined {
 /** Load the statblock a key names (see `monsterAt`). */
 export function loadMonster(key: string): Promise<Monster> {
   const path = basePath(key);
+  if (isHomebrewMonsterPath(path)) {
+    const found = monsterAt(key);
+    if (found) return Promise.resolve(found);
+    return Promise.reject(new Error("Homebrew monster not found in library."));
+  }
   if (path !== key) return loadMonster(path).then((m) => monsterAt(key) ?? m);
   const cached = monsterCache.get(path);
   if (cached) return Promise.resolve(cached);
@@ -265,6 +345,7 @@ export async function loadSourceIndex(): Promise<void> {
   } catch (error) {
     batch(() => {
       sourceLoading.value = false;
+      maliceLoading.value = false;
       sourceError.value = error instanceof Error ? error.message : String(error);
     });
     throw error;
@@ -278,9 +359,12 @@ export async function hydrateCatalogInBackground(): Promise<void> {
   });
   pendingHydrated = 0;
   pendingErrors = 0;
+  let processed = 0;
   await runPool(catalog.value, CATALOG_CONCURRENCY, async (entry) => {
     if (monsterCache.has(entry.path)) {
       pendingHydrated += 1;
+      processed += 1;
+      if (processed % 120 === 0) officialHydrationEpoch.value += 1;
       queueFlush();
       return;
     }
@@ -290,10 +374,13 @@ export async function hydrateCatalogInBackground(): Promise<void> {
       pendingErrors += 1;
     } finally {
       pendingHydrated += 1;
+      processed += 1;
+      if (processed % 120 === 0) officialHydrationEpoch.value += 1;
       queueFlush();
     }
   });
   flushDataSignals();
+  officialHydrationEpoch.value += 1;
 }
 
 export async function hydrateMaliceInBackground(): Promise<void> {
@@ -358,7 +445,7 @@ export const catalogBounds = computed(() => {
   let levelMax = -Infinity;
   let evMin = Infinity;
   let evMax = -Infinity;
-  for (const entry of catalog.value) {
+  for (const entry of allCatalog.value) {
     const m = entry.monster;
     if (!m) continue;
     levelMin = Math.min(levelMin, m.level);
@@ -386,7 +473,7 @@ export const facetOptions = computed(() => {
   const roles = new Map<string, string>();
   const sizes = new Map<string, string>();
   const keywords = new Map<string, string>();
-  for (const entry of catalog.value) {
+  for (const entry of allCatalog.value) {
     const m = entry.monster;
     if (!m) continue;
     if (m.role) roles.set(normalizeToken(m.role), m.role);
@@ -419,6 +506,9 @@ export function catalogSearchText(entry: CatalogEntry): string {
 
 export function monsterNameForPath(key: string): string {
   const sourcePath = basePath(key);
+  const homebrew = homebrewMonsterCache.get(sourcePath)?.name;
+  if (homebrew) return homebrew;
+  if (isHomebrewMonsterPath(sourcePath)) return "Missing homebrew monster";
   return (
     monsterCache.get(sourcePath)?.name ||
     catalogByPath.get(sourcePath)?.derivedName ||

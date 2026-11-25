@@ -14,6 +14,8 @@ No account, no backend — encounters are saved locally in your browser, and mon
 - **Malice features:** Automatically filters Basic and level-eligible family Malice features for the encounter, suggests a balanced 3–4 feature set, and tracks active effects and round expirations.
 - **Inline power rolls & conditions:** Click any ability, characteristic, or Malice power roll to roll with edges/banes and highlight the resolved tier in place. Conditions use the SteelCompendium catalog with hover descriptions.
 - **Negotiations:** Run Draw Steel social encounters on one screen with Interest (0–5) and Patience (0–5) tracks, all twelve Heroes book archetypes plus one-tap improvised NPCs, motivations and pitfalls, player-first argument resolution (including lies, repeats, Natural 19–20s, and Read the NPC), undoable history, and an inline rules reference.
+- **Homebrew Studio & Custom Malice:** Author Draw Steel monsters from scratch, fork/clone any official statblock, or kitbash abilities across the compendium with role-smart starter kits, book baseline math, live statblock preview with test-rolling, inline `@` rule lookup with automatic SteelCompendium linking, custom Malice authoring, and full undo/redo history.
+- **Share & import:** Share monsters, custom Malice, encounters (with transitive homebrew bundled automatically), or negotiations via compressed `#s=` URL links or `.json` files (including drag-and-drop import and SteelCompendium JSON support), with revision-aware conflict resolution (`Update`, `Save as copy`, or `Skip`).
 
 ## Owlbear Rodeo integration
 
@@ -33,7 +35,7 @@ An optional companion extension connects your encounter directly to an Owlbear R
 - **Two-way Stamina sync:** Current Stamina and creature maximums stay in sync in both directions, including shared minion squad pools and captain detachment when a captain falls.
 - **Map controls:** Hide/reveal tokens (with attached overlays), select, or pan to a creature or squad from its combat card, optionally follow Owlbear token selection back in Malice, and nickname scenes.
 - **Compatible OBR extensions:**
-  - **Draw Steel Tools:** Automatically links monster statblocks and minion groups (with a searchable picker for ambiguous matches).
+  - **Draw Steel Tools:** Automatically links official monster statblocks and minion groups (with a searchable picker for ambiguous matches); homebrew monsters sync tokens, Stamina, squads, conditions, and dice without needing an official statblock entry.
   - **Token Labels / Marked!:** Two-way sync for the nine Draw Steel conditions on creatures (per-minion conditions stay on the map).
   - **Rings Initiative** (opt-in): Two-way sync for activation groups, turns, and rounds.
   - **Connected Dice** (opt-in): Rolls Malice ability, characteristic, and Malice power rolls directly in Owlbear (public or GM-only).

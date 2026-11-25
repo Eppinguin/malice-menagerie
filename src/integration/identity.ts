@@ -112,6 +112,8 @@ function mapping(value: unknown): TokenMapping | null {
 
 /** Defensive read of the integration cache. Corrupt or old data is dropped,
     never allowed to break the encounter app. */
+const RESERVED_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
 export function sanitizeIntegration(value: unknown): PersistedIntegration {
   const base = emptyIntegration();
   if (!isRecord(value) || value["version"] !== INTEGRATION_STORAGE_VERSION) return base;
@@ -124,10 +126,11 @@ export function sanitizeIntegration(value: unknown): PersistedIntegration {
   ];
   if (isRecord(value["encounters"])) {
     for (const [encounterId, rawEncounter] of Object.entries(value["encounters"])) {
+      if (RESERVED_KEYS.has(encounterId)) continue;
       if (!isRecord(rawEncounter) || !isRecord(rawEncounter["scenes"])) continue;
       const scenes: Record<string, PersistedSceneLinks> = {};
       for (const [sceneId, rawScene] of Object.entries(rawEncounter["scenes"])) {
-        if (!isRecord(rawScene)) continue;
+        if (RESERVED_KEYS.has(sceneId) || !isRecord(rawScene)) continue;
         const mappings = Array.isArray(rawScene["mappings"])
           ? rawScene["mappings"].flatMap((entry) => {
               const parsed = mapping(entry);
@@ -403,7 +406,7 @@ export function planImport(options: PlanOptions): ImportPlan {
       ...(options.manualStatblocks ? { manual: options.manualStatblocks } : {}),
       ...(options.learnedStatblocks ? { learned: options.learnedStatblocks } : {}),
     });
-    if (!resolution.ref) {
+    if (!resolution.ref && !monster.isHomebrew) {
       const key = statblockKey(monster.name, monster.printed?.level ?? monster.level);
       if (!seenUnresolved.has(key)) {
         seenUnresolved.add(key);

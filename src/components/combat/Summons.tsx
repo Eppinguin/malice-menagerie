@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import { catalog, loadMonster, monsterAt, monstersVersion } from "../../data.ts";
+import { allCatalog, loadMonster, monsterAt, monstersVersion } from "../../data.ts";
 import { activeEncounter, summonCreatures, summonerRules } from "../../store.ts";
 import {
   featureSummons,
@@ -19,7 +19,7 @@ const cache = new Map<string, { version: string; choices: SummonChoice[] }>();
 function choicesFor(monster: Monster, featureIndex: number): SummonChoice[] {
   const feature = monster.features[featureIndex];
   if (!feature) return [];
-  const entries = catalog.value;
+  const entries = allCatalog.value;
   const version = `${entries.length}:${monstersVersion.value}`;
   const key = `${monster.path}#${featureIndex}`;
   const hit = cache.get(key);

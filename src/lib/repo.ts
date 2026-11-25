@@ -7,6 +7,8 @@ export const REPO = {
 export const API_ROOT = `https://api.github.com/repos/${REPO.owner}/${REPO.name}`;
 export const RAW_ROOT = `https://raw.githubusercontent.com/${REPO.owner}/${REPO.name}/${REPO.ref}/`;
 export const SOURCE_ROOT = "https://steelcompendium.io/v2/Browse/";
+/** The Monsters book chapter on organizations, roles, reskinning and levels. */
+export const MONSTER_BASICS_URL = "https://steelcompendium.io/v2/Read/bestiary/monster-basics/";
 export const STATBLOCK_RE = /^en\/(unified)\/json\/monster\/(.+?)\/statblock\/([^/]+)\.json$/i;
 /**
  * Monster folders that hold hero-side creatures rather than Director monsters:
@@ -75,8 +77,21 @@ export function sourceRef(ref: string | undefined | null): SourceRef | null {
   const [, ...rest] = body.split("/");
   if (!rest[0]) return null;
   const route = [...rest[0].split("."), ...rest.slice(1)];
-  if (route[0] === "chapter") return null;
-  if (!route.length) return null;
+  if (!route.length || route[0] === "chapter") return null;
+  // Reject path traversal or malformed segments from untrusted imported links.
+  if (
+    route.some(
+      (seg) =>
+        !seg ||
+        seg === "." ||
+        seg === ".." ||
+        seg.includes("/") ||
+        seg.includes("\\") ||
+        seg.includes("\0"),
+    )
+  ) {
+    return null;
+  }
   // The document keeps the path the data gives it; the page is filed the way
   // the site files it, and for a monster group the two differ.
   const path = `en/unified/json/${route.join("/")}.json`;
@@ -85,7 +100,11 @@ export function sourceRef(ref: string | undefined | null): SourceRef | null {
 }
 
 export function rawUrl(path: string): string {
-  return RAW_ROOT + path.split("/").map(encodeURIComponent).join("/").replace(/%2F/g, "/");
+  const segments = path.split("/");
+  if (segments.some((seg) => seg === "." || seg === ".." || seg.includes("\\"))) {
+    throw new Error(`Invalid repository path: ${path}`);
+  }
+  return RAW_ROOT + segments.map(encodeURIComponent).join("/").replace(/%2F/g, "/");
 }
 
 /**

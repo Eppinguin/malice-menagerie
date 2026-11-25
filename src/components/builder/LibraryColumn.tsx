@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import {
   catalog,
   catalogBounds,
+  homebrewCatalog,
   hydratedCount,
   hydrationErrors,
   monsterNameForPath,
@@ -20,7 +21,11 @@ import {
   isPartyLevelWindowActive,
   matchedCatalog,
   needsMonsterData,
+  openEditHomebrewMonster,
+  openImportDialog,
+  openNewHomebrewMonster,
   openPreview,
+  openShareDialog,
   partyLevelWindow,
   qtyFor,
   retrySource,
@@ -30,6 +35,7 @@ import {
   state,
   toggleFiltersOpen,
   toggleFitsBudget,
+  toggleHomebrewOnly,
   toggleInEncounter,
   togglePartyLevelWindow,
 } from "../../store.ts";
@@ -39,13 +45,31 @@ import { familyLabel, fmt } from "../../lib/text.ts";
 import type { SortKey } from "../../types.ts";
 import { ActiveFilterPills, FiltersPanel } from "../LibraryFilters.tsx";
 import { QtyControl } from "../QtyControl.tsx";
-import { CaretIcon, GripIcon, SearchIcon } from "../Icons.tsx";
+import { PasteImport, pasteImportKeyDown } from "../PasteImport.tsx";
+import { looksLikeImport } from "../../lib/importSniff.ts";
+import {
+  CaretIcon,
+  GripIcon,
+  ImportIcon,
+  PencilIcon,
+  PlusIcon,
+  SearchIcon,
+  ShareIcon,
+} from "../Icons.tsx";
 
 const ROLE_CHIPS = ["all", "Horde", "Minion", "Elite", "Leader", "Solo"] as const;
 
 function SourceStatus() {
   const error = sourceError.value;
-  if (error) return <span class="source-status error">Source unavailable · {error}</span>;
+  const hbCount = homebrewCatalog.value.length;
+  const hbSuffix = hbCount ? ` · ${hbCount} homebrew` : "";
+  if (error)
+    return (
+      <span class="source-status error">
+        Source unavailable · {error}
+        {hbSuffix}
+      </span>
+    );
   const total = catalog.value.length;
   const hydrated = hydratedCount.value;
   const errors = hydrationErrors.value;
@@ -56,12 +80,18 @@ function SourceStatus() {
     text = `${total} statblocks · loading details ${Math.min(hydrated, total)}/${total}`;
   else
     text = `${total - errors} statblocks from SteelCompendium${errors ? ` · ${errors} unavailable` : ""}`;
-  return <span class="source-status">{text}</span>;
+  return (
+    <span class="source-status">
+      {text}
+      {hbSuffix}
+    </span>
+  );
 }
 
 function FilterBar() {
   const ui = state.value.ui;
   const fielded = fieldedCounts();
+  const hbCount = homebrewCatalog.value.length;
   const budget = evBudgetRemaining();
   const bounds = catalogBounds.value.level;
   const hidden = hiddenFilterCount(ui, bounds);
@@ -72,6 +102,14 @@ function FilterBar() {
   return (
     <div class="filter-bar">
       <div class="filter-row primary-filters">
+        <button
+          class={`chip chip-homebrew ${ui.homebrewOnly ? "active" : ""}`}
+          aria-pressed={ui.homebrewOnly}
+          title="Only your homebrew monsters"
+          onClick={toggleHomebrewOnly}
+        >
+          Homebrew{hbCount > 0 ? <i class="chip-count">{hbCount}</i> : null}
+        </button>
         {(fielded.size > 0 || ui.inEncounter) && (
           <button
             class={`chip ${ui.inEncounter ? "active" : ""}`}
@@ -259,6 +297,7 @@ function MonsterCard({ match, here }: { match: CatalogMatch; here: number }) {
             )}
           </h3>
           <span class="tag">{m.organization}</span>
+          {m.isHomebrew ? <span class="tag tag-homebrew">Homebrew</span> : null}
           {here > 0 ? (
             <span class="fielded-pill" title={`${here} in this encounter`}>
               ×{here}
@@ -281,6 +320,26 @@ function MonsterCard({ match, here }: { match: CatalogMatch; here: number }) {
         </div>
       </div>
       <div class="add-controls">
+        {m.isHomebrew && m.homebrewId ? (
+          <>
+            <button
+              class="preview-button"
+              title="Edit homebrew monster"
+              aria-label={`Edit ${m.name}`}
+              onClick={() => openEditHomebrewMonster(m.homebrewId!)}
+            >
+              <PencilIcon />
+            </button>
+            <button
+              class="preview-button"
+              title="Share link or export JSON"
+              aria-label={`Share ${m.name}`}
+              onClick={() => openShareDialog("monster", m.homebrewId!)}
+            >
+              <ShareIcon />
+            </button>
+          </>
+        ) : null}
         <button
           class="preview-button"
           title="Preview statblock"
@@ -300,20 +359,31 @@ function MonsterCard({ match, here }: { match: CatalogMatch; here: number }) {
 
 function LibraryList() {
   const error = sourceError.value;
-  if (error) {
+  const hasHomebrew = homebrewCatalog.value.length > 0;
+  if (error && !hasHomebrew) {
     return (
       <div class="monster-library panel" id="monsterLibrary">
         <div class="source-error">
           <strong>Could not load SteelCompendium.</strong>
           <span>{error}</span>
-          <button class="secondary" onClick={retrySource}>
-            Retry
-          </button>
+          <div class="hb-empty-actions">
+            <button class="secondary" onClick={retrySource}>
+              Retry
+            </button>
+            <button class="primary" onClick={() => openNewHomebrewMonster()}>
+              <PlusIcon />
+              New monster
+            </button>
+            <button class="secondary" onClick={openImportDialog}>
+              <ImportIcon />
+              Import
+            </button>
+          </div>
         </div>
       </div>
     );
   }
-  if (sourceLoading.value && !catalog.value.length) {
+  if (sourceLoading.value && !catalog.value.length && !hasHomebrew) {
     return (
       <div class="monster-library panel" id="monsterLibrary">
         <div class="library-loading">Loading source index…</div>
@@ -329,6 +399,7 @@ function LibraryList() {
     ui.sort,
     ui.fitsBudget,
     ui.inEncounter,
+    ui.homebrewOnly,
     ui.levelMin,
     ui.levelMax,
     ui.evMin,
@@ -371,6 +442,29 @@ function LibraryList() {
   };
 
   if (!visible.length) {
+    if (ui.homebrewOnly && !hasHomebrew) {
+      return (
+        <div class="monster-library panel" id="monsterLibrary">
+          <div class="empty-state">
+            <p>No homebrew monsters yet.</p>
+            <small>
+              Build one from Draw Steel’s level math, click “Clone &amp; edit” on any official
+              statblock, or import a shared link or JSON file.
+            </small>
+            <div class="hb-empty-actions">
+              <button class="primary" onClick={() => openNewHomebrewMonster()}>
+                <PlusIcon />
+                New monster
+              </button>
+              <button class="secondary" onClick={openImportDialog}>
+                <ImportIcon />
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
     const note =
       (filters || parsed.level || parsed.ev) && stillLoading
         ? "No matches yet — statblock data is still loading."
@@ -444,7 +538,15 @@ function LibraryList() {
 
 export function LibraryColumn() {
   const ui = state.value.ui;
+  const pasting = looksLikeImport(ui.search);
+  const clearSearch = () => setSearch("");
   const onSearchKeyDown = (event: KeyboardEvent) => {
+    if (
+      pasting &&
+      pasteImportKeyDown(event, document.getElementById("libraryPasteImport"), clearSearch)
+    ) {
+      return;
+    }
     if (event.key === "ArrowDown") {
       const first = document.querySelector<HTMLElement>(
         "#monsterLibrary .monster-main.preview-target",
@@ -470,21 +572,48 @@ export function LibraryColumn() {
           <h2>Monster library</h2>
           <SourceStatus />
         </div>
-        <label class="search">
-          <SearchIcon />
-          <input
-            id="prepLibrarySearch"
-            placeholder="Name, ability, lv 2, ev<=12…"
-            value={ui.search}
-            onKeyDown={onSearchKeyDown}
-            onInput={(event) => setSearch(event.currentTarget.value)}
-          />
-          <kbd aria-hidden="true">/</kbd>
-        </label>
+        <div class="library-heading-tools">
+          <button
+            type="button"
+            class="secondary compact-button"
+            title="Import homebrew monster, encounter, or share link"
+            onClick={openImportDialog}
+          >
+            <ImportIcon />
+            <span>Import</span>
+          </button>
+          <button
+            type="button"
+            class="secondary compact-button"
+            title="Create a new homebrew monster"
+            aria-label="New homebrew monster"
+            onClick={() => openNewHomebrewMonster()}
+          >
+            <PlusIcon />
+            <span>New</span>
+          </button>
+          <label class="search">
+            <SearchIcon />
+            <input
+              id="prepLibrarySearch"
+              placeholder="Name, ability, lv 2, ev<=12, or a share link…"
+              value={ui.search}
+              onKeyDown={onSearchKeyDown}
+              onInput={(event) => setSearch(event.currentTarget.value)}
+            />
+            <kbd aria-hidden="true">/</kbd>
+          </label>
+        </div>
       </div>
       <FilterBar />
       {ui.filtersOpen ? <FiltersPanel /> : <ActiveFilterPills />}
-      <LibraryList />
+      {pasting ? (
+        <div class="monster-library panel" id="libraryPasteImport">
+          <PasteImport text={ui.search} onDone={clearSearch} />
+        </div>
+      ) : (
+        <LibraryList />
+      )}
     </section>
   );
 }

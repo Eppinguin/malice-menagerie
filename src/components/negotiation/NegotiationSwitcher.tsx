@@ -2,15 +2,25 @@ import { useState } from "preact/hooks";
 import {
   deleteNegotiation,
   duplicateNegotiation,
+  openImportDialog,
   openNewNegotiation,
+  openShareDialog,
   renameNegotiation,
   selectNegotiation,
   state,
 } from "../../store.ts";
 import { negotiationSummary } from "./NegotiationTracks.tsx";
-import { CloseIcon, CopyIcon, PencilIcon, PlusIcon } from "../Icons.tsx";
+import { CloseIcon, CopyIcon, ImportIcon, PencilIcon, PlusIcon, ShareIcon } from "../Icons.tsx";
 
-function NegotiationRow({ id, active }: { id: string; active: boolean }) {
+function NegotiationRow({
+  id,
+  active,
+  onNavigate,
+}: {
+  id: string;
+  active: boolean;
+  onNavigate?: () => void;
+}) {
   const negotiation = state.value.negotiations.find((item) => item.id === id);
   const [editing, setEditing] = useState(false);
   if (!negotiation) return null;
@@ -38,7 +48,10 @@ function NegotiationRow({ id, active }: { id: string; active: boolean }) {
             class="encounter-name"
             aria-current={active ? "true" : undefined}
             title="Select NPC (double-click to rename)"
-            onClick={() => selectNegotiation(negotiation.id)}
+            onClick={() => {
+              selectNegotiation(negotiation.id);
+              onNavigate?.();
+            }}
             onDblClick={(event) => {
               event.stopPropagation();
               setEditing(true);
@@ -57,6 +70,17 @@ function NegotiationRow({ id, active }: { id: string; active: boolean }) {
           onClick={() => setEditing(true)}
         >
           <PencilIcon />
+        </button>
+        <button
+          class="icon-button"
+          title="Share or export"
+          aria-label={`Share ${negotiation.name || "NPC"}`}
+          onClick={() => {
+            onNavigate?.();
+            openShareDialog("negotiation", negotiation.id);
+          }}
+        >
+          <ShareIcon />
         </button>
         <button
           class="icon-button"
@@ -80,16 +104,36 @@ function NegotiationRow({ id, active }: { id: string; active: boolean }) {
 }
 
 /** The spine's NPC list, shown while the Talk page is open. */
-export function NegotiationSwitcher() {
+export function NegotiationSwitcher({ onNavigate }: { onNavigate?: () => void } = {}) {
   const { negotiations, activeNegotiationId } = state.value;
   return (
     <section class="encounter-switcher negotiation-switcher">
       <div class="encounter-switcher-head">
         <h2 class="spine-heading">NPCs</h2>
-        <button class="mini-button" title="New NPC" onClick={openNewNegotiation}>
-          <PlusIcon />
-          New
-        </button>
+        <div class="spine-head-actions">
+          <button
+            class="mini-button mini-icon-only"
+            title="Import NPC or bundle"
+            aria-label="Import NPC or bundle"
+            onClick={() => {
+              onNavigate?.();
+              openImportDialog();
+            }}
+          >
+            <ImportIcon />
+          </button>
+          <button
+            class="mini-button"
+            title="New NPC"
+            onClick={() => {
+              openNewNegotiation();
+              onNavigate?.();
+            }}
+          >
+            <PlusIcon />
+            New
+          </button>
+        </div>
       </div>
       <div class="encounter-list">
         {negotiations.map((negotiation) => (
@@ -97,6 +141,7 @@ export function NegotiationSwitcher() {
             key={negotiation.id}
             id={negotiation.id}
             active={negotiation.id === activeNegotiationId}
+            {...(onNavigate ? { onNavigate } : {})}
           />
         ))}
       </div>

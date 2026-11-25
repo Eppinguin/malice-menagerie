@@ -8,6 +8,9 @@ import {
   ensureMaliceSelection,
   expandedMaliceFeatures,
   lastMaliceRolls,
+  openEditCustomMalice,
+  openNewCustomMalice,
+  openShareDialog,
   relevantMaliceGroups,
   removeMaliceSelection,
   rollMaliceFeature,
@@ -28,7 +31,7 @@ import {
   TierMark,
 } from "../Statblock.tsx";
 import { PenLoop } from "../Pen.tsx";
-import { CaretIcon, CloseIcon, ExternalIcon, PlusIcon } from "../Icons.tsx";
+import { CaretIcon, CloseIcon, ExternalIcon, PencilIcon, PlusIcon, ShareIcon } from "../Icons.tsx";
 
 function costLabel(feature: MaliceFeature): string {
   return (feature.costText || String(feature.cost || "—")).replace(/\s*Malice/i, "");
@@ -122,15 +125,38 @@ export function MaliceFeaturePreview({
             <CaretIcon class="malice-toggle-mark" />
           </strong>
         </button>
-        <a
-          href={feature.source}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`Open ${feature.name} on SteelCompendium`}
-          title="Open on SteelCompendium"
-        >
-          <ExternalIcon />
-        </a>
+        {feature.isHomebrew && feature.homebrewId ? (
+          <>
+            <button
+              type="button"
+              class="icon-button"
+              title="Edit custom Malice"
+              aria-label={`Edit ${feature.name}`}
+              onClick={() => openEditCustomMalice(feature.homebrewId!)}
+            >
+              <PencilIcon />
+            </button>
+            <button
+              type="button"
+              class="icon-button"
+              title="Share custom Malice"
+              aria-label={`Share ${feature.name}`}
+              onClick={() => openShareDialog("malice", feature.homebrewId!)}
+            >
+              <ShareIcon />
+            </button>
+          </>
+        ) : feature.source ? (
+          <a
+            href={feature.source}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${feature.name} on SteelCompendium`}
+            title="Open on SteelCompendium"
+          >
+            <ExternalIcon />
+          </a>
+        ) : null}
       </div>
       {expanded ? (
         <div class="malice-card-body">
@@ -193,15 +219,38 @@ function MaliceCard({ feature, interactive }: { feature: MaliceFeature; interact
         >
           <CloseIcon />
         </button>
-        <a
-          href={feature.source}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={`Open ${feature.name} on SteelCompendium`}
-          title="Open on SteelCompendium"
-        >
-          <ExternalIcon />
-        </a>
+        {feature.isHomebrew && feature.homebrewId ? (
+          <>
+            <button
+              type="button"
+              class="icon-button"
+              title="Edit custom Malice"
+              aria-label={`Edit ${feature.name}`}
+              onClick={() => openEditCustomMalice(feature.homebrewId!)}
+            >
+              <PencilIcon />
+            </button>
+            <button
+              type="button"
+              class="icon-button"
+              title="Share custom Malice"
+              aria-label={`Share ${feature.name}`}
+              onClick={() => openShareDialog("malice", feature.homebrewId!)}
+            >
+              <ShareIcon />
+            </button>
+          </>
+        ) : feature.source ? (
+          <a
+            href={feature.source}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${feature.name} on SteelCompendium`}
+            title="Open on SteelCompendium"
+          >
+            <ExternalIcon />
+          </a>
+        ) : null}
       </div>
       {expanded ? (
         <div class="malice-card-body">
@@ -237,26 +286,62 @@ function AvailableItem({ feature }: { feature: MaliceFeature }) {
         <PlusIcon />
         Add
       </button>
-      <a
-        href={feature.source}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Open source"
-        title="Open on SteelCompendium"
-      >
-        <ExternalIcon />
-      </a>
+      {feature.isHomebrew && feature.homebrewId ? (
+        <button
+          type="button"
+          class="icon-button"
+          title="Edit custom Malice"
+          aria-label={`Edit ${feature.name}`}
+          onClick={() => openEditCustomMalice(feature.homebrewId!)}
+        >
+          <PencilIcon />
+        </button>
+      ) : feature.source ? (
+        <a
+          href={feature.source}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Open source"
+          title="Open on SteelCompendium"
+        >
+          <ExternalIcon />
+        </a>
+      ) : null}
     </div>
   );
 }
 
 export function MaliceDock({ mode = "combat" }: { mode?: "combat" | "prep" } = {}) {
-  if (maliceLoading.value) {
-    return <span class="dock-loading">Loading SteelCompendium Malice…</span>;
-  }
   const groups = relevantMaliceGroups();
+  if (maliceLoading.value && !groups.length) {
+    return (
+      <div class="malice-empty-bar">
+        <span class="dock-loading">Loading SteelCompendium Malice…</span>
+        <button
+          type="button"
+          class="secondary compact-button"
+          onClick={() => openNewCustomMalice({ pinOnSave: true })}
+        >
+          <PlusIcon />
+          <span>Custom Malice</span>
+        </button>
+      </div>
+    );
+  }
   if (!groups.length) {
-    return <span class="dock-loading">No matching Malice features found.</span>;
+    return (
+      <div class="malice-empty-bar">
+        <span class="dock-loading">No matching Malice features found.</span>
+        <button
+          type="button"
+          class="secondary compact-button"
+          onClick={() => openNewCustomMalice({ pinOnSave: true })}
+        >
+          <PlusIcon />
+          <span>Custom Malice</span>
+        </button>
+      </div>
+    );
   }
 
   ensureMaliceSelection(groups);
@@ -292,22 +377,33 @@ export function MaliceDock({ mode = "combat" }: { mode?: "combat" | "prep" } = {
         )}
       </section>
       <section class={`malice-library-shell ${libraryOpen ? "open" : ""}`}>
-        <button
-          class="malice-library-toggle"
-          aria-expanded={libraryOpen}
-          onClick={toggleMaliceLibrary}
-        >
-          <div>
-            <strong>Available</strong>
-            <span>
-              {availableCount} more
-              {availableGroups.length
-                ? ` · ${availableGroups.map((group) => group.label).join(", ")}`
-                : ""}
-            </span>
-          </div>
-          <CaretIcon class="malice-library-mark" />
-        </button>
+        <div class="malice-library-head-bar">
+          <button
+            class="malice-library-toggle"
+            aria-expanded={libraryOpen}
+            onClick={toggleMaliceLibrary}
+          >
+            <div>
+              <strong>Available</strong>
+              <span>
+                {availableCount} more
+                {availableGroups.length
+                  ? ` · ${availableGroups.map((group) => group.label).join(", ")}`
+                  : ""}
+              </span>
+            </div>
+            <CaretIcon class="malice-library-mark" />
+          </button>
+          <button
+            type="button"
+            class="secondary compact-button malice-new-custom"
+            title="Author a custom Malice feature and pin it to this encounter"
+            onClick={() => openNewCustomMalice({ pinOnSave: true })}
+          >
+            <PlusIcon />
+            <span>Custom Malice</span>
+          </button>
+        </div>
         {libraryOpen ? (
           <div class="malice-library-body">
             {availableGroups.length ? (

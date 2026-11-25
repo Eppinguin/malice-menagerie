@@ -234,3 +234,150 @@ export function PenCross({ seed }: { seed: string | number }) {
     />
   );
 }
+
+/* The switch is drawn at a fixed size, so its lines keep their weight:
+   a pill 46×24 with its outline at 1.5 in, and a thumb that sits the same
+   3 units clear of the outline all round, at either end. */
+const SW = 46;
+const SH = 24;
+const EDGE = 1.5;
+const PAD = 3;
+const PILL_R = SH / 2 - EDGE;
+const KNOB_R = PILL_R - PAD;
+const KNOB_OFF = EDGE + PILL_R;
+const KNOB_ON = SW - EDGE - PILL_R;
+
+/** The pill's outline: true to its shape, with only the drift of a steady
+    hand, and the pen closing a hair past where it started. */
+function pillOutline(r: Rand): string {
+  const j = () => r(-0.45, 0.45);
+  const y0 = EDGE;
+  const y1 = SH - EDGE;
+  const k = PILL_R * 0.5523;
+  const l = KNOB_OFF;
+  const rt = KNOB_ON;
+  const cy = SH / 2;
+  return [
+    `M${pt(l, y0 + j())}`,
+    `C${pt(l + (rt - l) * 0.33, y0 + j())} ${pt(l + (rt - l) * 0.66, y0 + j())} ${pt(rt, y0 + j())}`,
+    `C${pt(rt + k, y0 + j() * 0.5)} ${pt(SW - EDGE + j(), cy - k)} ${pt(SW - EDGE + j() * 0.6, cy + j())}`,
+    `C${pt(SW - EDGE + j(), cy + k)} ${pt(rt + k, y1)} ${pt(rt, y1 + j())}`,
+    `C${pt(l + (rt - l) * 0.66, y1 + j())} ${pt(l + (rt - l) * 0.33, y1 + j())} ${pt(l, y1 + j())}`,
+    `C${pt(l - k, y1 + j() * 0.5)} ${pt(EDGE + j(), cy + k)} ${pt(EDGE + j() * 0.6, cy + j())}`,
+    `C${pt(EDGE + j(), cy - k)} ${pt(l - k, y0 + 0.3)} ${pt(l + 0.6, y0 + 0.35)}`,
+    `Q${pt(l + 2, y0 + 0.4 + j() * 0.4)} ${pt(l + 3.4, y0 - 0.3 + j() * 0.4)}`,
+  ].join(" ");
+}
+
+/** The thumb: a clean circle, closed a hair past its start. */
+function thumbOutline(cx: number, cy: number, rad: number, r: Rand): string {
+  const k = 0.5523 * rad;
+  const j = () => r(-0.3, 0.3);
+  return [
+    `M${pt(cx, cy - rad)}`,
+    `C${pt(cx + k, cy - rad + j())} ${pt(cx + rad + j(), cy - k)} ${pt(cx + rad, cy)}`,
+    `C${pt(cx + rad + j(), cy + k)} ${pt(cx + k, cy + rad + j())} ${pt(cx, cy + rad)}`,
+    `C${pt(cx - k, cy + rad + j())} ${pt(cx - rad + j(), cy + k)} ${pt(cx - rad, cy)}`,
+    `C${pt(cx - rad + j(), cy - k)} ${pt(cx - k, cy - rad + j())} ${pt(cx + 0.4, cy - rad - 0.25)}`,
+    `L${pt(cx + 1.7, cy - rad - 0.05 + j() * 0.5)}`,
+  ].join(" ");
+}
+
+/** One layer of colored-pencil shading over [x0, x1]: fine strokes packed
+    close at one slant, each a little different in spacing, angle, length
+    and pressure, run past the edges so the clip gives a clean boundary. */
+function pencilLayer(
+  x0: number,
+  x1: number,
+  slant: number,
+  gap: number,
+  r: Rand,
+): { d: string; o: number; x: number }[] {
+  const run = SH * slant;
+  const strokes: { d: string; o: number; x: number }[] = [];
+  for (let x = x0 - run; x < x1; x += gap * r(0.8, 1.2)) {
+    const lean = run * r(0.94, 1.06);
+    const bow = r(-0.25, 0.25);
+    const a = pt(x + r(-0.2, 0.2), SH + r(0, 1));
+    const c = pt(x + lean / 2 + bow, SH / 2);
+    const b = pt(x + lean + r(-0.2, 0.2), -r(0, 1));
+    strokes.push({ d: `M${a} Q${c} ${b}`, o: r(0.45, 0.8), x: x + lean / 2 });
+  }
+  return strokes;
+}
+
+/** An on/off switch drawn in pencil on the page: a thin pill outline and a
+    plain white thumb; switched on, the thumb slides right and the track
+    is shaded in blue. */
+export function PenSwitch({
+  seed,
+  checked,
+  onChange,
+  label,
+  title,
+  class: className,
+}: {
+  seed: string;
+  checked: boolean;
+  onChange: (next: boolean) => void;
+  label: string;
+  title?: string;
+  class?: string;
+}) {
+  const r = penRandom(seed);
+  const outline = pillOutline(r);
+  const cy = SH / 2;
+  const thumb = thumbOutline(KNOB_OFF, cy, KNOB_R, r);
+  // Two passes at slightly different slants, so the strokes overlap and
+  // the shade builds up evenly instead of reading as separate lines.
+  const shade = [...pencilLayer(EDGE, SW, 0.55, 1.25, r), ...pencilLayer(EDGE, SW, 0.72, 1.65, r)];
+  const fillR = PILL_R - 0.4;
+  const id = `pen-switch-${seed}`;
+  return (
+    <button
+      type="button"
+      role="switch"
+      class={`pen-switch${className ? ` ${className}` : ""}`}
+      aria-checked={checked}
+      title={title}
+      onClick={() => onChange(!checked)}
+    >
+      <svg class="pen-switch-art" viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true">
+        <defs>
+          {/* Shading fills the whole track, just inside the outline. */}
+          <clipPath id={`${id}-track`}>
+            <rect
+              x={EDGE + 0.4}
+              y={cy - fillR}
+              width={SW - 2 * EDGE - 0.8}
+              height={fillR * 2}
+              rx={fillR}
+            />
+          </clipPath>
+        </defs>
+        {checked ? (
+          <g class="pen-switch-fill" clip-path={`url(#${id}-track)`}>
+            {shade.map((stroke, index) => (
+              <path
+                key={index}
+                pathLength={1}
+                d={stroke.d}
+                style={{
+                  opacity: stroke.o,
+                  // One sweep left to right, as the pencil crosses the track.
+                  animationDelay: `${(0.04 + Math.max(0, stroke.x / SW) * 0.2).toFixed(3)}s`,
+                }}
+              />
+            ))}
+          </g>
+        ) : null}
+        <path class="pen-switch-line" d={outline} />
+        <g class="pen-switch-knob">
+          <circle class="pen-switch-knob-face" cx={KNOB_OFF} cy={cy} r={KNOB_R} />
+          <path class="pen-switch-thumb" d={thumb} />
+        </g>
+      </svg>
+      <span>{label}</span>
+    </button>
+  );
+}

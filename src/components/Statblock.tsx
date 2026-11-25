@@ -1,6 +1,10 @@
 import { fmt, numberFrom, richText, signed } from "../lib/text.ts";
-import { characteristicLabel, type CharacteristicKey } from "../lib/rules.ts";
-import { effectiveSpeed } from "../lib/rules.ts";
+import {
+  characteristicLabel,
+  clickEdgeOverride,
+  effectiveSpeed,
+  type CharacteristicKey,
+} from "../lib/rules.ts";
 import { isMainAction } from "../lib/actions.ts";
 import { isMinion, tierDamage } from "../lib/minions.ts";
 import {
@@ -240,12 +244,19 @@ function LevelMark({
   );
 }
 
+export interface PreviewRollController {
+  results: ReadonlyMap<string, PowerRollResult>;
+  onRollFeature: (featureIndex: number, effectIndex: number, edge?: EdgeState) => void;
+  onRollChar: (key: CharacteristicKey, edge?: EdgeState) => void;
+}
+
 export function LaneHeader({
   monster,
   nav,
   scope = "lane",
   onLevel,
   onRemove,
+  previewRoll,
 }: {
   monster: Monster;
   nav?: LaneNav;
@@ -257,19 +268,23 @@ export function LaneHeader({
   onLevel?: (level: number) => string | null;
   /** Removes every creature/squad of this statblock from the encounter. */
   onRemove?: { count: number; onClick: () => void };
+  /** Optional local test-roller used inside HomebrewStudio preview. */
+  previewRoll?: PreviewRollController;
 }) {
   const was = monster.printed;
-  const speed = effectiveSpeed(monster, activeEncounter().combat.activeEffects);
+  const speed = effectiveSpeed(
+    monster,
+    scope === "lane" ? activeEncounter().combat.activeEffects : [],
+  );
   const charKeys = ["M", "A", "R", "I", "P"] as const;
+  const rollMap = previewRoll ? previewRoll.results : lastRolls.value;
   let lastCharKey: CharacteristicKey | null = null;
-  for (const key of lastRolls.value.keys()) {
+  for (const key of rollMap.keys()) {
     if (key.startsWith(`${monster.id}|char|`)) {
       lastCharKey = key.slice(`${monster.id}|char|`.length) as CharacteristicKey;
     }
   }
-  const lastCharRoll = lastCharKey
-    ? lastRolls.value.get(`${monster.id}|char|${lastCharKey}`)
-    : undefined;
+  const lastCharRoll = lastCharKey ? rollMap.get(`${monster.id}|char|${lastCharKey}`) : undefined;
   const paging = nav && nav.count > 1 ? nav : null;
   // The arrows turn the page; the rest of the band takes it back to its top.
   const turn = (event: MouseEvent, step: number) => {
@@ -376,7 +391,7 @@ export function LaneHeader({
       <LaneDefenses monster={monster} />
       <div class="lane-characteristics">
         {charKeys.map((key) => {
-          const rolling = sharedRollActive.value;
+          const rolling = !previewRoll && sharedRollActive.value;
           return (
             <button
               key={key}
@@ -389,8 +404,14 @@ export function LaneHeader({
               }
               aria-label={`Roll ${characteristicLabel(key)} ${signed(monster.chars[key])}`}
               {...rollPress(
-                (event) => rollCharacteristic(monster.path, key, event),
-                (edge: EdgeState) => rollCharacteristic(monster.path, key, edge),
+                (event) =>
+                  previewRoll
+                    ? previewRoll.onRollChar(key, clickEdgeOverride(event) ?? undefined)
+                    : rollCharacteristic(monster.path, key, event),
+                (edge: EdgeState) =>
+                  previewRoll
+                    ? previewRoll.onRollChar(key, edge)
+                    : rollCharacteristic(monster.path, key, edge),
               )}
             >
               <small>
@@ -645,35 +666,53 @@ function EffectBlock({
   featureIndex,
   effectIndex,
   interactive,
+  previewRoll,
 }: {
   effect: FeatureEffect;
   monster: Monster;
   featureIndex: number;
   effectIndex: number;
   interactive: boolean;
+  previewRoll?: PreviewRollController | undefined;
 }) {
   const rollKey = `${monster.id}|${featureIndex}|${effectIndex}`;
-  const lastRoll = interactive ? lastRolls.value.get(rollKey) : undefined;
+  const lastRoll = previewRoll
+    ? previewRoll.results.get(rollKey)
+    : interactive
+      ? lastRolls.value.get(rollKey)
+      : undefined;
+  const canRoll = interactive || Boolean(previewRoll);
   const printed = monster.printed?.features[featureIndex]?.effects?.[effectIndex];
   return (
     <>
       {effect.roll ? (
         <div class="roll-line">
           <strong dangerouslySetInnerHTML={{ __html: richText(effect.roll, printed?.roll) }} />
-          {interactive ? (
+          {canRoll ? (
             <button
-              aria-busy={sharedRollActive.value}
+              type="button"
+              aria-busy={!previewRoll && sharedRollActive.value}
               title={
-                sharedRollActive.value
+                !previewRoll && sharedRollActive.value
                   ? "Waiting for Connected Dice roll in Owlbear Rodeo…"
                   : "Roll — tap, or hold for edge/bane menu"
               }
               {...rollPress(
-                (event) => rollFeature(monster.path, featureIndex, effectIndex, event),
-                (edge: EdgeState) => rollFeature(monster.path, featureIndex, effectIndex, edge),
+                (event) =>
+                  previewRoll
+                    ? previewRoll.onRollFeature(
+                        featureIndex,
+                        effectIndex,
+                        clickEdgeOverride(event) ?? undefined,
+                      )
+                    : rollFeature(monster.path, featureIndex, effectIndex, event),
+                (edge: EdgeState) =>
+                  previewRoll
+                    ? previewRoll.onRollFeature(featureIndex, effectIndex, edge)
+                    : rollFeature(monster.path, featureIndex, effectIndex, edge),
               )}
             >
-              {sharedRollActive.value ? "Rolling…" : "Roll"}
+              {!previewRoll && sharedRollActive.value ? "Rolling…" : "Roll"}
             </button>
           ) : null}
           {lastRoll ? (
@@ -785,6 +824,7 @@ export function StatblockBody({
   interactive,
   addon,
   summons,
+  previewRoll,
 }: {
   monster: Monster;
   interactive: boolean;
@@ -799,6 +839,8 @@ export function StatblockBody({
       its text. `pays` when they carry their own Malice price, which then
       stands in for the ability's plain spend button. */
   summons?: (featureIndex: number) => { node: ComponentChildren; pays: boolean } | null;
+  /** Optional local test-roller used inside HomebrewStudio preview. */
+  previewRoll?: PreviewRollController;
 }) {
   void folds.value; // subscribe: a tap on a name folds its ability
   /** The name, as the fold control on the Run board; plain print elsewhere. */
@@ -949,6 +991,7 @@ export function StatblockBody({
                   featureIndex={featureIndex}
                   effectIndex={effectIndex}
                   interactive={interactive}
+                  previewRoll={previewRoll}
                 />
               ))}
               {summon?.pays ? (
@@ -965,10 +1008,18 @@ export function StatblockBody({
           </section>
         );
       })}
-      <a class="source-link" href={monster.source} target="_blank" rel="noreferrer">
-        SteelCompendium source
-        <ExternalIcon />
-      </a>
+      {monster.source ? (
+        <a class="source-link" href={monster.source} target="_blank" rel="noreferrer">
+          SteelCompendium source
+          <ExternalIcon />
+        </a>
+      ) : monster.isHomebrew ? (
+        <p class="source-link source-homebrew">
+          Homebrew statblock
+          {monster.origin?.author ? ` · By ${monster.origin.author}` : ""}
+          {monster.origin?.sourceName ? ` · Forked from ${monster.origin.sourceName}` : ""}
+        </p>
+      ) : null}
     </div>
   );
 }

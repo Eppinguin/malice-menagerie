@@ -13,6 +13,7 @@ import {
   unpackHistory,
 } from "./lib/history.ts";
 import { parseStaminaCommand } from "./lib/stamina.ts";
+import { looksLikeImport } from "./lib/importSniff.ts";
 import {
   type CatalogMatch,
   fitsEvBudget,
@@ -44,19 +45,33 @@ import {
   standing,
 } from "./lib/minions.ts";
 import {
-  catalog,
+  allCatalog,
+  allMaliceFeatures,
   hydrateCatalogInBackground,
   hydrateConditionsInBackground,
   hydrateMaliceInBackground,
   loadMonster,
   loadSourceIndex,
-  maliceFeatures,
   maliceLoading,
   monsterAt,
   monsterNameForPath,
   monstersVersion,
+  officialFamilies,
+  syncHomebrewData,
 } from "./data.ts";
-import { basePath, levelKey } from "./lib/levels.ts";
+import { atLevel, basePath, keyLevel, levelKey } from "./lib/levels.ts";
+import { homebrewMaliceId, homebrewMonsterPath, isHomebrewMonsterPath, uuidv7 } from "./lib/id.ts";
+import {
+  blankHomebrewMalice,
+  blankHomebrewMonster,
+  forkMonsterToHomebrew,
+  homebrewToMonster,
+  maliceFeatureToHomebrew,
+  sanitizeHomebrewMalice,
+  sanitizeHomebrewMonster,
+  slugify,
+} from "./lib/homebrew.ts";
+import type { ImportDecision, ImportItemKind, ShareBundleV1 } from "./lib/share.ts";
 import { isRecord } from "./types.ts";
 import {
   applyOutcome,
@@ -84,6 +99,9 @@ import type {
   EncounterView,
   FacetKey,
   Group,
+  HomebrewMalice,
+  HomebrewMonster,
+  HomebrewOrigin,
   LanguageBonus,
   MaliceFeature,
   MaliceGroup,
@@ -117,10 +135,14 @@ function defaultCombat(): CombatState {
 }
 
 function newEncounter(name = "Untitled encounter"): Encounter {
+  const now = Date.now();
   return {
-    id: uid("enc"),
+    id: uuidv7(),
     name,
-    updatedAt: Date.now(),
+    schemaVersion: 1,
+    createdAt: now,
+    updatedAt: now,
+    revision: 1,
     view: "builder",
     party: { heroes: 5, level: 1, victories: 0, bonusMalice: 0 },
     groups: [
@@ -141,6 +163,8 @@ function defaultState(): AppState {
     activeEncounterId: first.id,
     negotiations: [],
     activeNegotiationId: "",
+    homebrewMonsters: [],
+    homebrewMalice: [],
     ui: {
       section: "encounters",
       role: "all",
@@ -160,6 +184,7 @@ function defaultState(): AppState {
       evMax: null,
       fitsBudget: false,
       inEncounter: false,
+      homebrewOnly: false,
     },
   };
 }
@@ -198,6 +223,20 @@ const asStringArray = (value: unknown): string[] =>
 const asNullableNumber = (value: unknown): number | null =>
   typeof value === "number" && Number.isFinite(value) ? value : null;
 
+const RESERVED_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+const safeDocId = (value: unknown, fallback: string): string => {
+  const s = asString(value, "").trim();
+  return s && !RESERVED_KEYS.has(s) ? s : fallback;
+};
+const finiteTimestamp = (value: unknown, fallback: number): number => {
+  const n = Number(value);
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+};
+const finiteRevision = (value: unknown): number | undefined => {
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 1 ? Math.max(1, Math.round(n)) : undefined;
+};
+
 /** Rebuild one guaranteed-valid Encounter from whatever was persisted. */
 function sanitizeEncounter(value: unknown, index: number): Encounter {
   const base = newEncounter(`Encounter ${index + 1}`);
@@ -206,9 +245,27 @@ function sanitizeEncounter(value: unknown, index: number): Encounter {
     return base;
   }
 
-  base.id = asString(value["id"], base.id);
+  base.id = safeDocId(value["id"], base.id);
   base.name = asString(value["name"], base.name).trim() || base.name;
-  base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
+  base.updatedAt = finiteTimestamp(value["updatedAt"], base.updatedAt);
+  const encCreatedAt = finiteTimestamp(value["createdAt"], 0);
+  if (encCreatedAt > 0) base.createdAt = encCreatedAt;
+  const encRevision = finiteRevision(value["revision"]);
+  if (encRevision !== undefined) base.revision = encRevision;
+  if (isRecord(value["origin"])) {
+    const rawOrigin = value["origin"];
+    const origin: HomebrewOrigin = {
+      kind:
+        rawOrigin["kind"] === "official-fork" || rawOrigin["kind"] === "imported"
+          ? rawOrigin["kind"]
+          : "local",
+    };
+    if (typeof rawOrigin["sourceId"] === "string") origin.sourceId = rawOrigin["sourceId"];
+    if (typeof rawOrigin["sourceName"] === "string") origin.sourceName = rawOrigin["sourceName"];
+    if (typeof rawOrigin["author"] === "string") origin.author = rawOrigin["author"];
+    if (typeof rawOrigin["license"] === "string") origin.license = rawOrigin["license"];
+    base.origin = origin;
+  }
   base.view = value["view"] === "combat" ? "combat" : "builder";
 
   if (isRecord(value["party"])) {
@@ -461,7 +518,25 @@ function sanitizeNegotiation(value: unknown, index: number): Negotiation {
     });
   }
 
-  base.updatedAt = Number(value["updatedAt"]) || base.updatedAt;
+  base.updatedAt = finiteTimestamp(value["updatedAt"], base.updatedAt);
+  const negCreatedAt = finiteTimestamp(value["createdAt"], 0);
+  if (negCreatedAt > 0) base.createdAt = negCreatedAt;
+  const negRevision = finiteRevision(value["revision"]);
+  if (negRevision !== undefined) base.revision = negRevision;
+  if (isRecord(value["origin"])) {
+    const rawOrigin = value["origin"];
+    const origin: HomebrewOrigin = {
+      kind:
+        rawOrigin["kind"] === "official-fork" || rawOrigin["kind"] === "imported"
+          ? rawOrigin["kind"]
+          : "local",
+    };
+    if (typeof rawOrigin["sourceId"] === "string") origin.sourceId = rawOrigin["sourceId"];
+    if (typeof rawOrigin["sourceName"] === "string") origin.sourceName = rawOrigin["sourceName"];
+    if (typeof rawOrigin["author"] === "string") origin.author = rawOrigin["author"];
+    if (typeof rawOrigin["license"] === "string") origin.license = rawOrigin["license"];
+    base.origin = origin;
+  }
   return base;
 }
 
@@ -510,6 +585,32 @@ function sanitizeState(value: unknown): AppState {
     );
   }
 
+  if (Array.isArray(value["homebrewMonsters"])) {
+    const byId = new Map<string, HomebrewMonster>();
+    for (const raw of value["homebrewMonsters"]) {
+      const sanitized = sanitizeHomebrewMonster(raw);
+      if (!sanitized) continue;
+      const existing = byId.get(sanitized.id);
+      if (!existing || sanitized.updatedAt >= existing.updatedAt) {
+        byId.set(sanitized.id, sanitized);
+      }
+    }
+    base.homebrewMonsters = [...byId.values()];
+  }
+
+  if (Array.isArray(value["homebrewMalice"])) {
+    const byId = new Map<string, HomebrewMalice>();
+    for (const raw of value["homebrewMalice"]) {
+      const sanitized = sanitizeHomebrewMalice(raw);
+      if (!sanitized) continue;
+      const existing = byId.get(sanitized.id);
+      if (!existing || sanitized.updatedAt >= existing.updatedAt) {
+        byId.set(sanitized.id, sanitized);
+      }
+    }
+    base.homebrewMalice = [...byId.values()];
+  }
+
   if (isRecord(value["ui"])) {
     const ui = value["ui"];
     const sort = ui["sort"];
@@ -523,7 +624,8 @@ function sanitizeState(value: unknown): AppState {
     base.ui = {
       section,
       role: asString(ui["role"], "all"),
-      search: asString(ui["search"], ""),
+      // A pasted share link left in the search box shouldn't reopen its import on reload.
+      search: looksLikeImport(asString(ui["search"], "")) ? "" : asString(ui["search"], ""),
       maliceDockOpen: asBool(ui["maliceDockOpen"], maliceDockDefault()),
       watchOpen: asBool(ui["watchOpen"], maliceDockDefault()),
       maliceLibraryOpen: asBool(ui["maliceLibraryOpen"], false),
@@ -539,6 +641,7 @@ function sanitizeState(value: unknown): AppState {
       evMax: asNullableNumber(ui["evMax"]),
       fitsBudget: asBool(ui["fitsBudget"], false),
       inEncounter: asBool(ui["inEncounter"], false),
+      homebrewOnly: asBool(ui["homebrewOnly"], false),
     };
   }
 
@@ -601,6 +704,16 @@ function loadInitialHistory(): History<AppState> {
 const initialHistory = loadInitialHistory();
 export const historyState = signal<History<AppState>>(initialHistory);
 export const state = signal<AppState>(initialHistory.present);
+
+let lastHomebrewSig = "";
+function syncHomebrewIfChanged(app: AppState): void {
+  const sig = `${app.homebrewMonsters.map((m) => `${m.id}:${m.revision}:${m.updatedAt}`).join(",")}|${app.homebrewMalice.map((m) => `${m.id}:${m.revision}:${m.updatedAt}`).join(",")}`;
+  if (sig === lastHomebrewSig) return;
+  lastHomebrewSig = sig;
+  syncHomebrewData(app.homebrewMonsters, app.homebrewMalice);
+}
+
+syncHomebrewIfChanged(state.peek());
 
 export const canUndo = computed(() => historyState.value.past.length > 0);
 export const canRedo = computed(() => historyState.value.future.length > 0);
@@ -749,6 +862,7 @@ export function mutate(fn: (draft: MutableDraft) => void, step?: HistoryStepMeta
   const enc = activeEncounter();
   fn(draftView(app, enc));
   enc.updatedAt = Date.now();
+  enc.revision = (enc.revision ?? 1) + 1;
   ensureIntegrity(app);
   persist(app);
   const next = { ...app };
@@ -772,6 +886,7 @@ export function mutateApp(fn: (draft: AppState) => void, step?: HistoryStepMeta)
   const app = state.value;
   fn(app);
   ensureIntegrity(app);
+  syncHomebrewIfChanged(app);
   persist(app);
   const next = { ...app };
   if (step && before) {
@@ -799,6 +914,7 @@ export function undoStep(): void {
   const updated = undoHistory({ ...current, present: structuredClone(state.value) });
   const next = structuredClone(updated.present);
   ensureIntegrity(next);
+  syncHomebrewIfChanged(next);
   historyState.value = { ...updated, present: next };
   persist(next);
   state.value = next;
@@ -821,6 +937,7 @@ export function redoStep(): void {
   const updated = redoHistory({ ...current, present: structuredClone(state.value) });
   const next = structuredClone(updated.present);
   ensureIntegrity(next);
+  syncHomebrewIfChanged(next);
   historyState.value = { ...updated, present: next };
   persist(next);
   state.value = next;
@@ -834,11 +951,22 @@ export function clearHistory(): void {
   historyState.value = startHistory(state.value);
 }
 
+let lastQuotaWarningAt = 0;
+
 function persist(app: AppState): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(app));
-  } catch {
-    // Persistence is best-effort; private windows may reject writes.
+  } catch (error) {
+    // Warn when browser storage is full so saves don't silently fail on reload.
+    const isQuota =
+      error instanceof DOMException &&
+      (error.name === "QuotaExceededError" || error.name === "NS_ERROR_DOM_QUOTA_REACHED");
+    if (isQuota && Date.now() - lastQuotaWarningAt > 10_000) {
+      lastQuotaWarningAt = Date.now();
+      queueMicrotask(() =>
+        toast("Local storage is full — export a backup from Settings so changes aren't lost."),
+      );
+    }
   }
 }
 
@@ -946,7 +1074,24 @@ export function setQtyDraft(path: string, value: number): void {
 
 // ---------- Boot ----------
 
+const SHARE_HASH_PREFIX = "#s=";
+let hashListenerInstalled = false;
+
 export async function initApp(): Promise<void> {
+  syncHomebrewIfChanged(state.peek());
+  if (typeof window !== "undefined") {
+    if (window.location.hash.startsWith(SHARE_HASH_PREFIX)) {
+      void openImportFromHash(window.location.hash);
+    }
+    if (!hashListenerInstalled) {
+      hashListenerInstalled = true;
+      window.addEventListener("hashchange", () => {
+        if (window.location.hash.startsWith(SHARE_HASH_PREFIX)) {
+          void openImportFromHash(window.location.hash);
+        }
+      });
+    }
+  }
   try {
     await loadSourceIndex();
   } catch {
@@ -954,7 +1099,7 @@ export async function initApp(): Promise<void> {
   }
   void hydrateCatalogInBackground();
   void hydrateMaliceInBackground().then(() => {
-    expandedMaliceFeatures.value = new Set(maliceFeatures.value.map((feature) => feature.id));
+    expandedMaliceFeatures.value = new Set(allMaliceFeatures.value.map((feature) => feature.id));
   });
   void hydrateConditionsInBackground();
   void hydrateSavedStateSources();
@@ -1126,9 +1271,13 @@ export function duplicateEncounter(encounterId: string): void {
       const source = draft.encounters.find((item) => item.id === encounterId);
       if (!source) return;
       const copy: Encounter = structuredClone(source);
-      copy.id = uid("enc");
+      const now = Date.now();
+      copy.id = uuidv7();
       copy.name = `${source.name} (copy)`;
-      copy.updatedAt = Date.now();
+      copy.schemaVersion = 1;
+      copy.createdAt = now;
+      copy.updatedAt = now;
+      copy.revision = 1;
       // Regenerate all internal ids so the copy never collides with the source
       // encounter's Owlbear token/minion-group links or selection state.
       const groupIds = new Map<string, string>();
@@ -1259,6 +1408,7 @@ export function clearAllFilters(): void {
     draft.ui.levelMin = draft.ui.levelMax = draft.ui.evMin = draft.ui.evMax = null;
     draft.ui.fitsBudget = false;
     draft.ui.inEncounter = false;
+    draft.ui.homebrewOnly = false;
   });
 }
 
@@ -1271,6 +1421,12 @@ export function toggleFitsBudget(): void {
 export function toggleInEncounter(): void {
   mutate((draft) => {
     draft.ui.inEncounter = !draft.ui.inEncounter;
+  });
+}
+
+export function toggleHomebrewOnly(): void {
+  mutate((draft) => {
+    draft.ui.homebrewOnly = !draft.ui.homebrewOnly;
   });
 }
 
@@ -1322,6 +1478,7 @@ export function activeFilterCount(ui: UIState): number {
     (ui.role !== "all" ? 1 : 0) +
     (ui.fitsBudget ? 1 : 0) +
     (ui.inEncounter ? 1 : 0) +
+    (ui.homebrewOnly ? 1 : 0) +
     hiddenFilterCount(ui)
   );
 }
@@ -1410,9 +1567,13 @@ export function matchedCatalog(): {
   const matches: CatalogMatch[] = [];
   let hiddenByFilters = 0;
 
-  for (const entry of catalog.value) {
+  for (const entry of allCatalog.value) {
     const found = matchCatalogEntry(entry, parsed);
     if (!found) continue;
+    if (ui.homebrewOnly && !entry.isHomebrew) {
+      hiddenByFilters += 1;
+      continue;
+    }
     if (fielded && !fielded.has(entry.path)) {
       hiddenByFilters += 1;
       continue;
@@ -2077,7 +2238,14 @@ export async function startCombat(options: { switchView?: boolean } = {}): Promi
   const loaded = await Promise.allSettled(paths.map(loadMonster));
   if (activeEncounter() !== encounter) return;
   if (loaded.some((result) => result.status === "rejected")) {
-    toast("Some SteelCompendium statblocks could not be loaded.");
+    const hasMissingHomebrew = paths.some(
+      (path, idx) => isHomebrewMonsterPath(path) && loaded[idx]?.status === "rejected",
+    );
+    toast(
+      hasMissingHomebrew
+        ? "Some statblocks in this encounter are missing or could not be loaded."
+        : "Some SteelCompendium statblocks could not be loaded.",
+    );
     return;
   }
 
@@ -2163,7 +2331,14 @@ export async function resetCombat(encounterId?: string): Promise<void> {
   const loaded = await Promise.allSettled(paths.map(loadMonster));
   if (!state.value.encounters.some((item) => item.id === targetId)) return;
   if (loaded.some((result) => result.status === "rejected")) {
-    toast("Some SteelCompendium statblocks could not be loaded.");
+    const hasMissingHomebrew = paths.some(
+      (path, idx) => isHomebrewMonsterPath(path) && loaded[idx]?.status === "rejected",
+    );
+    toast(
+      hasMissingHomebrew
+        ? "Some statblocks in this encounter are missing or could not be loaded."
+        : "Some SteelCompendium statblocks could not be loaded.",
+    );
     return;
   }
 
@@ -2461,7 +2636,7 @@ export function decrementMonster(monsterPath: string): void {
 /** The squad limits a creature on the board prints, if it prints any. */
 export function summonerRules(summoner: CombatInstance): SquadRules | null {
   const m = monsterAt(summoner.sourcePath);
-  return m ? squadRules(m, catalog.value, (path) => monsterAt(path)) : null;
+  return m ? squadRules(m, allCatalog.value, (path) => monsterAt(path)) : null;
 }
 
 /**
@@ -3020,7 +3195,7 @@ export function rollCharacteristic(
 }
 
 export function rollMaliceFeature(featureId: string, effectIndex: number, input?: EdgeInput): void {
-  const feature = maliceFeatures.value.find((item) => item.id === featureId);
+  const feature = allMaliceFeatures.value.find((item) => item.id === featureId);
   const effect = feature?.effects[effectIndex];
   if (!feature || !effect || !(effect.tier1 || effect.tier2 || effect.tier3)) return;
   const key = `${feature.id}|${effectIndex}`;
@@ -3080,17 +3255,18 @@ function familyDisplayLabel(family: string): string {
     .join(" ");
 }
 
-/** Family Malice features unlocked by a single monster at its current level. */
+/** Family & attached custom Malice features unlocked by a single monster at its current level. */
 export function maliceFeaturesForMonster(monster: Monster): MaliceFeature[] {
   const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
-  if (!family) return [];
-  const available = maliceFeatures.value.filter(
-    (feature) =>
-      feature.scope === "family" &&
-      feature.family === family &&
-      feature.minLevel <= monster.level &&
-      !isPriorMaliceGateway(feature),
-  );
+  const attachedIds = new Set((monster.customMaliceIds ?? []).map((id) => homebrewMaliceId(id)));
+  const available = allMaliceFeatures.value.filter((feature) => {
+    if (isPriorMaliceGateway(feature)) return false;
+    if (attachedIds.has(feature.id)) return true;
+    if (!family) return false;
+    return (
+      feature.scope === "family" && feature.family === family && feature.minLevel <= monster.level
+    );
+  });
   return dedupeMaliceFeatures(available).sort(
     (a, b) => a.cost - b.cost || a.name.localeCompare(b.name),
   );
@@ -3098,21 +3274,67 @@ export function maliceFeaturesForMonster(monster: Monster): MaliceFeature[] {
 
 export function relevantMaliceGroups(): MaliceGroup[] {
   const enc = activeEncounter();
-  if (!enc.items.length && !enc.combat.instances.length) return [];
+  const features = allMaliceFeatures.value;
+  const hasEncounterMonsters = enc.items.length > 0 || enc.combat.instances.length > 0;
+  if (!hasEncounterMonsters) {
+    const customOnly = features.filter((feature) => feature.isHomebrew);
+    if (!customOnly.length) return [];
+    return [
+      {
+        id: "custom",
+        label: "Custom Malice",
+        subtitle: "Homebrew features",
+        features: customOnly.sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name)),
+      },
+    ];
+  }
   const groups: MaliceGroup[] = [];
-  const features = maliceFeatures.value;
   const basic = dedupeMaliceFeatures(
-    features.filter((feature) => feature.scope === "basic" && !isPriorMaliceGateway(feature)),
+    features.filter(
+      (feature) =>
+        !feature.isHomebrew && feature.scope === "basic" && !isPriorMaliceGateway(feature),
+    ),
   ).sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
   if (basic.length)
     groups.push({ id: "basic", label: "Basic", subtitle: "All monsters", features: basic });
 
+  // Collect custom Malice attached to monsters in this encounter, matching
+  // their families, pinned directly, or marked general/encounter-wide.
+  const encSources = [
+    ...enc.items.map((item) => item.sourcePath),
+    ...enc.combat.instances.map((instance) => instance.sourcePath),
+  ];
+  const attachedIds = new Set<string>();
+  for (const path of encSources) {
+    const m = monsterAt(path);
+    for (const id of m?.customMaliceIds ?? []) attachedIds.add(homebrewMaliceId(id));
+  }
   const activeFamilies = activeMonsterFamilies();
+  const pinnedIds = new Set(enc.combat.selectedMaliceFeatureIds);
+  const customAvailable = features
+    .filter((feature) => {
+      if (!feature.isHomebrew) return false;
+      if (attachedIds.has(feature.id) || pinnedIds.has(feature.id)) return true;
+      if (feature.scope === "basic" || feature.family === "custom") return true;
+      const fam = activeFamilies.get(feature.family);
+      return Boolean(fam && feature.minLevel <= fam.maxLevel);
+    })
+    .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
+  if (customAvailable.length) {
+    groups.push({
+      id: "custom",
+      label: "Custom Malice",
+      subtitle: "Homebrew features",
+      features: customAvailable,
+    });
+  }
+
   for (const familyInfo of [...activeFamilies.values()].sort((a, b) =>
     a.label.localeCompare(b.label),
   )) {
     const available = features.filter(
       (feature) =>
+        !feature.isHomebrew &&
         feature.scope === "family" &&
         feature.family === familyInfo.family &&
         feature.minLevel <= familyInfo.maxLevel &&
@@ -3387,7 +3609,7 @@ export function toggleVillainAction(instanceId: string, n: number): void {
 }
 
 export function useMaliceFeature(featureId: string): void {
-  const feature = maliceFeatures.value.find((item) => item.id === featureId);
+  const feature = allMaliceFeatures.value.find((item) => item.id === featureId);
   if (!feature) return;
   if (feature.cost > activeEncounter().combat.malice) {
     toast(`Need ${feature.cost} Malice.`);
@@ -3464,8 +3686,13 @@ export function closeNewNegotiation(): void {
     a neutral start and six blank outcome lines. */
 function newNegotiation(name = "New NPC"): Negotiation {
   const attitude = attitudeOf("neutral");
+  const now = Date.now();
   return {
-    id: uid("neg"),
+    id: uuidv7(),
+    schemaVersion: 1,
+    createdAt: now,
+    updatedAt: now,
+    revision: 1,
     name,
     ask: "",
     archetype: "",
@@ -3480,7 +3707,6 @@ function newNegotiation(name = "New NPC"): Negotiation {
     outcomes: ["", "", "", "", "", ""],
     log: [],
     ended: null,
-    updatedAt: Date.now(),
   };
 }
 
@@ -3562,13 +3788,17 @@ export function duplicateNegotiation(id: string): void {
   mutateApp((app) => {
     const source = app.negotiations.find((item) => item.id === id);
     if (!source) return;
+    const now = Date.now();
     const copy: Negotiation = {
       ...structuredClone(source),
-      id: uid("neg"),
+      id: uuidv7(),
+      schemaVersion: 1,
+      createdAt: now,
+      updatedAt: now,
+      revision: 1,
       name: `${source.name} copy`,
       log: [],
       ended: null,
-      updatedAt: Date.now(),
     };
     delete copy.overrideEnded;
     for (const item of [...copy.motivations, ...copy.pitfalls]) item.used = false;
@@ -3611,6 +3841,7 @@ function mutateNegotiation(fn: (draft: Negotiation) => void): void {
     if (!target) return;
     fn(target);
     target.updatedAt = Date.now();
+    target.revision = (target.revision ?? 1) + 1;
   });
 }
 
@@ -4176,3 +4407,633 @@ export function closePreview(): void {
   previewEntry.value = null;
   previewPath.value = null;
 }
+
+// ---------- Homebrew Studio, Custom Malice, Share & Import ----------
+
+export interface HomebrewStudioState {
+  mode: "create" | "edit";
+  draft: HomebrewMonster;
+  /** True when opened from Prep library to offer "Save & add to encounter". */
+  allowAddOnSave: boolean;
+}
+
+export interface CustomMaliceEditorState {
+  mode: "create" | "edit";
+  draft: HomebrewMalice;
+  pinOnSave?: boolean;
+  onSaved?: (id: string) => void;
+}
+
+export interface ShareDialogState {
+  kind: ImportItemKind;
+  id: string;
+}
+
+export interface ImportDialogState {
+  bundle: ShareBundleV1 | null;
+  error: string;
+  fromUrl: boolean;
+}
+
+export const homebrewStudioState = signal<HomebrewStudioState | null>(null);
+export const customMaliceEditorState = signal<CustomMaliceEditorState | null>(null);
+export const shareDialogState = signal<ShareDialogState | null>(null);
+export const importDialogState = signal<ImportDialogState | null>(null);
+
+let studioOpenSeq = 0;
+
+export async function openNewHomebrewMonster(options?: {
+  level?: number;
+  organization?: string;
+  role?: string;
+}): Promise<void> {
+  closePreview();
+  const seq = ++studioOpenSeq;
+  const partyLevel = activeEncounter().party.level;
+  const draft = blankHomebrewMonster(
+    options?.level ?? partyLevel,
+    options?.organization ?? "Platoon",
+    options?.role ?? "Brute",
+  );
+  const [{ buildRoleStarterFeatures }, { compendiumGlossary }] = await Promise.all([
+    import("./lib/monsterCraft.ts"),
+    import("./lib/compendiumGlossary.ts"),
+  ]);
+  if (seq !== studioOpenSeq) return;
+  draft.features = buildRoleStarterFeatures(
+    draft.level,
+    draft.organization,
+    draft.role,
+    draft.chars,
+    compendiumGlossary.value,
+  );
+  homebrewStudioState.value = {
+    mode: "create",
+    draft,
+    allowAddOnSave: true,
+  };
+}
+
+export async function openNewSiblingMonster(sourceId: string): Promise<void> {
+  const existing = state.value.homebrewMonsters.find((item) => item.id === sourceId);
+  if (!existing) return;
+  closePreview();
+  const seq = ++studioOpenSeq;
+  const [{ newSiblingInFamily }, { compendiumGlossary }] = await Promise.all([
+    import("./lib/monsterCraft.ts"),
+    import("./lib/compendiumGlossary.ts"),
+  ]);
+  if (seq !== studioOpenSeq) return;
+  homebrewStudioState.value = {
+    mode: "create",
+    draft: newSiblingInFamily(existing, compendiumGlossary.value),
+    allowAddOnSave: true,
+  };
+}
+
+export function openEditHomebrewMonster(id: string): void {
+  const existing = state.value.homebrewMonsters.find((item) => item.id === id);
+  if (!existing) return;
+  closePreview();
+  homebrewStudioState.value = {
+    mode: "edit",
+    draft: structuredClone(existing),
+    allowAddOnSave: false,
+  };
+}
+
+export function openCloneMonster(sourcePath: string): void {
+  const monster = monsterAt(sourcePath);
+  if (!monster) {
+    toast("Wait for that statblock to finish loading before cloning.");
+    return;
+  }
+  closePreview();
+  homebrewStudioState.value = {
+    mode: "create",
+    draft: forkMonsterToHomebrew(monster),
+    allowAddOnSave: true,
+  };
+}
+
+export function closeHomebrewStudio(): void {
+  homebrewStudioState.value = null;
+}
+
+export function encountersUsingHomebrewMonster(id: string): Encounter[] {
+  const target = homebrewMonsterPath(id);
+  return state.value.encounters.filter(
+    (enc) =>
+      enc.items.some((item) => basePath(item.sourcePath) === target) ||
+      enc.combat.instances.some((inst) => basePath(inst.sourcePath) === target),
+  );
+}
+
+/**
+ * Reconcile all saved encounters and active combat instances referencing a
+ * homebrew monster after it is saved or updated via import. Runs inside the
+ * same `mutateApp` transaction so Undo/Redo stays atomic.
+ */
+function resyncEncountersForHomebrewMonster(app: AppState, record: HomebrewMonster): void {
+  const nextBasePath = homebrewMonsterPath(record.id);
+  const nextBaseMonster = homebrewToMonster(record);
+  const resolveTarget = (path: string): { normalizedPath: string; monster: Monster } => {
+    const requestedLevel = keyLevel(path);
+    if (requestedLevel !== null && requestedLevel !== record.level) {
+      return { normalizedPath: path, monster: atLevel(nextBaseMonster, requestedLevel) };
+    }
+    return { normalizedPath: nextBasePath, monster: nextBaseMonster };
+  };
+
+  for (const enc of app.encounters) {
+    let encTouched = false;
+    const itemById = new Map<string, EncounterItem>();
+
+    for (const item of enc.items) {
+      if (basePath(item.sourcePath) !== nextBasePath) {
+        itemById.set(item.id, item);
+        continue;
+      }
+      const { normalizedPath, monster: targetM } = resolveTarget(item.sourcePath);
+      if (item.sourcePath !== normalizedPath) {
+        item.sourcePath = normalizedPath;
+        encTouched = true;
+      }
+      const wantSquad = isMinion(targetM);
+      if (Boolean(item.squad) !== wantSquad) {
+        item.squad = wantSquad;
+        if (wantSquad) {
+          item.count = Math.min(SQUAD_MAX, Math.max(1, item.count || targetM.defaultQty));
+        }
+        encTouched = true;
+      }
+      itemById.set(item.id, item);
+    }
+
+    for (const inst of enc.combat.instances) {
+      if (basePath(inst.sourcePath) !== nextBasePath) continue;
+      encTouched = true;
+      const { normalizedPath, monster: targetM } = resolveTarget(inst.sourcePath);
+      if (inst.sourcePath !== normalizedPath) inst.sourcePath = normalizedPath;
+
+      const wantMinion = isMinion(targetM);
+      const prevMax = inst.maxStamina;
+
+      if (wantMinion && inst.kind !== "minion-squad") {
+        // Creature became a Minion: convert into a squad.
+        releaseCaptain(enc.combat.instances, inst.id);
+        const matchingItem = inst.entryId ? itemById.get(inst.entryId) : undefined;
+        inst.kind = "minion-squad";
+        inst.count = Math.min(
+          SQUAD_MAX,
+          Math.max(1, matchingItem?.count ?? targetM.defaultQty ?? 4),
+        );
+      } else if (!wantMinion && inst.kind === "minion-squad") {
+        // Minion became a non-minion creature: drop captain link and convert back.
+        delete inst.captainId;
+        inst.kind = "creature";
+        inst.count = 1;
+      }
+
+      const targetMax =
+        inst.kind === "minion-squad"
+          ? minionStamina(inst, targetM) * Math.max(1, inst.count)
+          : targetM.stamina;
+
+      if (prevMax > 0 && targetMax !== prevMax) {
+        const share = inst.currentStamina / prevMax;
+        inst.currentStamina =
+          inst.currentStamina <= 0 ? 0 : Math.max(1, Math.round(targetMax * share));
+        inst.maxStamina = targetMax;
+      } else if (targetMax !== prevMax) {
+        inst.maxStamina = targetMax;
+      }
+
+      inst.turns = Math.max(1, targetM.turnsPerRound);
+      inst.turnsTaken = Math.min(inst.turnsTaken, inst.turns);
+    }
+
+    if (encTouched) {
+      enc.updatedAt = Date.now();
+      enc.revision = (enc.revision ?? 1) + 1;
+    }
+  }
+}
+
+/**
+ * Save a new or edited homebrew monster, bumping revision/updatedAt, updating
+ * the live catalog, and rescaling Stamina/turns on any live combat instances
+ * already using it across saved encounters.
+ */
+export function saveHomebrewMonster(
+  record: HomebrewMonster,
+  options?: { addToEncounter?: boolean },
+): string {
+  const sanitized = sanitizeHomebrewMonster(record);
+  if (!sanitized) return "";
+  const existing = state.value.homebrewMonsters.find((item) => item.id === sanitized.id);
+  const now = Date.now();
+  const finalRecord: HomebrewMonster = {
+    ...sanitized,
+    createdAt: existing?.createdAt ?? sanitized.createdAt ?? now,
+    updatedAt: now,
+    revision: existing ? existing.revision + 1 : 1,
+  };
+
+  const stepId = mutateApp(
+    (app) => {
+      const idx = app.homebrewMonsters.findIndex((item) => item.id === finalRecord.id);
+      if (idx >= 0) app.homebrewMonsters[idx] = finalRecord;
+      else app.homebrewMonsters.push(finalRecord);
+      if (existing) resyncEncountersForHomebrewMonster(app, finalRecord);
+    },
+    { label: existing ? `Updated ${finalRecord.name}` : `Created ${finalRecord.name}` },
+  );
+
+  const nextBasePath = homebrewMonsterPath(finalRecord.id);
+  const nextMonster = monsterAt(nextBasePath);
+
+  closeHomebrewStudio();
+  if (options?.addToEncounter) {
+    void addToEncounter(nextBasePath, nextMonster?.defaultQty ?? 1);
+  } else {
+    toast(existing ? `Saved ${finalRecord.name}` : `Created ${finalRecord.name}`, {
+      undoStepId: stepId,
+    });
+  }
+  return finalRecord.id;
+}
+
+export function duplicateHomebrewMonster(id: string): string {
+  const source = state.value.homebrewMonsters.find((item) => item.id === id);
+  if (!source) return "";
+  const now = Date.now();
+  const copy: HomebrewMonster = {
+    ...structuredClone(source),
+    id: uuidv7(),
+    name: `${source.name} (copy)`,
+    createdAt: now,
+    updatedAt: now,
+    revision: 1,
+    origin: {
+      kind: "local",
+      sourceId: source.id,
+      sourceName: source.name,
+      ...(source.origin?.author ? { author: source.origin.author } : {}),
+    },
+  };
+  const stepId = mutateApp(
+    (app) => {
+      app.homebrewMonsters.push(copy);
+    },
+    { label: `Duplicated ${source.name}` },
+  );
+  toast(`Duplicated ${source.name}`, { undoStepId: stepId });
+  return copy.id;
+}
+
+export function deleteHomebrewMonster(id: string): void {
+  const target = state.value.homebrewMonsters.find((item) => item.id === id);
+  if (!target) return;
+  const path = homebrewMonsterPath(id);
+  const stepId = mutateApp(
+    (app) => {
+      app.homebrewMonsters = app.homebrewMonsters.filter((item) => item.id !== id);
+      for (const enc of app.encounters) {
+        const hadItem = enc.items.some((item) => basePath(item.sourcePath) === path);
+        const removedIds = new Set(
+          enc.combat.instances
+            .filter((inst) => basePath(inst.sourcePath) === path)
+            .map((inst) => inst.id),
+        );
+        const hadEffect = enc.combat.activeEffects.some((eff) => basePath(eff.sourcePath) === path);
+        if (!hadItem && !removedIds.size && !hadEffect) continue;
+
+        for (const removedId of removedIds) {
+          releaseCaptain(enc.combat.instances, removedId);
+        }
+        enc.items = enc.items.filter((item) => basePath(item.sourcePath) !== path);
+        enc.combat.instances = enc.combat.instances.filter((inst) => !removedIds.has(inst.id));
+        for (const surviving of enc.combat.instances) {
+          if (surviving.summonedBy && removedIds.has(surviving.summonedBy)) {
+            delete surviving.summonedBy;
+          }
+        }
+        enc.combat.activeEffects = enc.combat.activeEffects.filter(
+          (eff) => basePath(eff.sourcePath) !== path,
+        );
+        if (!enc.items.length && !enc.combat.instances.length) {
+          enc.combat.active = false;
+          enc.combat.activeGroupFilter = null;
+        }
+        enc.updatedAt = Date.now();
+        enc.revision = (enc.revision ?? 1) + 1;
+      }
+    },
+    { label: `Deleted ${target.name}` },
+  );
+  if (previewPath.value && basePath(previewPath.value) === path) closePreview();
+  if (homebrewStudioState.value?.draft.id === id) closeHomebrewStudio();
+  toast(`Deleted ${target.name}`, { undoStepId: stepId });
+}
+
+export function openNewCustomMalice(options?: {
+  family?: string;
+  familyLabel?: string;
+  minLevel?: number;
+  pinOnSave?: boolean;
+  onSaved?: (id: string) => void;
+}): void {
+  customMaliceEditorState.value = {
+    mode: "create",
+    draft: blankHomebrewMalice(options?.family, options?.familyLabel, options?.minLevel ?? 1),
+    ...(options?.pinOnSave !== undefined ? { pinOnSave: options.pinOnSave } : {}),
+    ...(options?.onSaved ? { onSaved: options.onSaved } : {}),
+  };
+}
+
+export function openEditCustomMalice(id: string): void {
+  const existing = state.value.homebrewMalice.find((item) => item.id === id);
+  if (!existing) return;
+  customMaliceEditorState.value = {
+    mode: "edit",
+    draft: structuredClone(existing),
+  };
+}
+
+export function closeCustomMaliceEditor(): void {
+  customMaliceEditorState.value = null;
+}
+
+export function saveHomebrewMalice(
+  record: HomebrewMalice,
+  options?: { pinToEncounter?: boolean; onSaved?: (id: string) => void },
+): string {
+  const sanitized = sanitizeHomebrewMalice(record);
+  if (!sanitized) return "";
+  const existing = state.value.homebrewMalice.find((item) => item.id === sanitized.id);
+  const now = Date.now();
+  const finalRecord: HomebrewMalice = {
+    ...sanitized,
+    createdAt: existing?.createdAt ?? sanitized.createdAt ?? now,
+    updatedAt: now,
+    revision: existing ? existing.revision + 1 : 1,
+  };
+  const malFeatureId = homebrewMaliceId(finalRecord.id);
+  const stepId = mutateApp(
+    (app) => {
+      const idx = app.homebrewMalice.findIndex((item) => item.id === finalRecord.id);
+      if (idx >= 0) app.homebrewMalice[idx] = finalRecord;
+      else app.homebrewMalice.push(finalRecord);
+      if (options?.pinToEncounter) {
+        const enc =
+          app.encounters.find((item) => item.id === app.activeEncounterId) ?? app.encounters[0];
+        if (enc && !enc.combat.selectedMaliceFeatureIds.includes(malFeatureId)) {
+          enc.combat.selectedMaliceFeatureIds.push(malFeatureId);
+          enc.combat.maliceSelectionInitialized = true;
+        }
+      }
+    },
+    { label: existing ? `Updated ${finalRecord.name}` : `Created ${finalRecord.name}` },
+  );
+  expandedMaliceFeatures.value = new Set([...expandedMaliceFeatures.value, malFeatureId]);
+  closeCustomMaliceEditor();
+  options?.onSaved?.(finalRecord.id);
+  toast(existing ? `Saved ${finalRecord.name}` : `Created ${finalRecord.name}`, {
+    undoStepId: stepId,
+  });
+  return finalRecord.id;
+}
+
+export function deleteHomebrewMalice(id: string): void {
+  const target = state.value.homebrewMalice.find((item) => item.id === id);
+  if (!target) return;
+  const malId = homebrewMaliceId(id);
+  const stepId = mutateApp(
+    (app) => {
+      app.homebrewMalice = app.homebrewMalice.filter((item) => item.id !== id);
+      for (const mon of app.homebrewMonsters) {
+        if (mon.maliceIds?.includes(id)) {
+          mon.maliceIds = mon.maliceIds.filter((item) => item !== id);
+        }
+      }
+      for (const enc of app.encounters) {
+        enc.combat.selectedMaliceFeatureIds = enc.combat.selectedMaliceFeatureIds.filter(
+          (item) => item !== malId,
+        );
+      }
+    },
+    { label: `Deleted ${target.name}` },
+  );
+  if (customMaliceEditorState.value?.draft.id === id) closeCustomMaliceEditor();
+  toast(`Deleted ${target.name}`, { undoStepId: stepId });
+}
+
+/** A Malice family the Director made: its custom features share its slug. */
+export interface CustomMaliceFamily {
+  slug: string;
+  label: string;
+  /** Features in the family. */
+  count: number;
+  /** Homebrew monsters drawing on the family. */
+  users: number;
+}
+
+/**
+ * Every custom Malice family: any family slug on custom Malice or on a
+ * homebrew monster that isn't an official family. A family exists as long
+ * as one feature or one monster names it.
+ */
+export const customMaliceFamilies = computed<CustomMaliceFamily[]>(() => {
+  const official = new Set(officialFamilies.value.map((fam) => fam.slug.toLowerCase()));
+  const map = new Map<string, CustomMaliceFamily>();
+  const touch = (slugRaw: string, label?: string) => {
+    const slug = slugRaw.trim().toLowerCase();
+    if (!slug || official.has(slug)) return null;
+    let fam = map.get(slug);
+    if (!fam) {
+      fam = { slug, label: label?.trim() || slugToLabelText(slug), count: 0, users: 0 };
+      map.set(slug, fam);
+    } else if (label?.trim() && fam.count === 0) {
+      fam.label = label.trim();
+    }
+    return fam;
+  };
+  for (const mal of state.value.homebrewMalice) {
+    const fam = touch(mal.family, mal.familyLabel);
+    if (fam) fam.count += 1;
+  }
+  for (const mon of state.value.homebrewMonsters) {
+    const fam = touch(mon.familyPath);
+    if (fam) fam.users += 1;
+  }
+  return [...map.values()].sort((a, b) => a.label.localeCompare(b.label));
+});
+
+function slugToLabelText(slug: string): string {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+/** A slug for a new family named `label`, clear of official and custom ones. */
+export function newMaliceFamilySlug(label: string): string {
+  const taken = new Set([
+    ...officialFamilies.value.map((fam) => fam.slug.toLowerCase()),
+    ...customMaliceFamilies.value.map((fam) => fam.slug),
+  ]);
+  const base = slugify(label);
+  if (!taken.has(base)) return base;
+  let n = 2;
+  while (taken.has(`${base}-${n}`)) n++;
+  return `${base}-${n}`;
+}
+
+/**
+ * Copies Malice features into a custom family as the Director's own records,
+ * in one undo step.
+ */
+export function addMaliceToFamily(
+  features: readonly MaliceFeature[],
+  family: string,
+  familyLabel: string,
+): string[] {
+  if (!features.length) return [];
+  const records = features.map((feature) => maliceFeatureToHomebrew(feature, family, familyLabel));
+  const label =
+    records.length === 1
+      ? `Added ${records[0]!.name} to ${familyLabel}`
+      : `Copied ${records.length} Malice features into ${familyLabel}`;
+  const stepId = mutateApp(
+    (app) => {
+      app.homebrewMalice.push(...records);
+    },
+    { label },
+  );
+  toast(label, { undoStepId: stepId });
+  return records.map((record) => record.id);
+}
+
+export function openShareDialog(kind: ImportItemKind, id: string): void {
+  shareDialogState.value = { kind, id };
+}
+
+export function closeShareDialog(): void {
+  shareDialogState.value = null;
+}
+
+export function openImportDialog(): void {
+  importDialogState.value = { bundle: null, error: "", fromUrl: false };
+}
+
+let importHashSeq = 0;
+
+export async function openImportFromHash(hash: string): Promise<void> {
+  const share = await import("./lib/share.ts");
+  if (!share.extractShareToken(hash)) return;
+  const seq = ++importHashSeq;
+  const decoded = await share.decodeBundleFromHash(hash);
+  if (seq !== importHashSeq) return;
+  if (decoded.ok) {
+    importDialogState.value = { bundle: decoded.bundle, error: "", fromUrl: true };
+  } else {
+    importDialogState.value = { bundle: null, error: decoded.error, fromUrl: true };
+  }
+}
+
+export async function openImportFromText(text: string, fallbackName?: string): Promise<void> {
+  const { parseImportInput } = await import("./lib/share.ts");
+  const parsed = await parseImportInput(text, fallbackName);
+  if (parsed.ok) {
+    importDialogState.value = { bundle: parsed.bundle, error: "", fromUrl: false };
+  } else {
+    importDialogState.value = { bundle: null, error: parsed.error, fromUrl: false };
+  }
+}
+
+function clearShareHashFromUrl(): void {
+  if (typeof window === "undefined") return;
+  if (window.location.hash.startsWith(SHARE_HASH_PREFIX)) {
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+  }
+}
+
+export function closeImportDialog(): void {
+  const wasFromUrl = importDialogState.value?.fromUrl ?? false;
+  importDialogState.value = null;
+  if (wasFromUrl) clearShareHashFromUrl();
+}
+
+export async function commitImportBundle(
+  bundle: ShareBundleV1,
+  decisions: ReadonlyMap<string, ImportDecision>,
+): Promise<{ kind: ImportItemKind; id: string } | undefined> {
+  const { applyImportToAppState } = await import("./lib/share.ts");
+  let summary = {
+    added: 0,
+    updated: 0,
+    copied: 0,
+    skipped: 0,
+    primaryTarget: undefined as { kind: ImportItemKind; id: string } | undefined,
+  };
+  const stepId = mutateApp(
+    (app) => {
+      const result = applyImportToAppState(
+        app,
+        bundle,
+        decisions,
+        sanitizeEncounter,
+        sanitizeNegotiation,
+      );
+      summary = {
+        added: result.added,
+        updated: result.updated,
+        copied: result.copied,
+        skipped: result.skipped,
+        primaryTarget: result.primaryTarget,
+      };
+      for (const updatedId of result.updatedMonsterIds ?? []) {
+        const updatedRecord = app.homebrewMonsters.find((m) => m.id === updatedId);
+        if (updatedRecord) resyncEncountersForHomebrewMonster(app, updatedRecord);
+      }
+      if (result.primaryTarget?.kind === "encounter") {
+        app.activeEncounterId = result.primaryTarget.id;
+        app.ui.section = "encounters";
+      } else if (result.primaryTarget?.kind === "negotiation") {
+        app.activeNegotiationId = result.primaryTarget.id;
+        app.ui.section = "negotiations";
+      }
+    },
+    { label: "Imported shared content" },
+  );
+
+  closeImportDialog();
+  clearShareHashFromUrl();
+
+  const totalImported = summary.added + summary.updated + summary.copied;
+  if (summary.primaryTarget?.kind === "monster") {
+    openPreview(homebrewMonsterPath(summary.primaryTarget.id));
+  } else if (summary.primaryTarget?.kind === "encounter") {
+    void hydrateSavedStateSources();
+  }
+
+  if (totalImported === 0) {
+    toast("Nothing imported.");
+  } else {
+    const parts: string[] = [];
+    if (summary.added) parts.push(`${summary.added} added`);
+    if (summary.updated) parts.push(`${summary.updated} updated`);
+    if (summary.copied) parts.push(`${summary.copied} copied`);
+    toast(`Imported: ${parts.join(", ")}`, { undoStepId: stepId });
+  }
+  return summary.primaryTarget;
+}
+
+/** Hand a pasted bundle to the import dialog for per-item review. */
+export function reviewImportBundle(bundle: ShareBundleV1): void {
+  importDialogState.value = { bundle, error: "", fromUrl: false };
+}
+
+export { isHomebrewMonsterPath };

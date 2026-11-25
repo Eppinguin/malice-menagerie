@@ -899,9 +899,13 @@ export function createOutboundSync(options: {
 
       // Ignore pure state.ui mutations (search typing, sidebar/filter toggles)
       // and lastSelectedInstanceId-only store bumps so we don't rescan on keystrokes.
+      const homebrewSig = (state.value.homebrewMonsters ?? [])
+        .map((m) => `${m.id}:${m.revision}:${m.updatedAt}`)
+        .join(",");
       const encounterDataSig = [
         currentEnc.id,
         currentEnc.combat.round,
+        homebrewSig,
         currentEnc.groups.map((g) => `${g.id}:${g.name}`).join(","),
         currentEnc.combat.instances
           .map(

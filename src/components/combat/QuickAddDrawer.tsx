@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import {
+  allCatalog,
   catalog,
   catalogBounds,
   hydratedCount,
@@ -44,6 +45,8 @@ import { difficultyFor, partyMath } from "../../lib/rules.ts";
 import { familyLabel, fmt } from "../../lib/text.ts";
 import type { SortKey } from "../../types.ts";
 import { ActiveFilterPills, FiltersPanel } from "../LibraryFilters.tsx";
+import { PasteImport, pasteImportKeyDown } from "../PasteImport.tsx";
+import { looksLikeImport } from "../../lib/importSniff.ts";
 import {
   CaretIcon,
   CloseIcon,
@@ -238,7 +241,16 @@ export function QuickAddDrawer() {
     renameGroup(groupId, value);
   };
 
+  const pasting = looksLikeImport(ui.search);
+  const clearPaste = () => {
+    setSearch("");
+    searchRef.current?.focus();
+  };
+
   const onSearchKeyDown = (event: KeyboardEvent) => {
+    if (pasting && pasteImportKeyDown(event, document.getElementById("quickAddList"), clearPaste)) {
+      return;
+    }
     if (event.key === "ArrowDown") {
       const first = document.querySelector<HTMLElement>("#quickAddList .qa-row-main");
       if (first) {
@@ -458,8 +470,8 @@ export function QuickAddDrawer() {
             <input
               ref={searchRef}
               id="quickAddSearch"
-              placeholder="Name, ability, lv 2, ev<=12…"
-              aria-label="Search monsters"
+              placeholder="Name, ability, lv 2, ev<=12, or a share link…"
+              aria-label="Search monsters or paste a share link"
               value={ui.search}
               onKeyDown={onSearchKeyDown}
               onInput={(event) => setSearch(event.currentTarget.value)}
@@ -514,9 +526,9 @@ export function QuickAddDrawer() {
           </div>
 
           <div class="qa-summary">
-            <span class="qa-count" aria-live="polite">
+            <span class="qa-count" aria-live="polite" hidden={pasting}>
               <b>{matches.length}</b>
-              {filtering ? ` of ${catalog.value.length}` : " monsters"}
+              {filtering ? ` of ${allCatalog.value.length}` : " monsters"}
               {parsed.level ? (
                 <i class="query-token">{describeRange("Level", parsed.level)}</i>
               ) : null}
@@ -561,7 +573,7 @@ export function QuickAddDrawer() {
         </div>
 
         <div class="qa-list" id="quickAddList" role="list" onKeyDown={onListKeyDown}>
-          {sourceError.value ? (
+          {sourceError.value && !allCatalog.value.length ? (
             <div class="source-error">
               <strong>Could not load SteelCompendium.</strong>
               <span>{sourceError.value}</span>
@@ -569,7 +581,16 @@ export function QuickAddDrawer() {
                 Retry
               </button>
             </div>
-          ) : sourceLoading.value && !catalog.value.length ? (
+          ) : pasting ? (
+            <PasteImport
+              text={ui.search}
+              onDone={() => setSearch("")}
+              addTo={{
+                groupId: targetGroupId,
+                groupName: enc.groups.find((g) => g.id === targetGroupId)?.name ?? "encounter",
+              }}
+            />
+          ) : sourceLoading.value && !allCatalog.value.length ? (
             <div class="library-loading">Loading source index…</div>
           ) : !visible.length ? (
             <div class="empty-state qa-empty">

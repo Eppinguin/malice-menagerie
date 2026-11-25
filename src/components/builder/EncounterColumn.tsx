@@ -20,6 +20,7 @@ import {
   freshEntry,
   hasCombatProgress,
   openPreview,
+  openShareDialog,
   resetCombat,
   selectPrepGroup,
   setView,
@@ -31,7 +32,7 @@ import { SQUAD_MAX } from "../../lib/minions.ts";
 import { keyLevel } from "../../lib/levels.ts";
 import type { ComponentChildren } from "preact";
 import type { EncounterItem, Group } from "../../types.ts";
-import { CaretIcon, CloseIcon, GripIcon, MinusIcon, PlusIcon } from "../Icons.tsx";
+import { CaretIcon, CloseIcon, GripIcon, MinusIcon, PlusIcon, ShareIcon } from "../Icons.tsx";
 import { MaliceDock } from "../combat/MaliceDock.tsx";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { PHONE, prefersReducedMotion } from "../../lib/phoneScroll.ts";
@@ -494,6 +495,14 @@ export function EncounterColumn() {
           <span class="count-pill">
             {count} {count === 1 ? "enemy" : "enemies"}
           </span>
+          <button
+            class="icon-button"
+            title="Share encounter link or export JSON"
+            aria-label={`Share ${enc.name}`}
+            onClick={() => openShareDialog("encounter", enc.id)}
+          >
+            <ShareIcon />
+          </button>
           <button class="secondary compact-button" onClick={addGroup}>
             <PlusIcon />
             Group

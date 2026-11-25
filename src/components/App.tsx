@@ -9,10 +9,14 @@ import {
   closeQuickAdd,
   createEncounter,
   creatingNegotiation,
+  customMaliceEditorState,
   encounterTotals,
+  homebrewStudioState,
+  importDialogState,
   mobileNavOpen,
   nextRound,
   openConditionPickerFor,
+  openImportFromText,
   openNewNegotiation,
   previousRound,
   quickAddOpen,
@@ -23,13 +27,16 @@ import {
   setMobileNav,
   setSection,
   setView,
+  shareDialogState,
   state,
+  toast,
   toggleQuickAdd,
   toggleSidebar,
   undoLabel,
   undoStep,
 } from "../store.ts";
-import { useEffect, useRef } from "preact/hooks";
+import type { ComponentType } from "preact";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { installPhoneScroll } from "../lib/phoneScroll.ts";
 import { difficultyFor, partyMath } from "../lib/rules.ts";
 import { fmt } from "../lib/text.ts";
@@ -66,6 +73,30 @@ import { PenRing } from "./Pen.tsx";
 import { PreviewDrawer } from "./PreviewDrawer.tsx";
 import { RulePreview } from "./RulePreview.tsx";
 import { Toast } from "./Toast.tsx";
+
+/** Lazy-load heavy authoring/sharing modals on first open so initial load stays lean. */
+function LazyModal({ open, load }: { open: boolean; load: () => Promise<ComponentType> }) {
+  const [Comp, setComp] = useState<ComponentType | null>(null);
+  useEffect(() => {
+    if (!open || Comp) return;
+    let cancelled = false;
+    void load().then((loaded) => {
+      if (!cancelled) setComp(() => loaded);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, Comp, load]);
+  if (!open || !Comp) return null;
+  return <Comp />;
+}
+
+const loadHomebrewStudio = () =>
+  import("./homebrew/HomebrewStudio.tsx").then((m) => m.HomebrewStudio);
+const loadCustomMaliceDialog = () =>
+  import("./homebrew/CustomMaliceDialog.tsx").then((m) => m.CustomMaliceDialog);
+const loadShareDialog = () => import("./homebrew/ShareDialog.tsx").then((m) => m.ShareDialog);
+const loadImportDialog = () => import("./homebrew/ImportDialog.tsx").then((m) => m.ImportDialog);
 
 type IconProps = { class?: string };
 
@@ -295,7 +326,11 @@ function MobileNav() {
           </button>
         </div>
         <NavButtons collapsed={false} onNavigate={close} />
-        {isTalk ? <NegotiationSwitcher /> : <EncounterSwitcher onNavigate={close} />}
+        {isTalk ? (
+          <NegotiationSwitcher onNavigate={close} />
+        ) : (
+          <EncounterSwitcher onNavigate={close} />
+        )}
         <div class="spine-foot">
           <AppSettingsButton onOpen={close} />
         </div>
@@ -539,7 +574,7 @@ export function App() {
         // remaining board layers one at a time.
         if (
           document.querySelector(
-            ".preview-drawer.open, .owlbear-panel, .edge-menu, .owlbear-send-menu",
+            ".hb-modal-overlay, .hb-studio-overlay, .preview-drawer.open, .owlbear-panel, .edge-menu, .owlbear-send-menu",
           )
         ) {
           return;
@@ -556,6 +591,16 @@ export function App() {
           closeQuickAdd();
           return;
         }
+      }
+
+      // Do not fire global background shortcuts while a homebrew studio or modal is open.
+      if (
+        homebrewStudioState.value ||
+        customMaliceEditorState.value ||
+        shareDialogState.value ||
+        importDialogState.value
+      ) {
+        return;
       }
 
       const key = event.key.toLowerCase();
@@ -597,6 +642,38 @@ export function App() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+  useEffect(() => {
+    const hasJsonFile = (event: DragEvent) =>
+      Boolean(event.dataTransfer?.types && Array.from(event.dataTransfer.types).includes("Files"));
+    const onDragOver = (event: DragEvent) => {
+      if (hasJsonFile(event)) event.preventDefault();
+    };
+    const onDrop = (event: DragEvent) => {
+      if (!hasJsonFile(event)) return;
+      event.preventDefault();
+      const file = Array.from(event.dataTransfer?.files ?? []).find(
+        (f) => f.name.toLowerCase().endsWith(".json") || f.type === "application/json",
+      );
+      if (!file) {
+        toast("Drop a .json file to import.");
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        toast("That file is too large to import safely (4 MB limit).");
+        return;
+      }
+      void file
+        .text()
+        .then((text) => openImportFromText(text, file.name.replace(/\.json$/i, "")))
+        .catch(() => toast("Could not read that file."));
+    };
+    window.addEventListener("dragover", onDragOver);
+    window.addEventListener("drop", onDrop);
+    return () => {
+      window.removeEventListener("dragover", onDragOver);
+      window.removeEventListener("drop", onDrop);
+    };
   }, []);
   useEffect(() => {
     if (view !== "talk") return;
@@ -705,6 +782,10 @@ export function App() {
       <RulePreview />
       <EdgeMenu />
       <OwlbearSendMenu />
+      <LazyModal open={homebrewStudioState.value !== null} load={loadHomebrewStudio} />
+      <LazyModal open={customMaliceEditorState.value !== null} load={loadCustomMaliceDialog} />
+      <LazyModal open={shareDialogState.value !== null} load={loadShareDialog} />
+      <LazyModal open={importDialogState.value !== null} load={loadImportDialog} />
       <Toast />
     </>
   );

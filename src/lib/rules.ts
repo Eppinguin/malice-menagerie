@@ -47,8 +47,8 @@ const CHARACTERISTIC_NAMES = {
 
 export function resolvePowerRollBonus(rollText: string, actor: Monster | null): number {
   const text = String(rollText || "");
-  const numeric = text.match(/([+-]\s*\d+)\s*$/);
-  if (numeric?.[1]) return Number(numeric[1].replace(/\s/g, ""));
+  const numeric = text.match(/([+\-\u2212\u2013]\s*\d+)\s*$/);
+  if (numeric?.[1]) return Number(numeric[1].replace(/[\u2212\u2013]/g, "-").replace(/\s/g, ""));
   if (!actor?.chars) return 0;
 
   if (/\+\s*(?:the\s+)?highest\s+characteristic(?:\s+score)?/i.test(text)) {

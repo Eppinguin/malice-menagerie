@@ -247,3 +247,60 @@ export const DiceIcon = (p: IconProps) => (
     <path d="M4 9.5 8.5 13M20 9.5 15.5 13" />
   </Glyph>
 );
+
+export const ShareIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <circle cx="18" cy="5" r="3" />
+    <circle cx="6" cy="12" r="3" />
+    <circle cx="18" cy="19" r="3" />
+    <path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" />
+  </Glyph>
+);
+
+/** Import: arrow entering a tray/document from the left. */
+export const ImportIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M15 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4" />
+    <path d="M3 12h11m-4-4 4 4-4 4" />
+  </Glyph>
+);
+
+/** Export / download: downward arrow into a tray. */
+export const DownloadIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M12 3v12m-4-4 4 4 4-4" />
+    <path d="M4 15v5h16v-5" />
+  </Glyph>
+);
+
+export const LinkIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M10 13a5 5 0 0 0 7.1 0l2.8-2.8a5 5 0 0 0-7.1-7.1L11 4.9" />
+    <path d="M14 11a5 5 0 0 0-7.1 0l-2.8 2.8a5 5 0 0 0 7.1 7.1L13 19.1" />
+  </Glyph>
+);
+
+export const ArrowUpIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m6 15 6-6 6 6" />
+  </Glyph>
+);
+
+export const ArrowDownIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m6 9 6 6 6-6" />
+  </Glyph>
+);
+
+export const CheckIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="m5 12 5 5L20 7" />
+  </Glyph>
+);
+
+export const BookIcon = (p: IconProps) => (
+  <Glyph {...p}>
+    <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5Z" />
+    <path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20" />
+  </Glyph>
+);

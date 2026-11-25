@@ -204,6 +204,9 @@ export interface ResolveOptions {
 /** Fast hot-path lookup when only the resolved StatblockRef is needed (skips
  * fuzzy Levenshtein candidate ranking on unresolved monsters). */
 export function resolveStatblockRef(m: Monster, options: ResolveOptions = {}): StatblockRef | null {
+  // Homebrew monsters do not exist in Draw Steel Tools' built-in statblock index;
+  // never auto-bind an official statblock on name collision.
+  if (m.isHomebrew) return null;
   const name = m.name;
   const level = printedLevel(m);
   const normalized = normalizeName(name);
@@ -225,6 +228,14 @@ export function resolveStatblockRef(m: Monster, options: ResolveOptions = {}): S
 }
 
 export function resolveStatblock(m: Monster, options: ResolveOptions = {}): StatblockResolution {
+  if (m.isHomebrew) {
+    return {
+      ref: null,
+      reason: "Homebrew monster — stats sync without an official Draw Steel Tools statblock.",
+      confidence: 0,
+      candidates: [],
+    };
+  }
   const name = m.name;
   const level = printedLevel(m);
   const normalized = normalizeName(name);

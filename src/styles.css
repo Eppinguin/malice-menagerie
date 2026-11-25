@@ -481,7 +481,7 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: var(--radius);
   color: var(--ink-2);
   font-family: var(--font-tab);
-  font-size: 8.5px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -10755,4 +10755,287 @@ body.dragging-encounter-entry .monster-library::before {
   .qa-party-caret {
     transition: none;
   }
+}
+
+/* ==========================================================================
+   HOMEBREW STUDIO, CUSTOM MALICE, SHARE & IMPORT
+   Bestiary-page grammar: white/charcoal stock, flat panel-grey bands, thin
+   V-notched rules, Bitter serif, ballpoint blue for Director-authored values,
+   Malice crimson exclusively for Malice, heavy ink for deletion.
+   ========================================================================== */
+
+body.studio-open {
+  overflow: hidden;
+}
+
+.library-heading-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.library-heading-tools .search {
+  min-width: 220px;
+  flex: 0 1 280px;
+}
+
+.library-heading-tools .compact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.source-link.source-homebrew {
+  cursor: default;
+  text-decoration: none;
+  color: var(--ink-3);
+}
+
+.tag-homebrew {
+  border-color: var(--pen-line);
+  color: var(--pen);
+}
+
+.chip-homebrew .chip-count {
+  font-style: normal;
+  margin-left: 4px;
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.hb-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.hb-empty-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spine-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-button.mini-icon-only {
+  padding: 4px 6px;
+}
+
+.preview-drawer-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.preview-drawer-head-actions .compact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preview-drawer-origin {
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.malice-library-head-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.malice-library-head-bar .malice-library-toggle {
+  flex: 1 1 auto;
+}
+
+.malice-new-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.malice-empty-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.malice-empty-bar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.app-settings-data {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.app-settings-data h3 {
+  margin: 0;
+  font-family: var(--font-head);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.app-settings-data-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.app-settings-data-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@media (max-width: 620px) {
+  .library-heading-tools {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .library-heading-tools .search {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .preview-drawer-head {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .preview-drawer-title {
+    flex: 1 1 100%;
+  }
+}
+
+/* Pasted share link / JSON in a library search field: the import reads as
+   library rows from elsewhere, with the results bar naming the source. */
+.paste-import-bar {
+  align-items: center;
+  gap: 6px 14px;
+  flex-wrap: wrap;
+}
+.paste-import-bar [role="status"] {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 6px;
+}
+.paste-import-bar .icon {
+  width: 14px;
+  height: 14px;
+}
+.paste-import-note {
+  margin: 6px 0 0;
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.paste-import-footer .paste-import-note {
+  margin: 0 auto 0 0;
+}
+.qa-row-main .paste-import-note {
+  margin-top: 2px;
+  font-size: 12.5px;
+}
+@media (hover: none) and (pointer: coarse) {
+  .paste-import-bar .paste-import-keys {
+    display: none;
+  }
+}
+.paste-import-keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  color: var(--ink-3);
+}
+.paste-import-keys kbd {
+  padding: 2px 6px 1px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--tint);
+  font-family: var(--font-tab);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink-3);
+}
+.paste-import-keys kbd + kbd,
+.paste-import-keys kbd:not(:first-child) {
+  margin-left: 6px;
+}
+.paste-import-row:hover {
+  background: transparent;
+}
+.paste-import-row .monster-meta {
+  margin-left: 0;
+}
+.paste-import-status {
+  border-style: dashed;
+  white-space: nowrap;
+}
+.paste-import-actions .text-button {
+  margin-right: 6px;
+}
+.paste-import-more {
+  margin: 0;
+  padding: 10px 2px;
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.paste-import-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 14px;
+  padding: 12px 6px 4px;
+}
+.paste-import-quick .paste-import-bar {
+  position: static;
+  padding: 8px 14px 8px 16px;
+}
+.paste-import-quick .paste-import-more,
+.paste-import-quick .paste-import-footer {
+  padding-inline: 16px 14px;
+}
+.paste-import-quick .add-controls .primary {
+  padding: 8px 12px;
+  font-size: 13.5px;
+}
+.paste-import-error .paste-import-keys {
+  font-style: normal;
+  font-size: 12.5px;
+}
+.qa-count[hidden] {
+  display: none;
+}
+.qa-count[hidden] + .qa-summary-tools {
+  margin-left: auto;
 }

@@ -9,13 +9,23 @@ import {
   deleteEncounter,
   duplicateEncounter,
   hasCombatProgress,
+  openImportDialog,
+  openShareDialog,
   renameEncounter,
   resetCombat,
   selectEncounter,
   state,
 } from "../store.ts";
 import type { Encounter } from "../types.ts";
-import { CloseIcon, CopyIcon, PencilIcon, PlusIcon, ResetIcon } from "./Icons.tsx";
+import {
+  CloseIcon,
+  CopyIcon,
+  ImportIcon,
+  PencilIcon,
+  PlusIcon,
+  ResetIcon,
+  ShareIcon,
+} from "./Icons.tsx";
 
 function encounterSummary(enc: Encounter): string {
   const enemies = enc.items.reduce((sum, item) => sum + item.count, 0);
@@ -91,6 +101,14 @@ function EncounterRow({
         </button>
         <button
           class="icon-button"
+          title="Share or export"
+          aria-label={`Share ${enc.name}`}
+          onClick={() => openShareDialog("encounter", enc.id)}
+        >
+          <ShareIcon />
+        </button>
+        <button
+          class="icon-button"
           title="Duplicate"
           aria-label={`Duplicate ${enc.name}`}
           onClick={() => duplicateEncounter(enc.id)}
@@ -157,17 +175,30 @@ export function EncounterSwitcher({ onNavigate }: { onNavigate?: () => void } = 
     <section class="encounter-switcher">
       <div class="encounter-switcher-head">
         <h2 class="spine-heading">Saved</h2>
-        <button
-          class="mini-button"
-          title="New encounter"
-          onClick={() => {
-            createEncounter();
-            onNavigate?.();
-          }}
-        >
-          <PlusIcon />
-          New
-        </button>
+        <div class="spine-head-actions">
+          <button
+            class="mini-button mini-icon-only"
+            title="Import encounter or homebrew"
+            aria-label="Import encounter or homebrew"
+            onClick={() => {
+              openImportDialog();
+              onNavigate?.();
+            }}
+          >
+            <ImportIcon />
+          </button>
+          <button
+            class="mini-button"
+            title="New encounter"
+            onClick={() => {
+              createEncounter();
+              onNavigate?.();
+            }}
+          >
+            <PlusIcon />
+            New
+          </button>
+        </div>
       </div>
       <div class="encounter-list">
         {encounters.map((enc) => (

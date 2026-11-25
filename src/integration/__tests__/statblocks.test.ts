@@ -7,10 +7,13 @@ import {
   normalizeName,
   printedLevel,
   resolveStatblock,
+  resolveStatblockRef,
   similarity,
   statblockIndexForResource,
   statblockKey,
 } from "../statblocks.ts";
+import { planImport } from "../identity.ts";
+import type { Encounter } from "../../types.ts";
 
 function monster(overrides: Partial<Monster> = {}): Monster {
   return {
@@ -111,6 +114,64 @@ describe("statblock resolution", () => {
   it("does not guess when the ancestry conflicts", () => {
     const result = resolveStatblock(monster({ keywords: ["Elf"] }));
     expect(result.ref).toBeNull();
+  });
+
+  it("never binds official statblocks or flags unresolved entries for homebrew monsters", () => {
+    const hb = monster({
+      path: "homebrew:monster:test-goblin",
+      isHomebrew: true,
+      homebrewId: "test-goblin",
+    });
+    expect(resolveStatblockRef(hb)).toBeNull();
+    const res = resolveStatblock(hb);
+    expect(res.ref).toBeNull();
+    expect(res.candidates).toEqual([]);
+
+    const enc: Encounter = {
+      id: "enc-1",
+      name: "Homebrew Ambush",
+      updatedAt: 1000,
+      view: "combat",
+      party: { heroes: 4, level: 1, victories: 0, bonusMalice: 0 },
+      groups: [{ id: "g1", name: "A" }],
+      activePrepGroupId: "g1",
+      items: [{ id: "item-1", sourcePath: hb.path, groupId: "g1", count: 1 }],
+      combat: {
+        active: true,
+        round: 1,
+        malice: 5,
+        instances: [
+          {
+            id: "inst-1",
+            entryId: "item-1",
+            sourcePath: hb.path,
+            kind: "creature",
+            name: "Goblin Warrior",
+            groupId: "g1",
+            maxStamina: 10,
+            currentStamina: 10,
+            count: 1,
+            turns: 1,
+            turnsTaken: 0,
+            conditions: [],
+            reactions: [],
+            villainRounds: [0, 0, 0],
+          },
+        ],
+        activeGroupFilter: null,
+        activeEffects: [],
+        selectedMaliceFeatureIds: [],
+        maliceSelectionInitialized: true,
+      },
+    };
+    const plan = planImport({
+      encounter: enc,
+      mappings: [],
+      lookup: (p) => (p === hb.path ? hb : undefined),
+    });
+    expect(plan.combatants).toHaveLength(1);
+    expect(plan.combatants[0]?.statblock).toBeNull();
+    expect(plan.unresolved).toEqual([]);
   });
 
   it("uses the printed level for a re-levelled statblock", () => {

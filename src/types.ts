@@ -99,6 +99,84 @@ export interface UIState {
   evMax: number | null;
   fitsBudget: boolean;
   inEncounter: boolean;
+  homebrewOnly: boolean;
+}
+
+// ---------- Homebrew & future-ready identity metadata ----------
+
+export type HomebrewOriginKind = "local" | "official-fork" | "imported";
+
+export interface HomebrewOrigin {
+  kind: HomebrewOriginKind;
+  /** Original official SteelCompendium path or upstream canonical UUID. */
+  sourceId?: string;
+  /** Human-readable name of the source statblock or bundle item. */
+  sourceName?: string;
+  /** Optional creator attribution preserved across exports and future sharing. */
+  author?: string;
+  /** Optional license note (e.g. "CC BY-SA 4.0"). */
+  license?: string;
+}
+
+/**
+ * Shared identity & sync envelope on user-authored entities so local records
+ * map 1:1 to future backend rows without a schema or ID migration.
+ */
+export interface EntityMeta {
+  /** Globally unique canonical ID (RFC 9562 UUIDv7 for all new records). */
+  id: string;
+  schemaVersion: 1;
+  createdAt: number;
+  updatedAt: number;
+  /** Monotonic edit counter for optimistic concurrency & import comparison. */
+  revision: number;
+  origin?: HomebrewOrigin;
+  visibility?: "private" | "unlisted" | "public";
+  tags?: string[];
+  packId?: string;
+}
+
+export interface HomebrewMonster extends EntityMeta {
+  name: string;
+  level: number;
+  organization: string;
+  role: string;
+  /** Printed EV string (e.g. "12", or "3 for four minions" for minions). */
+  ev: string;
+  size: string;
+  speed: string;
+  movement: string;
+  stamina: number;
+  stability: string;
+  freeStrike: string;
+  immunities: string[];
+  weaknesses: string[];
+  withCaptain: string;
+  /** Optional explicit override for solo/custom turns per round (defaults from features/1). */
+  turnsPerRound?: number;
+  chars: Characteristics;
+  keywords: string[];
+  /** Official SteelCompendium family slug (e.g. "goblin") to inherit official Malice,
+      a custom family slug, or "" for none. */
+  familyPath: string;
+  features: MonsterFeature[];
+  /** Canonical UUIDs of custom HomebrewMalice features attached to this monster. */
+  maliceIds?: string[];
+}
+
+export interface HomebrewMalice extends EntityMeta {
+  name: string;
+  cost: number;
+  costText: string;
+  icon: string;
+  distance: string;
+  target: string;
+  keywords: string[];
+  effects: FeatureEffect[];
+  /** Official or custom family slug, or "" for general / encounter-wide Malice. */
+  family: string;
+  familyLabel: string;
+  minLevel: number;
 }
 
 /**
@@ -109,7 +187,11 @@ export interface UIState {
 export interface Encounter {
   id: string;
   name: string;
+  schemaVersion?: 1;
+  createdAt?: number;
   updatedAt: number;
+  revision?: number;
+  origin?: HomebrewOrigin;
   /** The lens (Prep/Run) this encounter was last left on. */
   view: EncounterView;
   party: Party;
@@ -124,6 +206,8 @@ export interface AppState {
   activeEncounterId: string;
   negotiations: Negotiation[];
   activeNegotiationId: string;
+  homebrewMonsters: HomebrewMonster[];
+  homebrewMalice: HomebrewMalice[];
   ui: UIState;
 }
 
@@ -195,7 +279,11 @@ export interface Negotiation {
   ended: Ending;
   /** True when the Director chose "Keep talking" past a terminal track value. */
   overrideEnded?: boolean;
+  schemaVersion?: 1;
+  createdAt?: number;
   updatedAt: number;
+  revision?: number;
+  origin?: HomebrewOrigin;
 }
 
 // ---------- SteelCompendium source data ----------
@@ -297,6 +385,11 @@ export interface Monster {
   raw: RawStatblock;
   /** On a statblock at another level, the statblock as printed. */
   printed?: Monster;
+  /** Set on user-authored or imported homebrew statblocks. */
+  isHomebrew?: boolean;
+  homebrewId?: string;
+  origin?: HomebrewOrigin;
+  customMaliceIds?: string[];
 }
 
 export interface CatalogEntry {
@@ -307,6 +400,7 @@ export interface CatalogEntry {
   derivedName: string;
   monster: Monster | null;
   error: boolean;
+  isHomebrew?: boolean;
 }
 
 // ---------- Malice ----------
@@ -367,6 +461,9 @@ export interface MaliceFeature {
   familyLabel: string;
   minLevel: number;
   blockName: string;
+  isHomebrew?: boolean;
+  homebrewId?: string;
+  origin?: HomebrewOrigin;
 }
 
 export interface MaliceGroup {
