@@ -1,3 +1,4 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { conditionCatalog, conditionInfo, monsterAt, monstersVersion } from "../../data.ts";
 import { isHomebrewMonsterPath } from "../../lib/id.ts";
 import { sourceUrl } from "../../lib/repo.ts";
@@ -1436,15 +1437,8 @@ export function CombatBoard() {
   const encounter = activeEncounter();
   const combat = encounter.combat;
   const filter = combat.activeGroupFilter;
-  const [laneUi, setLaneUi] = useState<
-    Record<string, { showDefeated?: boolean; expanded?: boolean }>
-  >({});
-  const toggleLaneFlag = (path: string, key: "showDefeated" | "expanded") => {
-    setLaneUi((prev) => ({
-      ...prev,
-      [path]: { ...prev[path], [key]: !prev[path]?.[key] },
-    }));
-  };
+  const rosterDisclosure = (path: string, section: "defeated" | "full") =>
+    disclosure(`combat-roster/${encounter.id}/${section}/${path}`);
   // A picked group is a plain filter: only its statblocks, and in them only
   // its creatures, in their usual order. Nothing moves but what is hidden.
   const lanes = groupInstancesByMonster()
@@ -1491,12 +1485,9 @@ export function CombatBoard() {
       targetLane &&
       targetInst &&
       targetInst.currentStamina <= 0 &&
-      !laneUi[targetLane.path]?.showDefeated
+      !rosterDisclosure(targetLane.path, "defeated").open
     ) {
-      setLaneUi((prev) => ({
-        ...prev,
-        [targetLane.path]: { ...prev[targetLane.path], showDefeated: true },
-      }));
+      rosterDisclosure(targetLane.path, "defeated").setOpen(true);
     }
     handledSelectionSeq.current = selectionPulse.seq;
     const reveal = () => {
@@ -1613,13 +1604,14 @@ export function CombatBoard() {
               </section>
             );
           }
-          const ui = laneUi[path] ?? {};
+          const roster = rosterDisclosure(path, "full");
+          const defeated = rosterDisclosure(path, "defeated");
           const standingCards = shown.filter((instance) => instance.currentStamina > 0);
           const defeatedCount = shown.length - standingCards.length;
           const allDown = shown.length > 0 && standingCards.length === 0;
           const spent = allDown || (standingCards.length > 0 && standingCards.every(hasActed));
-          const visibleList = ui.showDefeated ? shown : standingCards;
-          const shownCards = ui.expanded ? visibleList : visibleList.slice(0, ROSTER_PREVIEW);
+          const visibleList = defeated.open ? shown : standingCards;
+          const shownCards = roster.open ? visibleList : visibleList.slice(0, ROSTER_PREVIEW);
           const extraCount = visibleList.length - ROSTER_PREVIEW;
           const minion = isMinion(monster);
           return (
@@ -1657,19 +1649,19 @@ export function CombatBoard() {
                 {extraCount > 0 ? (
                   <button
                     class="lane-action-btn"
-                    aria-expanded={Boolean(ui.expanded)}
-                    onClick={() => toggleLaneFlag(path, "expanded")}
+                    aria-expanded={roster.open}
+                    onClick={roster.toggle}
                   >
-                    {ui.expanded ? "Show fewer" : `${extraCount} more`}
+                    {roster.open ? "Show fewer" : `${extraCount} more`}
                   </button>
                 ) : null}
                 {defeatedCount > 0 ? (
                   <button
                     class="lane-action-btn lane-down-toggle"
-                    aria-expanded={Boolean(ui.showDefeated)}
-                    onClick={() => toggleLaneFlag(path, "showDefeated")}
+                    aria-expanded={defeated.open}
+                    onClick={defeated.toggle}
                   >
-                    {ui.showDefeated ? "Hide down" : `${defeatedCount} down · show`}
+                    {defeated.open ? "Hide down" : `${defeatedCount} down · show`}
                   </button>
                 ) : null}
               </div>

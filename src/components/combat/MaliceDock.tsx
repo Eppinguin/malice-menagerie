@@ -1,3 +1,4 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { useEffect } from "preact/hooks";
 import { maliceLoadStatus } from "../../data.ts";
 import { featureText } from "../../lib/malice.ts";
@@ -7,7 +8,7 @@ import {
   addMaliceSelection,
   allRelevantMaliceFeatures,
   ensureMaliceSelection,
-  expandedMaliceFeatures,
+  maliceDisclosure,
   lastMaliceRolls,
   maliceSelectionReady,
   openEditCustomMalice,
@@ -19,7 +20,6 @@ import {
   rollMaliceFeature,
   sharedRollActive,
   state,
-  toggleMaliceExpanded,
   toggleMaliceLibrary,
   useMaliceFeature,
 } from "../../store.ts";
@@ -102,6 +102,17 @@ function MaliceEffect({
 }
 
 /** Read-only collapsible Malice entry used in PreviewDrawer to inspire while browsing. */
+export function PersistentMaliceFeaturePreview({
+  feature,
+  scope,
+}: {
+  feature: MaliceFeature;
+  scope: string;
+}) {
+  const { open, toggle } = disclosure(`malice-preview/${scope}/${feature.id}`);
+  return <MaliceFeaturePreview feature={feature} expanded={open} onToggle={toggle} />;
+}
+
 export function MaliceFeaturePreview({
   feature,
   expanded,
@@ -182,7 +193,7 @@ export function MaliceFeaturePreview({
 }
 
 function MaliceCard({ feature, interactive }: { feature: MaliceFeature; interactive: boolean }) {
-  const expanded = expandedMaliceFeatures.value.has(feature.id);
+  const { open: expanded, toggle } = maliceDisclosure(feature.id);
   const meta = [feature.distance, feature.target].filter(Boolean).join(" · ");
   return (
     <article class={`malice-card ${expanded ? "expanded" : "collapsed"}`}>
@@ -203,11 +214,7 @@ function MaliceCard({ feature, interactive }: { feature: MaliceFeature; interact
             {costLabel(feature)}
           </span>
         )}
-        <button
-          class="malice-toggle"
-          aria-expanded={expanded}
-          onClick={() => toggleMaliceExpanded(feature.id)}
-        >
+        <button class="malice-toggle" aria-expanded={expanded} onClick={toggle}>
           <strong>
             <FeatureGlyph glyph={iconGlyph(feature.icon)} />
             {feature.name}

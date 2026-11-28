@@ -21,28 +21,14 @@ import { isHomebrewMonsterPath } from "../lib/id.ts";
 import { basePath } from "../lib/levels.ts";
 import { familyLabel } from "../lib/text.ts";
 import { LaneHeader, StatblockBody } from "./Statblock.tsx";
-import { MaliceFeaturePreview } from "./combat/MaliceDock.tsx";
+import { PersistentMaliceFeaturePreview } from "./combat/MaliceDock.tsx";
 import { QtyControl } from "./QtyControl.tsx";
 import { CloseIcon, CopyIcon, PencilIcon, PlusIcon, ShareIcon } from "./Icons.tsx";
 
 function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<typeof monsterAt>> }) {
-  const [openIds, setOpenIds] = useState<Set<string>>(() => new Set());
-  useEffect(() => {
-    setOpenIds(new Set());
-  }, [monster.path]);
-
   if (maliceLoading.value && !monster.customMaliceIds?.length) return null;
   const features = maliceFeaturesForMonster(monster);
   if (!features.length) return null;
-
-  const toggle = (id: string) => {
-    setOpenIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
 
   return (
     <section class="preview-family-malice" aria-label="Family Malice features">
@@ -59,11 +45,10 @@ function FamilyMalicePreview({ monster }: { monster: NonNullable<ReturnType<type
       </header>
       <div class="preview-malice-list">
         {features.map((feature) => (
-          <MaliceFeaturePreview
+          <PersistentMaliceFeaturePreview
             key={feature.id}
             feature={feature}
-            expanded={openIds.has(feature.id)}
-            onToggle={() => toggle(feature.id)}
+            scope={`library/${monster.path}`}
           />
         ))}
       </div>

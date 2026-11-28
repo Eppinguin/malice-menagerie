@@ -1,3 +1,4 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { maliceLoadStatus, monsterAt, monsterNameForPath, monstersVersion } from "../../data.ts";
 import { linkedTokensForEncounter } from "../../integration/controller.ts";
 import {
@@ -423,7 +424,7 @@ function GroupCountNote() {
 /** Encounter Malice preview & curation inside Prep, so Directors can discover
     and pin family Malice features while building the fight. */
 function PrepMaliceSection() {
-  const [open, setOpen] = useState(false);
+  const { open, toggle } = disclosure("prep-malice");
   const loadStatus = maliceLoadStatus.value;
   const groups = relevantMaliceGroups();
   const selectionReady = maliceSelectionReady.value;
@@ -447,12 +448,7 @@ function PrepMaliceSection() {
   return (
     <section class={`prep-malice ${open ? "open" : ""}`} aria-label="Encounter Malice">
       <div class="prep-malice-head">
-        <button
-          type="button"
-          class="prep-malice-toggle"
-          aria-expanded={open}
-          onClick={() => setOpen((prev) => !prev)}
-        >
+        <button type="button" class="prep-malice-toggle" aria-expanded={open} onClick={toggle}>
           <CaretIcon class="prep-malice-caret" />
           <span class="ds-glyph malice-skull" aria-hidden="true">
             d

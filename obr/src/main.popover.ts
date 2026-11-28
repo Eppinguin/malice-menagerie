@@ -1,3 +1,4 @@
+import { readDisclosure, writeDisclosure } from "../../shared/disclosureStorage.ts";
 import type { DiceState } from "./dice.ts";
 import OBR, { type Theme } from "@owlbear-rodeo/sdk";
 import {
@@ -51,7 +52,8 @@ const connectButton = $<HTMLButtonElement>("connect");
 const openButton = $<HTMLButtonElement>("open");
 const cancelButton = $<HTMLButtonElement>("cancel");
 const disconnectButton = $<HTMLButtonElement>("disconnect");
-const advancedDetails = document.querySelector<HTMLDetailsElement>("details.advanced");
+const advancedDetails = rememberDetails("advanced");
+rememberDetails("help");
 const errorBox = $("error");
 const diceStatus = $("dice-status");
 const diceConnect = $<HTMLButtonElement>("dice-connect");
@@ -72,6 +74,15 @@ const ringsHelp = $("rings-help");
 const conditionSync = $<HTMLSelectElement>("condition-sync");
 const conditionHelp = $("condition-help");
 const syncFeedback = $("sync-feedback");
+
+function rememberDetails(section: string): HTMLDetailsElement | null {
+  const details = document.querySelector<HTMLDetailsElement>(`details.${section}`);
+  if (!details) return null;
+  const key = `owlbear-extension/${section}`;
+  details.open = readDisclosure(key) === "true";
+  details.addEventListener("toggle", () => writeDisclosure(key, String(details.open)));
+  return details;
+}
 
 function applyTheme(theme: Theme): void {
   const root = document.documentElement;

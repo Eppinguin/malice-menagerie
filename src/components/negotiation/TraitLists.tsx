@@ -1,9 +1,9 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { useEffect, useState } from "preact/hooks";
 import {
   activeNegotiation,
   addNegotiationMotivation,
   addNegotiationPitfall,
-  autoEditTraitsFor,
   editNegotiationTraitNote,
   removeNegotiationTrait,
   shuffleNegotiationTraits,
@@ -28,23 +28,23 @@ import { argumentDraft, stageMotivation, triggerPitfall } from "./ResolverPanel.
  */
 export function TraitLists() {
   const negotiation = activeNegotiation();
-  const [editingTraits, setEditingTraits] = useState(false);
+  const [startsOpen, setStartsOpen] = useState(false);
   const [deckTarget, setDeckTarget] = useState<"motivation" | "pitfall">("motivation");
   const [customName, setCustomName] = useState("");
 
   useEffect(() => {
     if (!negotiation) return;
-    const shouldAutoOpen =
-      autoEditTraitsFor.value === negotiation.id ||
-      (negotiation.motivations.length === 0 && negotiation.pitfalls.length === 0);
-    setEditingTraits(shouldAutoOpen);
+    setStartsOpen(negotiation.motivations.length === 0 && negotiation.pitfalls.length === 0);
     setDeckTarget("motivation");
     setCustomName("");
-    if (autoEditTraitsFor.value === negotiation.id) autoEditTraitsFor.value = null;
   }, [negotiation?.id]);
 
   if (!negotiation) return null;
 
+  const { open: editingTraits, toggle: toggleTraits } = disclosure(
+    `negotiation-traits/${negotiation.id}`,
+    startsOpen,
+  );
   const isEnded = Boolean(negotiation.ended);
   const ownList = deckTarget === "motivation" ? negotiation.motivations : negotiation.pitfalls;
   const otherList = deckTarget === "motivation" ? negotiation.pitfalls : negotiation.motivations;
@@ -80,7 +80,7 @@ export function TraitLists() {
           <button
             class={`chip traits-edit-toggle${editingTraits ? " active" : ""}`}
             aria-expanded={editingTraits}
-            onClick={() => setEditingTraits((open) => !open)}
+            onClick={toggleTraits}
           >
             {editingTraits ? "Done editing" : "Edit traits"}
           </button>

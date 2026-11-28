@@ -1,3 +1,4 @@
+import { disclosure, disclosureDetails } from "../../lib/disclosure.ts";
 import { useEffect, useRef, useState } from "preact/hooks";
 import {
   connectFromSite,
@@ -38,7 +39,8 @@ export function OwlbearConnectForm() {
       window.location.origin,
     ),
   );
-  const [settingsOpen, setSettingsOpen] = useState(() => !extension);
+  const [settingsDefault] = useState(() => !extension);
+  const { setOpen: setSettingsOpen } = disclosure("owlbear-connection", settingsDefault);
   const [copied, setCopied] = useState(false);
   const [formError, setFormError] = useState<{
     field: "room" | "extension";
@@ -152,8 +154,7 @@ export function OwlbearConnectForm() {
       </label>
       <details
         class="owlbear-section"
-        open={settingsOpen}
-        onToggle={(event) => setSettingsOpen(event.currentTarget.open)}
+        {...disclosureDetails("owlbear-connection", settingsDefault)}
       >
         <summary>Connection settings</summary>
         <label class="owlbear-field">

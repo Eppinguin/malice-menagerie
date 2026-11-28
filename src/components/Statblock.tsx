@@ -1,3 +1,4 @@
+import { disclosure, disclosureChoice, saveDisclosureChoice } from "../lib/disclosure.ts";
 import { fmt, numberFrom, richText, signed } from "../lib/text.ts";
 import {
   characteristicLabel,
@@ -797,26 +798,15 @@ function stampPaid(element: HTMLElement): void {
  * while the ability stays in the state it was made in, so a new round (or a
  * use) hands it back to the automatic rule.
  */
-const folds = signal<ReadonlyMap<string, { folded: boolean; spent: boolean }>>(new Map());
-
 function isFolded(key: string, spent: boolean): boolean {
-  const hand = folds.value.get(key);
-  return hand && hand.spent === spent ? hand.folded : spent;
+  const choice = disclosureChoice(`ability-fold/${key}`);
+  if (choice === `${spent}:folded`) return true;
+  if (choice === `${spent}:unfolded`) return false;
+  return spent;
 }
 
 function toggleFold(key: string, folded: boolean, spent: boolean): void {
-  const next = new Map(folds.value);
-  next.set(key, { folded: !folded, spent });
-  folds.value = next;
-}
-
-/** Rules text the Director opened beside a price list, keyed "path#index". */
-const openedRules = signal<ReadonlySet<string>>(new Set());
-
-function toggleRules(key: string): void {
-  const next = new Set(openedRules.value);
-  if (!next.delete(key)) next.add(key);
-  openedRules.value = next;
+  saveDisclosureChoice(`ability-fold/${key}`, `${spent}:${folded ? "unfolded" : "folded"}`);
 }
 
 export function StatblockBody({
@@ -842,7 +832,6 @@ export function StatblockBody({
   /** Optional local test-roller used inside HomebrewStudio preview. */
   previewRoll?: PreviewRollController;
 }) {
-  void folds.value; // subscribe: a tap on a name folds its ability
   /** The name, as the fold control on the Run board; plain print elsewhere. */
   const heading = (key: string, name: string, glyph: string, folded: boolean, spent: boolean) =>
     interactive ? (
@@ -908,7 +897,8 @@ export function StatblockBody({
         const spent = !!live?.spent;
         const folded = interactive && isFolded(key, spent);
         // A price list says what the ability buys, so its rules text waits a tap.
-        const clamped = !!summon?.pays && !openedRules.value.has(key);
+        const rules = summon?.pays ? disclosure(`ability-rules/${key}`) : null;
+        const clamped = rules && !rules.open;
         const title = (
           <div class="feature-title">
             {heading(key, feature.name || "Ability", iconGlyph(feature.icon), folded, spent)}
@@ -994,12 +984,8 @@ export function StatblockBody({
                   previewRoll={previewRoll}
                 />
               ))}
-              {summon?.pays ? (
-                <button
-                  class="effects-more"
-                  aria-expanded={!clamped}
-                  onClick={() => toggleRules(key)}
-                >
+              {rules ? (
+                <button class="effects-more" aria-expanded={!clamped} onClick={rules.toggle}>
                   {clamped ? "more" : "less"}
                 </button>
               ) : null}

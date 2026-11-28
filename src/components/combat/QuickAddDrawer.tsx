@@ -1,3 +1,4 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { useEffect, useRef, useState } from "preact/hooks";
 import {
   allCatalog,
@@ -137,8 +138,11 @@ export function QuickAddDrawer() {
   const drawerRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const [rendered, setRendered] = useState(false);
-  const [partyOpen, setPartyOpen] = useState(false);
-  const [filtersOpen, setFiltersOpen] = useState(false);
+  const activeEncId = state.value.activeEncounterId;
+  const partyDetails = disclosure(`quick-add-party/${activeEncId}`);
+  const filterDetails = disclosure("quick-add-filters");
+  const { open: partyOpen, setOpen: setPartyOpen } = partyDetails;
+  const { open: filtersOpen, setOpen: setFiltersOpen } = filterDetails;
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
   const [limit, setLimit] = useState(MAX_LIBRARY_RESULTS);
 
@@ -190,9 +194,7 @@ export function QuickAddDrawer() {
     setLimit(MAX_LIBRARY_RESULTS);
   }, [filterKey]);
 
-  const activeEncId = state.value.activeEncounterId;
   useEffect(() => {
-    setPartyOpen(false);
     setEditingGroupId(null);
   }, [activeEncId]);
 
@@ -364,7 +366,7 @@ export function QuickAddDrawer() {
               class={`qa-party-trigger ${partyOpen ? "open" : ""}`}
               aria-expanded={partyOpen}
               title="Edit party heroes, level, Victories, and bonus Malice"
-              onClick={() => setPartyOpen((prev) => !prev)}
+              onClick={partyDetails.toggle}
             >
               <span>{partySummary}</span>
               <CaretIcon class="qa-party-caret" />
@@ -548,7 +550,7 @@ export function QuickAddDrawer() {
                 type="button"
                 class={`chip qa-more-toggle ${hidden > 0 ? "has-filters" : ""} ${filtersOpen ? "open" : ""}`}
                 aria-expanded={filtersOpen}
-                onClick={() => setFiltersOpen((prev) => !prev)}
+                onClick={filterDetails.toggle}
               >
                 More
                 <i class="filter-count" hidden={hidden === 0}>

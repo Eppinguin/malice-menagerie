@@ -66,7 +66,7 @@ import type {
 } from "../../types.ts";
 import { CloseIcon, PlusIcon, RedoIcon, ShareIcon, TrashIcon, UndoIcon } from "../Icons.tsx";
 import { type PreviewRollController } from "../Statblock.tsx";
-import { MaliceFeaturePreview } from "../combat/MaliceDock.tsx";
+import { PersistentMaliceFeaturePreview } from "../combat/MaliceDock.tsx";
 import { OnPageEditor, type PageNote } from "./OnPageEditor.tsx";
 import {
   browseEverything,
@@ -155,7 +155,6 @@ function HomebrewStudioInner({
   const [nameError, setNameError] = useState("");
   const [recoveryDraft, setRecoveryDraft] = useState<HomebrewMonster | null>(initialState.recovery);
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
-  const [openMaliceIds, setOpenMaliceIds] = useState<Set<string>>(() => new Set());
   const [studioRolls, setStudioRolls] = useState<Map<string, PowerRollResult>>(() => new Map());
   // A statblock opened to read before copying from it: beside the page when
   // the screen has room, after it otherwise.
@@ -987,18 +986,10 @@ function HomebrewStudioInner({
       </header>
       <div class="preview-malice-list">
         {previewMalice.map((feature) => (
-          <MaliceFeaturePreview
+          <PersistentMaliceFeaturePreview
             key={feature.id}
             feature={feature}
-            expanded={openMaliceIds.has(feature.id)}
-            onToggle={() =>
-              setOpenMaliceIds((prev) => {
-                const next = new Set(prev);
-                if (next.has(feature.id)) next.delete(feature.id);
-                else next.add(feature.id);
-                return next;
-              })
-            }
+            scope="studio-attached"
           />
         ))}
       </div>

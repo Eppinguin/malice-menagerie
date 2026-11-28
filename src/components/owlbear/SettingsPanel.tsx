@@ -1,3 +1,4 @@
+import { disclosure, disclosureDetails } from "../../lib/disclosure.ts";
 import type { ComponentChildren } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { pageTheme, togglePageTheme } from "../../theme.ts";
@@ -78,19 +79,24 @@ export function AppSettingsPanel() {
   const sceneInputRef = useRef<HTMLInputElement>(null);
   const renameButtonRef = useRef<HTMLButtonElement>(null);
   const renameFocusTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const [showLog, setShowLog] = useState(false);
+  const { open: showLog, toggle: toggleLog } = disclosure("owlbear-log");
   const [renamingScene, setRenamingScene] = useState(false);
   const [sceneDraft, setSceneDraft] = useState("");
   const [savingScene, setSavingScene] = useState(false);
-  const [integrationOpen, setIntegrationOpen] = useState(
+  const [integrationDefault, setIntegrationDefault] = useState(
     () => connection.status !== "disconnected" || pendingApproval !== null,
   );
 
   useEffect(() => {
     if (connection.status !== "disconnected" || pendingApproval !== null) {
-      setIntegrationOpen(true);
+      setIntegrationDefault(true);
     }
   }, [connection.status, pendingApproval]);
+
+  useEffect(() => {
+    // Reveal incoming approval actions even when the integration was folded.
+    if (pendingApproval) disclosure("owlbear-integration").setOpen(true);
+  }, [pendingApproval]);
 
   useEffect(() => {
     setRenamingScene(false);
@@ -267,8 +273,7 @@ export function AppSettingsPanel() {
           <h3>Integrations</h3>
           <details
             class="app-settings-integration"
-            open={integrationOpen}
-            onToggle={(event) => setIntegrationOpen(event.currentTarget.open)}
+            {...disclosureDetails("owlbear-integration", integrationDefault)}
           >
             <summary>Owlbear Rodeo</summary>
             <div class="owlbear-panel-body">
@@ -498,7 +503,7 @@ export function AppSettingsPanel() {
               ) : null}
 
               {connected ? (
-                <details class="owlbear-section">
+                <details class="owlbear-section" {...disclosureDetails("owlbear-sync")}>
                   <summary>Sync options</summary>
                   <p class="owlbear-hint small">
                     Send new tokens hidden for ambushes, or refresh linked tokens without creating
@@ -653,7 +658,7 @@ export function AppSettingsPanel() {
                 </section>
               ) : null}
 
-              <details class="owlbear-section">
+              <details class="owlbear-section" {...disclosureDetails("owlbear-advanced")}>
                 <summary>Advanced settings</summary>
                 {manualStatblockEntries.length ? (
                   <section class="owlbear-section">
@@ -704,7 +709,7 @@ export function AppSettingsPanel() {
                     type="button"
                     class="text-button"
                     aria-expanded={showLog}
-                    onClick={() => setShowLog((value) => !value)}
+                    onClick={toggleLog}
                   >
                     {showLog ? "Hide" : "Show"} connection log
                   </button>

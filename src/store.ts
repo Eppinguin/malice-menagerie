@@ -1,3 +1,4 @@
+import { disclosure } from "./lib/disclosure.ts";
 import { requestSharedDice, setSharedRollReset } from "./lib/rollTransport.ts";
 import { computed, effect, signal } from "@preact/signals";
 import { clampInt, normalizeToken, uid } from "./lib/text.ts";
@@ -992,7 +993,7 @@ export function toggleQuickAdd(): void {
   else openQuickAdd();
 }
 
-export const expandedMaliceFeatures = signal<ReadonlySet<string>>(new Set());
+const defaultExpandedMaliceFeatures = signal<ReadonlySet<string>>(new Set());
 export const openConditionPickerFor = signal<string | null>(null);
 export const previewPath = signal<string | null>(null);
 export const qtyDrafts = signal<ReadonlyMap<string, number>>(new Map());
@@ -1123,7 +1124,7 @@ export function retrySource(): void {
 async function loadMalice(): Promise<void> {
   await hydrateMaliceInBackground();
   if (maliceLoadStatus.peek() === "ready") {
-    expandedMaliceFeatures.value = new Set(allMaliceFeatures.value.map((feature) => feature.id));
+    expandMaliceByDefault(allMaliceFeatures.value.map((feature) => feature.id));
   }
 }
 
@@ -3448,7 +3449,7 @@ export function ensureMaliceSelection(): void {
       draft.combat.selectedMaliceFeatureIds = suggested;
       draft.combat.maliceSelectionInitialized = true;
     });
-    expandedMaliceFeatures.value = new Set([...expandedMaliceFeatures.value, ...suggested]);
+    expandMaliceByDefault(suggested);
     return;
   }
 
@@ -3467,7 +3468,7 @@ export function autoPickMalice(): void {
     draft.combat.selectedMaliceFeatureIds = suggested;
     draft.combat.maliceSelectionInitialized = true;
   });
-  expandedMaliceFeatures.value = new Set([...expandedMaliceFeatures.value, ...suggested]);
+  expandMaliceByDefault(suggested);
   toast(`${suggested.length} Malice features selected`);
 }
 
@@ -3477,7 +3478,7 @@ export function addMaliceSelection(featureId: string): void {
       draft.combat.selectedMaliceFeatureIds.push(featureId);
     draft.combat.maliceSelectionInitialized = true;
   });
-  expandedMaliceFeatures.value = new Set([...expandedMaliceFeatures.value, featureId]);
+  expandMaliceByDefault([featureId]);
 }
 
 export function removeMaliceSelection(featureId: string): void {
@@ -3489,11 +3490,15 @@ export function removeMaliceSelection(featureId: string): void {
   });
 }
 
-export function toggleMaliceExpanded(featureId: string): void {
-  const next = new Set(expandedMaliceFeatures.value);
-  if (next.has(featureId)) next.delete(featureId);
-  else next.add(featureId);
-  expandedMaliceFeatures.value = next;
+function expandMaliceByDefault(ids: string[]): void {
+  defaultExpandedMaliceFeatures.value = new Set([...defaultExpandedMaliceFeatures.peek(), ...ids]);
+}
+
+export function maliceDisclosure(featureId: string) {
+  return disclosure(
+    `combat-malice/${featureId}`,
+    defaultExpandedMaliceFeatures.value.has(featureId),
+  );
 }
 
 export function toggleMaliceLibrary(): void {
@@ -3683,11 +3688,6 @@ export function spendAbilityMalice(cost: number, name: string): void {
     via Quick Create (always reachable even when NPCs already exist). */
 export const creatingNegotiation = signal(false);
 
-/** Set to a newly created Blank NPC's ID so its trait picker and Setup tray open
-    automatically; Quick Improv and Archetypes start collapsed for instant play. */
-export const autoEditTraitsFor = signal<string | null>(null);
-export const autoOpenSetupFor = signal<string | null>(null);
-
 const DEFAULT_NPC_NAMES = new Set(["New NPC", "Local NPC", "Notable NPC", "Legendary NPC"]);
 
 function effectiveEnding(draft: Negotiation): Ending {
@@ -3754,8 +3754,11 @@ export function createNegotiation(archetypeKey = ""): string {
   clearNegotiationRolls();
   creatingNegotiation.value = false;
   mobileNavOpen.value = false;
-  autoEditTraitsFor.value = archetypeKey ? null : fresh.id;
-  autoOpenSetupFor.value = archetypeKey ? null : fresh.id;
+  // Blank NPCs open their setup for editing. Archetypes land in the live cockpit.
+  if (!archetypeKey) {
+    disclosure(`negotiation-setup/${fresh.id}`).setOpen(true);
+    disclosure(`negotiation-traits/${fresh.id}`).setOpen(true);
+  }
   mutateApp((app) => {
     app.negotiations.push(fresh);
     app.activeNegotiationId = fresh.id;
@@ -3775,8 +3778,6 @@ export function createRandomNegotiation(bandKey: ImpressionBandKey): string {
   clearNegotiationRolls();
   creatingNegotiation.value = false;
   mobileNavOpen.value = false;
-  autoEditTraitsFor.value = null;
-  autoOpenSetupFor.value = null;
   mutateApp((app) => {
     app.negotiations.push(fresh);
     app.activeNegotiationId = fresh.id;
@@ -4817,7 +4818,7 @@ export function saveHomebrewMalice(
     },
     { label: existing ? `Updated ${finalRecord.name}` : `Created ${finalRecord.name}` },
   );
-  expandedMaliceFeatures.value = new Set([...expandedMaliceFeatures.value, malFeatureId]);
+  expandMaliceByDefault([malFeatureId]);
   closeCustomMaliceEditor();
   options?.onSaved?.(finalRecord.id);
   toast(existing ? `Saved ${finalRecord.name}` : `Created ${finalRecord.name}`, {

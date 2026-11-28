@@ -1,3 +1,4 @@
+import { disclosureDetails } from "../../lib/disclosure.ts";
 import { Fragment, type ComponentChildren } from "preact";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "preact/hooks";
 import { allMaliceFeatures, officialFamilies } from "../../data.ts";
@@ -11,7 +12,7 @@ import {
   state,
 } from "../../store.ts";
 import type { MaliceFeature } from "../../types.ts";
-import { MaliceFeaturePreview } from "../combat/MaliceDock.tsx";
+import { PersistentMaliceFeaturePreview } from "../combat/MaliceDock.tsx";
 import { CaretIcon, CheckIcon, CloseIcon, PlusIcon, SearchIcon } from "../Icons.tsx";
 import { homebrewToMaliceFeature } from "../../lib/homebrew.ts";
 
@@ -295,7 +296,6 @@ export function PageMalice({
   onBrowse: () => void;
 }) {
   const family = familyInfo(familyPath);
-  const [open, setOpen] = useState<ReadonlySet<string>>(() => new Set());
   const records = state.value.homebrewMalice;
   const familyFeatures = family.custom
     ? records
@@ -332,14 +332,6 @@ export function PageMalice({
           onSaved: onAttach,
         });
 
-  const toggle = (id: string) =>
-    setOpen((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-
   return (
     <section class="hb-pg-malice" aria-label="Encounter Malice">
       <header class="hb-pg-malice-head">
@@ -375,11 +367,7 @@ export function PageMalice({
                 const gated = feature.minLevel > level;
                 return (
                   <li key={feature.id} class={gated ? "is-gated" : undefined}>
-                    <MaliceFeaturePreview
-                      feature={feature}
-                      expanded={open.has(feature.id)}
-                      onToggle={() => toggle(feature.id)}
-                    />
+                    <PersistentMaliceFeaturePreview feature={feature} scope="studio-family" />
                     <span class="hb-pg-family-note">
                       {from ? `from ${from}` : ""}
                       {gated ? `${from ? " · " : ""}level ${feature.minLevel}+` : ""}
@@ -423,7 +411,13 @@ export function PageMalice({
       )}
 
       {extras.length ? (
-        <details class="hb-pg-malice-extras" open={extras.some((rec) => attached.has(rec.id))}>
+        <details
+          class="hb-pg-malice-extras"
+          {...disclosureDetails(
+            "studio-malice-extras",
+            extras.some((rec) => attached.has(rec.id)),
+          )}
+        >
           <summary>
             Extra custom Malice
             {attached.size ? <span> · {attached.size} on</span> : null}
@@ -468,7 +462,6 @@ export function BrowseMalice({
 }) {
   const [query, setQuery] = useState("");
   const [limit, setLimit] = useState(PAGE);
-  const [expanded, setExpanded] = useState<ReadonlySet<string>>(() => new Set());
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -571,18 +564,7 @@ export function BrowseMalice({
                 </h4>
               ) : null}
               <article class="hb-browse-item hb-browse-malice">
-                <MaliceFeaturePreview
-                  feature={feature}
-                  expanded={expanded.has(feature.id)}
-                  onToggle={() =>
-                    setExpanded((prev) => {
-                      const next = new Set(prev);
-                      if (next.has(feature.id)) next.delete(feature.id);
-                      else next.add(feature.id);
-                      return next;
-                    })
-                  }
-                />
+                <PersistentMaliceFeaturePreview feature={feature} scope="studio-browser" />
                 <footer class="hb-browse-item-foot">
                   <span>
                     {feature.familyLabel}

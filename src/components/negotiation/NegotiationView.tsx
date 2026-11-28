@@ -1,7 +1,7 @@
+import { disclosure } from "../../lib/disclosure.ts";
 import { useEffect, useState } from "preact/hooks";
 import {
   activeNegotiation,
-  autoOpenSetupFor,
   creatingNegotiation,
   editNegotiation,
   liveNegotiation,
@@ -117,14 +117,12 @@ function NegotiationSheet({ negotiation: given }: { negotiation: Negotiation }) 
     auto-collapses once the first argument lands. */
 function TalkHead({ negotiation: given }: { negotiation: Negotiation }) {
   const negotiation = liveNegotiation(given);
-  const [setupOpen, setSetupOpen] = useState(() => autoOpenSetupFor.value === negotiation.id);
+  const {
+    open: setupOpen,
+    setOpen: setSetupOpen,
+    toggle: toggleSetup,
+  } = disclosure(`negotiation-setup/${negotiation.id}`);
   const [hadLog, setHadLog] = useState(negotiation.log.length > 0);
-
-  useEffect(() => {
-    if (autoOpenSetupFor.value === negotiation.id) {
-      autoOpenSetupFor.value = null;
-    }
-  }, [negotiation.id]);
 
   useEffect(() => {
     const nowHasLog = negotiation.log.length > 0;
@@ -180,7 +178,7 @@ function TalkHead({ negotiation: given }: { negotiation: Negotiation }) {
         <button
           class={`chip talk-setup-toggle${setupOpen ? " active" : ""}`}
           aria-expanded={setupOpen}
-          onClick={() => setSetupOpen((open) => !open)}
+          onClick={toggleSetup}
         >
           {setupOpen ? "Hide setup" : "Edit setup"}
         </button>

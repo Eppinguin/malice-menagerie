@@ -1,3 +1,4 @@
+import { disclosureDetails } from "../../lib/disclosure.ts";
 import {
   ARCHETYPES,
   ATTITUDES,
@@ -47,7 +48,7 @@ const SAMPLE_RESPONSES = [
  */
 export function NegotiationRules() {
   return (
-    <details class="talk-rules">
+    <details class="talk-rules" {...disclosureDetails("negotiation-rules")}>
       <summary>
         <span class="talk-rules-title">The rules</span>
         <span class="talk-block-note">
