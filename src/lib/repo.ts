@@ -4,8 +4,15 @@ export const REPO = {
   ref: "main",
 } as const;
 
-export const API_ROOT = `https://api.github.com/repos/${REPO.owner}/${REPO.name}`;
-export const RAW_ROOT = `https://raw.githubusercontent.com/${REPO.owner}/${REPO.name}/${REPO.ref}/`;
+declare const __COMPENDIUM_DATA_ROOT__: string;
+
+/** Vite fingerprints the snapshot in production. Dev and sync use public/data. */
+export const DATA_ROOT =
+  typeof __COMPENDIUM_DATA_ROOT__ === "string" ? __COMPENDIUM_DATA_ROOT__ : "/data/";
+export const DATA_INDEX_URL = `${DATA_ROOT}index.json`;
+export const MALICE_DATA_URL = `${DATA_ROOT}malice.json`;
+export const CONDITIONS_DATA_URL = `${DATA_ROOT}conditions.json`;
+export const RULES_DATA_URL = `${DATA_ROOT}rules.json`;
 export const SOURCE_ROOT = "https://steelcompendium.io/v2/Browse/";
 /** The Monsters book chapter on organizations, roles, reskinning and levels. */
 export const MONSTER_BASICS_URL = "https://steelcompendium.io/v2/Read/bestiary/monster-basics/";
@@ -21,18 +28,13 @@ export const CONDITION_RE = /^en\/unified\/json\/condition\/([^/]+)\.json$/i;
 /** A content reference in the data, e.g. "scc.v1:mcdm.heroes.v1/rule.combat/adjacent". */
 const SCC_REF_RE = /^scc\.v\d+:(.+)$/i;
 
-export interface GitTreeItem {
-  path?: string;
-  type?: string;
-}
-
-export interface GitTreeResponse {
-  tree?: GitTreeItem[];
-  truncated?: boolean;
-}
-
-interface GitBranchResponse {
-  commit?: { commit?: { tree?: { sha?: string } } };
+export interface CompendiumIndex {
+  schemaVersion: number;
+  generatedAt: string;
+  upstream: { owner: string; name: string; ref: string; sha: string };
+  counts: { statblocks: number; malice: number; conditions: number; rules: number };
+  /** Every official document the app loads up front: statblocks, Malice and conditions. */
+  paths: string[];
 }
 
 export function pathTokens(path: string): string[] {
@@ -99,12 +101,18 @@ export function sourceRef(ref: string | undefined | null): SourceRef | null {
   return { url: `${SOURCE_ROOT}${route.map(encodeURIComponent).join("/")}/`, path };
 }
 
-export function rawUrl(path: string): string {
-  const segments = path.split("/");
-  if (segments.some((seg) => seg === "." || seg === ".." || seg.includes("\\"))) {
-    throw new Error(`Invalid repository path: ${path}`);
-  }
-  return RAW_ROOT + segments.map(encodeURIComponent).join("/").replace(/%2F/g, "/");
+/** A filesystem-safe, stable name for a monster family's data chunk. */
+export function familyChunkKey(familyPath: string): string {
+  return (
+    familyPath
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "other"
+  );
+}
+
+export function monsterChunkUrl(familyPath: string): string {
+  return `${DATA_ROOT}monsters/${encodeURIComponent(familyChunkKey(familyPath))}.json`;
 }
 
 /**
@@ -114,28 +122,66 @@ export function rawUrl(path: string): string {
  */
 export async function fetchJson<T>(url: string): Promise<T> {
   const response = await fetch(url, {
-    headers: { Accept: "application/vnd.github+json, application/json" },
+    headers: { Accept: "application/json" },
   });
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   return response.json() as Promise<T>;
 }
 
-export async function fetchRepositoryTree(): Promise<GitTreeResponse> {
-  let response = await fetch(`${API_ROOT}/git/trees/${encodeURIComponent(REPO.ref)}?recursive=1`, {
-    headers: { Accept: "application/vnd.github+json" },
-  });
-  if (response.ok) return response.json() as Promise<GitTreeResponse>;
-
-  const branch = await fetchJson<GitBranchResponse>(
-    `${API_ROOT}/branches/${encodeURIComponent(REPO.ref)}`,
+/** Load an official document outside the bundled snapshot, for previews only. */
+export async function fetchUpstreamDoc<T>(path: string): Promise<T | null> {
+  // Imported references may be untrusted. Accept only document paths within
+  // the English unified tree, on the configured upstream host and branch.
+  const segments = path.split("/");
+  if (
+    !path.startsWith("en/unified/json/") ||
+    !path.endsWith(".json") ||
+    segments.some(
+      (part) =>
+        !part || part === "." || part === ".." || part.includes("\\") || part.includes("\0"),
+    )
+  ) {
+    return null;
+  }
+  const file = segments.map(encodeURIComponent).join("/");
+  return fetchJson<T>(
+    `https://raw.githubusercontent.com/${REPO.owner}/${REPO.name}/${REPO.ref}/${file}`,
   );
-  const treeSha = branch.commit?.commit?.tree?.sha;
-  if (!treeSha) throw new Error("Could not resolve the SteelCompendium repository tree.");
-  response = await fetch(`${API_ROOT}/git/trees/${treeSha}?recursive=1`, {
-    headers: { Accept: "application/vnd.github+json" },
-  });
-  if (!response.ok) throw new Error(`SteelCompendium tree request failed (${response.status}).`);
-  return response.json() as Promise<GitTreeResponse>;
+}
+
+const documentBundles = new Map<string, Promise<Record<string, unknown>>>();
+
+/** Read a static document bundle once, sharing requests across app features. */
+export function loadCompendiumDocs<T>(url: string): Promise<Record<string, T>> {
+  let request = documentBundles.get(url);
+  if (!request) {
+    request = fetchJson<Record<string, unknown>>(url).catch((error: unknown) => {
+      if (documentBundles.get(url) === request) documentBundles.delete(url);
+      throw error;
+    });
+    documentBundles.set(url, request);
+  }
+  return request as Promise<Record<string, T>>;
+}
+
+export function invalidateCompendiumDocs(url: string): void {
+  documentBundles.delete(url);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Read the bundled index and reject a malformed one with a useful message. */
+export async function fetchCompendiumIndex(): Promise<CompendiumIndex> {
+  const index = await fetchJson<CompendiumIndex>(DATA_INDEX_URL);
+  if (!isRecord(index) || typeof index.schemaVersion !== "number") {
+    throw new Error("The bundled compendium index is malformed.");
+  }
+  if (!Array.isArray(index.paths) || !index.paths.every((path) => typeof path === "string")) {
+    throw new Error("The bundled compendium index has no document list.");
+  }
+  return index;
 }
 
 export async function runPool<T>(

@@ -1,0 +1,481 @@
+{
+  "en/unified/json/monster/minotaur/statblock/minotaur-bully.json": {
+    "agility": 2,
+    "ev": "10 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "9 damage; I < 4 [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT) or [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of all minotaurs (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Javelin and Bellow",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The bully can't obtain less than a tier 2 outcome when making tests to navigate, search, or seek."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minotaur Sense",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 3,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.minotaur.statblock/minotaur-bully",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Minotaur Bully",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "14",
+    "type": "statblock",
+    "with_captain": "+3 damage bonus to strikes"
+  },
+  "en/unified/json/monster/minotaur/statblock/minotaur-lackey.json": {
+    "agility": 4,
+    "ev": "10 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 damage",
+            "tier2": "6 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "8 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "A target who is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into an obstacle and has M < 3 is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Horn Vault",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The lackey can't obtain less than a tier 2 outcome when making tests to navigate, search, or seek."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minotaur Sense",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.minotaur.statblock/minotaur-lackey",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Minotaur Lackey",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "13",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/minotaur/statblock/minotaur-stampede.json": {
+    "agility": 5,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 damage",
+            "tier2": "7 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "9 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 5 can't stand (save ends)"
+          },
+          {
+            "effect": "If this ability is used as part of the Charge main action, each creature the stampede moves through who has M < 4 is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bull Rush",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The stampede can move through spaces as if they were a size 2 creature, and can occupy other creatures' spaces. At the start of each of the stampede's turns, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each creature whose space they share."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Swarm",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur",
+      "Swarm"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.minotaur.statblock/minotaur-stampede",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Minotaur Stampede",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Defender",
+    "size": "4",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "17",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/minotaur/statblock/minotaur-sunderer.json": {
+    "agility": 1,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "12 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "15 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "A target [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the sunderer is automatically [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Spiked Maul",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "I < 0 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "Until the end of their next turn, the minotaur has damage immunity 2 and deals an extra 5 damage with strikes.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Fearsome Bay",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the sunderer.",
+            "name": "Special",
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; M < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "8 damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "9 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "While [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) this way, the target takes 1d6 damage at the start of each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Disemboweling Horns",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 6",
+        "effects": [
+          {
+            "effect": "The sunderer uses the Charge main action and Spiked Maul against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Retaliatory Strike",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the sunderer.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The sunderer can't obtain less than a tier 2 outcome when making tests to navigate, search, or seek."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minotaur Sense",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 2,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.minotaur.statblock/minotaur-sunderer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Minotaur Sunderer",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/minotaur/statblock/minotaur.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "The minotaur [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flail and Blade",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Until the end of their next turn, the minotaur has damage immunity 2 and deals an extra 5 damage with strikes. On their next turn, the minotaur can use one additional maneuver.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Primal Bay",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; I < 0 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "8 damage; I < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "9 damage; I < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "If this ability is used as part of the Charge main action, its [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Goring Horns",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "effect": "The minotaur uses the Charge main action and either Flail and Blade or Goring Horns against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Retaliatory Strike",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the minotaur.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The minotaur can't obtain less than a tier 2 outcome when making tests to navigate, search, or seek."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minotaur Sense",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.minotaur.statblock/minotaur",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Minotaur",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "100",
+    "type": "statblock"
+  }
+}

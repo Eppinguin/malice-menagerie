@@ -4,8 +4,20 @@
 // rule does. The page itself stays one click away.
 
 import { signal } from "@preact/signals";
-import { fetchJson, rawUrl } from "./repo.ts";
+import {
+  CONDITION_RE,
+  CONDITIONS_DATA_URL,
+  MALICE_DATA_URL,
+  RULES_DATA_URL,
+  STATBLOCK_RE,
+  fetchUpstreamDoc,
+  loadCompendiumDocs,
+  monsterChunkUrl,
+} from "./repo.ts";
+import { isMaliceCandidatePath } from "./malice.ts";
 import { richText, slugToLabel } from "./text.ts";
+import { rulePreviewHtml } from "./ruleDoc.ts";
+import type { RawStatblock } from "../types.ts";
 
 export interface RuleDoc {
   name: string;
@@ -30,68 +42,51 @@ export interface RulePreviewAnchor {
 
 export const rulePreview = signal<RulePreviewAnchor | null>(null);
 
-interface RawRuleDoc {
-  name?: string;
-  type?: string;
-  content?: string;
-  body?: string;
-  description?: string;
-  text?: string;
-  effects?: { effect?: string; tier1?: string; tier2?: string; tier3?: string }[];
-}
-
 const cache = new Map<string, Promise<RuleDoc | null>>();
 
-/**
- * The opening of a rule, in the book's own words: everything written before
- * the first heading, with blockquote and list marks flattened so it reads as
- * one card.
- *
- * Cut at the heading, never at a character count. A rule broken off
- * mid-sentence reads as though that were the whole rule, and it hides exactly
- * the case a Director is checking — what the term actually does. The handful
- * of very long rules scroll inside the card instead, with the full page a tap
- * away.
- */
-function excerpt(raw: string): string {
-  const blocks: string[] = [];
-  for (const block of raw.split(/\n{2,}/)) {
-    const text = block.trim();
-    if (!text) continue;
-    if (text.startsWith("#")) break;
-    const cleaned = text
-      .replace(/^\s*>\s?/gm, "")
-      .replace(/^\s*[-*]\s+/gm, "• ")
-      .replace(/[ \t]+\n/g, "\n")
-      .trim();
-    if (cleaned) blocks.push(cleaned);
-  }
-  return blocks.join("\n\n");
+/** The bundled file that holds a hover target. */
+export function ruleSource(path: string): string {
+  const familyPath = path.match(STATBLOCK_RE)?.[2];
+  if (familyPath) return monsterChunkUrl(familyPath);
+  if (CONDITION_RE.test(path)) return CONDITIONS_DATA_URL;
+  if (isMaliceCandidatePath(path)) return MALICE_DATA_URL;
+  return RULES_DATA_URL;
 }
 
-/** Rule pages are written as `content`; feature pages carry `effects`. */
-function docText(raw: RawRuleDoc): string {
-  const direct = raw.content || raw.body || raw.description || raw.text;
-  if (direct) return direct;
-  return (raw.effects || [])
-    .map(
-      (effect) =>
-        effect.effect || [effect.tier1, effect.tier2, effect.tier3].filter(Boolean).join(" · "),
-    )
+/** Statblocks have structured fields instead of a rule's prose. */
+function statblockSummary(raw: RawStatblock): string {
+  return [
+    [raw.level == null ? "" : `Level ${raw.level}`, raw.organization, raw.role]
+      .filter(Boolean)
+      .join(" "),
+    raw.stamina == null ? "" : `Stamina ${raw.stamina}`,
+  ]
     .filter(Boolean)
-    .join("\n\n");
+    .join(" · ");
 }
 
 export function loadRule(path: string): Promise<RuleDoc | null> {
   const cached = cache.get(path);
   if (cached) return cached;
-  const request = fetchJson<RawRuleDoc>(rawUrl(path))
-    .then((raw) => ({
-      name: String(raw.name || ""),
-      kind: slugToLabel(raw.type),
-      html: richText(excerpt(docText(raw))),
-    }))
-    .catch(() => null);
+  const isStatblock = STATBLOCK_RE.test(path);
+  type PreviewSource = RawStatblock & { type?: string };
+  const request = loadCompendiumDocs<PreviewSource>(ruleSource(path))
+    .catch(() => undefined)
+    .then((docs) =>
+      docs && Object.hasOwn(docs, path) ? docs[path] : fetchUpstreamDoc<PreviewSource>(path),
+    )
+    .then((raw) => {
+      if (!raw) return null;
+      return {
+        name: String(raw.name || ""),
+        kind: isStatblock ? "Statblock" : slugToLabel(raw.type),
+        html: isStatblock ? richText(statblockSummary(raw)) : rulePreviewHtml(raw),
+      };
+    })
+    .catch(() => {
+      cache.delete(path);
+      return null;
+    });
   cache.set(path, request);
   return request;
 }

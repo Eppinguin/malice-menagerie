@@ -1,24 +1,19 @@
 import { batch, computed, signal } from "@preact/signals";
 import {
   CONDITION_RE,
-  HERO_SIDE_FAMILY_RE,
+  CONDITIONS_DATA_URL,
+  MALICE_DATA_URL,
   STATBLOCK_RE,
-  fetchJson,
-  fetchRepositoryTree,
-  rawUrl,
+  fetchCompendiumIndex,
+  invalidateCompendiumDocs,
+  loadCompendiumDocs,
+  monsterChunkUrl,
   runPool,
-  sourceUrl,
 } from "./lib/repo.ts";
-import {
-  familyLabel,
-  normalizeToken,
-  numberFrom,
-  parseEv,
-  plainText,
-  slugToLabel,
-  WORD_NUMBERS,
-} from "./lib/text.ts";
-import { flattenMalicePayload, isMaliceCandidatePath } from "./lib/malice.ts";
+import { buildCatalogEntry, normalizeMonster } from "./lib/catalog.ts";
+import { normalizeToken, slugToLabel } from "./lib/text.ts";
+import { conditionDescription } from "./lib/ruleDoc.ts";
+import { displayableMaliceFeatures, isMaliceCandidatePath } from "./lib/malice.ts";
 import { atLevel, basePath, keyLevel } from "./lib/levels.ts";
 import { homebrewToCatalogEntry, homebrewToMaliceFeature } from "./lib/homebrew.ts";
 import { isHomebrewMonsterPath } from "./lib/id.ts";
@@ -30,14 +25,11 @@ import type {
   HomebrewMonster,
   MaliceFeature,
   Monster,
-  MonsterFeature,
   RawMaliceRecord,
   RawStatblock,
 } from "./types.ts";
 
 const CATALOG_CONCURRENCY = 12;
-const MALICE_CONCURRENCY = 8;
-const CONDITION_CONCURRENCY = 8;
 
 // ---------- Reactive source-data state ----------
 
@@ -49,6 +41,8 @@ export const allCatalog = computed<CatalogEntry[]>(() => [
 ]);
 export const sourceLoading = signal(true);
 export const sourceError = signal("");
+/** The bundled snapshot's upstream commit and generation date, for the footer. */
+export const sourceSnapshot = signal<{ sha: string; generatedAt: string } | null>(null);
 export const hydratedCount = signal(0);
 export const hydrationErrors = signal(0);
 /** Bumped (throttled) whenever any monster finishes loading into the cache. */
@@ -61,7 +55,8 @@ export const allMaliceFeatures = computed<MaliceFeature[]>(() => [
   ...homebrewMaliceFeatures.value,
   ...maliceFeatures.value,
 ]);
-export const maliceLoading = signal(true);
+export const maliceLoadStatus = signal<"loading" | "ready" | "failed">("loading");
+export const maliceLoading = computed(() => maliceLoadStatus.value === "loading");
 export const conditionCatalog = signal<ConditionEntry[]>([]);
 
 export const catalogByPath = new Map<string, CatalogEntry>();
@@ -81,21 +76,22 @@ export const renderGate = { paused: false };
 let pendingHydrated = 0;
 let pendingErrors = 0;
 let pendingMonstersBump = false;
-let pendingConditionsBump = false;
+let pendingConditions: ConditionEntry[] | null = null;
 let flushQueued = false;
 
 export function flushDataSignals(): void {
-  if (!pendingHydrated && !pendingErrors && !pendingMonstersBump && !pendingConditionsBump) return;
+  if (renderGate.paused) return; // flushed explicitly when the drag ends
+  if (!pendingHydrated && !pendingErrors && !pendingMonstersBump && !pendingConditions) return;
   batch(() => {
     if (pendingHydrated) hydratedCount.value += pendingHydrated;
     if (pendingErrors) hydrationErrors.value += pendingErrors;
     if (pendingMonstersBump) monstersVersion.value += 1;
-    if (pendingConditionsBump) conditionCatalog.value = conditionCatalog.value.slice();
+    if (pendingConditions) conditionCatalog.value = pendingConditions;
   });
   pendingHydrated = 0;
   pendingErrors = 0;
   pendingMonstersBump = false;
-  pendingConditionsBump = false;
+  pendingConditions = null;
 }
 
 function queueFlush(): void {
@@ -103,95 +99,8 @@ function queueFlush(): void {
   flushQueued = true;
   requestAnimationFrame(() => {
     flushQueued = false;
-    if (renderGate.paused) return; // flushed explicitly when the drag ends
     flushDataSignals();
   });
-}
-
-// ---------- Normalization ----------
-
-function buildCatalogEntry(path: string): CatalogEntry | null {
-  const match = path.match(STATBLOCK_RE);
-  if (!match?.[1] || !match[2] || !match[3]) return null;
-  if (HERO_SIDE_FAMILY_RE.test(match[2])) return null;
-  return {
-    path,
-    book: match[1],
-    familyPath: match[2],
-    slug: match[3],
-    derivedName: slugToLabel(match[3]),
-    monster: null,
-    error: false,
-  };
-}
-
-function normalizeFeatures(value: unknown): MonsterFeature[] {
-  if (!Array.isArray(value)) return [];
-  return value.filter(isRecord) as MonsterFeature[];
-}
-
-function stringList(value: unknown): string[] {
-  if (!Array.isArray(value)) return [];
-  return value.map((item) => String(item ?? "").trim()).filter(Boolean);
-}
-
-/** "The lich can take two turns each round" / "Ajax takes up to three turns
-    each round": every solo states its turns in this one sentence. */
-const TURNS_RE = /\b(?:can take|takes?)(?: up to)? (\w+) turns each round\b/i;
-
-function turnsPerRound(features: readonly MonsterFeature[]): number {
-  for (const feature of features) {
-    for (const effect of feature.effects ?? []) {
-      const word = TURNS_RE.exec(effect.effect ?? "")?.[1]?.toLowerCase();
-      const turns = word ? Number(word) || WORD_NUMBERS[word] : 0;
-      if (turns && turns > 1) return turns;
-    }
-  }
-  return 1;
-}
-
-function normalizeMonster(raw: RawStatblock, path: string): Monster {
-  const match = path.match(STATBLOCK_RE);
-  const ev = parseEv(raw.ev, raw.organization);
-  const keywords = Array.isArray(raw.keywords) ? raw.keywords.filter(Boolean).map(String) : [];
-  const familyPath = match?.[2] || "";
-  const features = normalizeFeatures(raw.features);
-  return {
-    id: path,
-    path,
-    book: match?.[1] || "",
-    familyPath,
-    slug: match?.[3] || "",
-    name: raw.name || slugToLabel(match?.[3] || ""),
-    level: numberFrom(raw.level, 0),
-    organization: raw.organization || "—",
-    role: raw.role || "",
-    ev: ev.unit,
-    evLabel: ev.label,
-    defaultQty: ev.suggestedQty,
-    keywords,
-    ancestry: keywords.join(", ") || familyLabel(familyPath),
-    size: raw.size ?? "—",
-    speed: raw.speed ?? "—",
-    stamina: Math.max(0, numberFrom(raw.stamina, 0)),
-    stability: raw.stability ?? "—",
-    freeStrike: raw.free_strike ?? raw.freeStrike ?? "—",
-    movement: raw.movement && raw.movement !== "—" ? raw.movement : "",
-    immunities: stringList(raw.immunities),
-    weaknesses: stringList(raw.weaknesses),
-    withCaptain: raw.with_captain?.trim() || "",
-    turnsPerRound: turnsPerRound(features),
-    chars: {
-      M: raw.might ?? 0,
-      A: raw.agility ?? 0,
-      R: raw.reason ?? 0,
-      I: raw.intuition ?? 0,
-      P: raw.presence ?? 0,
-    },
-    features,
-    source: sourceUrl(path),
-    raw,
-  };
 }
 
 // ---------- Loading ----------
@@ -285,8 +194,11 @@ export function loadMonster(key: string): Promise<Monster> {
   if (cached) return Promise.resolve(cached);
   const inFlight = monsterPromises.get(path);
   if (inFlight) return inFlight;
-  const promise = fetchJson<RawStatblock>(rawUrl(path))
-    .then((raw) => {
+  const familyPath = catalogByPath.get(path)?.familyPath ?? path.match(STATBLOCK_RE)?.[2] ?? "";
+  const promise = loadCompendiumDocs<RawStatblock>(monsterChunkUrl(familyPath))
+    .then((chunk) => {
+      const raw = chunk[path];
+      if (!raw) throw new Error(`Statblock missing from the bundled data: ${path}`);
       const monster = normalizeMonster(raw, path);
       monsterCache.set(path, monster);
       const entry = catalogByPath.get(path);
@@ -305,19 +217,21 @@ export function loadMonster(key: string): Promise<Monster> {
   return promise;
 }
 
-/** Fetch the repository index and populate the catalog, malice candidate and
+/** Read the bundled index and populate the catalog, malice candidate and
  *  condition lists. Throws on failure (the caller renders the error). */
 export async function loadSourceIndex(): Promise<void> {
   batch(() => {
     sourceLoading.value = true;
     sourceError.value = "";
+    maliceLoadStatus.value = "loading";
   });
   try {
-    const tree = await fetchRepositoryTree();
-    if (tree.truncated) throw new Error("The GitHub repository tree response was truncated.");
-    const paths = (tree.tree || [])
-      .filter((item) => item.type === "blob" && typeof item.path === "string")
-      .map((item) => item.path as string);
+    const index = await fetchCompendiumIndex();
+    const paths = index.paths;
+    sourceSnapshot.value = {
+      sha: index.upstream.sha,
+      generatedAt: index.generatedAt,
+    };
 
     const entries = paths
       .map(buildCatalogEntry)
@@ -337,6 +251,7 @@ export async function loadSourceIndex(): Promise<void> {
       .filter((entry): entry is ConditionEntry => entry !== null)
       .sort((a, b) => a.name.localeCompare(b.name));
 
+    pendingConditions = null;
     batch(() => {
       catalog.value = entries;
       conditionCatalog.value = conditions;
@@ -345,7 +260,7 @@ export async function loadSourceIndex(): Promise<void> {
   } catch (error) {
     batch(() => {
       sourceLoading.value = false;
-      maliceLoading.value = false;
+      maliceLoadStatus.value = "failed";
       sourceError.value = error instanceof Error ? error.message : String(error);
     });
     throw error;
@@ -384,50 +299,44 @@ export async function hydrateCatalogInBackground(): Promise<void> {
 }
 
 export async function hydrateMaliceInBackground(): Promise<void> {
-  maliceLoading.value = true;
-  const collected: MaliceFeature[] = [];
-  await runPool(maliceCandidates, MALICE_CONCURRENCY, async (path) => {
-    try {
-      const raw = await fetchJson<RawMaliceRecord>(rawUrl(path));
-      collected.push(...flattenMalicePayload(raw, path));
-    } catch {
-      // A broad path match can include non-feature documents. Ignore unreadable candidates.
-    }
-  });
-  const seen = new Set<string>();
-  const features = collected.filter((feature) => {
-    const key = `${feature.name}|${feature.cost}|${feature.path}`;
-    const hasContent = feature.effects.some(
-      (effect) => effect.effect || effect.roll || effect.tier1 || effect.tier2 || effect.tier3,
-    );
-    if (!feature.name || !hasContent || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-  batch(() => {
-    maliceFeatures.value = features;
-    maliceLoading.value = false;
-  });
+  if (maliceLoadStatus.peek() === "failed") invalidateCompendiumDocs(MALICE_DATA_URL);
+  maliceLoadStatus.value = "loading";
+  try {
+    const docs = await loadCompendiumDocs<RawMaliceRecord>(MALICE_DATA_URL);
+    if (!isRecord(docs)) throw new Error("Malformed Malice bundle");
+    const features = maliceCandidates.flatMap((path) => {
+      const raw = docs[path];
+      if (!isRecord(raw)) throw new Error(`Missing or malformed Malice document: ${path}`);
+      const displayable = displayableMaliceFeatures(raw, path, (issue) => {
+        throw new Error(`${path}: ${issue}`);
+      });
+      if (!displayable.length) throw new Error(`No displayable Malice features in ${path}`);
+      return displayable;
+    });
+    batch(() => {
+      maliceFeatures.value = features;
+      maliceLoadStatus.value = "ready";
+    });
+  } catch {
+    // Keep any previously loaded features usable and suspend selection pruning.
+    maliceLoadStatus.value = "failed";
+  }
 }
 
 export async function hydrateConditionsInBackground(): Promise<void> {
-  await runPool(conditionCatalog.value, CONDITION_CONCURRENCY, async (condition) => {
-    try {
-      const raw = await fetchJson<{
-        name?: string;
-        content?: string;
-        description?: string;
-        body?: string;
-      }>(rawUrl(condition.path));
-      condition.name = raw.name || condition.name;
-      condition.description = plainText(raw.content || raw.description || raw.body || "");
-    } catch {
-      condition.description = "";
-    }
-    pendingConditionsBump = true;
-    queueFlush();
+  const conditions = conditionCatalog.peek();
+  const docs = await loadCompendiumDocs<unknown>(CONDITIONS_DATA_URL).catch(() => null);
+  if (conditions !== conditionCatalog.peek()) return;
+  pendingConditions = conditions.map((condition) => {
+    const raw = docs?.[condition.path];
+    const name = isRecord(raw) && typeof raw.name === "string" ? raw.name.trim() : "";
+    return {
+      ...condition,
+      name: name || condition.name,
+      description: conditionDescription(raw),
+    };
   });
-  flushDataSignals();
+  queueFlush();
 }
 
 export function conditionInfo(name: string): ConditionEntry | null {

@@ -1,0 +1,922 @@
+{
+  "en/unified/json/monster/undead/3rd-echelon/statblock/blood-starved-vampire.json": {
+    "agility": 1,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 damage",
+            "tier2": "6 damage",
+            "tier3": "7 damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)"
+          },
+          {
+            "effect": "If a target made [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) this way is already [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), they are instead knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Feeding Frenzy",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The blood-starved vampire has speed 10 while any creature within 10 squares of them is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding). The vampire must use Feeding Frenzy against a [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature on their turn if they are able to."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Unslakable Bloodthirst",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead",
+      "Vampire"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/blood-starved-vampire",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "Blood-Starved Vampire",
+    "organization": "Minion",
+    "presence": -3,
+    "reason": -3,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "12",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/dirt-mournling.json": {
+    "agility": 1,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; M < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier2": "10 damage; M < 4 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "11 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "A 3-[cube](scc.v1:mcdm.heroes.v1/rule.combat/cube) area of ground centered on the target is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Mudslide",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 corruption damage; I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "6 corruption damage; I < 3 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "7 corruption damage; I < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "A target [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) this way is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of all [undead](scc.v1:mcdm.monsters.v1/rule.keyword/undead). This effect ends early if the mournling is destroyed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Mourning Cry",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time the mournling is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by damage that isn't fire damage or holy damage and their body isn't destroyed, they instead have 15 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and fall [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Arise",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mournling's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Immutable Form",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the mournling uses the Dig maneuver to breach the surface, they make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rupture",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/dirt-mournling",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow, climb",
+    "name": "Dirt Mournling",
+    "organization": "Horde",
+    "presence": -3,
+    "reason": -2,
+    "role": "Controller",
+    "size": "3",
+    "speed": 6,
+    "stability": 3,
+    "stamina": "64",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/faded-echo-spirit.json": {
+    "agility": 4,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 corruption damage",
+            "tier2": "6 corruption damage; P < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened)",
+            "tier3": "7 corruption damage; P < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened)"
+          },
+          {
+            "effect": "This [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) condition ends if an affected target ends their turn with no spirit within 5 squares of them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hollow Grasp",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The spirit can move through creatures and objects at their usual speed, but can't end their turn inside a creature or object. The first time in a round that the spirit moves through a creature, that creature takes 4 corruption damage. The spirit doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Corruptive Phasing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/faded-echo-spirit",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -3,
+    "movement": "Fly, hover",
+    "name": "Faded Echo Spirit",
+    "organization": "Minion",
+    "presence": -3,
+    "reason": -5,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "10",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/haunt.json": {
+    "agility": 4,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "10 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "11 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          },
+          {
+            "effect": "If the target is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into another creature's space, that creature takes an additional 4 damage and the haunt [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) them up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Lash Out",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 damage; I < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "6 damage; I < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "7 damage; I < 4 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "A target knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) this way can't use the [Stand Up](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/stand-up) maneuver on themself while any haunt is within 20 squares of them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Crushing Despair",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The haunt can move through creatures and objects at their usual speed, but can't end their turn inside a creature or object. They are invisible while moving using a move action. The haunt doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Invisible Horror",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/haunt",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Fly, hover",
+    "name": "Haunt",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": -1,
+    "role": "Controller",
+    "size": "2",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/koptourok.json": {
+    "agility": 2,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; M < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier2": "10 damage; M < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "11 damage; M < 4 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "A creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way is [suffocating](scc.v1:mcdm.heroes.v1/rule.health/suffocating). The koptourok can have up to two creatures [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) at once.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Choking Grasp",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "[Pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 5 corruption damage",
+            "tier2": "[Pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; M < 3 5 corruption damage",
+            "tier3": "[Pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 7; M < 4 5 corruption damage"
+          },
+          {
+            "effect": "This ability gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) against any target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the koptourok. If one or more targets are pulled [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the koptourok, the koptourok can [fly](scc.v1:mcdm.heroes.v1/movement/fly) until the end of the encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Inhale",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time the koptourok is made [winded](scc.v1:mcdm.heroes.v1/rule.health/winded) by damage that isn't fire damage or holy damage, each enemy within 3 squares of them takes 8 corruption damage. Any enemy who takes this damage and has M < 3 is also [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Exhale",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/koptourok",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Koptourok",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/mummy-rotwrap.json": {
+    "agility": -2,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage",
+            "tier2": "7 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "8 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "Each ally gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) made against the target until the end of the round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fetid Wrappings",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Mummy",
+      "Undead"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/mummy-rotwrap",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Mummy Rotwrap",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -2,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Fire 5"
+    ],
+    "with_captain": "+3 bonus to melee distance"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/vampire-lord.json": {
+    "agility": 5,
+    "ev": "36",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "13 corruption damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "21 corruption damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "24 corruption damage; M < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "The vampire regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt, and can end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw).",
+            "name": "Effect"
+          },
+          {
+            "cost": "2+ Malice",
+            "effect": "The vampire [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) 3 after striking the last target, and can target one additional creature for every 2 malice spent."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Crimson Embrace",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Two blood-starved vampires appear in unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Arise, My Children",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target becomes the new target of the [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Redirected Charm",
+        "target": "One enemy",
+        "trigger": "A creature makes a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) against the vampire.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The vampire has speed 15 and an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on power rolls while any creature within 20 squares of them is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding). Any [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature within 5 squares of the vampire can't hide."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lord's Bloodthirst",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "20 burst",
+        "effects": [
+          {
+            "effect": "Each target who has P < 4 is now [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Let Us Feast!",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "2 damage; M < 3 6 corruption damage",
+            "tier2": "7 damage; M < 4 6 corruption damage",
+            "tier3": "10 damage; M < 5 6 corruption damage"
+          },
+          {
+            "effect": "The vampire turns to mist, filling the area. Until the end of the round, the vampire can't move or be targeted by abilities, but they can use Crimson Embrace against a target in the area. The vampire reforms in an unoccupied space in the area at the end of the round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Red Mist Rising",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "effect": "Each target is marked for sacrifice. At the end of the round, each target who isn't dead or destroyed takes 50 corruption damage. The vampire then uses the following ability.",
+            "name": "Effect"
+          },
+          {
+            "effect": "**Wave of Blood:**"
+          },
+          {
+            "effect": "Each target makes a **Might test**. This ability deals an extra 5 damage for each creature killed by the Sacrifice [villain action](scc.v1:mcdm.monsters.v1/rule.monster/villain-action).",
+            "name": "Effect",
+            "tier1": "11 corruption damage",
+            "tier2": "8 corruption damage",
+            "tier3": "2 corruption damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Sacrifice",
+        "target": "Each chosen ally",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Corruption 9",
+      "poison 9"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead",
+      "Vampire"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/vampire-lord",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb, hover, teleport",
+    "name": "Vampire Lord",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 1,
+    "role": "",
+    "size": "1M",
+    "speed": 12,
+    "stability": 3,
+    "stamina": "200",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/vampire.json": {
+    "agility": 2,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "10 corruption damage; M < 3 5 corruption damage and [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "11 corruption damage; M < 4 7 corruption damage and [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "The vampire regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to any corruption damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Exsanguinating Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "10 damage; A < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "11 damage; A < 4 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If the target is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), the vampire [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed before using this ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Vicious Pursuit",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target becomes the new target of the [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Reactive Charm",
+        "target": "One enemy",
+        "trigger": "A creature makes a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) against the vampire.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The vampire has speed 10 while any creature within 10 squares of them is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding). The vampire must make a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) against a [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature on their turn if they are able to."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Unslakable Bloodthirst",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead",
+      "Vampire"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/vampire",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "Vampire",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 6,
+    "stability": 3,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/3rd-echelon/statblock/waxen.json": {
+    "agility": -2,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "8 damage",
+            "tier2": "11 damage",
+            "tier3": "12 damage; A < 4 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If a target made [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) this way is already [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), they are instead [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Wax Fling",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "If the waxen is ignited (see Burn Bright), they [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed before using this ability. Each target makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "10 damage",
+            "tier2": "8 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "The waxen is then destroyed and the area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Erupt",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the waxen takes fire damage, they ignite. While ignited, the waxen takes 4 fire damage at the start of each of their turns and their [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) deal an extra 4 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Burn Bright",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 7",
+      "poison 7"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.3rd-echelon.statblock/waxen",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Waxen",
+    "organization": "Horde",
+    "presence": -2,
+    "reason": -4,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 4,
+    "stability": 2,
+    "stamina": "40",
+    "type": "statblock"
+  }
+}

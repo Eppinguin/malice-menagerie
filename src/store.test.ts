@@ -1,5 +1,5 @@
 import { expect, it, vi } from "vitest";
-import { loadMonster, maliceFeatures, maliceLoading, monsterAt } from "./data.ts";
+import { loadMonster, maliceFeatures, maliceLoadStatus, monsterAt } from "./data.ts";
 import { resetPendingSharedRoll, setDiceTransport } from "./lib/rollTransport.ts";
 import {
   activeEncounter,
@@ -395,7 +395,7 @@ it("keeps active tool (Encounters vs Negotiations) separate from each encounter'
 
 it("surfaces family and encounter Malice directly from Prep items and for monster previews", () => {
   const prevFeatures = maliceFeatures.value;
-  const prevLoading = maliceLoading.value;
+  const prevStatus = maliceLoadStatus.value;
   try {
     createEncounter();
     const goblin = fakeMonster("test/goblin-prep.json", "Goblin Sniper", 15);
@@ -434,7 +434,7 @@ it("surfaces family and encounter Malice directly from Prep items and for monste
       makeFeature({ id: "gob-1", name: "Goblin Mode", cost: 3, minLevel: 1 }),
       makeFeature({ id: "gob-hi", name: "Goblin King's Wrath", cost: 7, minLevel: 5 }),
     ];
-    maliceLoading.value = false;
+    maliceLoadStatus.value = "ready";
 
     // Previewing a Level 2 Goblin surfaces only level <= 2 family Malice features.
     const previewFeatures = maliceFeaturesForMonster(goblin);
@@ -453,7 +453,7 @@ it("surfaces family and encounter Malice directly from Prep items and for monste
     expect(groups[1]?.features.map((f) => f.id)).toEqual(["gob-1"]);
   } finally {
     maliceFeatures.value = prevFeatures;
-    maliceLoading.value = prevLoading;
+    maliceLoadStatus.value = prevStatus;
   }
 });
 

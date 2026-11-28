@@ -1,4 +1,4 @@
-import { maliceLoading, monsterAt, monsterNameForPath, monstersVersion } from "../../data.ts";
+import { maliceLoadStatus, monsterAt, monsterNameForPath, monstersVersion } from "../../data.ts";
 import { linkedTokensForEncounter } from "../../integration/controller.ts";
 import {
   activeEncounter,
@@ -11,6 +11,7 @@ import {
   ensureMaliceSelection,
   groupBalance,
   groupCountAdvice,
+  maliceSelectionReady,
   relevantMaliceGroups,
   removeEncounterEntry,
   removeGroup,
@@ -423,12 +424,12 @@ function GroupCountNote() {
     and pin family Malice features while building the fight. */
 function PrepMaliceSection() {
   const [open, setOpen] = useState(false);
-  const loading = maliceLoading.value;
+  const loadStatus = maliceLoadStatus.value;
   const groups = relevantMaliceGroups();
-  const groupKey = groups.map((group) => `${group.id}:${group.features.length}`).join("|");
+  const selectionReady = maliceSelectionReady.value;
   useEffect(() => {
-    if (!loading && groups.length) ensureMaliceSelection(groups);
-  }, [loading, groupKey]);
+    if (selectionReady) ensureMaliceSelection();
+  }, [selectionReady, groups]);
   const selectedIds = activeEncounter().combat.selectedMaliceFeatureIds;
   const featureMap = new Map(
     allRelevantMaliceFeatures(groups).map((feature) => [feature.id, feature]),
@@ -436,7 +437,12 @@ function PrepMaliceSection() {
   const selectedNames = selectedIds
     .map((id) => featureMap.get(id)?.name)
     .filter((name): name is string => Boolean(name));
-  const summary = loading ? "Loading…" : `${selectedNames.length} selected`;
+  const summary =
+    loadStatus === "loading"
+      ? "Loading…"
+      : loadStatus === "failed"
+        ? "Load failed"
+        : `${selectedNames.length} selected`;
 
   return (
     <section class={`prep-malice ${open ? "open" : ""}`} aria-label="Encounter Malice">
@@ -458,6 +464,7 @@ function PrepMaliceSection() {
           <button
             type="button"
             class="secondary compact-button"
+            disabled={!selectionReady}
             title="Choose a balanced 3–4 feature set"
             onClick={autoPickMalice}
           >

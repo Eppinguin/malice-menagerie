@@ -1,0 +1,896 @@
+{
+  "en/unified/json/monster/demon/3rd-echelon/statblock/blight-phage.json": {
+    "agility": 0,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 corruption damage",
+            "tier2": "10 corruption damage",
+            "tier3": "11 corruption damage"
+          },
+          {
+            "effect": "A puddle of blight—digested soul juice—covers the ground in the target's square, which is affected as if by Seeping Blight (see the Level 7+ Demon Malice feature).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Blight Pus",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "5 cube within 1",
+        "effects": [
+          {
+            "effect": "The blight phage must create the cube beneath themself.",
+            "name": "Special"
+          },
+          {
+            "effect": "The blight phage spins and sheds corruptive blight to fill the area, which is treated as if affected by Seeping Blight.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The blight phage chooses three 2 cube areas within 10 squares of the phage. Each area is covered with blight and treated as if affected by Seeping Blight."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Blight Rain",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the blight phage is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the blight phage can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/blight-phage",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Blight Phage",
+    "organization": "Horde",
+    "presence": 4,
+    "reason": 4,
+    "role": "Controller",
+    "size": "3",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "40",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/chimeron.json": {
+    "agility": 0,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "9 cold, fire, or sonic damage",
+            "tier2": "11 cold, fire, or sonic damage",
+            "tier3": "13 cold, fire, or sonic damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [dazed](scc.v1:mcdm.heroes.v1/condition/dazed), or [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "After making the power roll, the chimeron decides what damage type the ability deals and which condition it imposes.",
+            "name": "Special"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flux Gnash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The chimeron halves the damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Pain Absorption",
+        "target": "Self",
+        "trigger": "The chimeron is targeted by a damage-dealing strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the chimeron is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the chimeron can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/chimeron",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Chimeron",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 2,
+    "role": "Brute",
+    "size": "3",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "90",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-handmaiden.json": {
+    "agility": 0,
+    "ev": "10",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "A host creature implanted by a soulraker hivequeen's Stinging Ovipositor has no physical or mental signs of the handmaiden gestating inside the host's body."
+          },
+          {
+            "effect": "After 1d3 + 1 weeks of gestation, the handmaiden fully forms inside the host. The handmaiden always moves with and occupies the same space as the host and can't be separated from them. While totally within the creature, the handmaiden doesn't have [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to the host or targets outside the host and vice versa. As a maneuver, the handmaiden can emerge from the host as a horrifying tower of flesh and bone that remains attached to the host's insides. While emerged, the handmaiden can use a move action to make the host move up to their speed and has access to the host's [signature abilities](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), using the host's modifiers for any power rolls. The handmaiden has the same [Stability](scc.v1:mcdm.heroes.v1/rule.character/stability) as the host. If the handmaiden or host is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement), the other moves with them. While emerged, the handmaiden can be targeted independently of the host. The handmaiden can retreat totally within the host's body as a maneuver. If the handmaiden dies, their remains separate from the host."
+          },
+          {
+            "effect": "The [Find a Cure](scc.v1:mcdm.heroes.v1/project/find-a-cure) downtime project in Draw Steel: Heroes can be used to find a cure that removes a handmaiden from a host. The cure kills the handmaiden when consumed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Implanted Parasite",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "8 corruption damage",
+            "tier2": "11 corruption damage",
+            "tier3": "13 corruption damage; M < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "If the handmaiden was totally within their host's body at the start of this turn, the ability deals an extra 8 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Emergent Horrors",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the handmaiden is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-handmaiden",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Soulraker Handmaiden",
+    "organization": "Horde",
+    "presence": 4,
+    "reason": 2,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 0,
+    "stability": 0,
+    "stamina": "50",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-hivequeen.json": {
+    "agility": -1,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "14 poison damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "19 poison damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "23 poison damage; M < 5 the target is implanted"
+          },
+          {
+            "effect": "An implanted target has a soulraker handmaiden parasite gestating in them (see the handmaiden's Implanted Parasite trait).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Stinging Ovipositor",
+        "target": "Two creatures",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "The hivequeen lets loose a subsonic call to each target, forcing them to immediately emerge from their host's body as a mature soulraker handmaiden and make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Forced Gestation",
+        "target": "Each implanted handmaiden parasite in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Two soulraker [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) appear within distance.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "A soulraker praetorian also appears within distance."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "For the Queen!",
+        "target": "Special",
+        "trigger": "The hivequeen is targeted by a strike for the second time on an attacker's turn, whether by the attacker or another creature acting on the attacker's turn.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of their turn, the hivequeen can consume an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) soulraker demon to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) (no action required)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Cannibal Queen",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of a soulraker demon within 100 miles of the hivequeen can't be hidden from the hivequeen. The hivequeen has [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to such creatures."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Hive Soulsight",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target can move their speed and make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). If no [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) are present, four soulraker [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) are summoned into unoccupied spaces within distance before the hivequeen uses this [villain action](scc.v1:mcdm.monsters.v1/rule.monster/villain-action).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Kicking the Nest",
+        "target": "Each soulraker minion in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "Push 3; I < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "Push 3; I < 4 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "11 sonic damage; push 3; I < 5 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "The hivequeen [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to her speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Buzz Off!",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Four 2 cubes within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 poison damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "11 poison damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "14 poison damage; M < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Bomber Wasp Warfare",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 9,
+    "intuition": 3,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-hivequeen",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "movement": "Fly",
+    "name": "Soulraker Hivequeen",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 3,
+    "role": "",
+    "size": "5",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "240",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-praetorian.json": {
+    "agility": 4,
+    "ev": "9",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 poison damage; push 2",
+            "tier2": "10 poison damage; push 2",
+            "tier3": "11 poison damage; push 4; A < 4 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The praetorian can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) into each square the target leaves.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Barbed Stinger",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The praetorian makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target, breaks off part of their stinger in the target, and [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to half their speed. The target is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until they remove the stinger fragment as a [free maneuver](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver), taking 6 damage in the process.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Stinging Departure",
+        "target": "The triggering creature",
+        "trigger": "A creature ends the praetorian's [grab](scc.v1:mcdm.heroes.v1/condition/grabbed).",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the praetorian is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature who starts their turn with two or more praetorians [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them takes 6 sonic damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Praetorian Buzzing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-praetorian",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Soulraker Praetorian",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1L",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "45",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-scout.json": {
+    "agility": 4,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 poison damage",
+            "tier2": "6 poison damage; the scout can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier3": "7 poison damage; the scout [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Soul Stinger",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who starts their turn with two or more soulraker [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them takes 3 sonic damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Abyssal Buzzing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-scout",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Soulraker Scout",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "12",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-soldier.json": {
+    "agility": 2,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage; push 2",
+            "tier2": "7 damage; push 2",
+            "tier3": "8 damage; push 4"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Chitin Bash",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who starts their turn with two or more soulraker [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them takes 3 sonic damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Abyssal Buzzing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-soldier",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Soulraker Soldier",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "13",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/soulraker-stinger.json": {
+    "agility": -1,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 poison damage",
+            "tier2": "7 poison damage",
+            "tier3": "8 poison damage"
+          },
+          {
+            "effect": "All soulraker demons have [concealment](scc.v1:mcdm.heroes.v1/rule.combat/concealment) from the target until the start of the stinger's next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Barb Launch",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who starts their turn with two or more soulraker [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them takes 3 sonic damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Abyssal Buzzing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 4,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Soulraker"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/soulraker-stinger",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Soulraker Stinger",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 4,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/demon/3rd-echelon/statblock/styrich.json": {
+    "agility": 4,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 4",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 damage; pull 1",
+            "tier2": "10 damage; pull 2, [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "12 damage; pull 3, [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "Any target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by the styrich's Tangled Nest ability can be pulled the distance determined by the power roll.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hair Whip",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "4 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "[Slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT) or A < 3 3 damage and [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT)",
+            "tier3": "[Restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT) or A < 4 3 damage and [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Tangled Nest",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the styrich is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the styrich can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.3rd-echelon.statblock/styrich",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Styrich",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "45",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  }
+}

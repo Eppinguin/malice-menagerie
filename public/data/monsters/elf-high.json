@@ -1,0 +1,1194 @@
+{
+  "en/unified/json/monster/elf-high/statblock/brambleguard.json": {
+    "agility": 0,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Special; see below",
+        "effects": [
+          {
+            "effect": "Until the start of the brambleguard's next turn, their speed is 0 and they extend themself into a 5 wall. Each ally who starts their turn adjacent to the brambleguard regains 5 Stamina and can apply the Magic keyword to their weapon abilities until the end of their turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Wall of Roses",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "2 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Whip Frenzy",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The brambleguard blocks line of effect for enemies. Each enemy who starts their turn adjacent to a brambleguard takes 4 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Thicket and Thorns",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Elemental",
+      "High Elf"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/brambleguard",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Brambleguard",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 0,
+    "role": "Defender",
+    "size": "2",
+    "speed": 4,
+    "stability": 3,
+    "stamina": "59",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/ceramic-horse.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage",
+            "tier2": "7 fire damage",
+            "tier3": "9 lightning damage; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Elemental Charge",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "Any target who is [prone](scc.v1:mcdm.heroes.v1/condition/prone) takes an extra 2 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Stomp",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The horse vertical [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) the target up to 3 squares, ignoring stability. The target can use a ranged ability at any point during this forced movement, and takes no damage if they then fall.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Buck",
+        "target": "The horse's rider",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the ceramic horse's rider has the Otherworldly Grace trait, the ceramic horse also has that trait."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shared Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Elemental",
+      "High Elf"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/ceramic-horse",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Ceramic Horse",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Mount",
+    "size": "2",
+    "speed": 10,
+    "stability": 2,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/elemental-mote.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage; R < 1 damage weakness 3 (save ends)",
+            "tier3": "3 damage; R < 2 damage weakness 3 (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Dweomer Plume",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "On their turn, the mote can leave the encounter in a flash of light to revive one [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) dead soot crow, brambleguard, or ceramic horse. The revived creature returns with 3 Stamina."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Spark of Life",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Elemental",
+      "High Elf",
+      "Soulless"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/elemental-mote",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Elemental Mote",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-bloodletter.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; R < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "The bloodletter and each of their allies has a double edge on abilities targeting a creature [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Razor's Edge",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "effect": "Until the end of the next round, a cloud of blood vapor fills the area. The cloud blocks line of effect for enemies, and any enemy has damage weakness 3 while in the area. The bloodletter can then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, and can attempt to hide if they end that shift with concealment.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Blood Haze",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the bloodletter can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-bloodletter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Bloodletter",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-dawn-mage.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 holy damage",
+            "tier2": "2 holy damage",
+            "tier3": "3 holy damage"
+          },
+          {
+            "effect": "Until the start of the dawn mage's next turn, the target can't hide.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Bright Bolt",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the dawn mage can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": -1,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-dawn-mage",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Dawn Mage",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-deathtouch.json": {
+    "agility": 0,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "10 damage",
+            "tier3": "13 damage; R < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends); I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends); P < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "cost": "5 Malice",
+            "effect": "The ability takes the Area keyword and loses the Strike keyword, its distance becomes a 3 cube within 10, and it targets each enemy in the area."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Heartpiercer",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target has a +5 bonus to speed and automatically obtains a tier 3 outcome on power rolls. They can still roll to determine if they score a critical hit. At the end of their next turn, the target immediately dies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee"
+        ],
+        "name": "Kiss of Death",
+        "target": "One willing ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the deathtouch can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-deathtouch",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "High Elf Deathtouch",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-orbweaver.json": {
+    "agility": 0,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 cold damage; M < 0 [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "6 cold damage; M < 1 [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5 or [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "9 cold damage; M < 2 [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5 or [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Awash",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; R < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "8 damage; R < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "11 damage; R < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "Each enemy within 3 squares of a target suffers the same [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) effect as the target unless they are already [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them, or if they immediately [shift](scc.v1:mcdm.heroes.v1/movement/shifting) into an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target (no action required).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Aetherweb",
+        "target": "Two enemies or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the orbweaver can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-orbweaver",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Orbweaver",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 2,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-ordinator.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 lightning damage; R < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "14 lightning damage; R < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "17 lightning damage; R < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "Until the start of the ordinator's next turn, each ally high elf in the encounter gains an edge on ability rolls against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Lightning Rod",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target can move up to their speed or make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). Elemental mote targets can, instead, use their Spark of Life trait.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Elemental Uproar",
+        "target": "Each elemental ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The ordinator summons four elemental motes or four soot crows into unoccupied space within distance.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The ordinator instead summons one ceramic horse or one winded brambleguard into an unoccupied space within distance."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Summon Elemental",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The ordinator uses Lightning Rod against the target after the ability is resolved.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Enough!",
+        "target": "The triggering enemy",
+        "trigger": "An enemy within distance uses an ability against the ordinator or any ally within distance.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the ordinator can choose one or more effects on them that can be ended by a saving throw. The effects instead end at the end of the ordinator's turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Blessing",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target glows briefly, and can end one effect on themself then move up to their speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Fountains Roar, Now Free From the Earth",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 cube within 10",
+        "effects": [
+          {
+            "effect": "Each target makes a **Presence test**.",
+            "name": "Effect",
+            "tier1": "12 corruption damage; pull 5 toward the center of the cube",
+            "tier2": "9 corruption damage; pull 3 toward the center of the cube",
+            "tier3": "Pull 1 toward the center of the cube"
+          },
+          {
+            "effect": "The area turns dark and distorted, and is difficult terrain for enemies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "And the Sun Forsook Her Children",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target's free strike now has the Magic keyword and can target two creatures or objects. Additionally, each target glows with magic.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "But We Will Change Her Mind",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-ordinator",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "High Elf Ordinator",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 3,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-palinode.json": {
+    "agility": 0,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 psychic damage",
+            "tier2": "7 psychic damage; I < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "9 psychic damage; I < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1. If the target is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way at the end of the encounter, they can't take a respite activity during their next respite."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Instill Regret",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Each target can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the palinode. The palinode and each target then gain 5 temporary Stamina.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Recall",
+        "target": "Two allies",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the palinode can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Psychic 5"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-palinode",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Palinode",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-quiver.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "Each ally adjacent to the target shifts up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Heavy Arrow",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the quiver can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-quiver",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Quiver",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-wyrd.json": {
+    "agility": 1,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 cube within 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "Vertical push 3",
+            "tier2": "Vertical push 5",
+            "tier3": "Vertical push 6"
+          },
+          {
+            "effect": "For each elemental mote adjacent to the wyrd, the size of the cube increases by 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Twystrd",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The wyrd summons two elemental motes or two soot crows into unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Summon Elemental",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "8 wall within 8",
+        "effects": [
+          {
+            "effect": "The wyrd shapes the land in the area as if it were loose clay, either raising the ground or pushing it down to create a trench. Any creature in the area moves with the terrain to its new higher elevation, or falls if the ground is lowered beneath them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Wyrd Warp",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the wyrd can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Psychic 5"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-wyrd",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Wyrd",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/high-elf-zephyr.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage",
+            "tier2": "7 damage",
+            "tier3": "9 damage"
+          },
+          {
+            "effect": "On a tier 3 outcome, the zephyr can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target. If they do so and that creature and the target both have A < 2, the creature and the target are both [prone](scc.v1:mcdm.heroes.v1/condition/prone). On any tier outcome, the zephyr can then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Sweeping Blade",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The zephyr [flies](scc.v1:mcdm.heroes.v1/movement/fly) up to their speed. If they don't end this movment on solid ground, they are [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Windwalk",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The zephyr doesn't provoke opportunity attacks by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Like the Wind",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the zephyr can choose one effect on them that can be ended by a saving throw. That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/high-elf-zephyr",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "High Elf Zephyr",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elf-high/statblock/soot-crow.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)"
+          },
+          {
+            "effect": "Until the end of their turn, the soot crow ignores opportunity attacks from the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Heckle",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Elemental",
+      "High Elf"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elf-high.statblock/soot-crow",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Soot Crow",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1T",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  }
+}

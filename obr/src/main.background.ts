@@ -39,6 +39,9 @@ import { applyUpdates } from "./updates.ts";
 import { createBackgroundSiteLink, extensionOrigin } from "../../shared/obr/siteLink.ts";
 import { DEFAULT_MALICE_URL, MALICE_URL_STORAGE_KEY } from "./config.ts";
 import { openSessionLease } from "../../shared/obr/sessionLease.ts";
+import { registerExtensionWorker } from "./serviceWorker.ts";
+
+registerExtensionWorker();
 
 let bus: BroadcastChannel | null = null;
 let bridgeWorker: SharedWorker | null = null;

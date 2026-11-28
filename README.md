@@ -4,7 +4,7 @@ A Director-first Draw Steel encounter builder and runner, inspired by FreshCutGr
 
 **Live app:** [malice-menagerie.pages.dev](https://malice-menagerie.pages.dev)
 
-No account, no backend — encounters are saved locally in your browser, and monster statblocks, Malice features, and conditions load live from [SteelCompendium](https://github.com/SteelCompendium/data-unified).
+No account, no backend — encounters are saved locally in your browser, and the monster statblocks, Malice features, conditions, and linked rules ship with the app as a validated [SteelCompendium](https://github.com/SteelCompendium/data-unified) snapshot. Once the service worker finishes caching on the first visit, the tool works offline without a reload. Homebrew links outside the snapshot can still show previews when online.
 
 ## Features
 
@@ -60,3 +60,14 @@ pnpm check          # full typecheck, lint, format, test, and build check
 ```
 
 For testing the Owlbear bridge locally or running the live-room checklist, see [`obr/HARNESS.md`](obr/HARNESS.md) and [`obr/MANUAL-ACCEPTANCE.md`](obr/MANUAL-ACCEPTANCE.md).
+
+## Compendium data
+
+`public/data/` is generated from SteelCompendium, not hand-edited. A weekly GitHub Actions job runs `pnpm sync:data`, validates the snapshot through the app's own parsers and the invariants in `src/lib/compendium.ts`, then commits and deploys only if everything passes. A schema or meaning change that would break the app fails the job and leaves the last good snapshot in place.
+
+```bash
+pnpm sync:data        # snapshot the latest upstream commit (skips when already current)
+pnpm sync:data:force  # regenerate even when upstream has not moved
+```
+
+The job pushes with `GITHUB_TOKEN`, so `main` must allow that push (or use a PR-based flow instead). A token push does not trigger other Actions workflows, but Cloudflare Pages' Git integration still deploys the commit.

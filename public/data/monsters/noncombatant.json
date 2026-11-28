@@ -1,0 +1,27 @@
+{
+  "en/unified/json/monster/noncombatant/statblock/noncombatant.json": {
+    "agility": 0,
+    "ev": "-",
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Human or Animal"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.noncombatant.statblock/noncombatant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Noncombatant",
+    "organization": "",
+    "presence": 0,
+    "reason": 0,
+    "role": "",
+    "size": "1S-2",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "8",
+    "type": "statblock"
+  }
+}

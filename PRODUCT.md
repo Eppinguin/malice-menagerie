@@ -16,7 +16,7 @@ Malice Menagerie is a Director-first encounter builder and combat board for MCDM
 
 ## Positioning
 
-Glanceable, always-visible statblock columns (one per monster type) with live tracking layered directly on the statblock, and Malice features pulled and filtered automatically from the encounter's families and levels. Data comes live from SteelCompendium, so it covers every official monster without a curated manifest.
+Glanceable, always-visible statblock columns (one per monster type) with live tracking layered directly on the statblock, and Malice features pulled and filtered automatically from the encounter's families and levels. Data is a validated SteelCompendium snapshot synced weekly, so it covers every official monster without a curated manifest and the whole tool keeps working offline.
 
 ## Operating Context
 
@@ -25,7 +25,7 @@ Used mid-session under time pressure, between player turns, often in dim room li
 ## Capabilities and Constraints
 
 - Preact + TypeScript SPA (Vite), state in @preact/signals persisted to localStorage; no backend.
-- Monster, Malice, and condition data fetched live from SteelCompendium (steelcompendium.io).
+- Monster, Malice, condition, and rule-preview data bundled as a validated SteelCompendium snapshot (steelcompendium.io), synced weekly by CI and precached by a service worker for offline play.
 - Three views: Prep (party parameters, monster library with filters/sort/search, encounter groups with drag & drop, difficulty meter), Run (round counter, Malice counter and dock, acted tally, statblock columns with trackers, conditions, dice rolling), and Negotiate (a library of saved negotiations with 1-tap quick-improv & archetype creation, collapsible setup, a one-screen cockpit of Interest and Patience beside tap-to-stage motivations/pitfalls and a player-first Argument / Read resolver with optional in-app rolling, and a log of what has been said). Multiple saved encounters and multiple saved NPCs each live in their own spine list.
 - Multiple saved encounters in a sidebar.
 - Local-first Homebrew Studio (create, clone, or kitbash monsters and custom Malice with Draw Steel baseline math, compendium rule auto-linking, and live preview) plus serverless `#s=` link and `.json` bundle sharing/import with conflict resolution.

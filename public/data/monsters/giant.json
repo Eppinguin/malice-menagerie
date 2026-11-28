@@ -1,0 +1,1649 @@
+{
+  "en/unified/json/monster/giant/statblock/basalt-stone-giant.json": {
+    "agility": 2,
+    "ev": "40",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "12 damage; M < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "17 damage; M < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "21 damage; M < 4 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If a target was already [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), that condition continues but their speed is 0 until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Rune-Signed Blade",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 3 or ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "10 damage; A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "16 damage; A < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "20 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); A < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The knife lands in the target's square, and has 30 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and damage immunity 5. Whenever the knife takes damage, it deals 4 sonic damage to each enemy within 3 squares. The knife lasts until the end of the encounter, and can't be picked up or manipulated.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Forked Knife",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The basalt stone giant moves up to their speed. Each square that they leave during this move is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. Giants ignore this [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Cobblestone Shape",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "The target is [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares, or if they have A < 3, they are [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 6 squares and knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Resonate Rune",
+        "target": "Each enemy in the area",
+        "trigger": "The basalt stone giant takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an enemy obtains a tier 1 outcome on a melee ability used against the basalt stone giant, they take a bane on that ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stonebreaker Flesh",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The basalt stone giant ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Steps",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The basalt stone giant can [burrow](scc.v1:mcdm.heroes.v1/movement/burrow) through stone, but can't drag other creatures underground when they do so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Swim",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "intuition": 2,
+    "keywords": [
+      "Giant",
+      "Stone Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/basalt-stone-giant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow",
+    "name": "Basalt Stone Giant",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 1,
+    "role": "Controller",
+    "size": "4",
+    "speed": 7,
+    "stability": 10,
+    "stamina": "207",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/fire-giant-chief.json": {
+    "agility": 3,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 4",
+        "effects": [
+          {
+            "effect": "Each target makes either an **Agility test** or an **Intuition test**.",
+            "name": "Effect",
+            "tier1": "18 fire damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "14 fire damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "9 fire damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Roiling Fist",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 4",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; A < 3 9 fire damage",
+            "tier2": "19 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 10; A < 4 9 fire damage",
+            "tier3": "23 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 15; A < 5 9 fire damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Burning Kick",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "5 fire damage; M < 3 vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "7 fire damage; M < 4 vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "9 fire damage; M < 5 vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged"
+        ],
+        "name": "Lava Pillar",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "effect": "The strike has a double edge and deals an extra 10 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Fuel the Fire",
+        "target": "The triggering ally",
+        "trigger": "A fire giant ally within distance makes a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). Any enemy who takes damage from a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) this way and who has A < 4 is burning (save ends). A burning enemy takes 1d6 fire damage at the start of each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Forward!",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "effect": "The chief [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 10 squares. Five fire giant fireballer then arrive in unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Burning Legion",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target unleashes a wave of fire, and each enemy within 2 squares of any target makes an Agility test. An enemy affected by two targets takes a bane on the test, while an enemy affected by three or more targets has a double bane.",
+            "name": "Effect",
+            "tier1": "18 fire damage",
+            "tier2": "14 fire damage",
+            "tier3": "9 fire damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "All to Cinders",
+        "target": "Self and each fire giant ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/condition/grabbed) the chief or uses a melee ability against them, that enemy takes 9 fire damage, and if they have M < 4 they are [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Scorching Skin",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "immunities": [
+      "Fire 10"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Fire Giant",
+      "Giant"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/fire-giant-chief",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Fire Giant Chief",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 0,
+    "role": "",
+    "size": "5",
+    "speed": 10,
+    "stability": 10,
+    "stamina": "240",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/fire-giant-fireballer.json": {
+    "agility": 2,
+    "ev": "11 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "2 fire damage",
+            "tier2": "5 fire damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "6 fire damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          },
+          {
+            "effect": "The fireballer can jump up to 4 squares before using this ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Blazing Leap",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/condition/grabbed) the fireballer or uses a melee ability against them, that enemy takes 5 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Searing Skin",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 9"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Fire Giant",
+      "Giant"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/fire-giant-fireballer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Fire Giant Fireballer",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "4",
+    "speed": 7,
+    "stability": 5,
+    "stamina": "13",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  },
+  "en/unified/json/monster/giant/statblock/fire-giant-lightbearer.json": {
+    "agility": 2,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 6",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "13 fire damage; slide 2",
+            "tier2": "17 fire damage; slide 4",
+            "tier3": "22 fire damage; slide 6"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Flamelash",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 6",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "15 fire damage",
+            "tier2": "21 fire damage",
+            "tier3": "26 fire damage"
+          },
+          {
+            "effect": "The blaze ricochets, targeting one additional target within 4 squares of an original target and taking a bane against that target, or targeting two additional targets within 2 squares of an original target and having a double bane against those targets. The lightbearer makes one power roll against all targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Living Blaze",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The lightbearer can target themself with this ability. Each target takes 1d6 fire damage and [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) in a plume of smoke to swap places with the other target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Travel By Fire",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The lightbearer emits a beacon of light until the start of their next turn. Each fire giant who has line of effect to the lightbearer has a double edge on abilities.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Emergency Beacon",
+        "target": "Self",
+        "trigger": "The lightbearer takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any fire giant targeted by the lightbearer's damage-dealing abilities ignores the damage and instead regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage that would have been dealt. If the lightbearer moves a fire giant using an ability, they can choose to ignore [stability](scc.v1:mcdm.heroes.v1/rule.character/stability)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Healing Heat",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/condition/grabbed) the lightbearer or uses a melee ability against them, that enemy takes 5 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Searing Skin",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "immunities": [
+      "Fire 9"
+    ],
+    "intuition": 4,
+    "keywords": [
+      "Fire Giant",
+      "Giant"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/fire-giant-lightbearer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Fire Giant Lightbearer",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 0,
+    "role": "Support",
+    "size": "4",
+    "speed": 8,
+    "stability": 5,
+    "stamina": "200",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/fire-giant-red-fist.json": {
+    "agility": 2,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "14 fire damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "19 fire damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; A < 3 burning (save ends)",
+            "tier3": "23 fire damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6; A < 4 burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flaming Punch",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Special",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "The distance is a 2 burst; 8 fire damage; M < 2 [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "The distance is a 3 burst; 12 fire damage; M < 3 [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "The distance is a 4 burst; 15 fire damage; M < 4 [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          },
+          {
+            "effect": "The outermost squares of the area become a 1-square-tall wall of stone. The rest of the area is on fire until the end of the encounter. A creature who enters the area for the first time in a round or starts their turn there takes 3 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Caldera",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The red fist jumps up to 5 squares. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them when they land takes 5 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Blazing Leap",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "effect": "The target makes a **Might test**. A target with fire immunity automatically obtains a tier 3 outcome.",
+            "name": "Effect",
+            "tier1": "[Weakened](scc.v1:mcdm.heroes.v1/condition/weakened) and [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "[Weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (EoT)",
+            "tier3": "No effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Heat and Pressure",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance willingly moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) away from the red fist.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "effect": "The red fist becomes the target of the triggering ability, then can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the enemy after the ability resolves.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Guardian Block",
+        "target": "Self",
+        "trigger": "An ally within distance is targeted by an enemy's ability.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/condition/grabbed) the red fist or uses a melee ability against them, that enemy takes 5 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Searing Skin",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 10,
+    "immunities": [
+      "Fire 9"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Fire Giant",
+      "Giant"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/fire-giant-red-fist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Fire Giant Red Fist",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "4",
+    "speed": 8,
+    "stability": 5,
+    "stamina": "240",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/frost-giant-snowblaster.json": {
+    "agility": -1,
+    "ev": "10 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 cold damage",
+            "tier2": "7 cold damage",
+            "tier3": "9 cold damage; prone"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Slushfall",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The snowblaster is surrounded by a snowstorm. Any enemy who starts their turn within 2 squares of the snowblaster can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Kingdom of Isolation",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Cold 8"
+    ],
+    "intuition": 4,
+    "keywords": [
+      "Frost Giant",
+      "Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/frost-giant-snowblaster",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Frost Giant Snowblaster",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": -1,
+    "role": "Artillery",
+    "size": "4",
+    "speed": 7,
+    "stability": 5,
+    "stamina": "12",
+    "type": "statblock",
+    "with_captain": "+3 damage bonus to strikes"
+  },
+  "en/unified/json/monster/giant/statblock/frost-giant-storm-hurler.json": {
+    "agility": -1,
+    "ev": "40",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "13 cold damage",
+            "tier2": "18 cold damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "22 cold damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "Whenever a creature [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) this way takes damage from that condition, their speed decreases by 1 (to a minimum of 0) until that condition ends.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Ice Javelins",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "effect": "The storm hurler throws three size 1L ice javelins into unoccupied squares within distance. Each javelin has 30 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and fire weakness 5. At the start of the storm hurler's next turn, all javelins not destroyed explode in a shower of icicles. Each enemy and object within 3 squares of an exploding javelin makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "14 cold damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "11 cold damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "7 cold damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Flower of Frost",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The storm hurler and the target each [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 6 squares while staying [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to each other. The target can then jump up to 5 squares and make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Ice Dance",
+        "target": "One giant ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The triggering strike has a double bane. If the strike obtains a tier 1 outcome, the storm hurler uses Ice Javelins against the creature who made it.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Frozen Retribution",
+        "target": "Self",
+        "trigger": "The storm hurler is targeted by a ranged strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The storm hurler is surrounded by a snowstorm. Any enemy who starts their turn within 2 squares of the storm hurler can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Kingdom of Isolation",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "immunities": [
+      "Cold 8"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Frost Giant",
+      "Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/frost-giant-storm-hurler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Frost Giant Storm Hurler",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "4",
+    "speed": 7,
+    "stability": 5,
+    "stamina": "180",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/frost-giant-wind-sprinter.json": {
+    "agility": 4,
+    "ev": "40",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "12 damage",
+            "tier2": "17 damage; A < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "21 damage; A < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "A target who is already [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) takes an extra 1d6 cold damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Cold Axe",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The wind sprinter [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and uses Cold Axe against each enemy who comes within 2 squares of them during the move. The wind sprinter makes one power roll against all targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Blizzard Surge",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The wind sprinter and the target each [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 6 squares while staying [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to each other. The target can then jump up to 5 squares and make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Ice Dance",
+        "target": "One giant ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The wind sprinter moves up to their speed and uses Cold Axe against one target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Begone, Smallfolk!",
+        "target": "Self",
+        "trigger": "The wind sprinter takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The wind sprinter can move through enemies' spaces at their usual speed. The first time on a turn that a wind sprinter enters a creature's space, that creature can choose to fall [prone](scc.v1:mcdm.heroes.v1/condition/prone) or to take 8 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crush Underfoot",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The wind sprinter is surrounded by a snowstorm. Any enemy who starts their turn within 2 squares of the wind sprinter can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Kingdom of Isolation",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "immunities": [
+      "Cold 8"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Frost Giant",
+      "Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/frost-giant-wind-sprinter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Frost Giant Wind Sprinter",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "4",
+    "speed": 10,
+    "stability": 5,
+    "stamina": "200",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/granite-stone-giant.json": {
+    "agility": 1,
+    "ev": "40",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "12 damage",
+            "tier2": "17 damage; R < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "21 damage; R < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "If the target is already [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they are also [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Jagged Stone Club",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "14 damage; vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). Whenever a creature enters square in the area, they take 3 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Crag Burst",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The granite stone giant moves up to their speed and creates a 14 wall of stone in squares [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the path of their movement.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Castle Stone Shape",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "effect": "A 1-square pillar of stone rises 5 squares out of the ground beneath the target, who moves with the ground to its new elevation, then is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Pillar",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) away from the granite stone giant.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an enemy obtains a tier 1 outcome on a melee ability used against the granite stone giant, they take a bane on that ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stonebreaker Flesh",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The granite stone giant ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Steps",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The granite stone giant can [burrow](scc.v1:mcdm.heroes.v1/movement/burrow) through stone, but can't drag other creatures underground when they do so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Swim",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "intuition": 2,
+    "keywords": [
+      "Giant",
+      "Stone Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/granite-stone-giant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow",
+    "name": "Granite Stone Giant",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 1,
+    "role": "Defender",
+    "size": "4",
+    "speed": 7,
+    "stability": 10,
+    "stamina": "247",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/hill-giant-clobberer.json": {
+    "agility": -1,
+    "ev": "36",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "12 damage",
+            "tier2": "17 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "21 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "A target who is already [prone](scc.v1:mcdm.heroes.v1/condition/prone) takes an extra 12 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Clobberin' Club",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "14 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "20 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 3 can't stand (save ends)",
+            "tier3": "25 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 4 can't stand (save ends)"
+          },
+          {
+            "effect": "In suitably soft ground, the target is entrenched in a 2-square deep hole.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Stomp",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "Each target must make either a **Might test** or an **Agility test**.",
+            "name": "Effect",
+            "tier1": "6 damage; vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "2 damage; vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "[Push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          },
+          {
+            "effect": "The clobberer can choose to fall [prone](scc.v1:mcdm.heroes.v1/condition/prone) in order to double the [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Hill Quake",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "effect": "The target makes an Agility test.",
+            "name": "Effect",
+            "tier1": "[Grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), and the target takes a bane on the Escape Grab maneuver",
+            "tier2": "[Grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "No effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "A target who would be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by this ability is instead either vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares; or they take 5 damage, are knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and can't stand until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "You Ain't Getting Away",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) away from the clobberer.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The clobberer automatically destroys any mundane size 1 objects in their path when they move or are [forced moved](scc.v1:mcdm.heroes.v1/movement/forced-movement). They can break through any mundane wall made of wood, stone, or a similarly sturdy material this way as long as the wall is 2 squares thick or less."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Destructive Path",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the clobberer targets a creature or object with an ability, any enemy within distance of the ability can use a free triggered action to distract the clobberer. The clobberer targets that enemy instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Distracted",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "immunities": [
+      "Damage 3"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Giant",
+      "Hill Giant"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/hill-giant-clobberer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "Hill Giant Clobberer",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "4",
+    "speed": 6,
+    "stability": 5,
+    "stamina": "200",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/hill-giant-mosstooth.json": {
+    "agility": -1,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "8 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The mosstooth can use a creature or object they have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) as a weapon for this ability, dealing an extra 5 damage to that creature or object and the target. They then end the grab and leave the creature or object [prone](scc.v1:mcdm.heroes.v1/condition/prone) in an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Swing",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the mosstooth targets a creature or object with an ability, any enemy within distance of the ability can use a free triggered action to distract the mosstooth. The mosstooth targets that enemy instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Distracted",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Damage 3"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Giant",
+      "Hill Giant"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/hill-giant-mosstooth",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "Hill Giant Mosstooth",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "4",
+    "speed": 6,
+    "stability": 5,
+    "stamina": "13",
+    "type": "statblock",
+    "with_captain": "+3 damage bonus to strikes"
+  },
+  "en/unified/json/monster/giant/statblock/marble-stone-giant.json": {
+    "agility": 3,
+    "ev": "40",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "6 damage; I < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "10 damage; I < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "14 damage; I < 4 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "If the target has any effect on them that can be ended by a saving throw or that ends at the end of their turn, they are also knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Marble From a Great Sling",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "Vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 7",
+            "tier2": "Vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 10",
+            "tier3": "Vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 12"
+          },
+          {
+            "effect": "Against a target who is [prone](scc.v1:mcdm.heroes.v1/condition/prone) or [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), this ability has a double edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Far Flung",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 x 2 line within 1",
+        "effects": [
+          {
+            "effect": "The ground in the area becomes slick and glossy. Any non-giant who starts or ends their turn in the area is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) and [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Polish Stone Shape",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The marble stone giant halves the damage, and has damage weakness 3 and a +3 bonus to speed until the end of the encounter. The damage weakness increases by 3 each time the marble stone giant uses this ability in the same encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Break Armor",
+        "target": "Self",
+        "trigger": "The marble stone giant takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an enemy obtains a tier 1 outcome on a melee ability used against the marble stone giant, they take a bane on that ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stonebreaker Flesh",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The marble stone giant ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Steps",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The marble stone giant can [burrow](scc.v1:mcdm.heroes.v1/movement/burrow) through stone, but can't drag other creatures underground when they do so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Swim",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "intuition": 3,
+    "keywords": [
+      "Giant",
+      "Stone Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/marble-stone-giant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow",
+    "name": "Marble Stone Giant",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "4",
+    "speed": 6,
+    "stability": 10,
+    "stamina": "207",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/giant/statblock/sand-stone-giant.json": {
+    "agility": 2,
+    "ev": "10 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "6 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; A < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "8 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; A < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Buried in Sand",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an enemy obtains a tier 1 outcome on a melee ability used against the sand stone giant, they take a bane on that ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stonebreaker Flesh",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The sand stone giant ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Steps",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The sand stone giant can [burrow](scc.v1:mcdm.heroes.v1/movement/burrow) through stone, but can't drag other creatures underground when they do so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Swim",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 3,
+    "keywords": [
+      "Giant",
+      "Stone Giant"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.giant.statblock/sand-stone-giant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow",
+    "name": "Sand Stone Giant",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Controller",
+    "size": "4",
+    "speed": 7,
+    "stability": 10,
+    "stamina": "14",
+    "type": "statblock",
+    "with_captain": "+6 bonus to Stamina"
+  }
+}

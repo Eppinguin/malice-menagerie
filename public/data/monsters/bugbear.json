@@ -1,0 +1,862 @@
+{
+  "en/unified/json/monster/bugbear/statblock/bugbear-channeler.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; pull 2",
+            "tier2": "10 damage; pull 3",
+            "tier3": "13 damage; pull 4"
+          },
+          {
+            "effect": "Each target must be on the ground, and each square a target is pulled through is difficult terrain for enemies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Shadow Drag",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main Action"
+      },
+      {
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "The channeler chooses one of the following damage types: acid, cold, corruption, fire, or poison.",
+            "name": "Effect",
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; M < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "3 damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "4 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Blistering Element",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main Action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 corruption damage; P < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "8 corruption damage; P < 1 the target is shapechanged (save ends)",
+            "tier3": "11 corruption damage; P < 2 the target is shapechanged (save ends)"
+          },
+          {
+            "effect": "A shapechanged creature is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) and has fire weakness 10 as their limbs stretch and their skin becomes paper thin.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Twist Shape",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main Action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the channeler.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares. An ally doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Throw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the channeler.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Catcher",
+        "target": "The triggering creature or object",
+        "trigger": "A size 1 creature or object is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) within distance, or a size 1 ally willingly moves within distance.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target is wrapped in shadow and halves the damage. The target can't be targeted by strikes until the start of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Shadow Veil",
+        "target": "The triggering ally",
+        "trigger": "An ally within distance takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-channeler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Bugbear Channeler",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-commander.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "10 damage",
+            "tier3": "13 damage; one target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "One ally within 5 squares of the commander gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on their next strike until the start of the commander's next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Inspiring Swordplay",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "effect": "The target moves up to their speed and uses a signature ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "You Next!",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Main Action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, then can use the Throw maneuver.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Fall Back!",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "Main Action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the commander.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 4 squares. An ally doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Throw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the commander.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Catcher",
+        "target": "The triggering creature or object",
+        "trigger": "A size 1 creature or object is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) within distance, or a size 1 ally willingly moves within distance.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any ally who has line of effect to the commander can end one condition on themself at the start of each of their turns."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "The Commander's Watching",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-commander",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Bugbear Commander",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 2,
+    "role": "Support",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-knightmare.json": {
+    "agility": 3,
+    "ev": "10 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "3 corruption damage",
+            "tier2": "6 corruption damage; P < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "8 corruption damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); P < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "A target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way or already [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the knightmare can be vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Corrosive Blade",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any ally has a +1 bonus to power rolls, saving throws, or damage rolled as a d6 or a d3 for each knightmare adjacent to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bu'gathic Inspiration",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each enemy has a −1 penalty to power rolls, saving throws, or damage rolled as a d6 or a d3 for each knightmare adjacent to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Magic Terror",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-knightmare",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Bugbear Knightmare",
+    "organization": "Minion",
+    "presence": 4,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "12",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-mob.json": {
+    "agility": -1,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage; pull 2",
+            "tier2": "6 damage; pull 3",
+            "tier3": "7 damage; pull 4, [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "If the target is pulled into the mob, that [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) deals damage only at the Director's determination.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Mug and Tear",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mob can move through spaces as if they were a size 1L creature, and can occupy other creatures' spaces. At the start of each of the mob's turns, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each creature whose space they share."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Swarm",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-mob",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Bugbear Mob",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "3",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "10",
+    "type": "statblock",
+    "with_captain": "+2 damage bonus to strikes"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-roughneck.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage; one target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); one target is [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 2 squares",
+            "tier3": "14 damage; one target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); one target is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares"
+          },
+          {
+            "cost": "5 Malice",
+            "effect": "The ability takes the Area keyword and loses the Strike keyword, its distance becomes a 1 burst, and it targets each enemy in the area."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Haymaker",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "13 damage; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "16 damage; M < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "The roughneck can jump up to 5 squares to an unoccupied space within distance of the target before making this strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Leaping Fury",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the roughneck.",
+            "name": "Special"
+          },
+          {
+            "effect": "The roughneck moves up to their speed across the ground, dragging the target with them. The target takes 2 damage for each square they were dragged through. When this movement ends, the target is no longer [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) and falls [prone](scc.v1:mcdm.heroes.v1/condition/prone). Each square the target was dragged through is difficult terrain for enemies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Drag Through Hell",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the roughneck.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares. An ally doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Throw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the roughneck.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Catcher",
+        "target": "The triggering creature or object",
+        "trigger": "A size 1 creature or object is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) within distance, or a size 1 ally willingly moves within distance.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The roughneck uses Haymaker against a creature or object at any point during the forced movement, or after falling as a result of it.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Flying Sawblade",
+        "target": "Self",
+        "trigger": "The roughneck is vertical force moved by another creature.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-roughneck",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Bugbear Roughneck",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "109",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-snare.json": {
+    "agility": 3,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage",
+            "tier2": "6 damage",
+            "tier3": "7 damage; A < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If the snare started their turn hidden from the target, the target is automatically [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed). A target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way or already [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the snare can be vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 4 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Cut 'Em Low!",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-snare",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Bugbear Snare",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1L",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "9",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  },
+  "en/unified/json/monster/bugbear/statblock/bugbear-sneak.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage; A < 1 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier2": "13 damage; A < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "16 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The target can't use triggered actions until the start of the next round. Additionally, if the sneak started their turn hidden from the target, this ability deals an extra 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Sucker Punch",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; I < 0 the sneak has concealment from the target (save ends)",
+            "tier2": "3 damage; I < 1 the sneak has concealment from the target (save ends)",
+            "tier3": "4 damage; I < 2 the sneak has concealment from the target (save ends)"
+          },
+          {
+            "effect": "The sneak [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and can attempt to hide.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Shadow Cloak",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; M < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "11 damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "14 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "While [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) this way, the target can't hide from the sneak or their allies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Carving Dagger",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the sneak.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target is vertical [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 4 squares. An ally doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Throw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the sneak.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Catcher",
+        "target": "The triggering creature or object",
+        "trigger": "A size 1 creature or object is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) within distance, or a size 1 ally willingly moves within distance.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "The sneak chooses one enemy within distance of the strike to become the target of the strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Clever Trick",
+        "target": "One enemy",
+        "trigger": "The sneak is targeted by a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.bugbear.statblock/bugbear-sneak",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Bugbear Sneak",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1L",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "80",
+    "type": "statblock"
+  }
+}

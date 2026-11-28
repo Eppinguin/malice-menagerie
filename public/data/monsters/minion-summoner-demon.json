@@ -1,0 +1,789 @@
+{
+  "en/unified/json/monster/minion/summoner/demon/statblock/archer-spittlich.json": {
+    "agility": 2,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The spittlich's ranged [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 10 and deal 2 poison damage to an enemy adjacent to the target. Creatures that take poison damage from this spittlich can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) until the start of the spittlich's next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Splash Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the spittlich can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These minor demons resemble larger pitlings. They can spit a nerve-numbing phlegm at long distance that makes it easy to catch their next meal.",
+    "free_strike": 5,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/archer-spittlich",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "—",
+    "name": "Archer Spittlich",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "5 | 5",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/ensnarer.json": {
+    "agility": 0,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The ensnarer's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 3 and inflict [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1. The [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance increases by 1 for each additional ensnarer striking the same target. Choose the ensnarer that the target is being pulled to before applying [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Extended Barbed Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the ensnarer can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "This vaguely humanoid form is warped and distorted by a demon nestled inside them. They extend long tongues from multiple orifices to drag victims in close.",
+    "free_strike": 2,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/ensnarer",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Ensnarer",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/faded-blightling.json": {
+    "agility": 0,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "7 corruption [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < WEAK [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)",
+            "tier2": "11 corruption [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < AVERAGE [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)",
+            "tier3": "16 corruption [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < STRONG [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)"
+          },
+          {
+            "effect": "Instead of taking [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage), you or an ally targeted by this ability impose a double [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the next [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) that targets them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Blighted Strike",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The blightling must land on the ground at the end of their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) or fall [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Wilted Wings",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the blightling can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "This cherubin creature is bloated and warped by demonic energy. The lights from their myriad eyes have all but gone out, now resembling pustules across their body.",
+    "free_strike": 7,
+    "immunities": null,
+    "intuition": 4,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/faded-blightling",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Faded Blightling",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": -1,
+    "role": "Support",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/fanged-musilex.json": {
+    "agility": 1,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The musilex's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 2 + R and inflict [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2. The [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance increases by 2 for each additional musilex striking the same target. Choose the musilex that the target is being pulled to before applying [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement). If the target is pulled adjacent to the musilex, the musilex either deals an additional 2 damage or [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mawful Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the musilex can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Ensnarers knot and twist their bodies together to form heaving, heavy musilexes. They're compelled to drag everything in toward their body.",
+    "free_strike": 5,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/fanged-musilex",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Fanged Musilex",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "6 | 6",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/gorrre.json": {
+    "agility": 3,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The gorrre must [charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) before making a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike). The target is M < STRONG knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) if the gorrre moved through an enemy or object other than the target during the [charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Gorrring Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The gorrre ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) while [charging](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) and destroys unattended, [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1 objects in their path. Each enemy they move through during a [charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) takes 3 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Devastating Charge",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the gorrre can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The gorrre demons evoke features of rhino and orangutan while clad in heavy armor. They've been utilized as jail guards by devils, as few prisoners can ever hope to outrun a monster with unlimited endurance.",
+    "free_strike": 8,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/gorrre",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "—",
+    "name": "Gorrre",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/gushing-spewler.json": {
+    "agility": 0,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The spewler's ranged [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 10 and [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) the target R + 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Gushing Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each time the spewler takes [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage), the spewler [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) 2 after all effects resolve. Each square they exit during this movement is covered in slime until the end of the encounter. An enemy has a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) while occupying a slimed square."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Spew Slide",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the spewler can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "A spewler's mouth makes up most of its size. They unleash torrents of acid and bile from their pitless stomachs before consuming their prey with bag-like maws.",
+    "free_strike": 3,
+    "immunities": null,
+    "intuition": 3,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/gushing-spewler",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "—",
+    "name": "Gushing Spewler",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": -1,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "4 | 4 | 4",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/hulking-chimor.json": {
+    "agility": 0,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The chimor's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) inflict M < WEAK [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (EoT). The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) is increased by the current [round](scc.v1:mcdm.heroes.v1/rule.combat/combat-round) number."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mercurial Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The chimor doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Evershifting",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the chimor can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Chimors have no true shape; their bodies restructure and change endlessly. Pieces of the chimor demon snap off inside their prey, causing their bodies to also restructure from the inside out.",
+    "free_strike": 3,
+    "immunities": null,
+    "intuition": 1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/hulking-chimor",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 3,
+    "movement": "—",
+    "name": "Hulking Chimor",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 2,
+    "role": "Defender",
+    "size": "2",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "7 | 7 | 7",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/rasquine.json": {
+    "agility": 0,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the rasquine can [hide](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) as a [free maneuver](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver) after [teleporting](scc.v1:mcdm.heroes.v1/movement/teleport)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Skulker",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the rasquine can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The rasquine are skulking demons that shimmer in the light. They teleport into position before biting the necks of their prey.",
+    "free_strike": 2,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/rasquine",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -1,
+    "movement": "Teleport",
+    "name": "Rasquine",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": -1,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 4,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/razor.json": {
+    "agility": 2,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the razor or uses a melee ability against them, that enemy takes 1 damage for each razor adjacent to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Teeth!",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the razor can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Razors appear to be a diminutive variant of the ruinant demon. Their bodies are swift, tumbling mounds of scarred flesh and deadly claws.",
+    "free_strike": 1,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/razor",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "—",
+    "name": "Razor",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/twisted-bengrul.json": {
+    "agility": 1,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "4 damage; P < WEAK twisted (save ends)",
+            "tier2": "6 damage; P < AVERAGE twisted (save ends)",
+            "tier3": "8 damage; P < STRONG twisted (save ends)"
+          },
+          {
+            "effect": "A twisted target can't take advantage of [edges](scc.v1:mcdm.heroes.v1/rule.dice/edge) or [search for hidden creatures](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/search-for-hidden-creatures) until the condition ends.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Mind Twist",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature adjacent to the ensnarer can't be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The bengrul is an undulating heap of glass and flesh. They shatter pieces of themselves to disrupt senses and inflict grisly wounds on their prey.",
+    "free_strike": 4,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/twisted-bengrul",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Twisted Bengrul",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "5 | 5",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/vicisittante.json": {
+    "agility": 4,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "7 psychic [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < WEAK [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "11 psychic [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < AVERAGE [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "16 psychic [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); P < STRONG [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "A target [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) by this ability is always considered [flanked](scc.v1:mcdm.heroes.v1/rule.combat/flanking) by the vicisittante regardless of position until the [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) ends.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Strike"
+        ],
+        "name": "Cerebral Flay",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the vicisittante can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "It's difficult to identify the base nature of a vicisittante apart from an ever-changing mass of burning flesh. Any surface they touch immediately scars as the demon leaves parts of themselves behind.",
+    "free_strike": 7,
+    "immunities": null,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/vicisittante",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 3,
+    "movement": "—",
+    "name": "Vicisittante",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 10,
+    "stability": 0,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/demon/statblock/violent.json": {
+    "agility": 3,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The violent's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) deal an additional 2 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy from whom they were hidden. The violent loses their disguise after striking."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Transforming Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The violent uses the [Hide](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) maneuver at the start of their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) as a [free maneuver](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver), disguising themselves as a a [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1M or smaller object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mimicry",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the violent can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The violents are lanky, oily bipeds with bright red flesh that contort and snap their bodies into unassuming objects. Their mimicry is particularly precise, to the point where it's unclear whether their victims die from the surprise or the violent transformation process first.",
+    "free_strike": 4,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.demon.statblock/violent",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Violent",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "5 | 5 | 5",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  }
+}

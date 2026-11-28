@@ -1,8 +1,10 @@
+import { maliceLoadStatus } from "../../data.ts";
 import {
   activeEncounter,
   autoPickMalice,
   canRedo,
   canUndo,
+  maliceSelectionReady,
   quickAddOpen,
   redoLabel,
   redoStep,
@@ -64,11 +66,15 @@ export function CombatView({ active }: { active: boolean }) {
                 d
               </span>
               <strong>Encounter Malice</strong>
-              <span class="malice-dock-count">{selectedCount} selected</span>
+              <span class="malice-dock-count">
+                {maliceLoadStatus.value === "failed" ? "Load failed" : `${selectedCount} selected`}
+              </span>
             </button>
             {maliceOpen ? (
               <button
+                type="button"
                 class="secondary compact-button"
+                disabled={!maliceSelectionReady.value}
                 title="Choose a balanced 3–4 feature set"
                 onClick={autoPickMalice}
               >

@@ -1,4 +1,5 @@
-import { maliceLoading } from "../../data.ts";
+import { useEffect } from "preact/hooks";
+import { maliceLoadStatus } from "../../data.ts";
 import { featureText } from "../../lib/malice.ts";
 import { plainText, richText } from "../../lib/text.ts";
 import {
@@ -8,11 +9,13 @@ import {
   ensureMaliceSelection,
   expandedMaliceFeatures,
   lastMaliceRolls,
+  maliceSelectionReady,
   openEditCustomMalice,
   openNewCustomMalice,
   openShareDialog,
   relevantMaliceGroups,
   removeMaliceSelection,
+  retryMalice,
   rollMaliceFeature,
   sharedRollActive,
   state,
@@ -313,38 +316,42 @@ function AvailableItem({ feature }: { feature: MaliceFeature }) {
 
 export function MaliceDock({ mode = "combat" }: { mode?: "combat" | "prep" } = {}) {
   const groups = relevantMaliceGroups();
-  if (maliceLoading.value && !groups.length) {
-    return (
+  const status = maliceLoadStatus.value;
+  const selectionReady = maliceSelectionReady.value;
+  useEffect(() => {
+    if (selectionReady) ensureMaliceSelection();
+  }, [selectionReady, groups]);
+  const notice =
+    !selectionReady || !groups.length ? (
       <div class="malice-empty-bar">
-        <span class="dock-loading">Loading SteelCompendium Malice…</span>
-        <button
-          type="button"
-          class="secondary compact-button"
-          onClick={() => openNewCustomMalice({ pinOnSave: true })}
-        >
-          <PlusIcon />
-          <span>Custom Malice</span>
-        </button>
+        <span class="dock-loading" role="status">
+          {status === "loading"
+            ? "Loading official Malice…"
+            : status === "failed"
+              ? "Could not load official Malice."
+              : !selectionReady
+                ? "Auto pick requires all encounter statblocks to be available."
+                : "No matching Malice features found."}
+        </span>
+        {status === "failed" ? (
+          <button type="button" class="secondary compact-button" onClick={retryMalice}>
+            Retry Malice
+          </button>
+        ) : null}
+        {!groups.length ? (
+          <button
+            type="button"
+            class="secondary compact-button"
+            onClick={() => openNewCustomMalice({ pinOnSave: true })}
+          >
+            <PlusIcon />
+            <span>Custom Malice</span>
+          </button>
+        ) : null}
       </div>
-    );
-  }
-  if (!groups.length) {
-    return (
-      <div class="malice-empty-bar">
-        <span class="dock-loading">No matching Malice features found.</span>
-        <button
-          type="button"
-          class="secondary compact-button"
-          onClick={() => openNewCustomMalice({ pinOnSave: true })}
-        >
-          <PlusIcon />
-          <span>Custom Malice</span>
-        </button>
-      </div>
-    );
-  }
+    ) : null;
+  if (!groups.length) return notice;
 
-  ensureMaliceSelection(groups);
   const interactive = mode === "combat";
   const selectedIds = activeEncounter().combat.selectedMaliceFeatureIds;
   const featureMap = new Map(
@@ -365,6 +372,7 @@ export function MaliceDock({ mode = "combat" }: { mode?: "combat" | "prep" } = {
 
   return (
     <>
+      {notice}
       <section class="malice-selection-shell">
         {selected.length ? (
           <div class={`malice-selected-grid ${mode === "prep" ? "malice-selected-stack" : ""}`}>

@@ -575,7 +575,7 @@ export function QuickAddDrawer() {
         <div class="qa-list" id="quickAddList" role="list" onKeyDown={onListKeyDown}>
           {sourceError.value && !allCatalog.value.length ? (
             <div class="source-error">
-              <strong>Could not load SteelCompendium.</strong>
+              <strong>Could not load the bundled compendium.</strong>
               <span>{sourceError.value}</span>
               <button class="secondary" onClick={retrySource}>
                 Retry
@@ -591,7 +591,7 @@ export function QuickAddDrawer() {
               }}
             />
           ) : sourceLoading.value && !allCatalog.value.length ? (
-            <div class="library-loading">Loading source index…</div>
+            <div class="library-loading">Loading compendium…</div>
           ) : !visible.length ? (
             <div class="empty-state qa-empty">
               <p>

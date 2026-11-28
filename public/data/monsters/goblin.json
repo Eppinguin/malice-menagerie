@@ -1,0 +1,1128 @@
+{
+  "en/unified/json/monster/goblin/statblock/goblin-assassin.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "6 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "If this ability gains an edge or has a double edge, it deals an extra 2 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Sword Stab",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 corruption damage; A < 0 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "4 corruption damage; A < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "5 corruption damage; A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Shadow Chains",
+        "target": "Three creatures",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The assassin doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The assassin can attempt to hide even while observed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Slip Away",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-assassin",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Assassin",
+    "organization": "Horde",
+    "presence": -2,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-cursespitter.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 corruption damage; I < 0 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "4 corruption damage; I < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "5 corruption damage; I < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Eye of Surlach",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "I < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "I < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (EoT)",
+            "tier3": "[Prone](scc.v1:mcdm.heroes.v1/condition/prone); I < 2 can't stand (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Dizzying Hex",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The cursespitter doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 2,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-cursespitter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Cursespitter",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-monarch.json": {
+    "agility": 3,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage",
+            "tier2": "10 damage",
+            "tier3": "13 damage"
+          },
+          {
+            "effect": "One ally within 10 squares of the monarch can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Handaxe",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "effect": "Two goblin runners appear in unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Get in Here!",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The ally is the target of the triggering strike instead.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Meat Shield",
+        "target": "One ally",
+        "trigger": "A creature targets the monarch with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The monarch doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the monarch can take 5 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target can move up to their speed or make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "What Are You Waiting For?",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each ally within 10 squares of the target can move up to their speed toward the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Focus Fire",
+        "target": "One enemy or object",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "Each enemy in the encounter takes 2 damage for each goblin [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Kill!",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-monarch",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Goblin Monarch",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 1,
+    "role": "",
+    "size": "1S",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-runner.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Club Charge",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The runner doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-runner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Runner",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-sniper.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "If the sniper doesn't use a move action this turn, this ability gains an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bow",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The sniper doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-sniper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Sniper",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-spinecleaver.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Axe",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The spinecleaver doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-spinecleaver",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Goblin Spinecleaver",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-stinker.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 poison damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "2 poison damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "3 poison damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "cost": "1+ Malice",
+            "effect": "For each [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) spent, one target can be [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1 additional square."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Toxic Winds",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "effect": "The area is filled with a green haze that lasts until the start of the stinker's next turn or until the stinker is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), and which can't be dispersed by wind. The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for non-goblins, and each non-goblin who moves in the area takes 2 poison damage for each square moved.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Swamp Gas",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The stinker doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-stinker",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Stinker",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-underboss.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "One ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Swordplay",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Until the start of the underboss's next turn, each target gains an edge on strikes, and any strike made against a target gains an edge.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Strikes made against targets no longer gain an edge."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Get Reckless!",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The underboss doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-underboss",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Goblin Underboss",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Support",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/goblin-warrior.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Spear Charge",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; M < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "6 damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "7 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bury the Point",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The warrior doesn't provoke [opportunity attacks](scc.v1:mcdm.heroes.v1/rule.combat/opportunity-attack) by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/goblin-warrior",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Goblin Warrior",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/skitterling.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 poison damage",
+            "tier2": "2 poison damage",
+            "tier3": "3 poison damage"
+          },
+          {
+            "effect": "The target takes a bane on their next strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Claws",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Animal",
+      "Goblin"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/skitterling",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -5,
+    "movement": "Fly",
+    "name": "Skitterling",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -4,
+    "role": "Hexer",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  },
+  "en/unified/json/monster/goblin/statblock/war-spider.json": {
+    "agility": 1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 poison damage",
+            "tier2": "11 poison damage",
+            "tier3": "14 poison damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "For any tier outcome, if the target has M < 3, they are [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bite",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Leg Blade",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The spider [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and uses Leg Blade against each creature who comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them during the shift. The spider makes one power roll against all targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Trample",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 cube within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "A < 0 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "A < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Web",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The damage is halved, and the spider [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares after the triggering effect resolves.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Skitter",
+        "target": "Self",
+        "trigger": "The spider or any ally riding the spider takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any ally who leaps off the back of the spider can jump up to 6 squares without making a test, and takes no damage if they fall during the jump. After any ally jumps, the first melee strike the make on the same turn gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Ride Launcher",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While riding the spider, two size 1 allies can occupy the same space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Wide Back",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Animal",
+      "Goblin"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/war-spider",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "War Spider",
+    "organization": "Elite",
+    "presence": -3,
+    "reason": -4,
+    "role": "Mount",
+    "size": "3",
+    "speed": 7,
+    "stability": 2,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/goblin/statblock/worg.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The worg moves up to their speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Sprint",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a worg used as a mount charges, their rider gains an edge on melee strikes until the end of the rider's turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mounted Charger",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the worg's rider has the Crafty trait, the worg also has that trait."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shared Craft",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Animal",
+      "Goblin"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.goblin.statblock/worg",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Worg",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": -1,
+    "role": "Mount",
+    "size": "1L",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "15",
+    "type": "statblock"
+  }
+}

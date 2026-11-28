@@ -1,0 +1,402 @@
+{
+  "en/unified/json/monster/undead/4th-echelon/statblock/bonecage.json": {
+    "agility": -2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "9 damage; M < 4 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier2": "12 damage; M < 5 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "14 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The bonecage can have up to four [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1 targets [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) at once. Any creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the bonecage takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the [Escape Grab](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/escape-grab) maneuver, and the bonecage has [damage immunity](scc.v1:mcdm.heroes.v1/rule.damage/damage-immunity) 5 against that creature's abilities. When the bonecage is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement), any creature or object they have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) moves with them.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "While [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way, a target can't [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) or be [teleported](scc.v1:mcdm.heroes.v1/movement/teleport)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Ribcage Chomp",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Four 10 x 1 lines within 3",
+        "effects": [
+          {
+            "effect": "The bonecage can put up to two 90-degree bends in each of the lines. Each target makes an Agility test.",
+            "name": "Effect",
+            "tier1": "9 damage",
+            "tier2": "7 damage",
+            "tier3": "4 damage"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. The effect ends at the end of the encounter or when the bonecage uses this ability again.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Labyrinth of Bone",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.4th-echelon.statblock/bonecage",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "movement": "Climb",
+    "name": "Bonecage",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": -2,
+    "role": "Controller",
+    "size": "3",
+    "speed": 6,
+    "stability": 5,
+    "stamina": "55",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/4th-echelon/statblock/giant-shambler-zombie.json": {
+    "agility": -3,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Rotten Kick",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the shambler has [damage immunity](scc.v1:mcdm.heroes.v1/rule.damage/damage-immunity) 3."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Meat Shield",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.4th-echelon.statblock/giant-shambler-zombie",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Giant Shambler Zombie",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -3,
+    "role": "Brute",
+    "size": "3",
+    "speed": 4,
+    "stability": 5,
+    "stamina": "17",
+    "type": "statblock",
+    "with_captain": "+4 damage bonus to strikes"
+  },
+  "en/unified/json/monster/undead/4th-echelon/statblock/lithgekh.json": {
+    "agility": 1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "9 corruption damage; I < 3 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "12 corruption damage; I < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "14 corruption damage; I < 5 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "A creature [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) this way takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on any ability that targets [undead](scc.v1:mcdm.monsters.v1/rule.keyword/undead).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Heartstopper",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "effect": "Any damage dealt by or [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) regained from the ability is halved. The lithgekh regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the remaining damage dealt or [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) gained.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Mystic Battery",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance uses a magic ability.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each ally within 10 squares of the lithgekh gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on magic abilities."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Devour Magic",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.4th-echelon.statblock/lithgekh",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly, hover",
+    "name": "Lithgekh",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": 5,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "55",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/undead/4th-echelon/statblock/skeleton-knight.json": {
+    "agility": 5,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "9 damage; the target can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Four Swords Swing",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the knight is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their bones collapse to fill their space with an impassable barrier. Any enemy who comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the barrier for the first time in a round or starts their turn there takes 5 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bitter Bones",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the knight makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike), they can make two [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "More Swings",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 4,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.4th-echelon.statblock/skeleton-knight",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Skeleton Knight",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -2,
+    "role": "Defender",
+    "size": "1L",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "17",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/undead/4th-echelon/statblock/wraith-skulker.json": {
+    "agility": 3,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 cold damage; the wraith can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier2": "7 cold damage; the wraith [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 square",
+            "tier3": "9 cold damage; P < 5 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends); the wraith [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          },
+          {
+            "effect": "The wraith turns invisible until the start of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Draining Rake",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The wraith can move through creatures and objects at their usual speed, but can't end their turn inside a creature or object. The first time in a round that the wraith moves through a creature, that creature takes 5 corruption damage. The wraith doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Corruptive Phasing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.undead.4th-echelon.statblock/wraith-skulker",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Fly, hover",
+    "name": "Wraith Skulker",
+    "organization": "Minion",
+    "presence": 5,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "15",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  }
+}

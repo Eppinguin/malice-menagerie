@@ -1,0 +1,786 @@
+{
+  "en/unified/json/monster/minion/summoner/fey/statblock/nixie-corallia.json": {
+    "agility": 3,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) during their move action, each nixie under your control can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to a body of water within 6. The corallia can't [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) into water created by their own seafoam pool."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Water Weird",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The area within 2 squares of the corallia is filled with purifying saltwater that disables the effects of [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) created by enemies. At the end of the corallia's [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), the corallia can scrub you or an ally in the affected area and end one [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Seafoam Pool",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The coralia has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Corallias are saltwater nixies with coarse, coral-like skin and curly hair with hooked ends. Their salty tears are used to hallow places of worship and ward off demons.",
+    "free_strike": 7,
+    "immunities": [
+      "Lightning R"
+    ],
+    "intuition": 4,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/nixie-corallia",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Swim",
+    "name": "Nixie Corallia",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 3,
+    "role": "Support",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/nixie-hemloche.json": {
+    "agility": 0,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) during their move action, each nixie under your control can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to a body of water within 6. The hemloche can't [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) into water created by their own whirling waves."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Water Weird",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The area within 1 square of the hemloche is filled with churning water and is considered [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). At the end of the hemloche's [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), the hemloche can choose to [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) each enemy in the affected area 3 squares. An enemy that takes [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) while being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) is also M < AVERAGE knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Whirling Waves",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The hemloche has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Hemloches are spotted nixies whose long, wavy hair endlessly bobs and flows into the water surrounding them. Any sailor caught in a whirlpool created by hemloches knows that their ship won't survive the encounter.",
+    "free_strike": 3,
+    "immunities": null,
+    "intuition": 3,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/nixie-hemloche",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Swim",
+    "name": "Nixie Hemloche",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4 | 4 | 4",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/nixie-soakreed.json": {
+    "agility": -1,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per turn during their move action, each nixie under your control can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to a body of water within 5. The soakreed can't [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) into water created by their own soaking bog."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Water Weird",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The area within 1 square of the soakreed is filled with swampy water. An enemy that starts their turn in the area is A < WEAK [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn)). The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1 for each additional soaking bog the target occupies (maximum +2)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soaking Bog",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The soakreed has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These nixies are especially tiny. Their hair grows longer than their bodies and curls into reeds. The water soakreeds swim in tends to turn thick and cling to surfaces.",
+    "free_strike": 1,
+    "immunities": null,
+    "intuition": 2,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/nixie-soakreed",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Swim",
+    "name": "Nixie Soakreed",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "1",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/pixie-belladonix.json": {
+    "agility": 2,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "8 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); M < WEAK [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "12 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); M < AVERAGE [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "17 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); M < STRONG [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by this ability is trapped in a poison-fueled haze and considers each creature within 1 square of them to be an enemy until the [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) ends.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "A Thorn, Woe to the Pricked",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The belladonix has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The belladonix are found among the elite guard of fey monarchs and carry themselves like royalty. Their moth-like wings ooze with vibrant colors and are barbed; the poison within threatening to completely shift the reality of their victims.",
+    "free_strike": 8,
+    "immunities": [
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/pixie-belladonix",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Fly, hover",
+    "name": "Pixie Belladonix",
+    "organization": "Minion",
+    "presence": 4,
+    "reason": 4,
+    "role": "Artillery",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "16 | 16",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/pixie-bellringer.json": {
+    "agility": 1,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The bellringer's [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) grant an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) to the next [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) made against the target, or a double [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) if two or more bellringers strike the same target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Ringing Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each ally within 1 square of a bellringer has a +1 to [saving throws](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). Each enemy within 1 square of a bellringer has a -1 to [saving throws](scc.v1:mcdm.heroes.v1/rule.general/saving-throw)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fairy Chime",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The bellringer has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The bellringers are glowing pixies that jingle as they fly. Historically, these pixies worked alongside bowman to ensure their arrows struck true.",
+    "free_strike": 1,
+    "immunities": null,
+    "intuition": 0,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/pixie-bellringer",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -3,
+    "movement": "Fly, hover",
+    "name": "Pixie Bellringer",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Support",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/pixie-hydrain.json": {
+    "agility": 0,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "5 acid damage; M < WEAK [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier2": "7 acid damage; M < AVERAGE [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier3": "9 acid damage; M < STRONG [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "After the hydrain's squad uses this ability, you or one ally within distance can spend a [Recovery](scc.v1:mcdm.heroes.v1/rule.health/recoveries) or end a [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Burning/Healing Rain",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The hydrain has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "This pixie flies on a delicate array of vibrant flower petals for wings. The color drains from their wings as they call forth acid rain showers.",
+    "free_strike": 5,
+    "immunities": [
+      "Acid R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/pixie-hydrain",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -3,
+    "movement": "Fly, hover",
+    "name": "Pixie Hydrain",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5 | 5",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/pixie-loftlilly.json": {
+    "agility": 1,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The area within 1 square of the loftlilly causes each enemy and object with a size equal to your [Reason](scc.v1:mcdm.heroes.v1/rule.character/reason) or smaller to float 1 square off the ground until they leave the area. A floating enemy that can't [fly](scc.v1:mcdm.heroes.v1/movement/fly) is unable to [shift](scc.v1:mcdm.heroes.v1/movement/shifting), moves 2 additional squares from [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement), and has a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Floating Toxins",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The loftlilly has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Loftlillies lazily drift through the air in flower cups. They sip on toxic nectar to emit a powerful haze from their skin.",
+    "free_strike": 4,
+    "immunities": [
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/pixie-loftlilly",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Fly, hover",
+    "name": "Pixie Loftlilly",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5 | 5",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/pixie-rosenthall.json": {
+    "agility": 2,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "3 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull 2; A < WEAK [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)",
+            "tier2": "6 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull 3; A < AVERAGE [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)",
+            "tier3": "8 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull 4; A < STRONG [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (EoT)"
+          },
+          {
+            "effect": "A target can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) while [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) from this ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Stickerbush Symphony",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The rosenthall can move through squares as if they were [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1T, and can occupy other creatures' spaces. At the start of the rosenthall's [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), they deal 2 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) to each enemy whose space they share."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Swarm",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The collective of blood-eyed pixie warriors that make up a rosenthall are also known as rosies. It's said that some rosenthall armies contain thousands of pixies and can span half the length of a wode.",
+    "free_strike": 3,
+    "immunities": null,
+    "intuition": 0,
+    "keywords": [
+      "Fey",
+      "Swarm"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/pixie-rosenthall",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "Fly, hover",
+    "name": "Pixie Rosenthall",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": 4,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "5 | 5 | 5",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/sprite-dandeknight.json": {
+    "agility": 0,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "When the dandeknight strikes, you can choose one of the following damage types: acid, cold, corruption, fire, lightning, poison, or sonic. The strike deals that damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Magic Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the dandeknight makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike), they can make two [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) instead. The damage is added together and treated as a single [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike) if both strikes hit the same target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Staccato Swings",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dandeknight has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Dandeknights are sprite warriors whose dragonfly wingbeats emit a tonal drone. They're usually clad in tassels that shift color as they swing their weapons.",
+    "free_strike": 1,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/sprite-dandeknight",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Sprite Dandeknight",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/sprite-foxglow.json": {
+    "agility": 3,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The foxglow's melee [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) inflict I < STRONG [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (EoT) if they were hidden when they make the [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Flash Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The area within 2 squares of the foxglow is completely silent. Each enemy has a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [tests](scc.v1:mcdm.heroes.v1/rule.test/test) made to search for the foxglow and allies hidden in the affected area."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Quiet Flight",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The foxglow has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Foxglows are masked sprites that leave behind an evanescent trail of tiny glowing orbs as they fly. They beat their wings at a frequency that completely blocks out all nearby noise.",
+    "free_strike": 4,
+    "immunities": [
+      "Fire R"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/sprite-foxglow",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -1,
+    "movement": "Fly",
+    "name": "Sprite Foxglow",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1T",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "5 | 5 | 5",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/sprite-olyender.json": {
+    "agility": 3,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The olyender's melee [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) inflict [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4. If the target is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into an object, they are M < AVERAGE knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Warrior's Toss",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When targeting a creature with a [grab](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) or [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement), the olyender's [size](scc.v1:mcdm.heroes.v1/rule.character/size) is considered one larger than the target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Use Their Might",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The olyender has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These brawny sprites wear heavy beetle armor and have a halo hovering away from their backs where their wings used to be. The faster the halo spins, the more power the olyender generates, enabling them to stand toe to toe with giants.",
+    "free_strike": 8,
+    "immunities": null,
+    "intuition": 1,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/sprite-olyender",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "Fly",
+    "name": "Sprite Olyender",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/fey/statblock/sprite-orchiguard.json": {
+    "agility": 0,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Each non-orchiguard ally takes half damage from abilities while within 1 square of the orchiguard. Whenever the orchiguard reduces damage this way, they take damage equal to half their maximum [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and their [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) damage increases by 1."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fairy Guard",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The orchiguard has [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) while occupying a larger creature's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minuscule",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The orchiguard is a sprite surrounded by a wheel of shields. They are usually crushed by the pressures of their own impenetrable defenses before ever being felled by enemy hands.",
+    "free_strike": 4,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.fey.statblock/sprite-orchiguard",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Sprite Orchiguard",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Defender",
+    "size": "1S",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "8 | 8",
+    "type": "statblock",
+    "weaknesses": null
+  }
+}

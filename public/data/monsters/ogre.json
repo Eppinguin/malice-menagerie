@@ -1,0 +1,494 @@
+{
+  "en/unified/json/monster/ogre/statblock/cyclops.json": {
+    "agility": -1,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "3 damage; A < 3 3 damage",
+            "tier2": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; A < 4 4 damage",
+            "tier3": "7 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); A < 5 5 damage and [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The cyclops automatically treats their initial power roll as a 17. They can still roll to determine if they score a critical hit.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Wild Slam",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The cyclops has line of effect only within 3 squares. Whenever the cyclops takes damage from a ranged ability, they can move up to 3 squares toward the source of the damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Limited Vision",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 3,
+    "keywords": [
+      "Giant",
+      "Ogre"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.ogre.statblock/cyclops",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Cyclops",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Controller",
+    "size": "3",
+    "speed": 6,
+    "stability": 5,
+    "stamina": "14",
+    "type": "statblock",
+    "with_captain": "+4 bonus to speed"
+  },
+  "en/unified/json/monster/ogre/statblock/ogre-blue-blood.json": {
+    "agility": 1,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage",
+            "tier2": "7 damage; M < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "8 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "A target who is already [prone](scc.v1:mcdm.heroes.v1/condition/prone) takes an extra 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Crush Underfoot",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the blue blood would make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike), an ally within 5 squares can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "In My Stead",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The blue blood has damage immunity 2 while their squad has three or fewer minions in it."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Royal Anger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Ogre"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.ogre.statblock/ogre-blue-blood",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Ogre Blue Blood",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "13",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/ogre/statblock/ogre-goon.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6, [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "Any target who takes damage from this [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) takes an extra 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Club Swing",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "14 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "A target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way takes a bane on the Escape Grab maneuver.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Grabby Hand",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "6 x 1 line within 1",
+        "effects": [
+          {
+            "effect": "The goon must have a size 1 creature or object [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), which they hurl across the area, ending the grab. The hurled creature or object is targeted by the ability, and lands in the last square of the line or the nearest unoccupied square of the goon's choice.",
+            "name": "Effect",
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "People Bowling",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The goon [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) the target up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Swat the Fly",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) away from the goon.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), the goon has damage immunity 2."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Defiant Anger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Ogre"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.ogre.statblock/ogre-goon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Ogre Goon",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "100",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/ogre/statblock/ogre-juggernaut.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "10 damage; A < 1 vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "13 damage; A < 2 vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "Each target who has M < 1 is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Pitchfork Catapult",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "The juggernaut jumps up to 6 squares before using this ability.",
+            "name": "Effect",
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Earth-Breaking Jump",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "I < 0 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "While a target is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) this way, any ogre gains an edge on strikes against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Horrible Bellow",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The juggernaut moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Hrraaaaaagh!",
+        "target": "Self",
+        "trigger": "The juggernaut takes damage.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The juggernaut automatically destroys any mundane size 1 objects in their path when they move or are [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement). They can break through any mundane wall made of wood, stone, or a similarly sturdy material this way as long as the wall is 2 squares thick or less."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Destructive Path",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), the juggernaut has damage immunity 2."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Defiant Anger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Ogre"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.ogre.statblock/ogre-juggernaut",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Ogre Juggernaut",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/ogre/statblock/ogre-tantrum.json": {
+    "agility": 2,
+    "ev": "9 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "effect": "The tantrum unearths a rock or a hunk of terrain and tosses it. If a size 1L, 1M, or 1S creature or object [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the tantrum has A < 3 the tantrum can [grab](scc.v1:mcdm.heroes.v1/condition/grabbed) them to use as the projectile for this ability.",
+            "name": "Effect",
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage",
+            "tier2": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          },
+          {
+            "effect": "A creature or object used as a projectile is vertically [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) 8 (or 13 with a captain), ignoring stability."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Throw Fit",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The tantrum has damage immunity 3 and speed 8 while their squad has two or fewer minions in it."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Excessive Anger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Ogre"
+    ],
+    "level": 7,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.ogre.statblock/ogre-tantrum",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Ogre Tantrum",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Artillery",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "10",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  }
+}

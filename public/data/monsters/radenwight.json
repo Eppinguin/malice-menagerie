@@ -1,0 +1,799 @@
+{
+  "en/unified/json/monster/radenwight/statblock/radenwight-bruxer.json": {
+    "agility": 1,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "A target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way takes 2 damage at the start of each of the bruxer's turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Lockjaw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; A < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "5 damage; A < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "8 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Flurry of Bites",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The bruxer makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the bruxer has that shift end. Additionally, any enemy [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the bruxer can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lockdown",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-bruxer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Radenwight Bruxer",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-maestro.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 sonic damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1, the maestro can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier2": "6 sonic damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3, the maestro [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares",
+            "tier3": "8 sonic damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5, the maestro [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 5 squares"
+          },
+          {
+            "effect": "Each ally within distance can use Ready Rodent as a free triggered action once before the end of the round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Cacophony",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "P < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "P < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "P < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Each ally within 3 squares of any target has a +2 bonus to speed until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Tempo Changer",
+        "target": "Two enemies",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The maestro makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Ever-Ready Rodent",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to an ally or takes damage from an ally.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the maestro can take 5 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed or take the Defend action.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Overture",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "effect": "Until the end of their next turn, the target halves any damage they take, gains a +4 damage bonus to [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike), and has their speed doubled.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Solo Act",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target stands, makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike), then falls dead again. Any ally of the targets can use Ready Rodent as a free triggered action once in conjunction with these free strikes.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Rondo of Rat",
+        "target": "Each dead ally in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-maestro",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Climb",
+    "name": "Radenwight Maestro",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 0,
+    "role": "",
+    "size": "1S",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-mischiever.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "If the mischiever is hidden when they use this ability, they can target two creatures.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dagger Dance",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The mischiever makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-mischiever",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Radenwight Mischiever",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-piper.json": {
+    "agility": 0,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 sonic damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "7 sonic damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "9 sonic damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          },
+          {
+            "effect": "The piper or one ally within distance regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Piercing Trill",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "Each target who has used their Ready Rodent ability this round regains the use of their triggered action.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The area increases to a 6 burst."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Vivace Vivace!",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The piper makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of the piper's turn, they can [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) one [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) creature up to 2 squares, ignoring stability."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Musical Suggestion",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-piper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Radenwight Piper",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Support",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-ratcrobat.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "6 damage",
+            "tier3": "8 damage"
+          },
+          {
+            "effect": "The ratcrobat [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares after striking the first target, then can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square after striking the second target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "En Garde",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The ratcrobat [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) the target up to 3 squares, then can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) into any square the target left.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Over Here, Thanks",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The ratcrobat makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The ratcrobat gains an edge on [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) against larger creatures."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Gymratstics",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-ratcrobat",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Radenwight Ratcrobat",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-redeye.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "One ally of the redeye within 2 squares of the target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Eyes-On-Me-Shot",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The redeye makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-redeye",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Climb",
+    "name": "Radenwight Redeye",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-scrapper.json": {
+    "agility": 1,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)",
+            "tier3": "3 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Buckler Bash",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The scrapper makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-scrapper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Radenwight Scrapper",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1S",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "+2 bonus to melee distance"
+  },
+  "en/unified/json/monster/radenwight/statblock/radenwight-swiftpaw.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1, the swiftpaw can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier2": "2 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2, the swiftpaw [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares",
+            "tier3": "3 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3, the swiftpaw [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Rapier Flunge",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The swiftpaw makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.radenwight.statblock/radenwight-swiftpaw",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Radenwight Swiftpaw",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  }
+}

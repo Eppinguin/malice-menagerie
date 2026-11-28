@@ -1,0 +1,593 @@
+{
+  "en/unified/json/monster/animal/statblock/animal-swarm.json": {
+    "agility": 1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage; pull 1",
+            "tier3": "12 damage; pull 2"
+          },
+          {
+            "effect": "If the target is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) into the animal swarm, that [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) deals damage only at the Director's determination.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flurry",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The animal swarm can move through spaces as if they were a size 1M creature, and can occupy other creatures' spaces. At the start of each of the animal swarm's turns, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each creature whose space they share."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Swarm",
+        "type": "feature"
+      },
+      {
+        "distance": "1 aura",
+        "effects": [
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies until the start of the animal swarm's next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Impede",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the animal swarm can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Swarm"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/animal-swarm",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "name": "Animal Swarm",
+    "organization": "Elite",
+    "presence": -3,
+    "reason": -3,
+    "role": "Hexer",
+    "size": "2",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "40",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/animal/statblock/animal.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage"
+          },
+          {
+            "effect": "The animal [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares between strikes.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Natural Weapon",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The animal moves up to their speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Rush",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the animal can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Animal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/animal",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Animal",
+    "organization": "Elite",
+    "presence": -2,
+    "reason": -2,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/animal/statblock/big-animal-a.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage; A < 1 3 damage",
+            "tier3": "12 damage; A < 2 3 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Natural Weapon",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be the animal's size or smaller.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target vertical [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares. If the target is an ally, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) at the end of the forced movement, then fall without taking damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Toss",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The animal [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares before the ability resolves.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Juke",
+        "target": "Self",
+        "trigger": "The animal is targeted by an area ability.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the animal can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Animal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/big-animal-a",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Big Animal A",
+    "organization": "Elite",
+    "presence": -2,
+    "reason": -2,
+    "role": "Mount",
+    "size": "2",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/animal/statblock/big-animal-b.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "10 damage; push 1",
+            "tier3": "13 damage; push 2"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Natural Weapon",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The animal moves up to their speed. They can make a free strike against each creature who makes an opportunity attack against them during this movement.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Trundle",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "effect": "The animal moves up to their speed. If they end their turn adjacent to the target, they can use the [Stand Up](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/stand-up) maneuver to let the target stand, then get on to ride them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Animal Rally",
+        "target": "One ally",
+        "trigger": "The target is knocked prone.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While riding the animal, two size 1 allies can occupy the same space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Beast of Burden",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the animal can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Animal"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/big-animal-b",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Big Animal B",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": -1,
+    "role": "Mount",
+    "size": "3",
+    "speed": 6,
+    "stability": 3,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/animal/statblock/predator-a.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "10 damage; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "13 damage; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Natural Weapon",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The predator assesses their environment or lets loose a threatening roar and gains an edge on their next strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Ready to Strike",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The predator makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target. If the predator was hidden from the target, the strike deals an extra 3 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Quick Strike",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object comes within distance.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the predator can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Animal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/predator-a",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Predator A",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": -2,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/animal/statblock/predator-b.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Natural Weapon",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "6 damage",
+            "tier3": "8 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Wild Swing",
+        "target": "Each enemy or object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Swat",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance deals damage to the predator.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The predator can move through enemies' and objects' spaces at their usual speed. Any mundane size 2 or smaller object whose space they move through is destroyed. When the predator enters a creature's space for the first time on a turn, that creature takes 3 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Trample",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While outdoors or in a natural environment, the predator can negate a bane on their abilities or turn a double bane into a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nature's Spirit",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Animal"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.animal.statblock/predator-b",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Predator B",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": -1,
+    "role": "Brute",
+    "size": "3",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "100",
+    "type": "statblock"
+  }
+}

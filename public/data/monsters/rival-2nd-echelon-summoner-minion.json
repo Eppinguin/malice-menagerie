@@ -1,0 +1,182 @@
+{
+  "en/unified/json/monster/rival/2nd-echelon/summoner/minion/statblock/ceaseless-mournling.json": {
+    "agility": 3,
+    "cost": "4 Malice for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of the mournling's turn, each enemy within 1 of the mournling takes 2 sonic damage and can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) until the start of the mournling's next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Always Crying",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mournling's shape can't change via any external effects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Immutable Form",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time the mournling [burrows](scc.v1:mcdm.heroes.v1/movement/burrow) out of the ground on their turn, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rupture",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 3",
+      "poison 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.2nd-echelon.summoner.minion.statblock/ceaseless-mournling",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 3,
+    "movement": "Burrow",
+    "name": "Ceaseless Mournling",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Controller",
+    "size": "2",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "6 | 6 | 6",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/2nd-echelon/summoner/minion/statblock/grave-knight.json": {
+    "agility": 2,
+    "cost": "2 Malice for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "2d10 + 3",
+            "tier1": "5 corruption damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier2": "7 corruption damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier3": "9 corruption damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Knight Strike",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the grave knight is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before being destroyed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "To the Grave",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Corruption 3",
+      "poison 3"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.2nd-echelon.summoner.minion.statblock/grave-knight",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 3,
+    "movement": "—",
+    "name": "Grave Knight",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 1,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "9 | 9",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/2nd-echelon/summoner/minion/statblock/skeleton.json": {
+    "agility": 3,
+    "cost": "1 Malice per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "When the skeleton is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their square becomes [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. The first time any enemy enters this space, they take 2 damage and end this effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bonetrops",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": [
+      "Corruption 3",
+      "poison 3"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.2nd-echelon.summoner.minion.statblock/skeleton",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Skeleton",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "weaknesses": null
+  }
+}

@@ -1,0 +1,1601 @@
+{
+  "en/unified/json/monster/hobgoblin/statblock/grilp.json": {
+    "agility": 3,
+    "ev": "6 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage; the grilp [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares"
+          },
+          {
+            "effect": "The grilp moves up to their speed and can attempt to hide.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flyby Bite",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who makes a saving throw takes a −1 penalty to the saving throw for each grilp [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bat Out Of Hell",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The grilp has concealment from all creatures."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shifting Camouflage",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Hobgoblin",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/grilp",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Fly",
+    "name": "Grilp",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1T",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "8",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-bloodlord.json": {
+    "agility": 2,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "11 corruption damage; P < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "16 corruption damage; P < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "19 corruption damage; P < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Each target is marked until the end of the encounter or until they die. The bloodlord's allies gain an edge on strikes against any target marked this way. The bloodlord can have up to three targets marked this way. If they mark a new target who would exceed the limit, the oldest mark ends."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Soul Sword",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target moves up to their speed and can use a signature ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Take Point!",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Three hobgoblin recruits manifest from the target's blood into unoccupied spaces [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "An Army From Blood",
+        "target": "The triggering creature",
+        "trigger": "A non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) hobgoblin within distance takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the bloodlord is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the bloodlord takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the bloodlord can take 10 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target gains 10 temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and can move up to their speed. Then each non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Advance!",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "3 aura",
+        "effects": [
+          {
+            "effect": "Until the end of the encounter, the bloodlord surrounds themself with a storm of flying skulls. Any enemy who enters the area for the first time in a round or starts their turn there takes 8 corruption damage and takes a bane on their next power roll until the start of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Skulls Abound",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "5 fire damage; P < 2 2 fire damage, [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2, [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "5 fire damage; P < 3 7 fire damage, [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3, [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "5 fire damage; P < 4 10 fire damage, [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5, [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "Until the end of the encounter, the bloodlord is wreathed in black flames. Whenever any [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/condition/grabbed) the bloodlord or uses a melee ability against them, that enemy takes 5 corruption damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "I Am Fire! I Am Death!",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Fire 6"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-bloodlord",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Teleport",
+    "name": "Hobgoblin Bloodlord",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 2,
+    "role": "",
+    "size": "1M",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "180",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-brandbearer.json": {
+    "agility": 1,
+    "ev": "6 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "2 fire damage",
+            "tier2": "4 fire damage; M < 2 fire weakness 5 (save ends)",
+            "tier3": "6 fire damage; M < 3 fire weakness 5 (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Searing Grasp",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an enemy takes fire damage, they take 1 extra fire damage for each brandbearer [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Open Furnace",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the brandbearer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the brandbearer takes 2 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-brandbearer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Hobgoblin Brandbearer",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": 2,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "7",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-burning-witch.json": {
+    "agility": 1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "4 corruption or fire damage",
+            "tier2": "6 corruption or fire damage",
+            "tier3": "8 corruption or fire damage"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Each target who has P < 2 is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends). Any enemy who starts their turn within 3 squares of a target [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way and who has P < 2 is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Soul Burn",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 5 squares. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a target at their destination takes 3 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Burning Legion",
+        "target": "Three creatures",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the burning witch is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the burning witch takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Fire 4"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-burning-witch",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Teleport",
+    "name": "Hobgoblin Burning Witch",
+    "organization": "Platoon",
+    "presence": 3,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "50",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-death-captain.json": {
+    "agility": 0,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage",
+            "tier2": "8 damage, 4 corruption damage",
+            "tier3": "8 damage, 7 corruption damage"
+          },
+          {
+            "effect": "The next strike made against the target has a double edge.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "One ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target can use their signature ability."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Blightblade",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "On My Mark!",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any hidden creature who makes a strike against the death captain or any ally within 2 squares of the death captain takes a bane on the strike."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Battle Ready",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the death captain is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the death captain takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Fire 4"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-death-captain",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Hobgoblin Death Captain",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 1,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-firerunner.json": {
+    "agility": 3,
+    "ev": "14",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 fire damage",
+            "tier2": "13 fire damage",
+            "tier3": "16 fire damage; A < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (EoT)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Flaming Kick",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The firerunner moves up to their speed and creates an 8 wall of fire along the path of their movement. Creatures can enter and pass through the wall. Any enemy who enters the wall for the first time in a round or starts their turn there takes 5 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "Blazing Trail",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the firerunner takes fire damage for the first time in round, their speed and the size of the wall they can create with Blazing Trail increases by 4 until the end of their next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Hot to Go",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The firerunner ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Kindlestep",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the firerunner is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the firerunner takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-firerunner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Hobgoblin Firerunner",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "70",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-grandguard.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 damage",
+            "tier2": "14 damage",
+            "tier3": "17 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Each ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a [prone](scc.v1:mcdm.heroes.v1/condition/prone) target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against that target."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tower Shield Smash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "1 x 2 line within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "6 damage",
+            "tier2": "11 damage",
+            "tier3": "14 damage"
+          },
+          {
+            "effect": "Each target is [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 10 squares in the same direction, and the grandguard [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) into the area left behind by the targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Charge",
+          "Weapon"
+        ],
+        "name": "Thunder Rush",
+        "target": "Each enemy or object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any strike made against an ally within 2 squares of the grandguard takes a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Wide Guard",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the grandguard is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the grandguard takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 6"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-grandguard",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Hobgoblin Grandguard",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 3,
+    "role": "Defender",
+    "size": "2",
+    "speed": 4,
+    "stability": 4,
+    "stamina": "111",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-hell-trooper.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 fire damage",
+            "tier2": "10 fire damage",
+            "tier3": "13 fire damage"
+          },
+          {
+            "effect": "Until the end of their turn, the trooper doesn't provoke opportunity attacks from any target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fire Flail",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "If the target has P < 2, they are taunted (EoT). While taunted this way, the target takes 1d6 fire damage whenever they use an ability or strike that doesn't target the trooper.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Fight Me, Coward!",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the trooper is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the trooper takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 4"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-hell-trooper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Hobgoblin Hell Trooper",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "70",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-incendiarist.json": {
+    "agility": 3,
+    "ev": "14",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 fire damage",
+            "tier2": "14 fire damage",
+            "tier3": "17 fire damage; A < 3 burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fire Crossbow",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "4 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "5 fire damage; A < 1 burning (save ends)",
+            "tier2": "9 fire damage; A < 2 burning (save ends)",
+            "tier3": "11 fire damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); A < 3 burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Fireball Volley",
+        "target": "Each enemy or object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The ranged [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) of each ally within 3 squares of the incendiarist has a distance of 10 and deals fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Raining Cinders",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the incendiarist is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the incendiarist takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-incendiarist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Hobgoblin Incendiarist",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-lancer.json": {
+    "agility": 3,
+    "ev": "6 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "2 corruption damage",
+            "tier2": "4 corruption damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "6 corruption damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          },
+          {
+            "effect": "The lancer deals an extra 2 damage if they have high ground against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Grim Thrust",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the lancer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the lancer takes 2 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-lancer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Hobgoblin Lancer",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "8",
+    "type": "statblock",
+    "with_captain": "+2 damage bonus to strikes"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-recruit.json": {
+    "agility": 2,
+    "ev": "6 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) or [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Sword Lunge",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally deals 1 extra damage for each recruit [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Tactical Positioning",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the recruit is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the recruit takes 2 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-recruit",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Hobgoblin Recruit",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "9",
+    "type": "statblock",
+    "with_captain": "+4 bonus to Stamina"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-redglare.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 corruption damage; P < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "14 corruption damage; P < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "17 corruption damage; P < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Eye Flash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 corruption damage",
+            "tier2": "10 corruption damage, or if the target has P < 2 they are judged",
+            "tier3": "The target is judged."
+          },
+          {
+            "effect": "Until the end of the encounter, a judged target takes 10 corruption damage at the start of each of their turns, and regains 5 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) each time they use an ability or other effect that allows another creature to spend a Recovery.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Glare of the Old Judgments",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the redglare is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the redglare takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 6"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-redglare",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Teleport",
+    "name": "Hobgoblin Redglare",
+    "organization": "Platoon",
+    "presence": 3,
+    "reason": 2,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "70",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-smokebinder.json": {
+    "agility": 3,
+    "ev": "14",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 fire damage",
+            "tier2": "14 fire damage",
+            "tier3": "17 fire damage; R < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If this ability gains an edge or has a double edge, the target can't communicate with anyone until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Choking Bolt",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "Each target makes a Might test.",
+            "name": "Effect",
+            "tier1": "11 damage; the target has a double bane on their next power roll",
+            "tier2": "9 damage; the target takes a bane on their next power roll",
+            "tier3": "5 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Smoke Bomb",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The smokebinder can move through spaces as if they were size 1T and can occupy another creature or object's space. At the end of their turn, the smokebinder can attempt to hide if they haven't taken any damage since their last turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Essence of Smoke",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the smokebinder is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the smokebinder takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-smokebinder",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Fly, hover",
+    "name": "Hobgoblin Smokebinder",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 2,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "70",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/hobgoblin-war-mage.json": {
+    "agility": 2,
+    "ev": "28",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "5 fire damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "9 fire damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "11 fire damage; M < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "Before using this ability, the war mage can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) a creature within 10 squares of them up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Hellfire",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target gains 10 temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and has a double edge on their next power roll. The war mage can spend any amount of their current [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) to increase the temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) each target gains by an equivalent amount.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Enchantments of War",
+        "target": "Two allies",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "5 cube within 10",
+        "effects": [
+          {
+            "effect": "The war mage consecrates the area and causes it to smolder until the end of the encounter. The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) and an enemy in the area has fire weakness 10.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Unhallowed Ground",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Any damage dealt or [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) regained from the creature's ability is halved. The war mage regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the remaining damage dealt or [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) regained.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Magic Siphon",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance uses a magic ability.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the war mage is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray burning blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the war mage takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy within 2 squares of the war mage has a −2 penalty to saving throws."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Despair, You Who Face Death",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/hobgoblin-war-mage",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Hover, teleport",
+    "name": "Hobgoblin War Mage",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 3,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/hobgoblin/statblock/slaughter-demon.json": {
+    "agility": 0,
+    "ev": "24",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 damage",
+            "tier2": "14 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "17 damage; A < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) and [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A creature [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way moves with the slaughter demon. The slaughter demon can have up to six creatures or objects [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) at once.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Steely Skewer",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 poison damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "16 poison damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "20 poison damage; M < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "A target [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way also has damage weakness 3.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tail Stinger",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The slaughter demon can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) as part of using the Dig maneuver. If the target of the [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) has M < 2, they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) and take a bane on the Escape Grab maneuver."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Drag Below",
+        "type": "feature"
+      },
+      {
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "The target can't be brought back to life. Until the end of the encounter, the slaughter demon gains an edge on power rolls.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Devour Soul",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance who has a soul dies.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the slaughter demon can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the slaughter demon is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an edge on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Hobgoblin"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.hobgoblin.statblock/slaughter-demon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Burrow",
+    "name": "Slaughter Demon",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": -1,
+    "role": "Brute",
+    "size": "3",
+    "speed": 7,
+    "stability": 3,
+    "stamina": "140",
+    "type": "statblock"
+  }
+}

@@ -1,0 +1,666 @@
+{
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-bloodeye.json": {
+    "agility": 1,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; A < 0 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "7 damage; A < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "9 damage; A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bola Knock",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 acid damage; M < 0 the target has line of effect only within 4 squares (save ends)",
+            "tier2": "7 acid damage; M < 1 the target has line of effect only within 3 squares (save ends)",
+            "tier3": "9 acid damage; M < 2 the target has line of effect only within 2 squares (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bloodshot",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the bloodeye has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-bloodeye",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Swim",
+    "name": "Lizardfolk Bloodeye",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-deathrex.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; A < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "10 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "12 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; A < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "One target [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the deathrex is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) in the deathrex's mouth."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Ripper Spear",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage; M < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "12 damage; M < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "15 damage; M < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "The target is no longer [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the deathrex, and the deathrex [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) them up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Death Roll",
+        "target": "One grabbed creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The deathrex moves up to their speed. They can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each creature who makes an opportunity attack against them during this movement.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Trundle",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The deathrex [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) the target up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Swat the Fly",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) away from the deathrex.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the deathrex has a tail, whenever they are affected by an effect that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) or that ends at the end of their turn, they can lose their tail to immediately end that effect, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rex Reptilian Escape",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). Each target gains temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage they deal.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Snack Attack",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The deathrex [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, leaving behind a shed skin duplicate in the space they started in. The duplicate acts on the deathrex's turn and has the deathrex's characteristics, but has 10 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and no [villain actions](scc.v1:mcdm.monsters.v1/rule.monster/villain-action).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Shed Some Skin",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target moves up to their speed. Until the end of the encounter, whenever a creature comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a target or starts their turn there, the target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Thresher Thrasher",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-deathrex",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Climb, swim",
+    "name": "Lizardfolk Deathrex",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 0,
+    "role": "",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-grunt.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "3 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Snap and Toss",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the grunt has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-grunt",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Swim",
+    "name": "Lizardfolk Grunt",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-scaletooth.json": {
+    "agility": 1,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; A < 2 bleeding (save ends)"
+          },
+          {
+            "effect": "If the scaletooth has the target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), the [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) of this ability increases by 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Razor Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "8 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 1 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) if within 2 squares of the scaletooth",
+            "tier3": "10 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) if within 2 squares of the scaletooth"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tail Whip",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the scaletooth has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-scaletooth",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Swim",
+    "name": "Lizardfolk Scaletooth",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "46",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-shellguard.json": {
+    "agility": 1,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          },
+          {
+            "effect": "The target takes a bane on their next strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Shield Smash",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the shellguard has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-shellguard",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Swim",
+    "name": "Lizardfolk Shellguard",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1L",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "6",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-skyterror.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage",
+            "tier2": "7 damage",
+            "tier3": "9 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "If the skyterror is [flying](scc.v1:mcdm.heroes.v1/movement/fly), they [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 4 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Glaive Rush",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; M < 0 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "5 damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "7 damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "Any creature who ends their turn [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a target [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Poison Blow Dart",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the skyterror moves 2 or more squares along the ground or falls 2 or more squares, they can [fly](scc.v1:mcdm.heroes.v1/movement/fly) until the end of their next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Glider",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the skyterror has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-skyterror",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Swim",
+    "name": "Lizardfolk Skyterror",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/lizardfolk/statblock/lizardfolk-tonguer.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1, or the tonguer can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square toward the target",
+            "tier2": "4 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2, or the tonguer [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares toward the target",
+            "tier3": "5 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3, or the tonguer [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares toward the target"
+          },
+          {
+            "effect": "If the [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) or the [shift](scc.v1:mcdm.heroes.v1/movement/shifting) leaves the target [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the tonguer, the target is also [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tonguelash",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the tonguer has a tail, whenever they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), [prone](scc.v1:mcdm.heroes.v1/condition/prone), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they can lose their tail to immediately end that condition, then [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Reptilian Escape",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Lizardfolk"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.lizardfolk.statblock/lizardfolk-tonguer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Swim",
+    "name": "Lizardfolk Tonguer",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+1 bonus to strikes"
+  }
+}

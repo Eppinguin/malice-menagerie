@@ -1,0 +1,1232 @@
+{
+  "en/unified/json/monster/dragon/statblock/crucible-dragon.json": {
+    "agility": -1,
+    "ev": "96",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the dragon can take 10 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "The dragon can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dragon's scales create a 3 aura of magnetism around them that affects large masses of metal. Any creature who enters the area for the first time in a round or starts their turn there while wearing metal or while slagged (see Slag Spew) is pulled up to 2 squares toward the dragon. A creature pulled this way who has M < 3 is unable to willingly move away from the dragon."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "❇️",
+        "name": "Magnetized Wyrmscale Aura",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "10 x 2 line within 1",
+        "effects": [
+          {
+            "effect": "Each target makes an Agility test.",
+            "name": "Effect",
+            "tier1": "13 fire damage; the target is slagged (save ends)",
+            "tier2": "10 fire damage; the target is slagged (save ends)",
+            "tier3": "6 fire damage"
+          },
+          {
+            "effect": "A slagged target is coated in molten metal and takes 2d6 fire damage at the start of each of their turns. If a slagged target has M < 3 they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends) whenever they take cold damage."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Slag Spew",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "11 damage; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "17 damage; M < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "20 damage; M < 4 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "The dragon can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each slagged target knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) this way.",
+            "name": "Effect"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The strike deals 1d6 cold damage."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Forge Hammer Tail Slam",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per round while the dragon is [flying](scc.v1:mcdm.heroes.v1/movement/fly) using their Thermodynamic Flight ability, they give off a blast of steam to extend the duration of their flight until the end of the next round. Each creature in a 4 cube within 1 underneath the dragon when they use this ability takes 7 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Heat Buffer",
+        "type": "feature"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "The dragon expels blistering steam, dealing 7 fire damage to each target in the area. The dragon then [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed vertically and can [fly](scc.v1:mcdm.heroes.v1/movement/fly) until the end of the round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Thermodynamic Flight",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The dragon drops to the ground and uses Forge Hammer Tail Slam, which deals an extra 4 damage for each square they descended.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Hammer and Anvil",
+        "target": "Self",
+        "trigger": "While [flying](scc.v1:mcdm.heroes.v1/movement/fly), the dragon starts their turn or moves.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "The target must be size 2 or smaller.",
+            "name": "Special",
+            "roll": "Power Roll + 4",
+            "tier1": "Push 5",
+            "tier2": "Push 7",
+            "tier3": "Push 10, ignoring [stability](scc.v1:mcdm.heroes.v1/rule.character/stability)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Polarize Aura",
+        "target": "Each creature and object in the area",
+        "trigger": "The dragon is targeted by two melee strikes in the current turn.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "6 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 fire damage; I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "6 fire damage; I < 3 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "8 fire damage; I < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Heart of the Forge",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Shields embedded under the dragon's scales emerge, and the dragon gains damage immunity 6 at the start of each round until the end of the encounter. If the dragon takes any damage, they lose this immunity until the end of the current round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Subdermal Shielding",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target makes a **Might test**.",
+            "name": "Effect",
+            "tier1": "16 damage; pull 10 or push 10",
+            "tier2": "13 damage; pull 8 or push 8",
+            "tier3": "7 damage; pull 5 or push 5."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Polarity Chaos",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Fire 6"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Dragon",
+      "Elemental"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dragon.statblock/crucible-dragon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Crucible Dragon",
+    "organization": "Solo",
+    "presence": 2,
+    "reason": 3,
+    "role": "",
+    "size": "4",
+    "speed": 8,
+    "stability": 6,
+    "stamina": "450",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dragon/statblock/gloom-dragon.json": {
+    "agility": 4,
+    "ev": "72",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the dragon can take 10 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "The dragon can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dragon's scales create a 3 aura of dark supernatural fog around them that feeds on their victims' fears and provides concealment to the dragon only. Each enemy who starts their turn in the area takes 2 psychic damage. Additionally, whenever one or more enemies is in the area, the dragon's abilities deal an extra 3 psychic damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "❇️",
+        "name": "Gloaming Wyrmscale Aura",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "4 cube within 10",
+        "effects": [
+          {
+            "effect": "Each target makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "14 cold damage; the target is dragonsealed (save ends)",
+            "tier2": "11 cold damage; the target is dragonsealed (save ends)",
+            "tier3": "6 cold damage"
+          },
+          {
+            "effect": "A dragonsealed creature has psychic weakness 3 and cold weakness 3. Additionally, the area is filled with magical darkness. The dragon ignores concealment created by this darkness."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Breath of Brume",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "10 psychic damage; pull 2",
+            "tier2": "15 psychic damage; pull 4",
+            "tier3": "18 psychic damage; pull 6"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The pull becomes a vertical slide."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Phantom Tail Swing",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the dragon can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, leaving behind a 4 cube area of magical darkness in their starting space that lasts until the end of the encounter. The dragon ignores concealment created by this darkness. Any enemy who ends their turn in the area and has I < 3 is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of the dragon until the end of their next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shadow Skulk",
+        "type": "feature"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target must be dragonsealed. Each target takes 3 psychic damage, and if they have I < 3 they immediately make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against one ally of the dragon's choice.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Visions in the Dark",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The dragon moves two existing cubes of magical darkness they created up to 10 squares each.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Encroaching Darkness",
+        "target": "Self",
+        "trigger": "A creature within 10 squares moves.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "Pull 2; I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT)",
+            "tier2": "Pull 4; I < 3 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "Pull 6; I < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Enveloping Umbrage",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "6 psychic damage",
+            "tier2": "11 psychic damage",
+            "tier3": "14 psychic damage"
+          },
+          {
+            "effect": "Each target must be dragonsealed. Any target who has I < 3 is also [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Pall of Nightmares",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "The dragon disappears from the encounter map. The dragon and three hallucinatory illusions of themself then immediately reappear in unoccupied spaces on the encounter map, and the dragon and each illusion uses Breath of Brume. Each illusion is indistinguishable from the dragon except by supernatural means, has 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), and has the dragon's speed. An illusion acts on the dragon's turns but can take only move actions. Once per round before or after using an ability, the dragon can trade places with any duplicate.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Absence of All Light",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Psychic 5"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Dragon",
+      "Elemental"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dragon.statblock/gloom-dragon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Fly, hover",
+    "name": "Gloom Dragon",
+    "organization": "Solo",
+    "presence": 4,
+    "reason": 1,
+    "role": "",
+    "size": "4",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "350",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dragon/statblock/meteor-dragon.json": {
+    "agility": 5,
+    "ev": "144",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the dragon can take 20 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "The dragon can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dragon's scales create a 1 aura of void space around them. Any enemy who starts their turn in the area takes 10 cold damage and is suffocating. Each time the dragon takes damage, the area of the aura increases by 1 (to a maximum of 5), and they deal an extra 5 damage the next time they use an ability that deals rolled damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "❇️",
+        "name": "Voidshroud Wyrmscale Aura",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "4 cube within 10",
+        "effects": [
+          {
+            "effect": "Each target makes a **Might test**.",
+            "name": "Effect",
+            "tier1": "20 sonic damage; the target is dragonsealed (save ends)",
+            "tier2": "16 sonic damage; the target is dragonsealed (save ends)",
+            "tier3": "10 sonic damage"
+          },
+          {
+            "effect": "A dragonsealed target emits a golden aura, and takes 2 damage per square moved when falling or when [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into an obstacle."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Gravity Well",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 2 or ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "15 holy damage; A < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "21 holy damage; A < 5 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "25 holy damage; A < 6 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "If a target made [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way is already [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), they are instead [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Cosmic Tail Ray",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the dragon chooses a target within 3 squares. The dragon can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target, and ignores [banes](scc.v1:mcdm.heroes.v1/rule.dice/bane) when using abilities against the target until the start of their next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crescent Claws",
+        "type": "feature"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "15 burst",
+        "effects": [
+          {
+            "effect": "Each target must be dragonsealed. The dragon chooses a direction and vertical slides each target 10 squares in that direction, ignoring [stability](scc.v1:mcdm.heroes.v1/rule.character/stability). A target who strikes an obstacle takes damage as if they had fallen the [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Investiture of Gravity",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The dragon halves the damage. Each enemy and object in the area of the dragon's Voidshroud Wyrmscale Aura trait takes 5 sonic damage and is pulled up to 5 squares toward the dragon. The area of the wyrmscale aura then resets to 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Field Collapse",
+        "target": "Self",
+        "trigger": "The dragon takes damage from an ability while the area of their Voidshroud Wyrmscale Aura is 2 or more.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "10 psychic damage; P < 4 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "16 psychic damage; P < 5 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "20 psychic damage; P < 6 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "While [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) this way, the target can't use the triggering ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "A Hero Faces the Void",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance spends their Heroic Resource to use an ability.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "1-mile burst",
+        "effects": [
+          {
+            "effect": "Each target takes 30 fire damage, and if they have M < 5, they are knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          },
+          {
+            "effect": "The dragon can use this ability before the encounter begins.",
+            "name": "Special"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Impactful Arrival",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Until the end of the encounter, each enemy who is dragonsealed and [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) and who the dragon has [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to loses 1 of their Heroic Resource at the start of each of their turns (to a minimum of 0). The dragon then uses their Cosmic Tail Ray ability with a double [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge), targeting four creatures or objects.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Burning Aurora",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "∞ x 3 line within 1",
+        "effects": [
+          {
+            "effect": "Each target makes an Agility test.",
+            "name": "Effect",
+            "tier1": "25 damage; I < 6 the target is annihilated",
+            "tier2": "21 damage; I < 5 the target is annihilated",
+            "tier3": "15 damage; I < 4 the target is annihilated"
+          },
+          {
+            "effect": "An annihilated target must make the test again, decreasing the [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) for themself by 2 each time they are annihilated. A creature reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by this dies and their soul is destroyed."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Voidlight Breath",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 10,
+    "intuition": 3,
+    "keywords": [
+      "Dragon",
+      "Elemental"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dragon.statblock/meteor-dragon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "movement": "Fly",
+    "name": "Meteor Dragon",
+    "organization": "Solo",
+    "presence": 5,
+    "reason": 3,
+    "role": "",
+    "size": "3",
+    "speed": 15,
+    "stability": 6,
+    "stamina": "650",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dragon/statblock/omen-dragon.json": {
+    "agility": 4,
+    "ev": "120",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the dragon can take 15 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "The dragon can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Several of the dragon's abilities impose a Deathcount on a target. At the end of every turn, a creature with a Deathcount who is within the area of the dragon's Stagnant Wyrmscale Aura has that Deathcount reduced by 1. When a creature's Deathcount hits 0, they die. If multiple Deathcounts are imposed on a creature, they don't stack. Only the lowest Deathcount takes effect. All Deathcounts are lost when the dragon is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Deathcount",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dragon's scales create a 4 aura of supernatural stagnancy around them. The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies, and no creature except the omen dragon can regain [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) while in the area. Any creature dragonsealed by the omen dragon who starts their turn in the dragon's aura and doesn't have a Deathcount gains a Deathcount of 12."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "❇️",
+        "name": "Stagnant Wyrmscale Aura",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "5 cube within 10",
+        "effects": [
+          {
+            "effect": "Each target makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "18 corruption damage; the target is dragonsealed (save ends)",
+            "tier2": "14 corruption damage; the target is dragonsealed (save ends)",
+            "tier3": "9 corruption damage"
+          },
+          {
+            "effect": "Only creatures with souls can be dragonsealed by the omen dragon. A dragonsealed creature appears ghastly and pale, their Presence score is treated as 1 lower for the purpose of resisting [potencies](scc.v1:mcdm.heroes.v1/rule.character/potency), and they can't treat other creatures as allies."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Corroding Breath",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 4",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "14 damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "19 damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "23 damage; M < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 2, and each target is also pulled up to 5 squares."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Barbed Tail Swing",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the dragon chooses one creature with a Deathcount within [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). That creature can choose to take 1d6 damage and lose a [recovery](scc.v1:mcdm.heroes.v1/rule.health/recoveries) to increase their Deathcount by 5."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death or Victory",
+        "type": "feature"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target must be dragonsealed. Each target takes 9 corruption damage, and the omen dragon regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the total damage dealt. The target then loses their dragonseal.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Detonation",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The dragon [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, and the Deathcount of each dragonsealed creature who comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the dragon during this shift is reduced by 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Don't Turn Away",
+        "target": "Self",
+        "trigger": "A creature leaves the area of the dragon's Stagnant Wyrmscale Aura [trait](scc.v1:mcdm.monsters.v1/rule.monster/monster-trait).",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target must choose between making a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against themself or gaining a Deathcount of 5.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Repent!",
+        "target": "The triggering creature",
+        "trigger": "A dragonsealed creature within distance deals damage to the dragon.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "Pull 1; the target has a Deathcount of 10",
+            "tier2": "Pull 2; the target has a Deathcount of 8",
+            "tier3": "Pull 3; the target has a Deathcount of 6"
+          },
+          {
+            "effect": "Each target receives a premonition of their imminent death.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "What You Deserve",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The dragon spits fragments of souls to attempt to possess the targets, making a separate power roll for each target.",
+            "name": "Effect",
+            "roll": "Power Roll + 5",
+            "tier1": "P < 5 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "P < 5 the target moves up to their speed toward the dragon",
+            "tier3": "P < 5 the target makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the nearest ally"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Souls of the Broken",
+        "target": "Five creatures",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "6 burst",
+        "effects": [
+          {
+            "effect": "Each target must be dragonsealed. The dragon's eyes glow with unequalled malevolence, and any target who has a Deathcount has that Deathcount reduced to 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "So Long and Goodnight",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 9,
+    "immunities": [
+      "Corruption 6"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Dragon",
+      "Elemental"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dragon.statblock/omen-dragon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Fly",
+    "name": "Omen Dragon",
+    "organization": "Solo",
+    "presence": 5,
+    "reason": 2,
+    "role": "",
+    "size": "5",
+    "speed": 10,
+    "stability": 6,
+    "stamina": "550",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dragon/statblock/thorn-dragon.json": {
+    "agility": 3,
+    "ev": "48",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the dragon can take 10 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "The dragon can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The dragon's scales create a 2 aura of withering green magic around them. Any creature other than the dragon who regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) in the area regains only half the expected amount. Any [winded](scc.v1:mcdm.heroes.v1/rule.health/winded) creature who enters the area for the first time in a round or starts their turn there takes 1d3 corruption damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "❇️",
+        "name": "Withering Wyrmscale Aura",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "10 x 1 line within 1",
+        "effects": [
+          {
+            "effect": "Each target makes a **Might test**.",
+            "name": "Effect",
+            "tier1": "12 poison damage; the target is dragonsealed (save ends)",
+            "tier2": "9 poison damage; the target is dragonsealed (save ends)",
+            "tier3": "5 poison damage"
+          },
+          {
+            "effect": "A dragonsealed creature has their wounds bound by nettles and thorns, causing them to take an extra 1d3 damage whenever they take damage rolled as a d6 or a d3."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Virulent Breath",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage; push 2",
+            "tier2": "12 damage; push 4",
+            "tier3": "15 damage; push 8"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Each target takes an extra 1d3 damage, and if they have A < 2, they are [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Spinous Tail Swing",
+        "target": "Two enemies or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the dragon [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 5 squares and can move through enemies' spaces at their usual speed. The first time the dragon moves through an enemy's space during this movement, the enemy takes 3 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Provoking Nettles",
+        "type": "feature"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target must be dragonsealed. Each target is pulled up to 5 squares toward the dragon, who gains 5 [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina) for each target pulled.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Investiture of Verdure",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target is pulled up to 5 squares toward the dragon, and if they have A < 2, they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Prickly Situation",
+        "target": "The triggering creature",
+        "trigger": "A dragonsealed creature within distance ends the dragonsealed effect.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The dragon makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target, and if the target has M < 2, they are [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Thorny Scales",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the dragon with a melee strike.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "4 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "5 damage; A < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "9 damage; A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "12 damage; A < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Briar Bindings",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The thorns upon the dragon's scales grow longer and sharper. Until the end of the encounter, any [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) creature who targets the dragon with a melee strike takes 3 damage. The dragon then uses their Provoking Nettles ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Thorned Armor",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "Poisonous overgrowth and seeking vines cover all surfaces on the encounter map. The dragon uses their Bramble Barricade Malice feature twice at no cost. Until the end of the encounter, any creature [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) by the dragon takes 1d3 poison damage, and if they have M < 2, they are [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends).",
+            "name": "Effect"
+          },
+          {
+            "effect": "If the Thorn Dragon's Domain [trait](scc.v1:mcdm.monsters.v1/rule.monster/monster-trait) is in effect, any creature other than the dragon who starts their turn on the encounter map takes 1d3 poison damage.",
+            "name": "Special"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Malign Thicket",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Poison 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Dragon",
+      "Elemental"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dragon.statblock/thorn-dragon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Thorn Dragon",
+    "organization": "Solo",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "3",
+    "speed": 8,
+    "stability": 6,
+    "stamina": "250",
+    "type": "statblock"
+  }
+}

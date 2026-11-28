@@ -5,6 +5,7 @@ import {
   homebrewCatalog,
   hydratedCount,
   hydrationErrors,
+  maliceLoadStatus,
   monsterNameForPath,
   sourceError,
   sourceLoading,
@@ -28,6 +29,7 @@ import {
   openShareDialog,
   partyLevelWindow,
   qtyFor,
+  retryMalice,
   retrySource,
   setRole,
   setSearch,
@@ -74,7 +76,7 @@ function SourceStatus() {
   const hydrated = hydratedCount.value;
   const errors = hydrationErrors.value;
   let text: string;
-  if (sourceLoading.value) text = "Connecting to SteelCompendium…";
+  if (sourceLoading.value) text = "Loading the bundled compendium…";
   else if (!total) text = "No statblocks found";
   else if (hydrated < total)
     text = `${total} statblocks · loading details ${Math.min(hydrated, total)}/${total}`;
@@ -364,7 +366,7 @@ function LibraryList() {
     return (
       <div class="monster-library panel" id="monsterLibrary">
         <div class="source-error">
-          <strong>Could not load SteelCompendium.</strong>
+          <strong>Could not load the bundled compendium.</strong>
           <span>{error}</span>
           <div class="hb-empty-actions">
             <button class="secondary" onClick={retrySource}>
@@ -386,7 +388,7 @@ function LibraryList() {
   if (sourceLoading.value && !catalog.value.length && !hasHomebrew) {
     return (
       <div class="monster-library panel" id="monsterLibrary">
-        <div class="library-loading">Loading source index…</div>
+        <div class="library-loading">Loading compendium…</div>
       </div>
     );
   }
@@ -605,6 +607,16 @@ export function LibraryColumn() {
           </label>
         </div>
       </div>
+      {maliceLoadStatus.value === "failed" && !sourceError.value ? (
+        <div class="malice-empty-bar">
+          <span class="source-status" role="status">
+            Could not load official Malice.
+          </span>
+          <button type="button" class="secondary compact-button" onClick={retryMalice}>
+            Retry Malice
+          </button>
+        </div>
+      ) : null}
       <FilterBar />
       {ui.filtersOpen ? <FiltersPanel /> : <ActiveFilterPills />}
       {pasting ? (

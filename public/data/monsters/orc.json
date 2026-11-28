@@ -1,0 +1,1507 @@
+{
+  "en/unified/json/monster/orc/statblock/mohler.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "The distance increases to melee 2. If the mohler is 1 or more squares beneath the target before they use this ability, a target who has M < 1 is also knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Earth Bump",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mohler doesn't need [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to use abilities against creatures or objects touching the ground."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Seismic Sense",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mohler can use the Dig maneuver at the start of the encounter. Additionally, while the mohler [burrows](scc.v1:mcdm.heroes.v1/movement/burrow) within 1 square below the ground, the ground above where they burrow is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Ground Grinder",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Animal",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/mohler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Burrow",
+    "name": "Mohler",
+    "organization": "Minion",
+    "presence": -3,
+    "reason": -4,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/orc/statblock/orc-blitzer.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          },
+          {
+            "effect": "A target who starts their next turn [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to three or more blitzers takes 3 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Lugged Spear",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the blitzer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodfire Bur",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-blitzer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Orc Blitzer",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/orc/statblock/orc-bloodrunner.json": {
+    "agility": 2,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) special",
+            "tier2": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) special",
+            "tier3": "13 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) special or [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "The [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance is equal to the number of squares the bloodrunner moved on their turn before using this ability. An ally targeted by this ability ignores the damage and can move up to that same distance.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "An ally targeted by this ability can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) after the [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) is resolved."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Shield Bash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The bloodrunner can end their movement in a [prone](scc.v1:mcdm.heroes.v1/condition/prone) creature's space. The first time on a turn that a bloodrunner enters any creature's space, that creature takes 3 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Unimpeded",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the bloodrunner is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the bloodrunner is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-bloodrunner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Bloodrunner",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "50",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-bloodspark.json": {
+    "agility": 1,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1, or the bloodspark can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square away from the target",
+            "tier2": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2, or the bloodspark [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares away from the target",
+            "tier3": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4, or the bloodspark [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 4 squares away from the target"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Explosive Mote",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the bloodspark is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodfire Bur",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-bloodspark",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Orc Bloodspark",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+2 bonus to forced movement distance"
+  },
+  "en/unified/json/monster/orc/statblock/orc-chainlock.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 0 the target is hooked (save ends)",
+            "tier2": "7 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 1 the target is hooked (save ends)",
+            "tier3": "9 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 the target is hooked (save ends)"
+          },
+          {
+            "effect": "A hooked target can't move more than 3 squares away from the chainlock's position when this ability is used.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hook and Chain",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; A < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "7 damage; A < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "9 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Heavy Crossbolt",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the chainlock is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) by a creature's melee ability, the creature is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) the same distance toward the chainlock after the [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) is resolved."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Chain Link",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the chainlock is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the chainlock is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-chainlock",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Chainlock",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-eye-of-grole.json": {
+    "agility": 1,
+    "ev": "6",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The eye has an affinity for one of the following damage types cold, fire, or lightning. The chosen type determines the eye's [damage immunity](scc.v1:mcdm.heroes.v1/rule.damage/damage-immunity) and the damage dealt by their abilities."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Elemental Affinity",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2, or the eye [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares away from the target",
+            "tier2": "9 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4, or the eye [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 4 squares away from the target",
+            "tier3": "12 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6, or the eye [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 6 squares away from the target"
+          },
+          {
+            "effect": "This ability deals cold, fire, or lightning damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Elemental Discharge",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "5 x 2 line within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4, [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "This ability deals cold, fire, or lightning damage, and any enemy targeted by the ability has [damage weakness](scc.v1:mcdm.heroes.v1/rule.damage/damage-weakness) 3 to the same damage type (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Power Burst",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the eye is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the eye is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Cold",
+      "fire",
+      "or lightning"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-eye-of-grole",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Orc Eye of Grole",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-garotter.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage; the garroter can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier2": "9 damage; the garroter [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares",
+            "tier3": "12 damage; the garroter [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          },
+          {
+            "effect": "If this ability gains an edge or has a double edge, it deals an extra 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dagger Feint",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage; I < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "12 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); I < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "While [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way, a target can't communicate or use magic abilities.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Strangle",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "-",
+        "effects": [
+          {
+            "effect": "The garroter turns invisible until the end of their turn. This invisibility ends early if they take damage or use an ability."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Chroma Cloak",
+        "target": "-",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the garroter is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the garroter is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-garotter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Orc Garotter",
+    "organization": "Platoon",
+    "presence": -1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-glorifier.json": {
+    "agility": 1,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 sonic damage",
+            "tier2": "2 sonic damage; P < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "3 sonic damage; P < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "Allies gain an edge on melee [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) against the target until the glorifier and each other glorifier in their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad) are killed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Call to Victory",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the glorifier is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodfire Burn",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-glorifier",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Orc Glorifier",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/orc/statblock/orc-godcaller.json": {
+    "agility": 0,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 sonic damage",
+            "tier2": "7 sonic damage",
+            "tier3": "9 sonic damage; P < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Power Chord",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target moves up to their speed and can use a main action.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The godcaller targets a second ally."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Cadenza",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target regains 15 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) until the end of the encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Rallying Ostinato",
+        "target": "Self and three allies",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the godcaller is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the godcaller is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-godcaller",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Orc Godcaller",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-juggernaut.json": {
+    "agility": 2,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "14 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "A target who is already [prone](scc.v1:mcdm.heroes.v1/condition/prone) takes an extra 6 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Haymaker Greataxe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The juggernaut moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Hrraaaaaagh!",
+        "target": "Self",
+        "trigger": "The juggernaut takes damage.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the juggernaut willingly moves, they can move 3 additional squares if they end their movement closer to a [prone](scc.v1:mcdm.heroes.v1/condition/prone) creature."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Blood in the Water",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the juggernaut is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the juggernaut is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": -1,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-juggernaut",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Juggernaut",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-rampart.json": {
+    "agility": 2,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)",
+            "tier3": "12 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)"
+          },
+          {
+            "effect": "This ability has a double edge against any target who dealt damage to the rampart this round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "My Spear, My Foe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self; see below",
+        "effects": [
+          {
+            "effect": "The rampart moves or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target, then can swap places with the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Castling",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The rampart becomes the target of the triggering ability instead.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "No.",
+        "target": "Self",
+        "trigger": "A creature targets an ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the rampart with an ability that doesn't also target the rampart.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the rampart is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the rampart is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-rampart",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Rampart",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 2,
+    "role": "Defender",
+    "size": "1L",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "59",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-razor.json": {
+    "agility": 1,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3 or [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "The razor gains an edge against any target affected by a [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Boot and Blade",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the razor is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodfire Burn",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-razor",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Razor",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/orc/statblock/orc-terranova.json": {
+    "agility": 1,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage; A < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)",
+            "tier2": "9 damage; A < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)",
+            "tier3": "12 damage; A < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)"
+          },
+          {
+            "effect": "Each target must be on the ground, and the ground in each target's space rises 1 square.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Earth Pillar",
+        "target": "Three creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage; M < 0 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "7 damage; M < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "10 damage; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Sinkhole",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The terranova ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). Additionally, they don't need [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to use abilities against creatures touching the ground."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Seismic Step",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the terranova is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the terranova is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-terranova",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Burrow",
+    "name": "Orc Terranova",
+    "organization": "Platoon",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/orc-warleader.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target moves up to their speed and can use a main action.",
+            "name": "Effect"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The warleader targets two allies."
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The warleader targets one ally and a [minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Go.",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "13 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; M < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Mace Lariat",
+        "target": "Each enemy",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Self and ranged 10",
+        "effects": [
+          {
+            "effect": "Each target moves up to their speed and can use the [Grab](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) maneuver, which gains an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Lockdown",
+        "target": "Self and three allies",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target has a double edge on their next power roll before the end of the encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Courtesy Call",
+        "target": "One creature",
+        "trigger": "The target obtains a tier 1 outcome on one power roll.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target moves up to their speed. Each enemy [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a target after this move makes an Intuition test.",
+            "name": "Effect",
+            "tier1": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of the warleader (save ends)",
+            "tier2": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of the warleader (EoT)",
+            "tier3": "No effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Close In",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The warleader [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, and four orc blitzers appear in unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Familial Reinforcements",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Three times in succession, the warleader [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and can use Mace Lariat.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "I'll Do This Myself",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the warleader can take 5 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the warleader is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the free strike is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the warleader is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/orc-warleader",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Orc Warleader",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 1,
+    "role": "",
+    "size": "1M",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/orc/statblock/scyza.json": {
+    "agility": -1,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "14 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "The scyza roars, and if the target has I < 2, they are [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Clawed Kick",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage",
+            "tier2": "13 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "16 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "Against a target on top of the scyza, this ability gains an edge, and the target is [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) into an unoccupied [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) square and knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Whiptail",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "3 cube within 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage, 1 sonic damage; R < 0 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "7 damage, 2 sonic damage; R < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "9 damage, 3 sonic damage; R < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Crestfall",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "The scyza kicks up a sandstorm, granting [concealment](scc.v1:mcdm.heroes.v1/rule.combat/concealment) to themself and any ally in the area until the end of the scyza's next turn. Each enemy in the area makes an Intuition test.",
+            "name": "Effect",
+            "tier1": "10 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier2": "7 damage; [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier3": "4 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Sandstorm",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Any damage dealt by the triggering ability is halved. If the creature or object who used the ability is within 3 squares of the scyza, the scyza can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Brace and Break",
+        "target": "Self",
+        "trigger": "The scyza or an ally riding the scyza is targeted by an ability.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The scyza deals an extra 6 damage with abilities used against objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Terrible Beast",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While riding the scyza, three size 1 allies can occupy the same space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "War Harness",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Animal",
+      "Orc"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.orc.statblock/scyza",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Scyza",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": -4,
+    "role": "Mount",
+    "size": "4",
+    "speed": 6,
+    "stability": 3,
+    "stamina": "100",
+    "type": "statblock"
+  }
+}

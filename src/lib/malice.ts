@@ -1,5 +1,5 @@
 import { numberFrom, slugToLabel } from "./text.ts";
-import { pathTokens, sourceUrl } from "./repo.ts";
+import { pathTokens, sourceUrl, STATBLOCK_RE } from "./repo.ts";
 import { isRecord } from "../types.ts";
 import type {
   FeatureEffect,
@@ -19,6 +19,7 @@ interface MaliceScopeInfo {
 }
 
 export function isMaliceCandidatePath(path: string): boolean {
+  if (STATBLOCK_RE.test(path)) return false;
   const lower = path.toLowerCase();
   if (lower === "en/unified/json/rule/monster/malice.json") return true;
   return /^en\/unified\/json\/monster\/.+malice[^/]*\.json$/i.test(path);
@@ -98,12 +99,38 @@ function mergeMaliceContinuation(
   return merged;
 }
 
-function normalizeMaliceItems(items: unknown): RawMaliceItem[] {
+type MaliceIssueReporter = (issue: string) => void;
+
+function maliceCostValue(item: RawMaliceItem): string | number | undefined {
+  return item.cost === "" ? item.malice : (item.cost ?? item.malice);
+}
+
+function parseMaliceCost(value: unknown): number | undefined {
+  if (typeof value !== "string" && typeof value !== "number") return undefined;
+  const text = String(value).trim();
+  if (/^Signature$/i.test(text)) return 0;
+
+  const match = /^(\d+)(?:\s*-\s*(\d+))?\+?(?:\s+Malice)?$/i.exec(text);
+  if (!match) return undefined;
+  const minimum = Number(match[1]);
+  const maximum = match[2] === undefined ? minimum : Number(match[2]);
+  if (!Number.isSafeInteger(minimum) || !Number.isSafeInteger(maximum) || maximum < minimum)
+    return undefined;
+  return minimum;
+}
+
+function normalizeMaliceItems(
+  items: unknown[],
+  reportIssue?: MaliceIssueReporter,
+): RawMaliceItem[] {
   const merged: RawMaliceItem[] = [];
-  for (const rawItem of Array.isArray(items) ? items : []) {
-    if (!isRecord(rawItem)) continue;
+  for (const [index, rawItem] of items.entries()) {
+    if (!isRecord(rawItem)) {
+      reportIssue?.(`features[${index}] is not a JSON object`);
+      continue;
+    }
     const item = { ...rawItem } as RawMaliceItem;
-    const costText = String(item.cost || item.malice || "").trim();
+    const cost = maliceCostValue(item);
     const hasContinuationContent = Boolean(
       item.power_roll ||
       item.body ||
@@ -114,7 +141,15 @@ function normalizeMaliceItems(items: unknown): RawMaliceItem[] {
     // SteelCompendium occasionally emits the visual second row of a Malice feature
     // as a separate no-cost record. Treat it as continuation data for the priced row.
     const previous = merged[merged.length - 1];
-    if (!costText && hasContinuationContent && previous) {
+    if (
+      (cost == null || (typeof cost === "string" && !cost.trim())) &&
+      hasContinuationContent &&
+      previous
+    ) {
+      if (reportIssue && item.name) {
+        const { distance, target } = maliceMetaFromDecoratedName(item.name);
+        if (!distance && !target) reportIssue(`"${item.name}" has no Malice cost`);
+      }
       merged[merged.length - 1] = mergeMaliceContinuation(previous, item);
     } else {
       merged.push(item);
@@ -218,17 +253,26 @@ function maliceEffectsFromItem(item: RawMaliceItem): FeatureEffect[] {
   return effects;
 }
 
-export function flattenMalicePayload(raw: RawMaliceRecord, path: string): MaliceFeature[] {
+export function flattenMalicePayload(
+  raw: RawMaliceRecord,
+  path: string,
+  reportIssue?: MaliceIssueReporter,
+): MaliceFeature[] {
   const values: MaliceFeature[] = [];
   const scope = maliceScope(path, raw);
-  const addFeature = (item: RawMaliceItem, costText: string, effects: FeatureEffect[]): void => {
-    const cost = numberFrom(costText, 0);
+  const addFeature = (
+    item: RawMaliceItem,
+    cost: number,
+    costText: string,
+    effects: FeatureEffect[],
+    index = values.length,
+  ): void => {
     values.push({
-      id: `${path}#${values.length}`,
+      id: `${path}#${index}`,
       path,
       name: item.name || "",
       cost,
-      costText: costText || (cost ? `${cost} Malice` : ""),
+      costText,
       icon: item.icon || "",
       effects,
       distance: item.distance || "",
@@ -245,26 +289,87 @@ export function flattenMalicePayload(raw: RawMaliceRecord, path: string): Malice
   };
 
   const parseMaliceMarkdown = (content: string): void => {
-    const pattern =
-      />\s*\*\*([^*\n]+?)\s+\((\d+\+?)\s+Malice\)\*\*\s*\n>\s*\n>\s*([\s\S]*?)(?=\n>\s*\*\*[^*\n]+?\s+\(\d+\+?\s+Malice\)\*\*|\n#{3,6}\s+|$)/gi;
-    let match: RegExpExecArray | null;
-    while ((match = pattern.exec(content))) {
-      const [, name, cost, rawBody] = match;
-      if (!name || !cost || rawBody === undefined) continue;
-      const body = rawBody.replace(/^>\s?/gm, "").trim();
-      addFeature({ name: name.trim() }, `${cost} Malice`, [{ effect: body }]);
+    const headings = [...content.matchAll(/^>[ \t]*\*\*([^*\r\n]+)\*\*[ \t]*$/gm)];
+    let nextIndex = values.length;
+    for (const [position, match] of headings.entries()) {
+      const [heading, title = ""] = match;
+      // The Basic Malice rule uses the same markup for its advice sidebar.
+      if (scope.scope === "basic" && title.trim() === "That's So Much Malice!") continue;
+      const index = nextIndex++;
+      const pricedTitle = /^(.+?)[ \t]+\(([^()]*)\)$/.exec(title.trim());
+      if (!pricedTitle) {
+        reportIssue?.(`feature "${title.trim()}" has no Malice cost`);
+        continue;
+      }
+      const [, name = "", costText = ""] = pricedTitle;
+      const cost = /(?:^Signature$|\s+Malice$)/i.test(costText.trim())
+        ? parseMaliceCost(costText)
+        : undefined;
+      if (cost === undefined) {
+        reportIssue?.(`feature "${name.trim()}" has unsupported Malice cost "${costText}"`);
+        continue;
+      }
+      const section = content.slice(match.index + heading.length, headings[position + 1]?.index);
+      const [effectBlock] = section.split(/\n#{3,6}\s+/, 1);
+      const body = effectBlock
+        ?.match(/^\s*\n>\s*\n>([\s\S]*)/)?.[1]
+        ?.replace(/^>\s?/gm, "")
+        .trim();
+      if (!body) {
+        reportIssue?.(`feature "${name.trim()}" has no displayable effect`);
+        continue;
+      }
+      addFeature({ name: name.trim() }, cost, costText, [{ effect: body }], index);
     }
   };
 
   if (Array.isArray(raw.features)) {
-    normalizeMaliceItems(raw.features).forEach((item) => {
-      const costText = String(item.cost || item.malice || "");
-      if (!item.name || !costText) return;
-      addFeature(item, costText, maliceEffectsFromItem(item));
+    normalizeMaliceItems(raw.features, reportIssue).forEach((item) => {
+      const costValue = maliceCostValue(item);
+      if (
+        typeof item.name !== "string" ||
+        !item.name.trim() ||
+        costValue == null ||
+        (typeof costValue === "string" && !costValue.trim())
+      ) {
+        reportIssue?.(`feature "${item.name || "(unnamed)"}" is missing a name or Malice cost`);
+        return;
+      }
+      const cost = parseMaliceCost(costValue);
+      if (cost === undefined) {
+        const label = typeof costValue === "string" ? ` "${costValue.trim()}"` : "";
+        reportIssue?.(`feature "${item.name}" has unsupported Malice cost${label}`);
+        return;
+      }
+      addFeature(item, cost, String(costValue).trim(), maliceEffectsFromItem(item));
     });
+  } else if (raw.features !== undefined) {
+    reportIssue?.("features is not an array");
   }
   if (typeof raw.content === "string") parseMaliceMarkdown(raw.content);
   return values;
+}
+
+/** Read the displayable features from one official document, preserving their source IDs. */
+export function displayableMaliceFeatures(
+  raw: RawMaliceRecord,
+  path: string,
+  reportIssue?: MaliceIssueReporter,
+): MaliceFeature[] {
+  const seen = new Set<string>();
+  return flattenMalicePayload(raw, path, reportIssue).filter((feature) => {
+    if (!feature.name || !featureText(feature).trim()) {
+      reportIssue?.(`feature "${feature.name}" has no displayable effect`);
+      return false;
+    }
+    const key = `${feature.name}|${feature.cost}`;
+    if (seen.has(key)) {
+      reportIssue?.(`duplicate feature "${feature.name}" at Malice cost ${feature.cost}`);
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
 }
 
 export function featureText(feature: MaliceFeature): string {

@@ -1,0 +1,189 @@
+{
+  "en/unified/json/monster/retainer/summoner/minion/statblock/gorrre.json": {
+    "agility": 3,
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The gorrre must [charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) before making a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike). The target is M < STRONG knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone) if the gorrre moved through an enemy or object other than the target during the charge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Gorrring Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The gorrre ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) while charging and destroys [unattended](scc.v1:mcdm.heroes.v1/rule.general/unattended-object), [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1 objects in their path. Each enemy they move through during a charge takes 3 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Devastating Charge",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the gorrre can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.retainer.summoner.minion.statblock/gorrre",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "—",
+    "name": "Gorrre",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "27 | 27",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/retainer/summoner/minion/statblock/razor.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the razor or uses a melee ability against them, that enemy takes 1 damage for each razor [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Teeth!",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the razor can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.retainer.summoner.minion.statblock/razor",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "—",
+    "name": "Razor",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  },
+  "en/unified/json/monster/retainer/summoner/minion/statblock/violent.json": {
+    "agility": 3,
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The violent's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) deal an additional 2 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy from whom they were hidden. The violent loses their disguise after striking."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Transforming Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The violent uses the [Hide](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) maneuver at the start of their turn as a [free maneuver](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver), disguising themselves as a a [size](scc.v1:mcdm.heroes.v1/rule.character/size) 1M or smaller object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mimicry",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the violent can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": null,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.retainer.summoner.minion.statblock/violent",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Violent",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "7 | 7 | 7",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 1"
+    ]
+  }
+}

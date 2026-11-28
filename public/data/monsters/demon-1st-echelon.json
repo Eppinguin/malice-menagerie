@@ -1,0 +1,905 @@
+{
+  "en/unified/json/monster/demon/1st-echelon/statblock/bendrak.json": {
+    "agility": 1,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 psychic damage",
+            "tier2": "5 psychic damage; P < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "7 psychic damage; P < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "If the target makes a strike while [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way, the bendrak can choose a second target within distance for the strike. The first target takes half of any damage from the strike and the second target takes any remaining damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Warp Perceptions",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target is invisible until the start of their next turn. They can then move up to 3 squares and attempt to hide.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Vanish",
+        "target": "Self or one ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the bendrak is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the bendrak can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/bendrak",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Bendrak",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ]
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/chorogaunt.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "4 psychic damage; I < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "7 psychic damage; I < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "10 psychic damage; I < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "One ally within 10 squares of the chorogaunt [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Agonizing Harmony",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "The chorogaunt slides each target up to 3 squares, ignoring [stability](scc.v1:mcdm.heroes.v1/rule.character/stability).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Chaotic Entrancing Harmony",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Any damage from the strike is halved, and the chorogaunt's abilities deal an extra 3 damage until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "I Thrive on Pain",
+        "target": "Self",
+        "trigger": "The chorogaunt is targeted by a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the chorogaunt can take 5 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the chorogaunt is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the chorogaunt can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target must choose between taking 5 psychic damage, or being [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Frightening Tones",
+        "target": "Three enemies",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The chorogaunt kills the target, and each other ally in the encounter deals an extra 3 damage with strikes until the end of the round. The Director gains [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) equal to the number of heroes in the encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Bully the Weak",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The chorogaunt [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, uses Agonizing Harmony, [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, and then uses Agonizing Harmony again.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "Running Cacophony",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/chorogaunt",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Chorogaunt",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 2,
+    "role": "",
+    "size": "1L",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/ensnarer.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; pull 1",
+            "tier2": "4 damage; pull 2",
+            "tier3": "5 damage; pull 3"
+          },
+          {
+            "effect": "If the target is pulled [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the ensnarer, the ensnarer can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Barbed Tongues",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the ensnarer can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/ensnarer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Ensnarer",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ],
+    "with_captain": "+2 bonus to melee distance"
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/frenzied.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Rip and Tear",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the frenzied can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/frenzied",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Frenzied",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ],
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/muceron.json": {
+    "agility": 2,
+    "ev": "5",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; pull 2",
+            "tier2": "7 damage; pull 3",
+            "tier3": "8 damage; pull 4"
+          },
+          {
+            "effect": "If the target is pulled [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the muceron, the muceron can either make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) or use the [Grab](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) maneuver against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Barbed Tongues",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The muceron pulls each target up to 5 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tongue Pull",
+        "target": "Three creatures or objects",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the muceron is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the muceron can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/muceron",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Muceron",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ]
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/pitling.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 poison damage",
+            "tier2": "4 poison damage",
+            "tier3": "5 poison damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Spit",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any enemy who has three or more pitlings within 2 squares of them can't regain Stamina."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Horrid Stench",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the pitling can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": -2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/pitling",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -2,
+    "movement": "Fly",
+    "name": "Pitling",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -2,
+    "role": "Artillery",
+    "size": "1T",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ],
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/remasch.json": {
+    "agility": 2,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; the remasch can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 2 squares",
+            "tier2": "6 damage; the remasch can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 3 squares",
+            "tier3": "8 damage; the remasch can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 5 squares"
+          },
+          {
+            "cost": "5 Malice",
+            "effect": "The remasch takes an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) creature with them when they [teleport](scc.v1:mcdm.heroes.v1/movement/teleport). The creature appears in an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the remasch's destination."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Abyssal Strike",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The remasch can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 2 squares and uses Abyssal Strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "Grasping Shadow",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the remasch is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the remasch can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/remasch",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Teleport",
+    "name": "Remasch",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ]
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/ruinant.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bloodletting Claws",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target must be at less than full [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Special",
+            "roll": "Power Roll + 2",
+            "tier1": "1 corruption damage",
+            "tier2": "2 corruption damage",
+            "tier3": "3 corruption damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Salt Wounds",
+        "target": "Three creatures",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the ruinant is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the ruinant can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/ruinant",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Ruinant",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ]
+  },
+  "en/unified/json/monster/demon/1st-echelon/statblock/torlas.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "Slide 3",
+            "tier2": "Slide 4",
+            "tier3": "Slide 5"
+          },
+          {
+            "effect": "The ground in the area turns into a morass of spongy flesh before the targets are [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement). Until the start of the torlas's next turn, the area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain), and each creature who moves in the area takes 1 damage for each square moved.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Floor to Flesh",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The torlas pulls each target up to 3 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Grasping Tendons",
+        "target": "Three creatures",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the torlas is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the torlas can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.1st-echelon.statblock/torlas",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Torlas",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 3"
+    ]
+  }
+}

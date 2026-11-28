@@ -1,0 +1,1132 @@
+{
+  "en/unified/json/monster/dwarf/statblock/dwarf-axethrower.json": {
+    "agility": 0,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage; one ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)"
+          },
+          {
+            "effect": "The target can't use triggered actions until the start of the next round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Whistling Axes",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 2,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-axethrower",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Dwarf Axethrower",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "7",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-catchpole.json": {
+    "agility": 0,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) or [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "If the target is [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), they take an extra 2 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Maul",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-catchpole",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Dwarf Catchpole",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "7",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-driver.json": {
+    "agility": 1,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "2 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "3 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Handaxes",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-driver",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Dwarf Driver",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "6",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-gunner.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "12 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          },
+          {
+            "effect": "If the target is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an object or a wall after the power roll is resolved, they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their next turn. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          },
+          {
+            "cost": "5 Malice",
+            "effect": "If the target is pushed into another creature, the target and the creature are each [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Portable Ballista",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The gunner makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target, and the [prone](scc.v1:mcdm.heroes.v1/condition/prone), [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), and [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) conditions on the target end. The target is then [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Ensnaring Chains",
+        "target": "One prone, restrained, or slowed creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the gunner deals rolled damage to a target, one creature or object adjacent to the target takes 3 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Split Shot",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-gunner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Dwarf Gunner",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "26",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-hunter.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "2 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "3 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Snaring Javelin",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-hunter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Dwarf Hunter",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "6",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-launcher.json": {
+    "agility": 0,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Concussive Grenade",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 cube within 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 poison damage; I < 0 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "6 poison damage; I < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "8 poison damage; I < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "A target [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) this way treats their characteristic scores as 1 lower for the purpose of resisting [potencies](scc.v1:mcdm.heroes.v1/rule.character/potency).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Sleep Grenade",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The launcher ignores concealment and cover, and doesn't need line of effect to use their abilities as long as a size 1 opening exists between the dwarf and the target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Indirect Fire",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-launcher",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Dwarf Launcher",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "39",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-marauder.json": {
+    "agility": 0,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "12 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "15 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "A target force moved [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally of the marauder lord is [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Levitating Axes",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target vertical [slides](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          },
+          {
+            "cost": "5 Malice",
+            "effect": "This ability takes the Area keyword and loses the Ranged keyword, its distance becomes a 10 burst, and it targets each [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) creature in the area."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Magnetomancy",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target halves any damage from the strike and the triggering creature takes 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Your Weapon Is Useless",
+        "target": "Self or one ally",
+        "trigger": "A creature makes a melee strike against the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the marauder lord can take 5 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "5 cube within 10",
+        "effects": [
+          {
+            "effect": "The marauder lord uses Levitating Axes against each target, making one power roll against all targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Psionic",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Ajax Will Pay Well for These Specimens",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target shifts up to their speed. The marauder lord then uses Levitating Axes.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Don't Let Them Escape!",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The marauder lord creates three size 2 metal objects in unoccupied spaces within distance. Whenever the marauder lord uses Magnetomancy, they can additionally target one of these objects.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Test Your Metal!",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-marauder",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Dwarf Marauder",
+    "organization": "Leader",
+    "presence": 0,
+    "reason": 2,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "132",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-reel-winch.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; M < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "7 damage; M < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "9 damage; M < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "The target is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 5 squares. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Snaring Crossbow",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 8 squares. A [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) or [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) target can be pulled an additional 2 squares. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Reel Them In",
+        "target": "Three creatures",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a target made [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) by the reel winch is already [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) or [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), the [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) and [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) conditions end and the target is [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "We Have a Quota!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-reel-winch",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Dwarf Reel Winch",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "36",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-shieldwall.json": {
+    "agility": 0,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "10 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "13 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1"
+          },
+          {
+            "effect": "The shieldwall can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square to remain [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "This ability targets one additional target."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Wide Axe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The shieldwall becomes the target of the triggering strike and halves the damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Intercepting Shield",
+        "target": "Self",
+        "trigger": "A creature makes a strike against an ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the shieldwall.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a creature deals damage to or takes damage from the shieldwall, the shieldwall can make that creature [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) until the end of the creature's next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Call to the Wall",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-shieldwall",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Dwarf Shieldwall",
+    "organization": "Platoon",
+    "presence": 1,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "72",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-stone-whisperer.json": {
+    "agility": 0,
+    "ev": "10",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "2 cube within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "8 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "11 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Tile Slide",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; R < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; R < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; R < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Stone Wave",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the stone whisperer willingly moves, they can phase through up to 2 squares of stone as part of that movement. If they end their movement inside stone, they are shunted out into the space from which they entered it."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Walker",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-stone-whisperer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Burrow",
+    "name": "Dwarf Stone Whisperer",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "52",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-trapper.json": {
+    "agility": 2,
+    "ev": "6",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Concussive Bolts",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 cube within 5",
+        "effects": [
+          {
+            "effect": "Each target makes a **Might test**.",
+            "name": "Effect",
+            "tier1": "7 damage; [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT)",
+            "tier2": "5 damage; [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier3": "No effect."
+          },
+          {
+            "effect": "The snare remains until the end of the encounter. Any enemy who moves into the area for the first time in a round or starts their turn there must make the test."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Steam-Powered Snare",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-trapper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Dwarf Trapper",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 2,
+    "stamina": "36",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/dwarf-warden.json": {
+    "agility": 0,
+    "ev": "8",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "10 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "13 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Concussive Maul",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "3 cube within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; A < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; A < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Concussive Shockwave",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the warden moves, they can carry an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) enemy as if the enemy were [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Escort the Prisoners",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/dwarf-warden",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Dwarf Warden",
+    "organization": "Platoon",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "59",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/dwarf/statblock/servitor-war-walker.json": {
+    "agility": 0,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A target already [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) or [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by this ability is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares. A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) by a dwarf can be force moved by this ability. This forced movement doesn't end the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition unless the Director determines otherwise.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Grasping Claws",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 lightning damage; A < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "6 lightning damage; A < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "7 lightning damage; A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Stunning Blast",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While riding the war walker, three size 1 allies can occupy the same space. Creatures riding the war walker have cover."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Cupola",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) or [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) creature who comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the war walker is automatically [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends) and takes a bane on power rolls. A creature [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way moves with the war walker."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mobile Prison Harness",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.dwarf.statblock/servitor-war-walker",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Servitor War Walker",
+    "organization": "Elite",
+    "presence": -2,
+    "reason": -2,
+    "role": "Mount",
+    "size": "3",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "60",
+    "type": "statblock"
+  }
+}

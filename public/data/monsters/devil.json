@@ -1,0 +1,1007 @@
+{
+  "en/unified/json/monster/devil/statblock/devil-adjudicator.json": {
+    "agility": 1,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 fire damage; I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "15 fire damage; I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "18 fire damage; I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "The adjudicator can slide a target [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) by this ability up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Infernal Injunction",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "The target is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on power rolls, and can't regain [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) (save ends).",
+            "tier2": "The target is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) and takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on power rolls (save ends).",
+            "tier3": "[Slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Adjudicator's Interdiction",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The adjudicator and the target [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to switch places.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Quid Pro Quo",
+        "target": "One ally or frightened creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "The adjudicator chooses a new target for the strike.",
+            "tier2": "The adjudicator halves the triggering damage.",
+            "tier3": "The target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the strike."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Devilish Charm",
+        "target": "The triggering creature",
+        "trigger": "A creature targets the adjudicator with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 10 squares of the adjudicator who has P < 3 takes a −2 penalty to saving throws."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Vexatious Litigation",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the adjudicator's true name, the adjudicator loses their damage immunities, any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), and their Devilish Charm ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-adjudicator",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Devil Adjudicator",
+    "organization": "Elite",
+    "presence": 3,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "140",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/devil/statblock/devil-clerk.json": {
+    "agility": 0,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage; push 1",
+            "tier2": "6 damage; push 2",
+            "tier3": "7 damage; push 3"
+          },
+          {
+            "effect": "Any target [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to two or more clerks is [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Quill Pushing",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the clerk's true name, the clerk loses their fire immunity and any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-clerk",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Devil Clerk",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 1,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock",
+    "with_captain": "+2 damage bonus to strikes"
+  },
+  "en/unified/json/monster/devil/statblock/devil-high-judge.json": {
+    "agility": 3,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "10 damage; P < 2 the target can't hide (save ends)",
+            "tier2": "15 damage; P < 3 the target can't hide (save ends)",
+            "tier3": "19 damage; P < 4 the target can't hide (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "While a target is unable to hide this way, any strike against them made by a devil gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Infernal Decree",
+        "target": "Three creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "I < 2 the target is charmed (save ends)",
+            "tier2": "I < 3 the target is charmed (save ends)",
+            "tier3": "I < 4 the target is charmed (save ends)"
+          },
+          {
+            "effect": "While charmed this way, a creature treats the high judge as an ally, and the high judge can spend 1 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) on their turn to make that creature move up to 3 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Compel the Jury",
+        "target": "Two creatures",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target makes a **Presence test**.",
+            "name": "Effect",
+            "tier1": "The target is charmed (save ends).",
+            "tier2": "The high judge chooses a new target for the strike.",
+            "tier3": "The target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the strike."
+          },
+          {
+            "effect": "While charmed this way, a creature treats the high judge as an ally, and the high judge can spend 1 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) on their turn to make that creature move up to 3 squares."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Devilish Suggestion",
+        "target": "The triggering creature",
+        "trigger": "A creature targets the high judge with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the high judge can take 10 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the high judge's true name, the high judge loses their damage immunities, any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), and their Devilish Suggestion [triggered action](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action) until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "effect": "The target makes a **Presence test**.",
+            "name": "Effect",
+            "tier1": "15 psychic damage; the target is charmed (save ends)",
+            "tier2": "12 psychic damage; the target is charmed (save ends)",
+            "tier3": "7 psychic damage"
+          },
+          {
+            "effect": "While charmed this way, a creature treats the high judge as an ally, and the high judge can spend 1 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) on their turn to make that creature move up to 3 squares."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "All Rise",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed. The high judge can make each creature charmed by All Rise, Compel the Jury, or Devilish Suggestion move up to half that creature's speed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Heed My Decree",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "effect": "If the target is an ally or a creature charmed by All Rise, Compel the Jury, or Devilish Suggestion, the high judge and the target [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) to swap places. Each ally within 12 squares of the high judge can then make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a target of the high judge's choice. Each creature charmed by All Rise, Compel the Jury, or Devilish Suggestion makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a target of the high judge's choice.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Deceptive Stratagem",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-high-judge",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Fly",
+    "name": "Devil High Judge",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 0,
+    "role": "",
+    "size": "1M",
+    "speed": 7,
+    "stability": 2,
+    "stamina": "181",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/devil/statblock/devil-jurist.json": {
+    "agility": 2,
+    "ev": "28",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Fire damage dealt by the jurist ignores damage immunity."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Hellfire",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 fire damage",
+            "tier2": "15 fire damage; A < 2 burning (save ends)",
+            "tier3": "18 fire damage; A < 3 burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          },
+          {
+            "cost": "1+ Malice",
+            "effect": "The jurist can target one additional creature or object for each [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) spent."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Fire and Brimstone",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "2 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "6 damage; slide 1",
+            "tier2": "10 damage; slide 3",
+            "tier3": "12 damage; slide 5"
+          },
+          {
+            "effect": "If the target has M < 2, the [forced](scc.v1:mcdm.heroes.v1/movement/forced-movement) distance movement gains a +3 bonus.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Dismissal with Prejudice",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "effect": "If the target is burning (see Fire and Brimstone), they take 6 fire damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Ashes to Ashes",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "The jurist chooses a new target for the strike.",
+            "tier2": "The jurist halves the triggering damage.",
+            "tier3": "The target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the strike."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Devilish Charm",
+        "target": "The triggering creature",
+        "trigger": "A creature targets the jurist with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the jurist's true name, the jurist loses their fire immunity, any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), and their Devilish Charm ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-jurist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Devil Jurist",
+    "organization": "Elite",
+    "presence": 3,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/devil/statblock/devil-legate.json": {
+    "agility": 1,
+    "ev": "28",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 damage",
+            "tier2": "14 damage; A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "17 damage; A < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "If the targets are [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to each other, this ability deals an extra 3 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Infernal Pike",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "6 damage; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "11 damage; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)",
+            "tier3": "14 damage; M < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)"
+          },
+          {
+            "effect": "If this ability is used as part of the [Charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) main action, the legate ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) during the charge. Each creature and object whose space the legate moves through takes the damage from this ability, but not its additional effects.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Writ of Execution",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) by the legate (save ends). The legate can have only one creature [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) at a time.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Law and Order",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "The legate chooses a new target for the strike.",
+            "tier2": "The legate halves the triggering damage.",
+            "tier3": "The target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the strike."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Devilish Charm",
+        "target": "The triggering creature",
+        "trigger": "A creature targets the legate with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The legate has damage immunity 3 while in one of the Seven Cities of Hell or within 10 squares of a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) devil who is of a higher level than them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Hellish Bailiff",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the legate's true name, the legate loses their damage immunities, any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), and their Devilish Charm ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-legate",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Devil Legate",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "160",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/devil/statblock/devil-magistrate.json": {
+    "agility": 3,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 damage",
+            "tier2": "15 damage",
+            "tier3": "18 fire damage; R < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "The magistrate [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares before or after using this ability, or between each strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Edge of the Law",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "11 damage",
+            "tier2": "17 damage",
+            "tier3": "21 damage"
+          },
+          {
+            "effect": "This ability has a double [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) if the magistrate was hidden from the target, and deals an extra 5 damage if the target is [dazed](scc.v1:mcdm.heroes.v1/condition/dazed).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Verdict",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The magistrate turns invisible until the start of their next turn, and can attempt to hide as a [free maneuver](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver) before the end of the current turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Justice Turns Its Gaze",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "The magistrate chooses a new target for the strike.",
+            "tier2": "The magistrate halves the triggering damage.",
+            "tier3": "The target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on the strike."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Devilish Charm",
+        "target": "The triggering creature",
+        "trigger": "A creature targets the magistrate with a strike.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the magistrate moves away from an enemy who is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to one of the magistrate's allies, they can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Leading",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the magistrate's true name, the magistrate loses their damage immunities, any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability), and their Devilish Charm ability until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-magistrate",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Devil Magistrate",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "160",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/devil/statblock/devil-notary.json": {
+    "agility": 1,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 fire damage",
+            "tier2": "5 fire damage; R < 2 the target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on their next strike",
+            "tier3": "6 fire damage; R < 3 the target takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on their next strike"
+          },
+          {
+            "effect": "One non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) devil within 5 squares of the notary gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on their next strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Importunity",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the notary's true name, the notary loses their fire immunity and any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-notary",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Devil Notary",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 3,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "8",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/devil/statblock/devil-scrivener.json": {
+    "agility": 3,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 corruption damage",
+            "tier2": "5 corruption damage; [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier3": "6 corruption damage; [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)"
+          },
+          {
+            "effect": "The scrivener can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Litigation",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the scrivener's true name, the scrivener loses their fire immunity and any nondamaging effects of their [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.devil.statblock/devil-scrivener",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "Devil Scrivener",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "9",
+    "type": "statblock",
+    "with_captain": "+3 bonus to speed"
+  }
+}

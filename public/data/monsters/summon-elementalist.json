@@ -1,0 +1,86 @@
+{
+  "en/unified/json/monster/summon/elementalist/statblock/source-of-earth.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "[Difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) composed of earth and stone doesn't cost the source extra movement."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Earthwalk",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the source burrows, they create a [size](scc.v1:mcdm.heroes.v1/rule.character/size) 2 tunnel."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Tunneler",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "A creature that has the [Earth Accepts Me](scc.v1:mcdm.heroes.v1/feature.ability.elementalist.level-3/earth-accepts-me) ability can use it as a free action to meld into the source."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Earth Harness",
+        "type": "feature"
+      },
+      {
+        "distance": "Melee 2 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "12 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Boulder Bash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Signature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": -5,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 8,
+    "metadata": {
+      "scc": "mcdm.heroes.v1/monster.summon.elementalist.statblock/source-of-earth",
+      "source": "mcdm.heroes.v1"
+    },
+    "might": 3,
+    "movement": "Burrow",
+    "name": "Source of Earth",
+    "organization": "",
+    "presence": -3,
+    "reason": -5,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 5,
+    "stamina": "45",
+    "type": "statblock"
+  }
+}

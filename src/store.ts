@@ -52,11 +52,12 @@ import {
   hydrateMaliceInBackground,
   loadMonster,
   loadSourceIndex,
-  maliceLoading,
+  maliceLoadStatus,
   monsterAt,
   monsterNameForPath,
   monstersVersion,
   officialFamilies,
+  sourceError,
   syncHomebrewData,
 } from "./data.ts";
 import { atLevel, basePath, keyLevel, levelKey } from "./lib/levels.ts";
@@ -1098,9 +1099,7 @@ export async function initApp(): Promise<void> {
     return; // sourceError signal carries the message; the library renders it
   }
   void hydrateCatalogInBackground();
-  void hydrateMaliceInBackground().then(() => {
-    expandedMaliceFeatures.value = new Set(allMaliceFeatures.value.map((feature) => feature.id));
-  });
+  void loadMalice();
   void hydrateConditionsInBackground();
   void hydrateSavedStateSources();
 }
@@ -1118,7 +1117,20 @@ async function hydrateSavedStateSources(): Promise<void> {
 }
 
 export function retrySource(): void {
-  void initApp();
+  if (sourceError.peek()) void initApp();
+}
+
+async function loadMalice(): Promise<void> {
+  await hydrateMaliceInBackground();
+  if (maliceLoadStatus.peek() === "ready") {
+    expandedMaliceFeatures.value = new Set(allMaliceFeatures.value.map((feature) => feature.id));
+  }
+}
+
+export async function retryMalice(): Promise<void> {
+  if (maliceLoadStatus.peek() !== "failed") return;
+  if (sourceError.peek()) retrySource();
+  else await loadMalice();
 }
 
 // ---------- View / section / party ----------
@@ -2664,7 +2676,7 @@ export async function summonCreatures(
   try {
     m = await loadMonster(sourcePath);
   } catch {
-    toast("That statblock could not be loaded from SteelCompendium.");
+    toast("That statblock could not be loaded from the bundled compendium.");
     return;
   }
   let summoned = "";
@@ -3223,16 +3235,23 @@ interface FamilyInfo {
   maxLevel: number;
 }
 
-function activeMonsterFamilies(): Map<string, FamilyInfo> {
-  void monstersVersion.value; // subscribe: families settle as statblocks hydrate
-  const families = new Map<string, FamilyInfo>();
+const activeEncounterMonsters = computed(() => {
+  void monstersVersion.value;
   const enc = activeEncounter();
-  const sources = [
+  const sources = new Set([
     ...enc.items.map((item) => item.sourcePath),
     ...enc.combat.instances.map((instance) => instance.sourcePath),
-  ];
-  for (const sourcePath of sources) {
-    const monster = monsterAt(sourcePath);
+  ]);
+  return [...sources].map(monsterAt);
+});
+
+export const maliceSelectionReady = computed(
+  () => maliceLoadStatus.value === "ready" && activeEncounterMonsters.value.every(Boolean),
+);
+
+function activeMonsterFamilies(): Map<string, FamilyInfo> {
+  const families = new Map<string, FamilyInfo>();
+  for (const monster of activeEncounterMonsters.value) {
     if (!monster) continue;
     const family = monster.familyPath.toLowerCase().split("/").filter(Boolean)[0];
     if (!family) continue;
@@ -3272,7 +3291,7 @@ export function maliceFeaturesForMonster(monster: Monster): MaliceFeature[] {
   );
 }
 
-export function relevantMaliceGroups(): MaliceGroup[] {
+const encounterMaliceGroups = computed<MaliceGroup[]>(() => {
   const enc = activeEncounter();
   const features = allMaliceFeatures.value;
   const hasEncounterMonsters = enc.items.length > 0 || enc.combat.instances.length > 0;
@@ -3300,14 +3319,9 @@ export function relevantMaliceGroups(): MaliceGroup[] {
 
   // Collect custom Malice attached to monsters in this encounter, matching
   // their families, pinned directly, or marked general/encounter-wide.
-  const encSources = [
-    ...enc.items.map((item) => item.sourcePath),
-    ...enc.combat.instances.map((instance) => instance.sourcePath),
-  ];
   const attachedIds = new Set<string>();
-  for (const path of encSources) {
-    const m = monsterAt(path);
-    for (const id of m?.customMaliceIds ?? []) attachedIds.add(homebrewMaliceId(id));
+  for (const monster of activeEncounterMonsters.value) {
+    for (const id of monster?.customMaliceIds ?? []) attachedIds.add(homebrewMaliceId(id));
   }
   const activeFamilies = activeMonsterFamilies();
   const pinnedIds = new Set(enc.combat.selectedMaliceFeatureIds);
@@ -3352,6 +3366,10 @@ export function relevantMaliceGroups(): MaliceGroup[] {
     });
   }
   return groups;
+});
+
+export function relevantMaliceGroups(): MaliceGroup[] {
+  return encounterMaliceGroups.value;
 }
 
 export function allRelevantMaliceFeatures(groups: MaliceGroup[]): MaliceFeature[] {
@@ -3414,10 +3432,12 @@ export function suggestedMaliceFeatureIds(groups: MaliceGroup[]): string[] {
 /**
  * Keep the persisted malice selection consistent with what's available:
  * initialize with the suggested set once data arrives, and drop ids that are
- * no longer relevant. No-op until malice data is loaded.
+ * no longer relevant once the official Malice bundle and encounter statblocks are available.
  */
-export function ensureMaliceSelection(groups: MaliceGroup[]): void {
-  if (maliceLoading.value || !groups.length) return;
+export function ensureMaliceSelection(): void {
+  if (!maliceSelectionReady.value) return;
+  const groups = relevantMaliceGroups();
+  if (!groups.length) return;
   const availableIds = new Set(allRelevantMaliceFeatures(groups).map((feature) => feature.id));
   const current = activeEncounter().combat.selectedMaliceFeatureIds;
   const filtered = current.filter((id) => availableIds.has(id));
@@ -3440,6 +3460,7 @@ export function ensureMaliceSelection(groups: MaliceGroup[]): void {
 }
 
 export function autoPickMalice(): void {
+  if (!maliceSelectionReady.peek()) return;
   const groups = relevantMaliceGroups();
   const suggested = suggestedMaliceFeatureIds(groups);
   mutate((draft) => {

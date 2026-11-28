@@ -1,0 +1,226 @@
+{
+  "en/unified/json/monster/rival/3rd-echelon/summoner/minion/statblock/ceaseless-mournling.json": {
+    "agility": 4,
+    "cost": "4 Malice for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of the mournling's turn, each enemy within 1 of the mournling takes 2 sonic damage and can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) until the start of the mournling's next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Always Crying",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mournling's shape can't change via any external effects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Immutable Form",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time the mournling [burrows](scc.v1:mcdm.heroes.v1/movement/burrow) out of the ground on their turn, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rupture",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Corruption 4",
+      "poison 4"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.3rd-echelon.summoner.minion.statblock/ceaseless-mournling",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "Burrow",
+    "name": "Ceaseless Mournling",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 1,
+    "role": "Controller",
+    "size": "2",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "8 | 8 | 8",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/3rd-echelon/summoner/minion/statblock/false-vampire.json": {
+    "agility": 2,
+    "cost": "6 Malice for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The false vampire's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 2 and inflict M < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn)). The false vampire can move the target while they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way. At the start of a [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) creature's turn, they take 4 acid damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Proboscis Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The false vampire has a [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) of 10 while a creature is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) within 10."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodthirsty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 8,
+    "immunities": [
+      "Corruption 4",
+      "poison 4"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.3rd-echelon.summoner.minion.statblock/false-vampire",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "False Vampire",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 4,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "22 | 22",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/3rd-echelon/summoner/minion/statblock/skeleton.json": {
+    "agility": 4,
+    "cost": "1 Malice per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "When the skeleton is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their square becomes [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. The first time any enemy enters this space, they take 2 damage and end this effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bonetrops",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": [
+      "Corruption 4",
+      "poison 4"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.3rd-echelon.summoner.minion.statblock/skeleton",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Skeleton",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 2,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/3rd-echelon/summoner/minion/statblock/zombie-lumberer.json": {
+    "agility": 0,
+    "cost": "2 Malice for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The lumberer's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) inflict A < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed). A creature or object that starts their turn [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the lumberer takes 2 corruption damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Zombie Clutch",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the lumberer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can latch onto an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy before being destroyed. The enemy is M < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Grasp",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Corruption 4",
+      "poison 4"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.3rd-echelon.summoner.minion.statblock/zombie-lumberer",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "—",
+    "name": "Zombie Lumberer",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": 2,
+    "role": "Defender",
+    "size": "2",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "14 | 14",
+    "type": "statblock",
+    "weaknesses": null
+  }
+}

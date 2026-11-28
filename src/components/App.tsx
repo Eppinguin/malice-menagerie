@@ -35,6 +35,7 @@ import {
   undoLabel,
   undoStep,
 } from "../store.ts";
+import { sourceSnapshot } from "../data.ts";
 import type { ComponentType } from "preact";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { installPhoneScroll } from "../lib/phoneScroll.ts";
@@ -736,7 +737,7 @@ export function App() {
                 © 2026 MCDM&nbsp;Productions,&nbsp;LLC.
               </p>
               <p>
-                Game data is loaded from{" "}
+                Game data is bundled from{" "}
                 <a
                   class="rule-link"
                   href="https://github.com/SteelCompendium/data-unified"
@@ -745,6 +746,9 @@ export function App() {
                 >
                   SteelCompendium/data-unified
                 </a>
+                {sourceSnapshot.value
+                  ? ` (snapshot ${sourceSnapshot.value.generatedAt.slice(0, 10)})`
+                  : ""}
                 . Draw Steel Glyphs font © 2025 MCDM&nbsp;Productions, licensed under{" "}
                 <a
                   class="rule-link"

@@ -15,6 +15,8 @@
     "fmt:check": "oxfmt --check",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm test && pnpm run build",
     "generate:statblock-index": "node scripts/generate-statblock-index.mjs",
+    "sync:data": "node scripts/sync-compendium.ts",
+    "sync:data:force": "node scripts/sync-compendium.ts --force",
     "dev:obr": "vite --config obr/vite.config.ts",
     "build:obr": "vite build --config obr/vite.config.ts && node scripts/check-obr-build.mjs",
     "build:obr-harness": "vite build --config obr/vite.harness.config.ts",
@@ -29,10 +31,12 @@
   },
   "devDependencies": {
     "@owlbear-rodeo/sdk": "^3.1.0",
+    "@types/node": "^24.19.2",
     "oxfmt": "^0.67.0",
     "oxlint": "^1.82.0",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
     "vitest": "^5.1.0"
-  }
+  },
+  "packageManager": "pnpm@12.3.4"
 }

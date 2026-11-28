@@ -1,0 +1,844 @@
+{
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-conduit.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 holy damage",
+            "tier2": "10 holy damage",
+            "tier3": "13 holy damage"
+          },
+          {
+            "effect": "The conduit or one ally within distance regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Thunder of Heavens",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each target gains an edge on their next [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Imbue with Might",
+        "target": "Self and five allies",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "[Strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) made against allies [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the conduit take a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stalwart Guardian",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the conduit chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the conduit and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-conduit",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Rival Conduit",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-elementalist.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "10 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "13 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Green",
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "The Writhing Green",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "5 damage; [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT)",
+            "tier3": "8 damage; [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies until the end of the encounter. Any enemy in the area has acid [weakness](scc.v1:mcdm.heroes.v1/rule.damage/damage-weakness) 2.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Green",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "The Earth Devours",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The elementalist can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 2 squares. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the space they leave takes 2 corruption damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Void"
+        ],
+        "name": "Jaws of the Void",
+        "target": "Self",
+        "trigger": "The elementalist takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the elementalist chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the elementalist and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-elementalist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Rival Elementalist",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-fury.json": {
+    "agility": 1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Each target who has M < 1 is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Brutal Impact",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage; M < 0 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier2": "13 damage; M < 1 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "16 damage; M < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The target must be the fury's size or smaller. While the target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way, the fury gains an edge on [strikes](scc.v1:mcdm.heroes.v1/rule.combat/strike) against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Let's Tussle",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, when the fury [force moves](scc.v1:mcdm.heroes.v1/movement/forced-movement) a creature or object, or [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a creature or object, they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against that creature or object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Overwhelm",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the fury chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the fury and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-fury",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Rival Fury",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "100",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-null.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; the null [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares",
+            "tier2": "10 damage; the null [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares",
+            "tier3": "13 damage; the null [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 4 squares"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Nimble Step",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; R < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier2": "10 damage; R < 1 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier3": "13 damage; R < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) and [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Numb",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time each round that the null is targeted by a damage-dealing [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike), they halve the damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Inertial Shield",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the null chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the null and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-null",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Rival Null",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 3,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-shadow.json": {
+    "agility": 2,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage",
+            "tier3": "14 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The shadow can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 5 squares, then can attempt to hide."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Swift Serration",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The shadow coats their weapon with poison. They gain an edge on their next [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike), and any [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) for that strike increases by 1.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Poison the Blade",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The shadow deals an extra 5 damage to any [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Exploit Opening",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the shadow chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the shadow and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-shadow",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Rival Shadow",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-summoner.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The summoner can command up to two squads of minions with a maximum of 4 minions per squad. They can only have one squad of [signature minions](scc.v1:mcdm.summoner.v1/feature.summoner.level-1/minions) active at any time."
+          },
+          {
+            "effect": "At the start of each of the summoner's turns, up to three **skeletons** appear in unoccupied spaces within 5 squares of the summoner. On each of the summoner's turns, they direct the squad of skeletons to move and use a main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Undead Summoner",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "2d10 + 2",
+            "tier1": "5 corruption damage",
+            "tier2": "8 corruption damage",
+            "tier3": "11 corruption damage; R < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Necro Beam",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "1+ Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The summoner summons the listed number of minions for their Malice cost into unoccupied spaces within distance. If the minions are a part of a new squad, the summoner directs the squad to move and use a main action on each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Call Forth",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If one of the summoner's minions is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target and is within distance of the [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike), they become the new target of the strike.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Instead of commanding an existing minion, the summoner summons a **skeleton** into an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target to take the strike."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Corpse Shield",
+        "target": "Self or one ally",
+        "trigger": "The target is targeted by a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike).",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "cost": "With All of Us",
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the summoner chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the summoner and the creature can add a d3 roll to [power rolls](scc.v1:mcdm.heroes.v1/rule.dice/power-roll) they make against each other. Whenever one of the summoner's squads uses a damaging ability against the creature, the creature takes an additional 2 damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": null,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.rival.1st-echelon.statblock/rival-summoner",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "—",
+    "name": "Rival Summoner",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-tactician.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage",
+            "tier2": "11 damage",
+            "tier3": "14 damage"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Two allies within distance can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against one of the targets."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dual Targeting Shot",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage; M < 0 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "13 damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "16 damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "One ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target regains 5 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "I'll Cover You!",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "At any point during the movement, the tactician makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Overwatch",
+        "target": "The triggering enemy",
+        "trigger": "An enemy within distance willingly moves.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the tactician chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the tactician and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-tactician",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Rival Tactician",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "60",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/rival/1st-echelon/statblock/rival-talent.json": {
+    "agility": 0,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 psychic damage; M < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "10 psychic damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "13 psychic damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Strike",
+          "Telekinesis"
+        ],
+        "name": "Reverberating Blast",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "R < 0 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "R < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "R < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) and [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Telepathy"
+        ],
+        "name": "Muddle the Mind",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The talent halves the damage and [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Psionic"
+        ],
+        "name": "Precognitive Shift",
+        "target": "Self",
+        "trigger": "A creature deals damage to the talent.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of an encounter, the talent chooses one creature within their [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect). Both the talent and the creature can add a d3 roll to power rolls they make against each other."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rivalry",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Rival"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.rival.1st-echelon.statblock/rival-talent",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Rival Talent",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 2,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "60",
+    "type": "statblock"
+  }
+}

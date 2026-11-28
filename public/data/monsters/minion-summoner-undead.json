@@ -1,0 +1,734 @@
+{
+  "en/unified/json/monster/minion/summoner/undead/statblock/accursed-mummy.json": {
+    "agility": -1,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee R",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "3 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull R",
+            "tier2": "4 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull R + 1",
+            "tier3": "6 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); pull R + 2"
+          },
+          {
+            "effect": "A target pulled [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the mummy is M < STRONG [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (EoT).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fetid Bindings",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the mummy takes [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage), each enemy [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the mummy takes 2 poison [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Mummy Dust",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The preserved dead, bound for eternal rest, know only violence when robbed of their future. Accursed mummies use their wrappings to bind others to the same fate.",
+    "free_strike": 3,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 3,
+    "keywords": [
+      "Mummy",
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/accursed-mummy",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Accursed Mummy",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "4 | 4 | 4",
+    "type": "statblock",
+    "weaknesses": [
+      "Fire 1"
+    ]
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/ceaseless-mournling.json": {
+    "agility": 2,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of the mournling's [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), each enemy within 1 of the mournling takes 2 sonic [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) and can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) until the start of the mournling's next [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Always Crying",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mournling's shape can't change via any external effects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Immutable Form",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time the mournling [burrows](scc.v1:mcdm.heroes.v1/movement/burrow) out of the ground on their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rupture",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Mournlings are hulking amalgams of mismatched cadavers with tear-stained trenches where their cheeks used to be. Their crying shakes enemies to their bone and renders them struggling to move.",
+    "free_strike": 3,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/ceaseless-mournling",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 3,
+    "movement": "Burrow",
+    "name": "Ceaseless Mournling",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -1,
+    "role": "Controller",
+    "size": "2",
+    "speed": 4,
+    "stability": 0,
+    "stamina": "4 | 4 | 4",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/false-vampire.json": {
+    "agility": 1,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The false vampire's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 2 and inflict M < AVERAGE [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT). The false vampire can move the target while they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way. At the start of a [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) creature's [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn), they take acid [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) equal to your [Reason](scc.v1:mcdm.heroes.v1/rule.character/reason)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Proboscis Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The false vampire has a [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) of 10 while a creature is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) within 10."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodthirsty",
+        "type": "feature"
+      }
+    ],
+    "flavor": "A false vampire is a bestial, bipedal ghoul that draws life from liquified remains. In death, their hands curl into thick hooks, their bodies turn a putrid red-green as if wearing a dress suit, and their mouth twists and extends into a large feeding needle that can pierce steel.",
+    "free_strike": 8,
+    "immunities": [
+      "Corruption R",
+      "poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/false-vampire",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "Climb",
+    "name": "False Vampire",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 3,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/grave-knight.json": {
+    "agility": 1,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "5 corruption damage; M < WEAK [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier2": "7 corruption damage; M < AVERAGE [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))",
+            "tier3": "9 corruption damage; M < STRONG [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Knight Strike",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the grave knight is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before being destroyed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "To the Grave",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The grave knights are zombie warriors that continue to fight after death. Any blood spilled at a grave knight's hand runs pitch black.",
+    "free_strike": 5,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/grave-knight",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Grave Knight",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "6 | 6",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/husk.json": {
+    "agility": 0,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The husk's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) inflict M < WEAK [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn)). The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1 for each additional husk adjacent to the target (maximum +2)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Rotting Strike",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Husks have stiff corpses that snap and crackle with each sudden movement. Corrosive breath endlessly billows from their slackjawed faces.",
+    "free_strike": 1,
+    "immunities": [
+      "Damage 2",
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/husk",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Husk",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "3",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/phantom-of-the-ripper.json": {
+    "agility": 4,
+    "cost": "7 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "2d10 + R",
+            "tier1": "8 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); A < WEAK [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "13 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); A < AVERAGE [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "17 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); A < STRONG [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "The phantom deals an additional 3 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) if they have an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Plunge of the Knife",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The phantom can move through other creatures and objects at normal speed. The first time in a [round](scc.v1:mcdm.heroes.v1/rule.combat/combat-round) that the phantom passes through a creature, that creature takes 3 corruption [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) and has a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on their next [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike). The phantom doesn't take [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Ripping Phase",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These phantoms puppet the remnants of their corporeal forms. Unlike other spirits, the ripper tears the reality around them and leaves behind distorted or uneven \"bumps\" in the air, which can affect stone, metal, and flesh.",
+    "free_strike": 8,
+    "immunities": [
+      "Corruption R",
+      "poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/phantom-of-the-ripper",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 0,
+    "movement": "Fly, hover",
+    "name": "Phantom of the Ripper",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 6,
+    "stability": 1,
+    "stamina": "17 | 17",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/phase-ghoul.json": {
+    "agility": 3,
+    "cost": "5 essence for three minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The ghoul [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) 5 squares before making a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). The target is M < AVERAGE knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone). If the target is in the air, the [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Leaping Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The ghoul takes no [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) from [falling](scc.v1:mcdm.heroes.v1/rule.health/falling) and always lands on their feet."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nerveless",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Phase ghouls are bilocated undead caught between two different manifolds, rapidly flickering between them. They almost appear transparent save for their long, bright blue tongues that appears to lag behind their movements by a full second.",
+    "free_strike": 3,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/phase-ghoul",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Teleport",
+    "name": "Phase Ghoul",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": -2,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5 | 5 | 5",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/shrieker.json": {
+    "agility": -2,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The shrieker's ranged [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) have a distance of 12."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Howling Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each enemy within 2 squares of the shrieker can't [hide](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide) or be [hidden](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/hide)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shrill Alarm",
+        "type": "feature"
+      }
+    ],
+    "flavor": "The shrieker expresses their unending pain in a way that can be heard and felt for miles. A white-hot fire smolders within each of their sunken eye sockets.",
+    "free_strike": 2,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/shrieker",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "—",
+    "name": "Shrieker",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 4,
+    "stability": 0,
+    "stamina": "1",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/skeleton.json": {
+    "agility": 0,
+    "cost": "1 essence per minion summoned",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "When the skeleton is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their square becomes [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. The first time any enemy enters this space, they take 2 damage and end this effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bonetrops",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These autonomous bone networks fall just short of replicating the structure they had in life. Skeleton bones are especially brittle and can splinter into huge shards when met with enough force.",
+    "free_strike": 1,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/skeleton",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Skeleton",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "2",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/stalker-shade.json": {
+    "agility": 1,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The stalker shade turns invisible, [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) 3 squares, and reappears after making a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shadow Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The stalker shade can move through other creatures and objects at normal speed. The first time in a round that the stalker shade passes through a creature, that creature takes 2 corruption damage. The stalker shade doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) into objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shadow Phasing",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Shades are a form of umbral stalker that float free from any floor or surface. They can bend their appearance to completely vanish in the light.",
+    "free_strike": 5,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/stalker-shade",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -2,
+    "movement": "Fly, hover",
+    "name": "Stalker Shade",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "6 | 6",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/zombie-lumberer.json": {
+    "agility": -2,
+    "cost": "3 essence for two minions",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The lumberer's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) inflict A < AVERAGE [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed). A creature or object that starts their turn [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the lumberer takes corruption damage equal to your [Reason](scc.v1:mcdm.heroes.v1/rule.character/reason)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Zombie Clutch",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the lumberer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can latch onto an adjacent enemy before being destroyed. The enemy is M < STRONG [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Grasp",
+        "type": "feature"
+      }
+    ],
+    "flavor": "These massive, animated ogre corpses still maintain their incredible grip strength. When a lumberer falls, they'll take anything within reach down with them.",
+    "free_strike": 1,
+    "immunities": [
+      "Corruption R",
+      "Poison R"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/zombie-lumberer",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "—",
+    "name": "Zombie Lumberer",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Defender",
+    "size": "2",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "8 | 8",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/minion/summoner/undead/statblock/zombie-titan.json": {
+    "agility": -3,
+    "cost": "7 essence for one minion",
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The titan's melee [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) M < STRONG knock the target [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Big Stomp",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The titan can move through enemies at normal speed. If the titan ends their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) in a [prone](scc.v1:mcdm.heroes.v1/condition/prone) [size](scc.v1:mcdm.heroes.v1/rule.character/size) 2 or smaller creature's space, the creature can't stand."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Overwhelming Size",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the titan is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their space becomes [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). If a creature was [prone](scc.v1:mcdm.heroes.v1/condition/prone) underneath the titan when the titan is killed, they take 10 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) and are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Flesh to Mountains",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Zombie titan is a catchall for undead giants, patchwork ogres and mournlings, or amalgamations of a graveyard's entire population. The titan lumbers and slumps across battlefields, wanting desperately to collapse and crash into the earth like a sea of flesh and bone.",
+    "free_strike": 7,
+    "immunities": [
+      "Corruption R",
+      "poison R"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Undead"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.minion.summoner.undead.statblock/zombie-titan",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 4,
+    "movement": "—",
+    "name": "Zombie Titan",
+    "organization": "Minion",
+    "presence": 3,
+    "reason": 0,
+    "role": "Defender",
+    "size": "4",
+    "speed": 4,
+    "stability": 0,
+    "stamina": "40",
+    "type": "statblock",
+    "weaknesses": null
+  }
+}

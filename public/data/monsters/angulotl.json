@@ -1,0 +1,723 @@
+{
+  "en/unified/json/monster/angulotl/statblock/angulotl-cleaver.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "The cleaver jumps up to 4 squares before or after making this [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hop and Chop",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the cleaver or uses a melee ability against them, that enemy takes 1 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-cleaver",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Angulotl Cleaver",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-dart.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 poison damage",
+            "tier2": "4 poison damage",
+            "tier3": "5 poison damage"
+          },
+          {
+            "effect": "The dart gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on this ability against any target who has less than full [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Poison Dart",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the dart or uses a melee ability against them, that enemy takes 1 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-dart",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Angulotl Dart",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+4 bonus to ranged distance"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-daybringer.json": {
+    "agility": 2,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 acid damage; A < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "10 acid damage; A < 2 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "13 acid damage; A < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "The next time the target makes a strike against the daybringer, the target takes 4 acid damage after the strike is resolved.",
+            "name": "Effect"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The daybringer jumps up to 3 squares before or after using this ability."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Acid Grasp",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The daybringer expands their throat to make it resemble the sun until the start of their next turn. During that time, each angulotl who starts their turn within 10 squares of the daybringer regains 5 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and gains a +3 bonus to speed until the end of their turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Sun Lamp",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 5",
+        "effects": [
+          {
+            "effect": "The outcome of the strike's power roll is reduced by one tier.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The target is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 4 squares after the strike resolves."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Tongue Slap",
+        "target": "One creature",
+        "trigger": "The target makes a strike against the daybringer or an ally that isn't a critical hit.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of the daybringer's turns, they can either take 5 damage or end the wet effect on an adjacent creature in order to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Moisturizing End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Four **angulotl pollywogs** erupt from the daybringer's back and waddle into unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "New Dawn",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "8 burst",
+        "effects": [
+          {
+            "effect": "Each target can jump up to 4 squares. Each non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) at the end of the jump.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Plague of Frogs",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "The encounter map dries up and each enemy and object on it is illuminated until the end of the encounter. An illuminated creature or object can't hide or become invisible, and any strike made against an illuminated target gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge). Additionally, each enemy in the encounter who is wet has that effect end and takes 6 acid damage. Each angulotl in the encounter has a double edge on their next strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "It Is Day",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the daybringer or uses a melee ability against them, that enemy takes 3 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Poison 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-daybringer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Climb, swim",
+    "name": "Angulotl Daybringer",
+    "organization": "Leader",
+    "presence": 0,
+    "reason": 0,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-needler.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 poison damage",
+            "tier2": "6 poison damage",
+            "tier3": "7 poison damage"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "A target who has M < 2 is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends). A target [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way takes 2 poison damage at the start of each of their turns."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Blowgun",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the needler or uses a melee ability against them, that enemy takes 2 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-needler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Angulotl Needler",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-pollywog.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 poison damage",
+            "tier2": "2 poison damage; the pollywog can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier3": "3 poison damage; the pollywog [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Nip",
+        "target": "One creature per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any angulotl who can target the pollywog with a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) can eat them as a maneuver. The angulotl regains 4 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) and is wet until the end of their next turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Quick Snack",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": -2,
+    "keywords": [
+      "Angulotl"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-pollywog",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Angulotl Pollywog",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -2,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-slink.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 6",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "6 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4",
+            "tier3": "7 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          },
+          {
+            "effect": "The target is wet (save ends). Any ally targeted by this ability ignores the damage, is wet until the end of the encounter, and is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 6 squares, ignoring stability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tonguelash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The slink jumps up to 3 squares. If they have [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) or [concealment](scc.v1:mcdm.heroes.v1/rule.combat/concealment) when they land, they can attempt to hide.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Hop To It",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Free maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The slink excretes a sticky residue into their square at the end of each of their turns. Any non-angulotl who enters or leaves the square is stuck, and must use a maneuver to break free or be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their turn. Objects are likewise affected, and a creature must use a maneuver to remove an object from the square."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Adhesive",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the slink or uses a melee ability against them, that enemy takes 2 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-slink",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Climb, swim",
+    "name": "Angulotl Slink",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/angulotl/statblock/angulotl-wave.json": {
+    "agility": 0,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 holy damage",
+            "tier2": "4 holy damage; R < 1 the target is illuminated (save ends)",
+            "tier3": "5 holy damage; R < 2 the target is illuminated (save ends)"
+          },
+          {
+            "effect": "An illuminated creature or object can't hide or become invisible, and any strike made against an illuminated target gains an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Refulgent Beams",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "2 cube of unoccupied space within 10",
+        "effects": [
+          {
+            "effect": "A bubble of toxic gas fills the area, ready to pop. If any creature or object touches the bubble or if the bubble takes damage, it bursts. Each angulotl adjacent to the bubble is wet until the end of the encounter, and each enemy adjacent to the bubble makes a **[Might](scc.v1:mcdm.heroes.v1/rule.character/might) test**.",
+            "name": "Effect",
+            "tier1": "3 poison damage; the target is wet and [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "2 poison damage; the target is wet (save ends)",
+            "tier3": "1 poison damage; the target is wet ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Noxious Bubble",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an adjacent enemy [grabs](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/grab) the wave or uses a melee ability against them, that enemy takes 2 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/angulotl-wave",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Angulotl Wave",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/angulotl/statblock/clawfish.json": {
+    "agility": 2,
+    "ev": "3 for 4 minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "Any target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way takes 2 lightning damage at the start of each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hookclaw",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the clawfish deals 2 lightning damage to each wet enemy within 2 squares."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shocking",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Lightning 3",
+      "Poison 2"
+    ],
+    "intuition": -2,
+    "keywords": [
+      "Angulotl",
+      "Animal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.angulotl.statblock/clawfish",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb, swim",
+    "name": "Clawfish",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": -3,
+    "role": "Brute",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "en/unified/json/condition/bleeding.json": {
+    "content": "While a creature is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), whenever they use a main action, use a [triggered action](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action), or make a [test](scc.v1:mcdm.heroes.v1/rule.test/test) or [ability roll](scc.v1:mcdm.heroes.v1/rule.dice/ability-roll) using [Might](scc.v1:mcdm.heroes.v1/rule.character/might) or [Agility](scc.v1:mcdm.heroes.v1/rule.character/agility), they lose [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to 1d6 + their level after the main action, [triggered action](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action), or [power roll](scc.v1:mcdm.heroes.v1/rule.dice/power-roll) is resolved. This [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) loss can't be prevented in any way, and only happens once per action.\n\nYou take damage from this [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) when you use a main action off your [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn). For example, a [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) used as a free [triggered action](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action) with the assistance of the [tactician's](scc.v1:mcdm.heroes.v1/class/tactician) [Strike Now](scc.v1:mcdm.heroes.v1/feature.ability.tactician.level-1/strike-now) ability triggers the damage from the [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition).",
+    "name": "Bleeding",
+    "scc": "mcdm.heroes.v1/condition/bleeding",
+    "type": "condition"
+  },
+  "en/unified/json/condition/dazed.json": {
+    "content": "A creature who is [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) can do only one thing on their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn): use a main action, use a maneuver, or use a move action. A [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) creature also can't use [triggered actions](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action), free [triggered actions](scc.v1:mcdm.heroes.v1/rule.combat/triggered-action), or [free maneuvers](scc.v1:mcdm.heroes.v1/rule.combat/free-maneuver).",
+    "name": "Dazed",
+    "scc": "mcdm.heroes.v1/condition/dazed",
+    "type": "condition"
+  },
+  "en/unified/json/condition/frightened.json": {
+    "content": "When a creature is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened), any [ability roll](scc.v1:mcdm.heroes.v1/rule.dice/ability-roll) they make against the source of their fear takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane). If that source is a creature, their [ability rolls](scc.v1:mcdm.heroes.v1/rule.dice/ability-roll) made against the [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) creature gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge). A [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) creature can't willingly move closer to the source of their fear if they know the location of that source. If a creature gains the [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) from one source while already [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) by a different source, the new [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) replaces the old one.",
+    "name": "Frightened",
+    "scc": "mcdm.heroes.v1/condition/frightened",
+    "type": "condition"
+  },
+  "en/unified/json/condition/grabbed.json": {
+    "content": "A creature who is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) has [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) 0, can't be [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) except by a creature, object, or effect that has them [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), can't use the [Knockback](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/knockback) maneuver (see Maneuvers in Chapter 10: [Combat](scc.v1:mcdm.heroes.v1/chapter/combat)), and takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on abilities that don't target the creature, object, or effect that has them [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed). If a creature is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by another creature and that creature moves, they bring the [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature with them. If a creature's [size](scc.v1:mcdm.heroes.v1/rule.character/size) is equal to or less than the size of a creature they have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), their [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) is halved while they have that creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed).\n\nA creature who has another creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) can use a maneuver to move the [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature into an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them.\n\nA creature can release a creature they have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) at any time to end that [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) (no action required). A [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature can attempt to escape being [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) using the [Escape Grab](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/escape-grab) maneuver (see Chapter 10: [Combat](scc.v1:mcdm.heroes.v1/chapter/combat)). If a [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature [teleports](scc.v1:mcdm.heroes.v1/movement/teleport), or if either the [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature or the creature grabbing them is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) so that both creatures are not [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to each other, that creature is no longer [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed).\n\nA creature can grab only creatures of their [size](scc.v1:mcdm.heroes.v1/rule.character/size) or smaller. If a creature's [Might](scc.v1:mcdm.heroes.v1/rule.character/might) score is 2 or higher, they can grab any creature larger than them with a [size](scc.v1:mcdm.heroes.v1/rule.character/size) equal to or less than their [Might](scc.v1:mcdm.heroes.v1/rule.character/might) score.\n\nUnless otherwise indicated, a creature can grab only one creature at a time.",
+    "name": "Grabbed",
+    "scc": "mcdm.heroes.v1/condition/grabbed",
+    "type": "condition"
+  },
+  "en/unified/json/condition/prone.json": {
+    "content": "While a creature is [prone](scc.v1:mcdm.heroes.v1/condition/prone), they are flat on the ground, any strike they make takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane), and [melee](scc.v1:mcdm.heroes.v1/rule.combat/melee) abilities used against them gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge). A [prone](scc.v1:mcdm.heroes.v1/condition/prone) creature must [crawl](scc.v1:mcdm.heroes.v1/movement/crawl) to move along the ground, which costs 1 additional square of movement for every square crawled. A creature can't climb, [jump](scc.v1:mcdm.heroes.v1/movement/jump), swim, or [fly](scc.v1:mcdm.heroes.v1/movement/fly) while [prone](scc.v1:mcdm.heroes.v1/condition/prone). If they are climbing, [flying](scc.v1:mcdm.heroes.v1/movement/fly), or jumping when knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), they fall.\n\nUnless the ability or effect that imposed the [prone](scc.v1:mcdm.heroes.v1/condition/prone) [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) says otherwise, a [prone](scc.v1:mcdm.heroes.v1/condition/prone) creature can stand up using the [Stand Up](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/stand-up) maneuver (see Maneuvers in Chapter 10: [Combat](scc.v1:mcdm.heroes.v1/chapter/combat)). A creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a willing [prone](scc.v1:mcdm.heroes.v1/condition/prone) creature can likewise use the [Stand Up](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/stand-up) maneuver to make that creature stand up.",
+    "name": "Prone",
+    "scc": "mcdm.heroes.v1/condition/prone",
+    "type": "condition"
+  },
+  "en/unified/json/condition/restrained.json": {
+    "content": "A creature who is [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) has [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) 0, can't use the [Stand Up](scc.v1:mcdm.heroes.v1/feature.common.maneuvers/stand-up) maneuver, and can't be [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement). A [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) creature takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [ability rolls](scc.v1:mcdm.heroes.v1/rule.dice/ability-roll) and on [Might](scc.v1:mcdm.heroes.v1/rule.character/might) and [Agility](scc.v1:mcdm.heroes.v1/rule.character/agility) [tests](scc.v1:mcdm.heroes.v1/rule.test/test), and abilities used against them gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge).\n\nIf a creature [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) while [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), that [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) ends.",
+    "name": "Restrained",
+    "scc": "mcdm.heroes.v1/condition/restrained",
+    "type": "condition"
+  },
+  "en/unified/json/condition/slowed.json": {
+    "content": "A creature who is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) has [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) 2 unless their [speed](scc.v1:mcdm.heroes.v1/rule.character/speed) is already lower, and they can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting).",
+    "name": "Slowed",
+    "scc": "mcdm.heroes.v1/condition/slowed",
+    "type": "condition"
+  },
+  "en/unified/json/condition/taunted.json": {
+    "content": "A creature who is [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) has a double [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [ability rolls](scc.v1:mcdm.heroes.v1/rule.dice/ability-roll) for any ability that doesn't target the creature who [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) them, as long as they have [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to that creature. If a creature gains the [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) from one source while already [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) by a different source, the new [condition](scc.v1:mcdm.heroes.v1/rule.combat/condition) replaces the old one.",
+    "name": "Taunted",
+    "scc": "mcdm.heroes.v1/condition/taunted",
+    "type": "condition"
+  },
+  "en/unified/json/condition/weakened.json": {
+    "content": "A creature who is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) takes a [bane](scc.v1:mcdm.heroes.v1/rule.dice/bane) on [power rolls](scc.v1:mcdm.heroes.v1/rule.dice/power-roll).",
+    "name": "Weakened",
+    "scc": "mcdm.heroes.v1/condition/weakened",
+    "type": "condition"
+  }
+}

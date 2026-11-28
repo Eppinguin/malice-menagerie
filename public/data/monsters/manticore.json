@@ -1,0 +1,208 @@
+{
+  "en/unified/json/monster/manticore/statblock/manticore.json": {
+    "agility": 3,
+    "ev": "72",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "[**End Effect:**](scc.v1:mcdm.monsters.v1/rule.monster/end-effect) At the end of each of their turns, the manticore can take 10 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          },
+          {
+            "effect": "The manticore can take two turns each round. They can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the manticore deals damage to a creature, they don't provoke opportunity attacks from that creature during that turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Agile Predator",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "12 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "17 damage; A < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "21 damage; A < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "If the target is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened), this ability gains an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Carnivorous Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "6 damage; M < 2 4 poison damage",
+            "tier2": "11 damage; M < 3 4 poison damage, [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "14 damage; M < 4 8 poison damage, [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "While [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way, a target takes 1d6 poison damage at the start of each of their turns."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tail Spike",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "[Slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; A < 2 3 damage",
+            "tier2": "[Slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; A < 3 5 damage",
+            "tier3": "[Slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; A < 4 7 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Harrying Claws",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The manticore [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 5 squares into the air, then can use Tail Spike against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Reflexive Instinct",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the manticore.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT); if the target has I < 2 they are instead [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT); if the target has I < 3 they are instead [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT); if the target has I < 4 they are instead [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Trumpeting Howl",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The manticore [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, then can use Tail Spike against each enemy within distance of that ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Cornered Predator",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The manticore sours their poison with enmity. Until the end of the encounter, the manticore has a double edge on power rolls against [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) creatures. Additionally, any creature [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) by the manticore's Tail Spike ability has their speed halved and takes an extra 3 poison damage at the start of each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Debilitating Poison",
+        "target": "Self",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 0,
+    "keywords": [
+      "Beast",
+      "Manticore"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.manticore.statblock/manticore",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Fly",
+    "name": "Manticore",
+    "organization": "Solo",
+    "presence": -1,
+    "reason": 0,
+    "role": "",
+    "size": "2",
+    "speed": 10,
+    "stability": 2,
+    "stamina": "350",
+    "type": "statblock"
+  }
+}

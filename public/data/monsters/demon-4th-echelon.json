@@ -1,0 +1,641 @@
+{
+  "en/unified/json/monster/demon/4th-echelon/statblock/aurumvas.json": {
+    "agility": 2,
+    "ev": "48",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "Whenever any demon is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) within 10 squares of Aurumvas, the Director gains 1 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice). Aurumvas loses this trait while he is [dazed](scc.v1:mcdm.heroes.v1/condition/dazed)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Absorb Soul",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "15 corruption damage; R < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "20 corruption damage; R < 5 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "24 corruption damage; R < 6 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Aurumvas regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage dealt."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Greedy Hands",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "15 psychic damage; P < 4 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "20 psychic damage; P < 5 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "24 psychic damage; P < 6 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "While [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) this way, a target can't gain [Heroic Resources](scc.v1:mcdm.heroes.v1/rule.resource/heroic-resource)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Covetous Bolts",
+        "target": "Two creatures",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Aurumvas chooses a supernatural treasure or an item made of gold and [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) to an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to that object, then ends one effect on him that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Greed Is Good",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While Aurumvas is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), he has a double [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "More... More...",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 5 squares of Aurumvas can't be hidden from him."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "20 burst",
+        "effects": [
+          {
+            "effect": "Aurumvas warps time with his abyssal avarice. Each target can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to their speed and make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Time Is Money",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Aurumvas chooses up to three treasures within distance that he has [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) to and that aren't artifacts. Until the end of the encounter, ethereal golden snakes swirl around the target treasures. While an affected treasure is worn or held by a hero, each time that hero gains any amount of their [Heroic Resource](scc.v1:mcdm.heroes.v1/rule.resource/heroic-resource), the Director gains 1 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Hostile Acquisition",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "Four 3 cubes within 10",
+        "effects": [
+          {
+            "effect": "Aurumvas summons treasures from his vaults into the area, then causes them to explode.",
+            "name": "Effect",
+            "roll": "Power Roll + 5",
+            "tier1": "10 fire damage; push 1",
+            "tier2": "15 fire damage; push 2",
+            "tier3": "19 fire damage; push 3"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "No Matter the Cost",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 10,
+    "intuition": 3,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/aurumvas",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "movement": "Fly",
+    "name": "Aurumvas",
+    "organization": "Leader",
+    "presence": 5,
+    "reason": 5,
+    "role": "",
+    "size": "3",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "260",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/4th-echelon/statblock/izyak.json": {
+    "agility": 0,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "9 psychic damage; R < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "12 psychic damage; R < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "14 psychic damage; R < 5 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The izyak can slide any target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way up to 3 squares.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The izyak can vertical slide any target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way up to 6 squares instead. A target left in midair doesn't fall until the restrained condition ends."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Nostalgic Wanderlust",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "4 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 psychic damage; I < 3 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "7 psychic damage; I < 4 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "9 psychic damage; I < 5 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "Any target [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) this way must use a move action to move their speed toward the izyak on their next turn.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The area increases to a 6 cube."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Ruinous Temptation",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the izyak is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the izyak can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/izyak",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Teleport",
+    "name": "Izyak",
+    "organization": "Horde",
+    "presence": 4,
+    "reason": 5,
+    "role": "Controller",
+    "size": "2",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "55",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  },
+  "en/unified/json/monster/demon/4th-echelon/statblock/optacus.json": {
+    "agility": 3,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "5 fire damage",
+            "tier2": "8 fire damage",
+            "tier3": "10 fire damage; this damage ignores immunity"
+          },
+          {
+            "effect": "This ability ignores concealment. A winded target takes an extra 5 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Optical Flare",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 5,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/optacus",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Climb",
+    "name": "Optacus",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "14",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "+4 bonus to speed"
+  },
+  "en/unified/json/monster/demon/4th-echelon/statblock/tyburaki.json": {
+    "agility": 5,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "9 damage"
+          },
+          {
+            "effect": "The tyburaki can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each enemy [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tail Bite",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While swimming, the tyburaki can jump 5 squares as part of their movement."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Breacher",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the tyburaki can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 3,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/tyburaki",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Swim",
+    "name": "Tyburaki",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "+4 damage bonus to strikes"
+  },
+  "en/unified/json/monster/demon/4th-echelon/statblock/unguloid.json": {
+    "agility": 5,
+    "ev": "12 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "5 damage; push 2",
+            "tier2": "8 damage; push 4",
+            "tier3": "10 damage; push 6"
+          },
+          {
+            "effect": "If this ability is used as part of a charge for which the unguloid moves 2 squares or more, it deals an extra 10 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gore Horn",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the unguloid can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": -1,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/unguloid",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Unguloid",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 8,
+    "stability": 3,
+    "stamina": "17",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ],
+    "with_captain": "Have a double edge on strikes"
+  },
+  "en/unified/json/monster/demon/4th-echelon/statblock/vicisitator.json": {
+    "agility": 5,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "9 damage",
+            "tier2": "12 damage",
+            "tier3": "14 damage; I < 5 the target is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) and [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "The effects of being [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) and [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way can't be ignored.",
+            "name": "Special"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Warp Touch",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "6 x 3 line within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "4 psychic damage; P < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "7 psychic damage; P < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "9 psychic damage; P < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "Any creature who is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) from this ability loses 2d6 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead of 1d6.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Soul Flay",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the vicisitator is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an [edge](scc.v1:mcdm.heroes.v1/rule.dice/edge) on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any creature within 2 squares of the vicisitator can't be hidden from them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Soulsight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": -2,
+    "keywords": [
+      "Abyssal",
+      "Demon"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.demon.4th-echelon.statblock/vicisitator",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Vicisitator",
+    "organization": "Horde",
+    "presence": -3,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 9,
+    "stability": 0,
+    "stamina": "60",
+    "type": "statblock",
+    "weaknesses": [
+      "Holy 5"
+    ]
+  }
+}

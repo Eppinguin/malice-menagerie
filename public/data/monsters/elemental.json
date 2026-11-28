@@ -1,0 +1,601 @@
+{
+  "en/unified/json/monster/elemental/statblock/crux-of-fire.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 12",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 fire damage",
+            "tier2": "12 fire damage; A < 1 the target is burning (save ends)",
+            "tier3": "15 fire damage; A < 2 the target is burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Spitfire",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Until the start of the crux's next turn, the target has fire immunity 5.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Until the end of the encounter, the ground within 3 squares of the target is wreathed in fire. Any enemy who enters that area for the first time in a round or starts their turn there takes 3 fire damage."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Convocation of Flames",
+        "target": "Self or one elemental",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The crux ignores any effects associated with the damage and can [fly](scc.v1:mcdm.heroes.v1/movement/fly) up to their speed. If the crux doesn't end this movement on solid ground, they fall.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "Flame Jet",
+        "target": "Self",
+        "trigger": "The crux takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The crux can't be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and they ignore [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fickle and Free",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elemental.statblock/crux-of-fire",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "name": "Crux of Fire",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1T",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elemental/statblock/essence-of-storms.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage",
+            "tier2": "5 damage, 4 lightning damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "5 damage, 7 lightning damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "The essence [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares before or after using this ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Bluster",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Until the start of the essence's next turn, the target has lightning immunity 5.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Until the end of the encounter, a vortex surrounds the target in a 3 aura. The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies. Additionally, at the end of each of the target's turns, they can [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) one creature in the area up to 5 squares."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Convocation of Squalls",
+        "target": "Self or one elemental",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target takes 5 lightning damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Thunderclap",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the essence.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The essence can't be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and they ignore [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fickle and Free",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Lightning 5"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elemental.statblock/essence-of-storms",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Fly",
+    "name": "Essence of Storms",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": -1,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "100",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elemental/statblock/essence-of-tides.json": {
+    "agility": 0,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "11 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "14 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "If a target has P < 2, their stability is reduced to 0 and they move 2 additional squares whenever they are force moved (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Water Wing",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Until the start of the essence's next turn, the target has cold immunity 5.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Until the end of the encounter, the ground within 1 square of the target is a pool of water that is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). This water extends out behind the target as they move, creating a stream that lasts until the end of the encounter. Any enemy who ends their turn in the stream and has M < 2 is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Convocation of Waves",
+        "target": "Self or one elemental",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The essence makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Sea-Salted Wounds",
+        "target": "One enemy",
+        "trigger": "An ally deals rolled damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The essence can't be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and they ignore [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fickle and Free",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the essence starts their turn in a space containing water, they can [fly](scc.v1:mcdm.heroes.v1/movement/fly) until the end of their turn. While flying, the essence doesn't provoke opportunity attacks."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Water Glide",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Cold 5"
+    ],
+    "intuition": -1,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elemental.statblock/essence-of-tides",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Swim",
+    "name": "Essence of Tides",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 1,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elemental/statblock/field-of-growth.json": {
+    "agility": 0,
+    "ev": "28",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage",
+            "tier2": "13 damage; R < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)",
+            "tier3": "16 damage; R < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (save ends)"
+          },
+          {
+            "effect": "If a target made [prone](scc.v1:mcdm.heroes.v1/condition/prone) this way is already [prone](scc.v1:mcdm.heroes.v1/condition/prone), they are instead [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends). If the target was also unable to stand, that effect ends when they are no longer [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Hampering Roots",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target gains 15 temporary Stamina that lasts until the start of the field's next turn.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Until the end of the encounter, the ground within 1 square of the target is overgrown with underbrush and vines. Whenever any enemy makes a strike against the target while within line of effect of that area, the enemy is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5 squares toward the area after the strike is resolved. Any enemy who enters the area for the first time in a round or starts their turn there is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Convocation of Verdure",
+        "target": "Self or one elemental",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "effect": "The target takes 6 damage, and if they have A < 2, they are [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Melee"
+        ],
+        "name": "Rose Thorn Lash",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance deals damage to the field.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The field can't be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and they ignore [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fickle and Free",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The field can target any creature touching the ground with their abilities, even if they don't have line of effect to that creature."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Roots Run Deep",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Poison 5"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elemental.statblock/field-of-growth",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Field of Growth",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "3",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/elemental/statblock/force-of-earth.json": {
+    "agility": -1,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "8 damage",
+            "tier2": "12 damage; M < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "15 damage; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "The target's space is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Slam Into Dirt",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Until the start of the force's next turn, any melee strike made against the target takes a bane if it doesn't already have a bane or double bane.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "Until the end of the encounter, the target grows a carapace of stone. They have a +3 bonus to stability and gain 15 temporary Stamina."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Convocation of Quartz",
+        "target": "Self or one elemental",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The force halves the damage, and has damage weakness 3 and a +3 bonus to speed until the end of the encounter. This damage weakness increases by 3 each time the force uses this ability in the same encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Break Armor",
+        "target": "Self",
+        "trigger": "The force takes damage.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The force can't be [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), [slowed](scc.v1:mcdm.heroes.v1/condition/slowed), or knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone), and they ignore [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Fickle and Free",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The force's strikes gain a +6 damage bonus against objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Primordial Strength",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The force can burrow through stone, but can't drag other creatures underground when they do so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Stone Swim",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 1,
+    "keywords": [
+      "Elemental"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.elemental.statblock/force-of-earth",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Burrow",
+    "name": "Force of Earth",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "132",
+    "type": "statblock"
+  }
+}

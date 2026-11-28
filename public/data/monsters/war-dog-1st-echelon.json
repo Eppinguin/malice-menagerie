@@ -1,0 +1,1228 @@
+{
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-amalgamite.json": {
+    "agility": 0,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "5 damage; A < 1 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "6 damage; A < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The amalgamite can have up to four targets [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) at once.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The amalgamite deals 3 damage to each creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way or who they already have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), and regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage dealt."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Several Arms",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the amalgamite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-amalgamite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "War Dog Amalgamite",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "25",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-commando.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "After using this ability, the commando can attempt to hide even if observed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Daggers",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the commando is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d3 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-commando",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "War Dog Commando",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-conscript.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          },
+          {
+            "effect": "If used with the Charge main action, this ability gains an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Blade",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the conscript is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d3 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-conscript",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "War Dog Conscript",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-crucibite.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "5 x 1 line within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 fire damage",
+            "tier2": "4 fire damage",
+            "tier3": "5 fire damage"
+          },
+          {
+            "effect": "The area is covered in sticky fire until the start of the crucibite's next turn. Any creature who enters the area for the first time in a round or starts their turn there takes 2 fire damage.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The area becomes a 10 x 1 line, and if any ally of the crucibite is in the area when it is created, the ability deals an extra 2 damage to each target."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Flamebelcher",
+        "target": "Each creature and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the crucibite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-crucibite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "War Dog Crucibite",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-eviscerite.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "5 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          },
+          {
+            "effect": "The eviscerite can automatically [grab](scc.v1:mcdm.heroes.v1/condition/grabbed) a target [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Chainsaw Whip",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the eviscerite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-eviscerite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "War Dog Eviscerite",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-ground-commander.json": {
+    "agility": 2,
+    "ev": "20",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "12 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "15 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "One ally within 10 squares of the ground commander can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "A target who has I < 2 and who is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the ground commander after this ability is resolved is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) (save ends). This grab can't be escaped using the Escape Grab maneuver. The ground commander can grab up to two creatures at a time."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Conditioning Spear",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Any target who has a loyalty collar is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Highest Posthumous Promotion",
+        "target": "Each war dog in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Even if reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the target moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) after the triggering effect is resolved. The target then immediately dies.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Final Orders",
+        "target": "One ally",
+        "trigger": "The target takes damage, is [forced moved](scc.v1:mcdm.heroes.v1/movement/forced-movement), or is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the ground commander can take 5 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the ground commander is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 2d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target can make a ranged [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike), then immediately use the Charge main action.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Combined Arms",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Each ally within 5 squares of the target moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target. If the target has I < 2, they are [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) of the ground commander (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Make an Example of Them",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target ally [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares and can use the Grab maneuver. Until the end of the encounter, each target enemy takes a bane on the Escape Grab maneuver.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Claim Them for the Body Banks",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-ground-commander",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "War Dog Ground Commander",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 3,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-neuronite.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 psychic damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "2 psychic damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "3 psychic damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "Synlirii Grafts",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "The neuronite chooses one ally within 10 squares. Each target is either taunted by the ally, or the ally has damage immunity 3 whenever any target makes a strike against them (the neuronite's choice). Either effect lasts until the start of the neuronite's next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "The Voice",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the neuronite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "immunities": [
+      "Psychic 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-neuronite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Fly",
+    "name": "War Dog Neuronite",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-pestilite.json": {
+    "agility": 1,
+    "ev": "5",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 poison damage; I < 0 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "4 poison damage; I < 1 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier3": "5 poison damage; I < 2 [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          },
+          {
+            "effect": "The area is filled with a cloud of pestilence that lasts until the start of the pestilite's next turn. Any creature who enters the area for the first time in a round or starts their turn there takes 2 poison damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Plaguecaster",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the pestilite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 3"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-pestilite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "War Dog Pestilite",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-phosphorite.json": {
+    "agility": 2,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "A detonator attaches to the target. At the end of each round, roll a die. On an odd result, the detonator explodes, triggering the following power roll.",
+            "name": "Effect",
+            "roll": "Power Roll + 2",
+            "tier1": "4 acid damage; M < 0 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "6 acid damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "10 acid damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "A creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target can attempt an **Agility test** as a maneuver to remove the detonator.",
+            "name": "Special",
+            "tier1": "No effect.",
+            "tier2": "The detonator is disarmed and destroyed.",
+            "tier3": "The creature can attach the detonator to another creature or object within 5 squares of them."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Caustic Detonator",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the phosphorite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Acid 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-phosphorite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "War Dog Phosphorite",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-sharpshooter.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "This ability ignores cover and concealment.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bolt Launcher",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the sharpshooter is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d3 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-sharpshooter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "War Dog Sharpshooter",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-subcommander.json": {
+    "agility": 0,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "One ally within 5 squares of the subcommander can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Command Saber",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each ally within 5 squares of the subcommander gains a +3 bonus to stability."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "The Iron Saint Does Not Recognize Retreat",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the subcommander is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-subcommander",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "War Dog Subcommander",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-teletalite.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "6 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          },
+          {
+            "effect": "The teletalite gains an edge on this ability if any ally is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target.",
+            "name": "Effect"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The teletalite [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) the target 3 squares before sliding them."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Corrupted Ash Daggers",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "If the target has a loyalty collar, they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Posthumous Promotion",
+        "target": "One war dog",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The teletalite can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 5 squares and gains an edge on strikes until the end of their turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": [
+          "Magic"
+        ],
+        "name": "Corrupted Ash Teleport",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the teletalite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d6 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-teletalite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Teleport",
+    "name": "War Dog Teletalite",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/war-dog/1st-echelon/statblock/war-dog-tetherite.json": {
+    "agility": 0,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Banded Dagger",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "A captain attached to a tetherite squad has their stability increased by the number of tetherites within 2 squares of them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Tethered",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the tetherite is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), their loyalty collar explodes, dealing 1d3 damage to each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy and object."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Loyalty Collar",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Soulless",
+      "War Dog"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.war-dog.1st-echelon.statblock/war-dog-tetherite",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "War Dog Tetherite",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  }
+}

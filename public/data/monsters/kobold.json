@@ -1,0 +1,1114 @@
+{
+  "en/unified/json/monster/kobold/statblock/kobold-adeptus.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 lightning damage",
+            "tier2": "6 lightning damage",
+            "tier3": "7 lightning damage"
+          },
+          {
+            "effect": "While the target is adjacent to any enemy, the adeptus gains an edge on this ability. Each enemy adjacent to the target takes 2 lighting damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Shocking Bolt",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "6 damage"
+          },
+          {
+            "effect": "This ability ignores banes, double banes, and damage immunity.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Arcane Telum",
+        "target": "Three creatures or objects",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the adeptus has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-adeptus",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Adeptus",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 2,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-artifex.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; pull 1",
+            "tier2": "4 damage; pull 2",
+            "tier3": "5 damage; pull 3"
+          },
+          {
+            "effect": "If this [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) triggers a trap that uses a power roll, that roll has a double edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Chain Hook",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The trap or terrain object instantly triggers.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The artifex places a new trap in the encounter and can instantly trigger it. The artifex prefers working with angry beehives, flammable oil, snare traps, and spike traps (see Dynamic Terrain)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⭐️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Activate Trap",
+        "target": "One trap or other terrain object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the artifex has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-artifex",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Artifex",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 1,
+    "role": "Controller",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "10",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-centurion.json": {
+    "agility": 3,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "10 damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "13 damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "Each ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to a target can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against that target.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "While [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) this way, a target is also [restrained](scc.v1:mcdm.heroes.v1/condition/restrained)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Pilum",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Until the start of the centurion's next turn, the centurion and their allies gain an edge on power rolls against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Concentrate All Fire on That Hero!",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares before the damage is resolved. Each kobold with the Shield? Shield! trait gains damage immunity 2 against the triggering ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Testudo!",
+        "target": "Each ally in the area",
+        "trigger": "A creature uses an ability that targets the centurion or an ally of the centurion within distance.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the centurion can take 5 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "The centurion moves up to their speed, ignoring [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain), and uses Pilum against each creature whose space they move through. They make one power roll against all targets, and the ability deals an extra 5 damage. While [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) by that ability, each target takes 2 fire damage at the start of each of their turns.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": null,
+        "name": "Firetail Pilum",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 cube within 10",
+        "effects": [
+          {
+            "effect": "The centurion uses Pilum against each target and has a double edge. Each target is then [pushed](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 3 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Weapon",
+          "Ranged"
+        ],
+        "name": "Boom Pilum!",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "A target who has P < 2 is [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (save ends). Each ally within distance can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). Additionally, until the end of the encounter, the centurion has damage immunity 2.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Are You Not Entertained?!",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the centurion has stability 3, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Kobold",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-centurion",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Kobold Centurion",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 2,
+    "role": "",
+    "size": "1S",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-legionary.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)",
+            "tier2": "4 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)",
+            "tier3": "5 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "If the legionary is acting as a [captain](scc.v1:mcdm.monsters.v1/rule.monster/captain), they and each member of their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad) [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares before this ability is used."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gladius",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "3 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 1 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; M < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Shield Bash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the legionary has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-legionary",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Kobold Legionary",
+    "organization": "Horde",
+    "presence": 0,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-princeps.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          },
+          {
+            "effect": "One ally within 3 squares of the princeps [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Hasta",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the princeps has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-princeps",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Princeps",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Support",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-sagittarion.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to any ally, the sagittarion gains an edge on this ability.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Composite Bow",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the sagittarion has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-sagittarion",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Sagittarion",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "3",
+    "type": "statblock",
+    "with_captain": "+5 bonus to ranged distance"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-signifer.json": {
+    "agility": 1,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "5 damage"
+          },
+          {
+            "effect": "One ally within 10 squares of the signifer can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed if they end that shift [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2+ Malice",
+            "effect": "One additional ally can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) for each 2 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) spent."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Signum",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target regains 5 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Glory to the Legion",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the signifer has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any ally who starts their turn within 5 squares of the signifer gains a +2 bonus to speed and a +2 damage bonus to strikes until the end of their turn. Additionally, if the signifer is killed, any kobold [minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) can enter their space during the same encounter to retrieve the signum battle standard they carry (no action required) and replace their stat block with the signifer stat block."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Upholding High Standards",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-signifer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Signifer",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Support",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-tiro.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage; the tiro can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier3": "3 damage; the tiro [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares"
+          },
+          {
+            "effect": "The target can't [shift](scc.v1:mcdm.heroes.v1/movement/shifting) until the start of the tiro's next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Pugio",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the tiro has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-tiro",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Tiro",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "+1 bonus to speed"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-veles.json": {
+    "agility": 2,
+    "ev": "3 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "1 damage",
+            "tier2": "2 damage",
+            "tier3": "3 damage"
+          },
+          {
+            "effect": "Until the start of the veles's next turn, the target can't make opportunity attacks against any kobold.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Pilium",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the veles has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 1,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-veles",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Veles",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 bonus to speed"
+  },
+  "en/unified/json/monster/kobold/statblock/kobold-venator.json": {
+    "agility": 2,
+    "ev": "3",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "6 damage; M < 1 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "7 damage; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "The venator lights their net on fire, and a target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way takes 2 fire damage at the start of each of their turns."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dolabra and Net",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the venator is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to any ally who is not hiding, the venator can attempt to hide as if they had concealment, even if observed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lost in the Crowd",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The venator starts the encounter disguised as a [minion](scc.v1:mcdm.monsters.v1/rule.organization/minion). They have a double edge on their first main action of the encounter, after which they reveal themself."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Not What I Seem",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to an ally who also has this trait, the venator has stability 1, has cover, and grants cover to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield? Shield!",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/kobold-venator",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Kobold Venator",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/shieldscale-drangolin.json": {
+    "agility": 1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 fire damage",
+            "tier2": "10 fire damage",
+            "tier3": "13 fire damage"
+          },
+          {
+            "effect": "If the drangolin is size 3, the distance becomes Melee 2.",
+            "name": "Special"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fiery Claws",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "Self; see below",
+        "effects": [
+          {
+            "effect": "The drangolin [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and uses Fiery Claws against each creature who comes [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them during the shift. The drangolin makes one power roll against all targets.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Drangolin Plume",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "The drangolin uses the Dig maneuver to breach the surface before using this ability. Each target in the area where the drangolin breaches takes an extra 2 fire damage.",
+            "name": "Effect",
+            "roll": "Power Roll + 2",
+            "tier1": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1; A < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; A < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; A < 0 [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Erupt",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any ally [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the drangolin has concealment."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Ashen Cloud",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the drangolin burrows, each [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) size 1S or smaller ally can move with them."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Burrow Bond",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Kobold",
+      "Beast"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/shieldscale-drangolin",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Burrow",
+    "name": "Shieldscale Drangolin",
+    "organization": "Elite",
+    "presence": -2,
+    "reason": -3,
+    "role": "Brute",
+    "size": "2 or 3",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "80",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/kobold/statblock/trained-gummy-brick.json": {
+    "agility": -1,
+    "ev": "12",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 acid damage; A < 0 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier2": "10 acid damage; A < 1 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "14 acid damage; A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A size 2 or smaller creature [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) into the brick's space, moves with the brick, and takes 4 acid damage at the start of each of their turns. An engulfed creature who is no longer [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) moves to the nearest unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the brick. The brick can have as many creatures or objects engulfed as will fit within their space.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "This ability targets one additional target."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Engulf",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The brick uses Engulf against the triggering creature and has a double edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "You Didn't Pay Attention!",
+        "target": "One creature or object",
+        "trigger": "A creature moves or is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the brick.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The brick completely occupies their space, blocking line of effect for enemies. The brick is hidden until they act."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Translucent Brick",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Acid 3"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Kobold",
+      "Ooze",
+      "Soulless"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.kobold.statblock/trained-gummy-brick",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Trained Gummy Brick",
+    "organization": "Elite",
+    "presence": -2,
+    "reason": -3,
+    "role": "Hexer",
+    "size": "2",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "40",
+    "type": "statblock"
+  }
+}

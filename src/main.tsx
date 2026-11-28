@@ -18,3 +18,13 @@ installDragListeners();
 initOwlbearIntegration();
 render(<App />, root);
 void initApp();
+
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  const registerOffline = () => {
+    void navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Offline support is an enhancement; the app still works online without it.
+    });
+  };
+  if (document.readyState === "complete") registerOffline();
+  else window.addEventListener("load", registerOffline, { once: true });
+}

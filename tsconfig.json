@@ -18,5 +18,5 @@
     "skipLibCheck": true,
     "isolatedModules": true
   },
-  "include": ["src", "obr", "shared", "vite.config.ts"]
+  "include": ["src", "obr", "shared", "scripts", "vite.config.ts"]
 }

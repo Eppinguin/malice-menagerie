@@ -1,0 +1,313 @@
+{
+  "en/unified/json/monster/count-rhodar-von-glauer/statblock/count-rhodar-von-glauer.json": {
+    "agility": 5,
+    "ev": "144",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of his turns, Rhodar can take 20 damage to end one effect on him that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way.",
+            "name": "End Effect"
+          },
+          {
+            "effect": "Rhodar can take two turns each round. He can't take turns consecutively.",
+            "name": "Solo Turns"
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "☠️",
+        "name": "Solo Monster",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Rhodar has damage immunity 5. If he takes holy damage, he loses this immunity until the end of the round."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Grave Ward",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each enemy within 10 squares of Rhodar takes a -2 penalty to [saving throws](scc.v1:mcdm.heroes.v1/rule.general/saving-throw)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Thin the Blood",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2 or ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "13 damage; A < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "18 damage; A < 5 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "21 damage; A < 6 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "A target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way is impaled by a spear. Rhodar has four spears, each of which can be used to impale a target. At the start of each of his turns, Rhodar can summon any of his spears back to himself, ending the [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) condition on an impaled target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Spear of the Damned",
+        "target": "Three creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target makes an Intuition test.",
+            "name": "Effect",
+            "tier1": "16 corruption damage; [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "13 corruption damage; [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT)",
+            "tier3": "8 corruption damage"
+          },
+          {
+            "effect": "While a target is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) this way, Rhodar ignores banes and double banes on abilities used against them."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Disarming Glare",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "17 corruption damage; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends) and [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "24 corruption damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "30 corruption damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 6 the target is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until the end of the encounter"
+          },
+          {
+            "effect": "Rhodar regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Weapon",
+          "Strike"
+        ],
+        "name": "Vermilion Fangs",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "6 damage, 2 corruption damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "6 damage, 7 corruption damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5; M < 5 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "6 damage, 10 corruption damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 7; M < 6 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "effect": "Rhodar [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to his speed before or after using this ability. He regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the total corruption damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Weapon"
+        ],
+        "name": "Sanguineous Flourish",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Two 3 cubes within 5",
+        "effects": [
+          {
+            "effect": "Each area is saturated with vengeful spirits until the end of the round. Any enemy who enters the area for the first time in a round or starts their turn there takes 5 corruption damage. At the end of the round, the spirits violently disperse. Each enemy within 2 squares of an area and has P < 5 is [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Vengeance of Rhöl",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "A target who has I < 5 is [frightened](scc.v1:mcdm.heroes.v1/condition/frightened). This effect ends if the target is 11 or more squares from Rhodar.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Reactive Rebuke",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance makes a strike against Rhodar.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Rhodar has speed 15 and an edge on power rolls while any creature within 20 squares of him is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding). Any [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature within 10 squares of Rhodar can't hide."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lord's Bloodthirst",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "8 cube within 15",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "8 corruption damage; A < 4 the target is blood soaked (save ends)",
+            "tier2": "13 corruption damage; A < 5 the target is blood soaked (save ends)",
+            "tier3": "16 corruption damage; A < 6 the target is blood soaked until the end of the encounter"
+          },
+          {
+            "effect": "While a creature is blood soaked, Rhodar has a double edge on abilities used against them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Red Tide",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target makes a Presence test.",
+            "name": "Effect",
+            "tier1": "16 corruption damage; the target is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until the end of the encounter",
+            "tier2": "13 corruption damage; [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "8 corruption damage"
+          },
+          {
+            "effect": "Rhodar [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) to an unoccupied space in the area. If he has lost the damage immunity from his Grave Ward trait, he regains it.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Sanguine Mist",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "15 x 3 line within 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "10 fire damage; R < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "16 fire damage; R < 5 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "20 fire damage; R < 6 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "Rhodar [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) to an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to one target after the ability resolve.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Fires of Dracul",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 10,
+    "immunities": [
+      "Corruption 10",
+      "poison 10"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Undead",
+      "Vampire"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.count-rhodar-von-glauer.statblock/count-rhodar-von-glauer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Fly, hover, teleport",
+    "name": "Count Rhodar von Glauer",
+    "organization": "Solo",
+    "presence": 3,
+    "reason": 2,
+    "role": "",
+    "size": "1M",
+    "speed": 12,
+    "stability": 3,
+    "stamina": "650",
+    "type": "statblock"
+  }
+}

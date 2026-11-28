@@ -57,7 +57,7 @@ for (const [label, value] of targets) {
     fail(`${label} points at ${url.pathname}, which the build did not emit.`);
 }
 
-for (const runtimeFile of ["bridge-worker.js", "index.html", "background.html"]) {
+for (const runtimeFile of ["bridge-worker.js", "index.html", "background.html", "sw.js"]) {
   if (!existsSync(join(OBR_DIST, runtimeFile))) fail(`the build did not emit ${runtimeFile}.`);
 }
 const obrAssetsDir = join(OBR_DIST, "assets");

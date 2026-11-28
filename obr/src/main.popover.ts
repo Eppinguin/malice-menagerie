@@ -33,6 +33,9 @@ import {
   bridgeChannelName,
   bridgeWorkerUrl,
 } from "./config.ts";
+import { registerExtensionWorker } from "./serviceWorker.ts";
+
+registerExtensionWorker();
 
 const $ = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);

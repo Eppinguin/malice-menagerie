@@ -1,0 +1,59 @@
+name: Sync compendium data
+
+# Weekly, because SteelCompendium only moves when MCDM publishes content or
+# fixes errata. The job is a no-op when upstream has not moved.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-compendium
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Always snapshot and commit against main, even for a manual run
+          # dispatched from another branch.
+          ref: main
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Snapshot SteelCompendium
+        # Downloads the upstream commit, follows rule references, and refuses
+        # to write anything that violates src/lib/compendium.ts.
+        run: pnpm run sync:data
+
+      - name: Verify the app still builds against the snapshot
+        run: pnpm run check
+
+      - name: Commit the validated snapshot
+        run: |
+          # Stage first: new monster-family chunks are untracked, and
+          # `git diff` alone would miss them.
+          git add --all public/data
+          if git diff --cached --quiet; then
+            echo "Upstream data is unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(data): sync SteelCompendium $(node -p 'require("./public/data/index.json").upstream.sha.slice(0, 12)')"
+          git push origin main

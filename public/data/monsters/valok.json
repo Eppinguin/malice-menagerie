@@ -1,0 +1,832 @@
+{
+  "en/unified/json/monster/valok/statblock/multivok-bodyguard.json": {
+    "agility": 0,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "13 damage",
+            "tier2": "18 damage",
+            "tier3": "22 damage; A < 4 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gatling Bolt Gun",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "15 damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "21 damage; M < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "26 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 4 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "The bodyguard has a double edge on this ability if it was previously used against the same target in this encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Valiar Axe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "This ability targets only metal-clad enemies and metal objects of size 3 or smaller.",
+            "name": "Special"
+          },
+          {
+            "effect": "Each target is [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 8 squares, or if they have M < 3, they are [pulled](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to 15 squares. The bodyguard can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against each target who ends this [forced movement](scc.v1:mcdm.heroes.v1/movement/forced-movement) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Magnetic Pull",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "effect": "The bodyguard becomes the triggering ability's target instead.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Valiar Cloak",
+        "target": "Self",
+        "trigger": "One ally within distance is targeted by an enemy's ability. The bodyguard can use this ability after seeing the outcome of the power roll.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of the bodyguard's turn, each servok within 2 squares of them regains 15 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Multivok Maintenance",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The bodyguard's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafted to Perfection",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the bodyguard isn't [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), or [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), any power roll made against them is automatically a tier 1 outcome. A critical hit still grants its additional main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Might",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "intuition": 1,
+    "keywords": [
+      "Construct",
+      "Multivok",
+      "Soulless",
+      "Valok"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.valok.statblock/multivok-bodyguard",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Multivok Bodyguard",
+    "organization": "Elite",
+    "presence": -4,
+    "reason": -2,
+    "role": "Defender",
+    "size": "2",
+    "speed": 5,
+    "stability": 5,
+    "stamina": "240",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/valok/statblock/multivok-chief.json": {
+    "agility": 1,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "13 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "18 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5",
+            "tier3": "22 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 8"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Pneumatic Punch",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "15 damage; A < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "21 damage; A < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "26 damage; A < 4 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "This damage can't be reduced in any way. While a target is [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) this way, any strike against them has a double edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Targeting Beam",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed and can use a main action.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Chief's Command",
+        "target": "One ally",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The target gains 15 temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina). Each time this triggered action is used, the amount of temporary [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) received decreases by 3 (to a minimum of 0).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Quick Shield",
+        "target": "The triggering creature",
+        "trigger": "The chief or an ally within distance is subject to an effect that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) or that ends at the end of their turn.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of the chief's turn, each servok within 2 squares of them regains 15 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Multivok Maintenance",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The chief's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafted to Perfection",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the chief isn't [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), or [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), any power roll made against them is automatically a tier 1 outcome. A critical hit still grants its additional main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Might",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "intuition": 1,
+    "keywords": [
+      "Construct",
+      "Multivok",
+      "Soulless",
+      "Valok"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.valok.statblock/multivok-chief",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Multivok Chief",
+    "organization": "Elite",
+    "presence": -3,
+    "reason": -2,
+    "role": "Support",
+    "size": "1L",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "220",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/valok/statblock/servok-builder.json": {
+    "agility": -2,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "3 cube within 5",
+        "effects": [
+          {
+            "effect": "Each target must make either an Agility test or an **Intuition test**.",
+            "name": "Effect",
+            "tier1": "15 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5, [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "12 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "8 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged",
+          "Weapon"
+        ],
+        "name": "Wrecking Ball",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "16 damage",
+            "tier2": "23 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "28 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); M < 4 vertical [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Construction Arm",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "6 x 3 line within 1",
+        "effects": [
+          {
+            "effect": "The area is covered in wet concrete and is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). An enemy who starts their turn in the concrete makes a **Might test**.",
+            "name": "Effect",
+            "tier1": "[Restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (EoT)",
+            "tier2": "[Slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)",
+            "tier3": "No effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Lay the Foundation",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "6 wall within 3",
+        "effects": [
+          {
+            "effect": "The builder creates a concrete wall. They can also remove any unoccupied squares of wet concrete within 3 squares of them, creating two additional squares of wall for each square of concrete removed.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged"
+        ],
+        "name": "Build Wall",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "A < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier2": "A < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)",
+            "tier3": "A < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "While a creature is [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way, or if the target is an object, the target and their space are encased in wet concrete. A creature no longer [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) leaves squares of wet concrete behind.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Sputter",
+        "target": "The triggering creature or object",
+        "trigger": "A creature or object within distance deals damage to the builder.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The builder ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain), and their abilities deal an extra 15 damage to objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Servok Siege Machine",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The builder's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafted to Perfection",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the builder isn't [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), or [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), any power roll made against them is automatically a tier 1 outcome. A critical hit still grants its additional main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Might",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 10,
+    "intuition": -1,
+    "keywords": [
+      "Construct",
+      "Servok",
+      "Soulless",
+      "Valok"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.valok.statblock/servok-builder",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Servok Builder",
+    "organization": "Elite",
+    "presence": -5,
+    "reason": -4,
+    "role": "Brute",
+    "size": "3",
+    "speed": 5,
+    "stability": 8,
+    "stamina": "240",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/valok/statblock/servok-miner.json": {
+    "agility": -2,
+    "ev": "44",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "13 damage; M < 2 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends) and [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "18 damage; M < 3 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends) and [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "22 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); M < 4 [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)"
+          },
+          {
+            "effect": "In suitably soft ground, a target [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) this way is etrenched in a 1-square-deep hole.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Drill Press",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "4 cube within 1",
+        "effects": [
+          {
+            "effect": "Each target makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "14 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; the miner's allies have concealment from the target (save ends)",
+            "tier2": "11 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Unload Rocks",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "5 Malice",
+        "distance": "20 x 1 line within 1",
+        "effects": [
+          {
+            "effect": "A 5-square-deep fissure opens along the ground in the area. Each ally in the area can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) into the nearest unoccupied space outside the fissure. Each target makes an **Agility test**.",
+            "name": "Effect",
+            "tier1": "14 damage; the target falls into the fissure, and is [prone](scc.v1:mcdm.heroes.v1/condition/prone) and can't stand (EoT)",
+            "tier2": "11 damage; the target is [prone](scc.v1:mcdm.heroes.v1/condition/prone) and hanging onto the edge of the fissure",
+            "tier3": "7 damage; the target can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) into the nearest unoccupied space outside the fissure"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Break Ground",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Until the end of the round, dust and dirt billow in a 2 burst around the miner's initial space. While the miner is in the area, they ignore the nondamaging effects of any strike made against them, including the triggering strike.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Miner Inconvenience",
+        "target": "Self",
+        "trigger": "The miner is targeted by a strike.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The miner can burrow through stone and metal. When the miner burrows, they create a stable size 2 tunnel in their wake."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Tunneler",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The miner ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain), and their abilities deal an extra 15 damage to objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Servok Siege Machine",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The miner's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafted to Perfection",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the miner isn't [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), or [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), any power roll made against them is automatically a tier 1 outcome. A critical hit still grants its additional main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Might",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 9,
+    "intuition": -1,
+    "keywords": [
+      "Construct",
+      "Servok",
+      "Soulless",
+      "Valok"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.valok.statblock/servok-miner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "movement": "Burrow, climb",
+    "name": "Servok Miner",
+    "organization": "Elite",
+    "presence": -5,
+    "reason": -4,
+    "role": "Controller",
+    "size": "2",
+    "speed": 5,
+    "stability": 6,
+    "stamina": "200",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/valok/statblock/servok-war-engine.json": {
+    "agility": -2,
+    "ev": "48",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 3",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "15 damage",
+            "tier2": "21 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "25 damage; [pull](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Blade Rake",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "22 damage",
+            "tier2": "29 damage; I < 4 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)",
+            "tier3": "34 damage; I < 5 [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "This damage can't be reduced in any way. This ability can't be used again until the start of the next round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Prismacore Cannon",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The war engine moves up to their speed in a straight line, automatically destroying mundane size 1 objects or walls in their path. The first time the war engine moves through a creature's space during this movement, that creature can choose to either fall [prone](scc.v1:mcdm.heroes.v1/condition/prone) or take 10 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Destructive Rollout",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "20 x 1 line within 1",
+        "effects": [
+          {
+            "effect": "Each target makes an Agility test.",
+            "name": "Effect",
+            "tier1": "16 fire damage; the target is burning (save ends)",
+            "tier2": "12 fire damage; the target is burning (EoT)",
+            "tier3": "8 fire damage"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round. Additionally, the area is burning until the end of the encounter. While the area is burning, it is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) and any enemy takes 3 fire damage for each square of the area they enter."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Burning Oil",
+        "target": "Each enemy and object in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Ranged 20",
+        "effects": [
+          {
+            "roll": "Power Roll + 5",
+            "tier1": "8 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "12 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5",
+            "tier3": "16 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 8"
+          },
+          {
+            "effect": "This damage can't be reduced in any way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Quick Blast",
+        "target": "One creature or object",
+        "trigger": "The target deals damage to the war engine.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The war engine ignores [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain), and their abilities deal an extra 15 damage to objects."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Servok Siege Machine",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The war engine's shape can't be changed by any external effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafted to Perfection",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the war engine isn't [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding), [weakened](scc.v1:mcdm.heroes.v1/condition/weakened), or [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), any power roll made against them is automatically a tier 1 outcome. A critical hit still grants its additional main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Valiar Might",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 10,
+    "intuition": -1,
+    "keywords": [
+      "Construct",
+      "Servok",
+      "Soulless",
+      "Valok"
+    ],
+    "level": 10,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.valok.statblock/servok-war-engine",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 5,
+    "name": "Servok War Engine",
+    "organization": "Elite",
+    "presence": -5,
+    "reason": -4,
+    "role": "Brute",
+    "size": "3",
+    "speed": 5,
+    "stability": 8,
+    "stamina": "260",
+    "type": "statblock"
+  }
+}

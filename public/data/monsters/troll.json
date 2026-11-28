@@ -1,0 +1,558 @@
+{
+  "en/unified/json/monster/troll/statblock/troll-butcher.json": {
+    "agility": 1,
+    "ev": "28",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "9 damage; M < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "14 damage; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "17 damage; M < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The butcher regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage dealt."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Savoring Bite",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "3 cube within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "5 poison damage; M < 1 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier2": "9 poison damage; M < 2 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)",
+            "tier3": "11 poison damage; M < 3 [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) (save ends)"
+          },
+          {
+            "effect": "Each troll in the area ignores the damage and instead regains 3 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Ranged"
+        ],
+        "name": "Rotten Scraps",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The butcher enhances their next use of Savoring Bite, changing the damage type and condition imposed to one of the following pairs: corruption damage and [dazed](scc.v1:mcdm.heroes.v1/condition/dazed), acid damage and [restrained](scc.v1:mcdm.heroes.v1/condition/restrained), or lightning damage and [frightened](scc.v1:mcdm.heroes.v1/condition/frightened).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Gourmet Flesh",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The butcher makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target. Until the end of their next turn, the butcher gains an edge on power rolls and deals an extra 3 damage with strikes.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Acquired Taste",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the butcher with an ability that gains an edge, has a double edge, or uses a [surge](scc.v1:mcdm.heroes.v1/rule.resource/surge).",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Each ally within 5 squares of the butcher gains an edge on power rolls against any enemy affected by a condition."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloody Feast",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The butcher dies only if they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by acid or fire damage, if they end their turn with 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), or if they take acid or fire damage while at 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless Hunger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-butcher",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Troll Butcher",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "2",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "120",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ]
+  },
+  "en/unified/json/monster/troll/statblock/troll-crack-trooper.json": {
+    "agility": 1,
+    "ev": "11 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3; A < 3 3 damage",
+            "tier3": "9 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4; A < 4 5 damage"
+          },
+          {
+            "effect": "The crack trooper's [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Charging Chomp",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The crack trooper dies only if their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by acid or fire damage, if they end their turn with 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) in their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool, or if they take acid or fire damage while their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool is at 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Group Appetite",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-crack-trooper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Troll Crack Trooper",
+    "organization": "Minion",
+    "presence": 2,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 4,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ],
+    "with_captain": "+3 bonus to Stamina"
+  },
+  "en/unified/json/monster/troll/statblock/troll-glutton.json": {
+    "agility": 1,
+    "ev": "28",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 damage",
+            "tier2": "15 damage; M < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "18 damage; M < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "cost": "1 Malice",
+            "effect": "The glutton regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to the damage dealt."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Voracious Mastication",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The glutton [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed in a straight line, ignoring [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain). The first time during this movement that the glutton moves through the space of a creature or object their size or smaller, that creature or object takes 10 damage, or a creature can choose to fall [prone](scc.v1:mcdm.heroes.v1/condition/prone) instead. If the glutton moves into a creature or object larger than them and doesn't knock the creature [prone](scc.v1:mcdm.heroes.v1/condition/prone) or destroy the object, the glutton's movement ends and they are [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) until the end of their next turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Crash Through",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Until the start of their next turn, the glutton has a double edge on strikes, and strikes made against them gain an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Food Frenzy",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The glutton uses Voracious Mastication against an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) creature.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Spiteful Retort",
+        "target": "The triggering creature",
+        "trigger": "The glutton is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) but doesn't die.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Once per turn, the glutton can use the Charge main action as a free maneuver if they target a [winded](scc.v1:mcdm.heroes.v1/rule.health/winded) creature."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Insatiable Appetite",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The glutton dies only if they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by acid or fire damage, if they end their turn with 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), or if they take acid or fire damage while at 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless Hunger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-glutton",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Troll Glutton",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 4,
+    "stamina": "160",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ]
+  },
+  "en/unified/json/monster/troll/statblock/troll-limbjumble.json": {
+    "agility": 1,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage; A < 2 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier2": "5 damage; A < 3 [prone](scc.v1:mcdm.heroes.v1/condition/prone)",
+            "tier3": "6 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "If a target made [prone](scc.v1:mcdm.heroes.v1/condition/prone) this way is already [prone](scc.v1:mcdm.heroes.v1/condition/prone), they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) instead.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Arm and a Leg",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of the limbjumble's [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s turns, the squad's [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool increases as if each limbjumble were at full [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Hyper-Regeneration",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": -1,
+    "keywords": [
+      "Troll"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-limbjumble",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Troll Limbjumble",
+    "organization": "Minion",
+    "presence": -1,
+    "reason": -2,
+    "role": "Hexer",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "8",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 8",
+      "fire"
+    ],
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/troll/statblock/troll-ravager.json": {
+    "agility": 2,
+    "ev": "11 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "4 damage; the ravager can [shift](scc.v1:mcdm.heroes.v1/movement/shifting) 1 square",
+            "tier2": "6 damage; the ravager [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 2 squares",
+            "tier3": "8 damage; the ravager [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 3 squares"
+          },
+          {
+            "effect": "The ravager's [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dine and Dash",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The ravager dies only if their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by acid or fire damage, if they end their turn with 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) in their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool, or if they take acid or fire damage while their [squad](scc.v1:mcdm.monsters.v1/rule.monster/squad)'s [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool is at 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Group Appetite",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 1,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 9,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-ravager",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 4,
+    "name": "Troll Ravager",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "2",
+    "speed": 8,
+    "stability": 2,
+    "stamina": "15",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ],
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/troll/statblock/troll-whelp.json": {
+    "agility": 1,
+    "ev": "7 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage",
+            "tier2": "6 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "7 damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2; M < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Jaws and Claws",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever two or more whelps are simultaneously reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by damage that isn't acid or fire damage, half of those whelps become troll limbjumbles with 4 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lingering Hunger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.troll.statblock/troll-whelp",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Troll Whelp",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 6,
+    "stability": 3,
+    "stamina": "10",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ],
+    "with_captain": "+2 damage bonus to strikes"
+  }
+}

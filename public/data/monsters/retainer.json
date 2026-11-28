@@ -1,0 +1,1676 @@
+{
+  "en/unified/json/monster/retainer/statblock/angulotl-hopper.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "Before or after making this [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike), the hopper jumps up to 2 squares, or up to 4 squares if they jump over their mentor's space.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Leapfrog",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) enemy grabs the hopper or uses a melee ability against them, that enemy takes 3 poison damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Toxiferous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Poison 2"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Angulotl",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/angulotl-hopper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Climb, swim",
+    "name": "Angulotl Hopper",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/bugbear-commando.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "5 damage",
+            "tier2": "6 damage",
+            "tier3": "11 damage"
+          },
+          {
+            "effect": "If the commando started their turn with concealment from the target or hidden from them, they gain 1 [surge](scc.v1:mcdm.heroes.v1/rule.resource/surge) that can be used immediately.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Bear Hug",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the commando.",
+            "name": "Special"
+          },
+          {
+            "effect": "The target is vertical pushed up to 5 squares. An ally doesn't take damage from being [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) this way.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Throw",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the commando.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "Catcher",
+        "target": "The triggering creature or object",
+        "trigger": "A size 1 creature or object is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) within distance, or a size 1 ally willingly moves within distance.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Bugbear",
+      "Fey",
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/bugbear-commando",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Bugbear Commando",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1L",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/devil-defector.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "6 corruption or fire damage",
+            "tier2": "10 corruption or fire damage",
+            "tier3": "13 corruption or fire damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Black Flame",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "Encounter",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The defector makes an offer to keep the target alive. If the target accepts, they are reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead. On the target's next turn, the defector controls their move action and the target must use a [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) against a creature of the defector's choice or immediately die. To have the target turn down the offer, the Diretor must spend 3 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Tempting Offer",
+        "target": "The triggering creature",
+        "trigger": "A sapient enemy is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the defector's true name, the defector loses their damage immunities and their Tempting Offer triggered action until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Fire 5"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/devil-defector",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Fly",
+    "name": "Devil Defector",
+    "organization": "Retainer",
+    "presence": 2,
+    "reason": 3,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 6,
+    "stability": 0,
+    "stamina": "57",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/devil-detective.json": {
+    "agility": 0,
+    "ev": "",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The detective can command up to two squads of minions with a maximum of 4 minions per squad. They can only have one squad of [signature minions](scc.v1:mcdm.summoner.v1/feature.summoner.level-1/minions) active at any time."
+          },
+          {
+            "effect": "At the start of each of the detective's turns, up to three **razors** appear in unoccupied spaces within 5 squares of the detective. On each of the detective's turns, they direct the squad of razors to move and use a main action."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Demon Summoner",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "2d10 + highest characteristic",
+            "tier1": "1 damage",
+            "tier2": "3 damage",
+            "tier3": "5 damage; R < STRONG [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "The target takes an additional 1 damage for each demon [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to them.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Diabolic Probe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If a creature within 10 squares speaks the detective's true name, the detective loses their [damage immunities](scc.v1:mcdm.heroes.v1/rule.damage/damage-immunity) and can't summon any **razors** until the end of the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "True Name",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Fire 2"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Devil",
+      "Infernal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.retainer.statblock/devil-detective",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": -1,
+    "movement": "—",
+    "name": "Devil Detective",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock",
+    "weaknesses": null
+  },
+  "en/unified/json/monster/retainer/statblock/dwarf-mortar.json": {
+    "agility": 0,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "This ability ignores [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) and bypasses [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Armor-Piercing Shell",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mortar can use a magical rune inscribed on their skin to talk to their mentor over any distance as long as both are in the same world."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Voice Rune",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Dwarf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/dwarf-mortar",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Dwarf Mortar",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 3,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/gnoll-gnasher.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "10 damage; M < STRONG [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([save](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gnash",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 7 squares of the gnasher is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the gnasher moves up to their speed and can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/gnoll-gnasher",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Gnoll Gnasher",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "30",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/goblin-guide.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "The target can't make opportunity attacks until the end of the guide's turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Stabbity Stab",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The guide doesn't provoke opportunity attacks by moving."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Crafty",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Goblin",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/goblin-guide",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Climb",
+    "name": "Goblin Guide",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/high-elf-weatherwise.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 fire damage",
+            "tier2": "5 fire damage",
+            "tier3": "7 fire damage"
+          },
+          {
+            "effect": "If the weatherwise targets their mentor, the mentor ignores the damage and instead gains [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina) equal to the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Summer's Bolt",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the start of each of their turns, the weatherwise can choose one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). That effect instead ends at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Otherworldly Grace",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Fey",
+      "High Elf",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/high-elf-weatherwise",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "name": "High Elf Weatherwise",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/hobgoblin-flameslinger.json": {
+    "agility": 0,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "5 fire damage",
+            "tier2": "9 fire damage",
+            "tier3": "12 fire damage; A < STRONG the target is burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Fire Curse",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Until the end of the flameslinger's next turn, the target has fire weakness equal to the flameslinger's level. If the target is the flameslinger's mentor, they instead have fire immunity equal to the flameslinger's level.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Fuel for the Fire",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the flameslinger is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they spray buring blood. Each creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the flameslinger takes 3 fire damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Infernal Ichor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "immunities": [
+      "Fire 4"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Goblin",
+      "Hobgoblin",
+      "Humanoid",
+      "Infernal"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/hobgoblin-flameslinger",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Hobgoblin Flameslinger",
+    "organization": "Retainer",
+    "presence": 3,
+    "reason": 2,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "48",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/human-warrior.json": {
+    "agility": 0,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          },
+          {
+            "effect": "If the warrior is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to their mentor, this ability gains an edge.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Chop",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The warrior ignores concealment if it's granted by a supernatural effect."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Supernatural Insight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Human",
+      "Humanoid"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/human-warrior",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Human Warrior",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": 0,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/kobold-shieldbearer.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage; [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) (EoT)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gladius",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the shieldbearer is [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to their mentor, both have a +1 bonus to [stability](scc.v1:mcdm.heroes.v1/rule.character/stability), have [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover), and grant [cover](scc.v1:mcdm.heroes.v1/rule.combat/cover) to allies."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Shield, Boss?",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Kobold"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/kobold-shieldbearer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Kobold Shieldbearer",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Defender",
+    "size": "2",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/minotaur-gorer.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "5 damage",
+            "tier2": "9 damage",
+            "tier3": "12 damage; M < STRONG [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gore",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 6",
+        "effects": [
+          {
+            "effect": "The gorer uses the [Charge](scc.v1:mcdm.heroes.v1/feature.common.main-actions/charge) main action and Gore against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Retaliatory Strike",
+        "target": "The triggering creature",
+        "trigger": "A creature within distance deals damage to the gorer.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The gorer can't obtain less than a tier 2 outcome when making tests to navigate, search, or seek."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Minotaur Sense",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 1,
+    "keywords": [
+      "Accursed",
+      "Humanoid",
+      "Minotaur"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/minotaur-gorer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Minotaur Gorer",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "39",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/orc-charger.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Notched Axe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the charger is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying. If the target of the [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the charger is reduced to 1 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Humanoid",
+      "Orc"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/orc-charger",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Orc Charger",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 8,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/radenwight-sidekick.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dagger's Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The sidekick makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Weapon"
+        ],
+        "name": "Ready Rodent",
+        "target": "One creature",
+        "trigger": "An ally deals damage to the target.",
+        "type": "feature",
+        "usage": "Triggered action"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Humanoid",
+      "Radenwight"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/radenwight-sidekick",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Climb",
+    "name": "Radenwight Sidekick",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Support",
+    "size": "1S",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/shadow-elf-shade.json": {
+    "agility": 3,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 3",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "6 damage",
+            "tier2": "10 damage",
+            "tier3": "13 damage"
+          },
+          {
+            "effect": "Whenever the shade starts their turn with concealment from the target, they gain 1 [surge](scc.v1:mcdm.heroes.v1/rule.resource/surge).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gloom Dagger",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "Encounter",
+        "distance": "3 cube within 1",
+        "effects": [
+          {
+            "effect": "Until the end of the next turn, the area is filled with darkness. The shade's mentor ignores concealment created by this darkness.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Duskfall",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The shade ignores concealment created by darkness. While the shade is in direct sunlight, they have [damage weakness](scc.v1:mcdm.heroes.v1/rule.damage/damage-weakness) 3. While the shade has concealment, they have [damage immunity](scc.v1:mcdm.heroes.v1/rule.damage/damage-immunity) 3."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Of the Umbra",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 2,
+    "keywords": [
+      "Fey",
+      "Humanoid",
+      "Shadow Elf"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/shadow-elf-shade",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "movement": "Climb",
+    "name": "Shadow Elf Shade",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": 0,
+    "role": "Ambusher",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "48",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/the-nameless.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "6 damage",
+            "tier2": "11 damage",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Baneful Blade",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "Encounter",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The Nameless's mentor enters the Nameless's space and rides on their back. The Nameless or the mentor can move the mentor to an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) space as a free maneuver. While in the Nameless's space, the mentor moves with them and can't use their move action, and ability rolls against the mentor take a bane.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee"
+        ],
+        "name": "I'm Not a Steed, You're Equipment",
+        "target": "The Nameless's mentor",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Ranged strikes against the Nameless take a bane."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Wing Block",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "immunities": [
+      "Corruption 6"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Draconian",
+      "Dragon",
+      "Humanoid"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/the-nameless",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "movement": "Fly",
+    "name": "The Nameless",
+    "organization": "Retainer",
+    "presence": 2,
+    "reason": 1,
+    "role": "Defender",
+    "size": "1M",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "66",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/time-raider-mind-healer.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 3",
+        "effects": [
+          {
+            "effect": "**2d10 + highest characteristic:**",
+            "tier1": "5 fire damage",
+            "tier2": "8 fire damage",
+            "tier3": "11 fire damage"
+          },
+          {
+            "effect": "If the mind healer targets an ally, the ability deals no damage. Additionally, the target can end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) or that ends at the end of their turn.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Laser Lancet",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mind healer doesn't take a bane on strikes against creatures with concealment."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Foresight",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "immunities": [
+      "Psychic 5"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Humanoid",
+      "Time Raider"
+    ],
+    "level": 3,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/time-raider-mind-healer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Time Raider Mind Healer",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 2,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "39",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/troll-mercenary.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "6 damage",
+            "tier2": "11 damage",
+            "tier3": "14 damage"
+          },
+          {
+            "effect": "The mercenary regains [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equal to half the damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Big Bite",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "Encounter",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "P < WEAK [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) ([save](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) ends)",
+            "tier2": "P < AVERAGE [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) ([save](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) ends)",
+            "tier3": "P < STRONG [frightened](scc.v1:mcdm.heroes.v1/condition/frightened) ([save](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) ends), push 3, [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Troll Roar",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mercenary dies only if they are reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by acid or fire damage, if they end their turn with 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), or if they take acid or fire damage while at 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Relentless Hunger",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 6,
+    "intuition": 0,
+    "keywords": [
+      "Giant",
+      "Troll"
+    ],
+    "level": 5,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/troll-mercenary",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Troll Mercenary",
+    "organization": "Retainer",
+    "presence": 1,
+    "reason": -1,
+    "role": "Brute",
+    "size": "2",
+    "speed": 6,
+    "stability": 4,
+    "stamina": "57",
+    "type": "statblock",
+    "weaknesses": [
+      "Acid 5",
+      "fire"
+    ]
+  },
+  "en/unified/json/monster/retainer/statblock/undead-servitor.json": {
+    "agility": -1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "10 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Lurching Swipe",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time in an encounter that the servitor is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) by damage that isn't fire damage or holy damage and their body isn't destroyed, they regain half their [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) maximum and fall [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Arise",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": -1,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/undead-servitor",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Undead Servitor",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": -3,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/unquiet-spirit.json": {
+    "agility": 1,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "3 cold damage",
+            "tier2": "5 cold damage",
+            "tier3": "7 cold damage; P < STRONG [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (EoT)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Chill of Death",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "While [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to their mentor, the unquiet spirit enters the mentor's space. A spirit who enters their mentor's space this way moves with the mentor, can't be sensed, and can't affect or be affected by other creatures or objects. They can't take main actions, maneuvers, or move actions, except to use this ability to leave their mentor's space and appear in an [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) space.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Spirit Meld",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The unquiet spirit can move through creatures and objects at their usual speed, but can't end their turn inside a creature or object. The first time in a round that the spirit moves through a creature other than their mentor, that creature takes 2 corruption damage."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Corruptive Phasing",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "immunities": [
+      "Corruption 3",
+      "poison 3"
+    ],
+    "intuition": 0,
+    "keywords": [
+      "Undead",
+      "Soulless"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/unquiet-spirit",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -4,
+    "movement": "Fly, hover",
+    "name": "Unquiet Spirit",
+    "organization": "Retainer",
+    "presence": 2,
+    "reason": 0,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "21",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/vampire-rebel.json": {
+    "agility": 3,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "**2d10 + highest characteristic:**",
+            "tier1": "5 damage",
+            "tier2": "5 damage, 3 corruption damage",
+            "tier3": "5 damage, 6 corruption damage; M < STRONG [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) ([save](scc.v1:mcdm.heroes.v1/rule.general/saving-throw) ends)"
+          },
+          {
+            "effect": "The vampire rebel gains [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina) equal to any corruption damage dealt.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flashing Fangs",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "Encounter",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The vampire rebel changes their form into a bat. In bat form, their size is 1T and they can [fly](scc.v1:mcdm.heroes.v1/movement/fly). The vampire rebel then [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed, then regains their true form. If they can't fit in their current space when they return to their true form, they take 10 damage and are pushed to the nearest unoccupied space.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Bat Form",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Move Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The vampire rebel has speed 10 while any creature within 10 squares of them is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding). If the vampire rebel is able to deal damage to a [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature on their turn and does not do so, they take 5 corruption damage at the end of their turn."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Agonizing Bloodthirst",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 4,
+    "intuition": 0,
+    "keywords": [
+      "Undead",
+      "Vampire"
+    ],
+    "level": 4,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/vampire-rebel",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Vampire Rebel",
+    "organization": "Retainer",
+    "presence": 3,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "48",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/retainer/statblock/wode-elf-arrowswift.json": {
+    "agility": 2,
+    "ev": "-",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 15",
+        "effects": [
+          {
+            "roll": "Power Roll + highest characteristic",
+            "tier1": "4 damage",
+            "tier2": "7 damage",
+            "tier3": "10 damage"
+          },
+          {
+            "effect": "The arrowswift can take a bane on this ability to gain a +5 bonus to ranged distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Longshot",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Abilities targeting the arrowswift that would take a bane from cover or concealment have a double bane instead."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Masking Glamor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 1,
+    "keywords": [
+      "Fey",
+      "Humanoid",
+      "Wode Elf"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.retainer.statblock/wode-elf-arrowswift",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Wode Elf Arrowswift",
+    "organization": "Retainer",
+    "presence": 0,
+    "reason": 0,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "21",
+    "type": "statblock"
+  }
+}

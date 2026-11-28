@@ -1,0 +1,908 @@
+{
+  "en/unified/json/monster/voiceless-talker/statblock/hulking-brain.json": {
+    "agility": 1,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage",
+            "tier2": "10 damage; A < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "11 damage; A < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          },
+          {
+            "effect": "The hulking brain can have up to four size 1 creatures [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed).",
+            "name": "Special"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 1."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Four-Way Grasp",
+        "target": "Four creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "A target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the hulking brain, and is no longer [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) after the power roll is resolved.",
+            "name": "Effect",
+            "roll": "Power Roll + 3",
+            "tier1": "7 damage; M < 1 3 damage",
+            "tier2": "10 damage; M < 2 3 damage",
+            "tier3": "13 damage; M < 3 6 damage"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike"
+        ],
+        "name": "Cerebral Suplex",
+        "target": "Each enemy",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The hulking brain [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to 4 squares, ignoring difficu terrain.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "👤",
+        "keywords": null,
+        "name": "Lumber",
+        "target": "Self",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The hulking brain [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the ally and becomes the new target of the ability.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The enemy is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Brawny Buffe",
+        "target": "Self",
+        "trigger": "An ally voiceless talker within 5 squares takes damage from an enemy ability.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The hulking brain can carry up to four size 1 creatures they have [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), and takes no penalty to their speed while doing so."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Biceps to Spare",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the hulking brain uses a psionic ability, they can do so as if they were in the hulking brain's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Conductor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "intuition": -2,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/hulking-brain",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Hulking Brain",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": -2,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 5,
+    "stability": 4,
+    "stamina": "180",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/mindkiller-whelp.json": {
+    "agility": 3,
+    "ev": "8 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 damage",
+            "tier2": "5 damage; the target takes a bane on their next strike",
+            "tier3": "7 damage; the target takes a bane on their next strike"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Eager Claws",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The whelp transforms into a mindkiller whose [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) equals their squad's [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool before transforming. The [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) pool then loses the whelp's [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Psionic"
+        ],
+        "name": "Feast",
+        "target": "Self",
+        "trigger": "The whelp reduces a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) creature to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the whelp uses a psionic ability, they can do so as if they were in the whelp's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Conductor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "immunities": [
+      "Psychic 6"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/mindkiller-whelp",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Fly, hover",
+    "name": "Mindkiller Whelp",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": 1,
+    "role": "Hexer",
+    "size": "1S",
+    "speed": 4,
+    "stability": 0,
+    "stamina": "9",
+    "type": "statblock",
+    "with_captain": "+2 damage bonus to strikes"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/mindkiller.json": {
+    "agility": 3,
+    "ev": "32",
+    "features": [
+      {
+        "effects": [
+          {
+            "effect": "The mindkiller can [grab](scc.v1:mcdm.heroes.v1/condition/grabbed) creatures who are size 4 or smaller, using their Reason score in place of Might. A creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the mindkiller takes a bane on ability rolls made to escape the grab."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Brain Latch",
+        "type": "feature"
+      },
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "11 damage",
+            "tier2": "17 damage; A < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "21 damage; A < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Killer Claws",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 damage; R < 1 the mindkiller is invisible to the target (save ends)",
+            "tier2": "15 damage; R < 2 the mindkiller is invisible to the target (save ends)",
+            "tier3": "18 damage; R < 3 the mindkiller is invisible to the target (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Concealing Strike",
+        "target": "Two creatures",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the mindkiller. If the target has R < 2, they take a −1 penalty to their Reason, Intuition, or Presence score and the mindkiller has a +1 bonus to the same score, all until the end of the encounter.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Strike"
+        ],
+        "name": "Mindwipe",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The mindkiller halves the damage. If the mindkiller has a creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), that creature takes the other half of the damage.",
+            "name": "Effect"
+          },
+          {
+            "cost": "3 Malice",
+            "effect": "A [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature takes the damage instead of the mindkiller."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Meat Shield",
+        "target": "Self",
+        "trigger": "The mindkiller takes damage.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the mindkiller uses a psionic ability, they can do so as if they were in the mindkiller's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Conductor",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The mindkiller can move through enemies' spaces at their usual speed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Nimble",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Psychic 6"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/mindkiller",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Fly, hover",
+    "name": "Mindkiller",
+    "organization": "Elite",
+    "presence": 0,
+    "reason": 3,
+    "role": "Hexer",
+    "size": "1S",
+    "speed": 6,
+    "stability": 2,
+    "stamina": "140",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/voiceless-talker-artillerist.json": {
+    "agility": 3,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "11 damage",
+            "tier2": "19 damage; the strike spreads 1 square",
+            "tier3": "22 damage; the strike spreads 2 squares"
+          },
+          {
+            "effect": "The strike's spread is the distance it expands from a target to nearby enemies. Each enemy within that distance takes 3 damage.",
+            "name": "Effect"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "Each enemy within the strike spread takes an extra 3 damage."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Psionic Rifle Burst",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "10 x 1 line within 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "6 lightning damage",
+            "tier2": "10 lightning damage; I < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "13 lightning damage; I < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🔳",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "Mind Jolt",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "Until the start of the artillerist's next turn, the next psionic ability used against the target automatically treats its initial power roll as a 17. The creature using the ability can still roll to determine if they score a critical hit.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "In Our Sights",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "1 Malice",
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The artillerist can [teleport](scc.v1:mcdm.heroes.v1/movement/teleport) up to 5 squares and ignores any effects associated with the damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Tactical Reposition",
+        "target": "Self",
+        "trigger": "The artillerist takes damage.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the artillerist uses a psionic ability, they can do so as if they were in the artillerist's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Conductor",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The artillerist ignores invisibility, cover, and concealment. A creature can't hide from the artillerist while the artillerist has line of effect to the."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Locked On",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Psychic 6"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/voiceless-talker-artillerist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Hover, teleport",
+    "name": "Voiceless Talker Artillerist",
+    "organization": "Elite",
+    "presence": 1,
+    "reason": 3,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "140",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/voiceless-talker-evolutionist.json": {
+    "agility": 3,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "11 psychic damage; R < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier2": "16 psychic damage; R < 3 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)",
+            "tier3": "19 psychic damage; R < 4 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "⚔️",
+        "keywords": [
+          "Melee",
+          "Psionic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Psionic Intrusion",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The evolutionist [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) to swap places with the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Carpe Quadratum",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "Until the start of their next turn, the evolutionist has damage immunity 5 to the triggering damage type.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Psionic"
+        ],
+        "name": "Adaptability",
+        "target": "Self",
+        "trigger": "The evolutionist takes damage that has a damage type.",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the evolutionist can take 10 damage to end one effect on them that can be ended by a [saving throw](scc.v1:mcdm.heroes.v1/rule.general/saving-throw). This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The evolutionist has any trait of the Director's choice from any ally [minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) in the encounter."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Witness Evolutionary Superiority",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target makes an Intuition test.",
+            "name": "Effect",
+            "tier1": "The target uses a [signature ability](scc.v1:mcdm.heroes.v1/rule.combat/signature-ability) against the nearest enemy within distance.",
+            "tier2": "The target makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against the nearest enemy within distance.",
+            "tier3": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "Show Me Who You Are",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "The evolutionist [teleports](scc.v1:mcdm.heroes.v1/movement/teleport) eight [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) of level 4 or lower into unoccupied spaces within distance. All eight [minions](scc.v1:mcdm.monsters.v1/rule.organization/minion) can be of any monster type but must share the same name.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Psionic",
+          "Ranged"
+        ],
+        "name": "Release the Thralls",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 4",
+            "tier1": "7 lightning damage",
+            "tier2": "12 lightning damage",
+            "tier3": "15 lightning damage"
+          },
+          {
+            "effect": "Until the end of the encounter, the evolutionist is surrounded by a psionic electrical storm that is a 5 aura. The area is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain) for enemies, and any enemy who enters the area for the first time in a round or starts their turn there takes 8 lightning damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "Brainstorm",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Psychic 8"
+    ],
+    "intuition": 1,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/voiceless-talker-evolutionist",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "movement": "Hover, teleport",
+    "name": "Voiceless Talker Evolutionist",
+    "organization": "Leader",
+    "presence": 2,
+    "reason": 4,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "180",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/voiceless-talker-graywarper.json": {
+    "agility": 0,
+    "ev": "8 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "3 psychic damage",
+            "tier2": "5 psychic damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "7 psychic damage; [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Psionic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Phase Chant",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the graywarper uses a psionic ability, they can do so as if they were in the graywarper's space."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Conductor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 1,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/voiceless-talker-graywarper",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "name": "Voiceless Talker Graywarper",
+    "organization": "Minion",
+    "presence": 1,
+    "reason": 3,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 0,
+    "stamina": "9",
+    "type": "statblock",
+    "with_captain": "+2 bonus to Stamina"
+  },
+  "en/unified/json/monster/voiceless-talker/statblock/voiceless-talker-invader.json": {
+    "agility": 1,
+    "ev": "32",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "10 damage",
+            "tier2": "15 damage; M < 2 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)",
+            "tier3": "18 damage; M < 3 [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Tentacle",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "3 burst",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "6 psychic damage; R < 1 [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "10 psychic damage; R < 2 [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier3": "12 psychic damage; R < 3 [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 4 and [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "cost": "2 Malice",
+            "effect": "The size of the burst increases to 5."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Psionic"
+        ],
+        "name": "Psionic Boom",
+        "target": "Each enemy in the area",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target must be [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the invader.",
+            "name": "Effect",
+            "roll": "Power Roll + 3",
+            "tier1": "6 damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "10 damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "12 damage; vertical [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Psionic"
+        ],
+        "name": "Tentacle Toss",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "distance": "Special",
+        "effects": [
+          {
+            "effect": "The [potency](scc.v1:mcdm.heroes.v1/rule.character/potency) increases by 2.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Melee",
+          "Psionic"
+        ],
+        "name": "Brain Drain",
+        "target": "The triggering creature",
+        "trigger": "A creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the invader resists an ability's [potency](scc.v1:mcdm.heroes.v1/rule.character/potency).",
+        "type": "feature",
+        "usage": "Triggered Action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) voiceless talker within 5 squares of the invader uses a psionic ability, they can do so as if they were in the invader's space, and the ability has a double edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Psionic Amplifier",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 7,
+    "immunities": [
+      "Psychic 6"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Horror",
+      "Voiceless Talker"
+    ],
+    "level": 6,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.voiceless-talker.statblock/voiceless-talker-invader",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": -1,
+    "movement": "Hover, teleport",
+    "name": "Voiceless Talker Invader",
+    "organization": "Elite",
+    "presence": 2,
+    "reason": 3,
+    "role": "Controller",
+    "size": "1M",
+    "speed": 5,
+    "stability": 2,
+    "stamina": "140",
+    "type": "statblock"
+  }
+}

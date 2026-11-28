@@ -1,0 +1,113 @@
+{
+  "en/unified/json/monster/champion/summoner/fey/statblock/celestial-attendant.json": {
+    "agility": 2,
+    "cost": "9 essence for one champion",
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "2d10 + 5",
+            "tier1": "9 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3",
+            "tier2": "12 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 5",
+            "tier3": "14 [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage); [slide](scc.v1:mcdm.heroes.v1/movement/forced-movement) 6"
+          },
+          {
+            "effect": "An ally targeted by this ability can, instead, spend Recovery and [shift](scc.v1:mcdm.heroes.v1/movement/shifting) the slide amount.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Pixie Swarm",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "A creature that takes [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) from the Attendant's [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) is I < AVERAGE unable to establish [line of effect](scc.v1:mcdm.heroes.v1/rule.combat/line-of-effect) beyond 3 squares ([EoT](scc.v1:mcdm.heroes.v1/rule.combat/end-of-turn))."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Neurotoxic Strike",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the Attendant only targets one creature or object with a [strike](scc.v1:mcdm.heroes.v1/rule.combat/strike), they deal additional [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) to the target equal to your [Reason](scc.v1:mcdm.heroes.v1/rule.character/reason)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Champion's Ire",
+        "type": "feature"
+      },
+      {
+        "distance": "Self",
+        "effects": [
+          {
+            "effect": "The Attendant rings a bell, and you summon a signature minion into an unoccupied space [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the Attendant.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": null,
+        "name": "Celestial Bell",
+        "target": "Self",
+        "trigger": "The Attendant takes [damage](scc.v1:mcdm.heroes.v1/rule.damage/damage) from an enemy.",
+        "type": "feature",
+        "usage": "Free triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The Attendant starts their [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn) with [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina) equal to 2 × the number of fey minions within 1 square of them. This [temporary Stamina](scc.v1:mcdm.heroes.v1/rule.health/temporary-stamina) lasts until the start of their next [turn](scc.v1:mcdm.heroes.v1/rule.combat/turn)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Pixie Bouquet",
+        "type": "feature"
+      }
+    ],
+    "flavor": "Stamina: Your maximum Stamina",
+    "free_strike": 9,
+    "immunities": [
+      "Damage 2"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Fey"
+    ],
+    "level": 0,
+    "metadata": {
+      "scc": "mcdm.summoner.v1/monster.champion.summoner.fey.statblock/celestial-attendant",
+      "source": "mcdm.summoner.v1"
+    },
+    "might": 2,
+    "movement": "Fly, hover",
+    "name": "Celestial Attendant",
+    "organization": "Champion",
+    "presence": 5,
+    "reason": 5,
+    "role": "",
+    "size": "2",
+    "speed": 7,
+    "stability": 0,
+    "stamina": "SPECIAL",
+    "type": "statblock",
+    "weaknesses": null
+  }
+}

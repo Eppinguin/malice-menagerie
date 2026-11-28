@@ -1,0 +1,989 @@
+{
+  "en/unified/json/monster/gnoll/statblock/abyssal-hyena.json": {
+    "agility": 1,
+    "ev": "4 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage",
+            "tier3": "6 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed)"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Snapjaw",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When the abyssal hyena is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), they can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) before dying."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Snap",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Animal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/abyssal-hyena",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Abyssal Hyena",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": -3,
+    "role": "Brute",
+    "size": "1M",
+    "speed": 8,
+    "stability": 1,
+    "stamina": "7",
+    "type": "statblock",
+    "with_captain": "+2 bonus to speed"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-abyssal-archer.json": {
+    "agility": 2,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 corruption damage",
+            "tier2": "6 corruption damage",
+            "tier3": "8 corruption damage; M < 2 [slowed](scc.v1:mcdm.heroes.v1/condition/slowed) (save ends)"
+          },
+          {
+            "effect": "This ability gains an edge against any target not at full [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Dark Longbow",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "2 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "Until the end of their next turn, each target gains an edge on their next strike. If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Archer's Cackletongue",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the abyssal archer is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the abyssal archer can make a ranged [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Distant Death Frenzy",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The abyssal archer doesn't need line of effect to use their abilities against any creature who isn't at full [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), as long as a size 1 opening exists between the archer and the target."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Bloodscent",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-abyssal-archer",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Gnoll Abyssal Archer",
+    "organization": "Horde",
+    "presence": -1,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-abyssal-summoner.json": {
+    "agility": 0,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 fire damage",
+            "tier2": "5 fire damage",
+            "tier3": "7 fire damage; I < 2 the target is burning (save ends)"
+          },
+          {
+            "effect": "A burning creature takes 1d6 fire damage at the start of each of their turns. A burning object takes 1d6 fire damage at the end of each round.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Flame Wad",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "Two abyssal hyenas claw up from the ground in unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Call Abyssal Hyenas",
+        "target": "Special",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "cost": "4 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "One abyssal hyena target turns into a gnoll marauder, keeping their current [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina). If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Summoner's Cackletongue",
+        "target": "Each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the abyssal summoner is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the abyssal summoner moves up to their speed and can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-abyssal-summoner",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Gnoll Abyssal Summoner",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 0,
+    "role": "Support",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-bonesplitter.json": {
+    "agility": 1,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "5 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier2": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "8 damage; [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed); M < 2 the target takes a bane on the Escape Grab maneuver"
+          },
+          {
+            "effect": "While the bonesplitter has a target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), they can't use Three-Tail Flail against another target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Three-Tail Flail",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "4 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "Up to three targets can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Bonesplitter's Cackletongue",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the bonesplitter is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the bonesplitter moves up to their speed and can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-bonesplitter",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Gnoll Bonesplitter",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Brute",
+    "size": "1L",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "25",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-cackler.json": {
+    "agility": 0,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 psychic damage; I < 0 the target makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a creature of the cackler's choice",
+            "tier2": "5 psychic damage; I < 1 the target makes a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a creature of the cackler's choice",
+            "tier3": "7 psychic damage; I < 2 the target uses a signature ability against a creature of the cackler's choice"
+          },
+          {
+            "effect": "An ally targeted by this ability ignores the damage and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Magic",
+          "Ranged",
+          "Strike"
+        ],
+        "name": "Moment of Brutality",
+        "target": "One creature",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "4 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "Each enemy target makes an **Intuition test**. If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect",
+            "tier1": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (save ends)",
+            "tier2": "[Frightened](scc.v1:mcdm.heroes.v1/condition/frightened) (EoT)",
+            "tier3": "No effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Cackler's Cackletongue",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the cackler is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the cackler moves up to their speed and can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 2,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-cackler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 0,
+    "name": "Gnoll Cackler",
+    "organization": "Horde",
+    "presence": 2,
+    "reason": 2,
+    "role": "Hexer",
+    "size": "1S",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "15",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-carnage.json": {
+    "agility": 3,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 3",
+            "tier1": "8 damage; A < 1 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier2": "11 damage; A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)",
+            "tier3": "14 damage; A < 3 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) and [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) (save ends)"
+          },
+          {
+            "effect": "An ally targeted by this ability ignores the damage and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Shrapnel Whip",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "4 Malice",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "Each target deals an extra 3 damage with their next strike until the start of the carnage's next turn. If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Carnage's Cackletongue",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the carnage is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the carnage can move up to their speed, then can either make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against two creatures or use Shrapnel Whip against one creature."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Rampage",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "At the end of each of their turns, the carnage can take 5 damage to end one effect on them that can be ended by a saving throw. This damage can't be reduced in any way."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "End Effect",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "If the carnage is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) while there are still gnolls on the encounter map, one gnoll on the map is transformed into a gnoll carnage, keeping their current [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Endless Hunger",
+        "type": "feature"
+      },
+      {
+        "cost": "Villain Action 1",
+        "distance": "Ranged 10",
+        "effects": [
+          {
+            "effect": "The carnage summons four abyssal hyenas into unoccupied spaces within distance.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Magic",
+          "Ranged"
+        ],
+        "name": "Call Up From the Abyss",
+        "target": "Special",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 2",
+        "distance": "10 burst",
+        "effects": [
+          {
+            "effect": "Each target moves up to their speed and can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike). Any creature damaged by one of these [free strikes](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) who has M < 2 is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Edacity",
+        "target": "Self and three allies",
+        "type": "feature",
+        "usage": "-"
+      },
+      {
+        "cost": "Villain Action 3",
+        "distance": "5 burst",
+        "effects": [
+          {
+            "effect": "The carnage's eyes and all exposed blood within distance glow bright red. Each target makes a **Presence test**.",
+            "name": "Effect",
+            "tier1": "The target can't regain [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) until the end of the encounter.",
+            "tier2": "The target can't regain [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina) (save ends).",
+            "tier3": "No effect"
+          },
+          {
+            "effect": "Until the end of the encounter, all gnolls have a double edge on power rolls that target a [winded](scc.v1:mcdm.heroes.v1/rule.health/winded) enemy.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "☠️",
+        "keywords": [
+          "Area",
+          "Magic"
+        ],
+        "name": "Deepest Wounds",
+        "target": "Each winded enemy in the area",
+        "type": "feature",
+        "usage": "-"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-carnage",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 3,
+    "name": "Gnoll Carnage",
+    "organization": "Leader",
+    "presence": 3,
+    "reason": 0,
+    "role": "",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "100",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-chainflail.json": {
+    "agility": 0,
+    "ev": "4 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 8",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "3 damage",
+            "tier2": "4 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier3": "6 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🏹",
+        "keywords": [
+          "Ranged",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Chain Shotput",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the chainflail is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the chainflail can move up to their speed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Circle",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 3,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-chainflail",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Gnoll Chainflail",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": 1,
+    "role": "Artillery",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+1 damage bonus to strikes"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-mage-mauler.json": {
+    "agility": 1,
+    "ev": "4 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 acid damage",
+            "tier2": "3 cold damage",
+            "tier3": "5 lightning damage; the target can't use magic abilities (EoT)"
+          },
+          {
+            "effect": "The target takes a bane on their next power roll.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Magic",
+          "Melee",
+          "Strike"
+        ],
+        "name": "Wizard Ripper",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 5 squares of the mage mauler is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the mage mauler can move up to their speed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Circle",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-mage-mauler",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Gnoll Mage Mauler",
+    "organization": "Minion",
+    "presence": 0,
+    "reason": -1,
+    "role": "Hexer",
+    "size": "1M",
+    "speed": 5,
+    "stability": 1,
+    "stamina": "4",
+    "type": "statblock",
+    "with_captain": "+2 bonus to melee distance"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-marauder.json": {
+    "agility": 1,
+    "ev": "4",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "4 damage",
+            "tier2": "5 damage",
+            "tier3": "7 damage; [prone](scc.v1:mcdm.heroes.v1/condition/prone); A < 2 [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)"
+          },
+          {
+            "cost": "2+ Malice",
+            "effect": "This ability targets one additional target for each 2 [Malice](scc.v1:mcdm.monsters.v1/rule.monster/malice) spent."
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Fury Flail",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "cost": "3 Malice",
+        "distance": "2 burst",
+        "effects": [
+          {
+            "effect": "Each target [shifts](scc.v1:mcdm.heroes.v1/movement/shifting) up to their speed. If any target hasn't used their own Cackletongue maneuver on this turn, they can use it immediately at no cost.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❇️",
+        "keywords": [
+          "Area"
+        ],
+        "name": "Marauder's Cackletongue",
+        "target": "Self and each ally in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 7 squares of the marauder is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the marauder moves up to their speed and can make a melee [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike)."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-marauder",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Gnoll Marauder",
+    "organization": "Horde",
+    "presence": 1,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "20",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/gnoll/statblock/gnoll-wildling.json": {
+    "agility": 2,
+    "ev": "4 for four minions",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "2 damage",
+            "tier2": "3 damage",
+            "tier3": "5 damage; the wildling can make a [free strike](scc.v1:mcdm.heroes.v1/feature.common.main-actions/free-strike) against a creature [adjacent](scc.v1:mcdm.heroes.v1/rule.combat/adjacent) to the target"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Flail",
+        "target": "One creature or object per minion",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever a non-[minion](scc.v1:mcdm.monsters.v1/rule.organization/minion) ally within 7 squares of the wildling is reduced to 0 [Stamina](scc.v1:mcdm.heroes.v1/rule.health/stamina), the wildling can move up to their speed."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Death Circle",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 2,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/gnoll-wildling",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 1,
+    "name": "Gnoll Wildling",
+    "organization": "Minion",
+    "presence": -2,
+    "reason": 0,
+    "role": "Harrier",
+    "size": "1M",
+    "speed": 7,
+    "stability": 1,
+    "stamina": "5",
+    "type": "statblock",
+    "with_captain": "Gain an edge on strikes"
+  },
+  "en/unified/json/monster/gnoll/statblock/tusker-demon.json": {
+    "agility": -1,
+    "ev": "16",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 2",
+        "effects": [
+          {
+            "roll": "Power Roll + 2",
+            "tier1": "7 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 1",
+            "tier2": "11 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 2",
+            "tier3": "14 damage; [push](scc.v1:mcdm.heroes.v1/movement/forced-movement) 3, [prone](scc.v1:mcdm.heroes.v1/condition/prone)"
+          },
+          {
+            "effect": "If this ability is used as part of the Charge main action, it deals an extra 4 damage.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "🗡",
+        "keywords": [
+          "Charge",
+          "Melee",
+          "Strike",
+          "Weapon"
+        ],
+        "name": "Gore",
+        "target": "Two creatures or objects",
+        "type": "feature",
+        "usage": "Main action"
+      },
+      {
+        "distance": "Ranged 7",
+        "effects": [
+          {
+            "effect": "The tusker demon uses the Charge main action and Gore against the target.",
+            "name": "Effect"
+          }
+        ],
+        "feature_type": "ability",
+        "icon": "❗️",
+        "keywords": [
+          "Ranged"
+        ],
+        "name": "Vengeful Tusker",
+        "target": "The triggering enemy",
+        "trigger": "An enemy within distance deals damage to the tusker.",
+        "type": "feature",
+        "usage": "Triggered action"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The tusker demon can move through enemies' spaces at their usual speed. When the tusker enters a creature's space for the first time on a turn, that creature takes 5 damage. The tusker demon can end their turn in a [prone](scc.v1:mcdm.heroes.v1/condition/prone) size 1 creature's space, preventing the creature from standing up."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Trample",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the tusker demon is [winded](scc.v1:mcdm.heroes.v1/rule.health/winded), they gain an edge on strikes, and any strike made against them gains an edge."
+          }
+        ],
+        "feature_type": "trait",
+        "icon": "⭐️",
+        "name": "Lethe",
+        "type": "feature"
+      }
+    ],
+    "free_strike": 5,
+    "intuition": 0,
+    "keywords": [
+      "Abyssal",
+      "Demon",
+      "Gnoll"
+    ],
+    "level": 2,
+    "metadata": {
+      "scc": "mcdm.monsters.v1/monster.gnoll.statblock/tusker-demon",
+      "source": "mcdm.monsters.v1"
+    },
+    "might": 2,
+    "name": "Tusker Demon",
+    "organization": "Elite",
+    "presence": -1,
+    "reason": -3,
+    "role": "Brute",
+    "size": "3",
+    "speed": 7,
+    "stability": 3,
+    "stamina": "100",
+    "type": "statblock"
+  }
+}

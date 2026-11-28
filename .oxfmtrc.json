@@ -1,3 +1,7 @@
 {
-  "ignorePatterns": ["shared/obr/statblockIndex.generated.ts", "obr/src/tokenArtworkMap.json"]
+  "ignorePatterns": [
+    "shared/obr/statblockIndex.generated.ts",
+    "obr/src/tokenArtworkMap.json",
+    "public/data"
+  ]
 }

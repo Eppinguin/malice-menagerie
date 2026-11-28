@@ -767,7 +767,7 @@ export async function sendToOwlbear(
     if (!plan.combatants.length) {
       throw new Error(
         plan.missingMonsters.length
-          ? "None of the combatants could be loaded from SteelCompendium."
+          ? "None of the combatants could be loaded from the bundled compendium."
           : "There is nothing to send to Owlbear.",
       );
     }

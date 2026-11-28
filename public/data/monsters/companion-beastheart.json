@@ -1,0 +1,1106 @@
+{
+  "en/unified/json/monster/companion/beastheart/statblock/basilisk.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or ranged 5",
+        "effects": [
+          {
+            "effect": "The target takes corruption damage equal to 3 + the basilisk's Might score and is stoned (save ends) (see [Stoned](scc.v1:mcdm.beastheart.v1/feature.companion.beastheart.basilisk.level-1/stoned)).",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "While stoned this way, the target is also [slowed](scc.v1:mcdm.heroes.v1/condition/slowed)."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "Transfixed by the basilisk's magical gaze or struck by their poisoned claws, the foe's body begins to calcify.",
+        "keywords": [
+          "Companion",
+          "Magic",
+          "Melee",
+          "Ranged",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.basilisk.level-1/petrify"
+          ]
+        },
+        "name": "Petrify",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "A stoned creature is magically turning to stone. Each time a creature fails the saving throw to end this effect, they take corruption damage equal to the basilisk's Might score. A stoned creature or a creature adjacent to them can use a maneuver to cut the encroaching stone from the stoned target's body, ending the effect and dealing damage to the target equal to twice the basilisk's Might score that can't be reduced in any way. A creature reduced to 0 Stamina while they are stoned, or by an ability that causes a creature to become stoned, is turned to stone until they are restored to life by magical means."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.basilisk.level-1/stoned"
+          ]
+        },
+        "name": "Stoned",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Poison 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Beast",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/basilisk",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Basilisk",
+    "organization": "Companion",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "1L",
+    "skills": [
+      "Alertness"
+    ],
+    "speed": 5,
+    "stability": 2,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/bear.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 4 + the bear's Might score and is pushed up to 2 squares.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "The target is [force moved](scc.v1:mcdm.heroes.v1/movement/forced-movement) up to a number of additional squares equal to the bear's Might score."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The bear casually swats the pesky foe into next week.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.bear.level-1/backhand"
+          ]
+        },
+        "name": "Backhand",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "You gain a +1 bonus to your stability."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.bear.level-1/strong-like-bear"
+          ]
+        },
+        "name": "Strong Like Bear",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/bear",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Bear",
+    "organization": "Companion",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "1L",
+    "skills": [
+      "Intimidate"
+    ],
+    "speed": 5,
+    "stability": 2,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/boar.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The boar moves up to their speed in a straight line. When this movement ends, they can deal damage equal to 3 + their Might score to an adjacent target. If the boar moved closer to the target as part of this movement, the boar deals extra damage equal to their Might score.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "The target is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "With an enraged snort, the boar lunges forward to rip open foes with their tusks.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.boar.level-1/gore"
+          ]
+        },
+        "name": "Gore",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the boar is winded, they have damage immunity equal to their Might score and ignore the effects of [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding)."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.boar.level-1/spiteful-endurance"
+          ]
+        },
+        "name": "Spiteful Endurance",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/boar",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Boar",
+    "organization": "Companion",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Search"
+    ],
+    "speed": 5,
+    "stability": 2,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/condor.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 3 + the condor's Might score. Additionally, enemies are [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) while adjacent to the condor until the end of your next turn.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "An enemy who would be [weakened](scc.v1:mcdm.heroes.v1/condition/weakened) by this ability is [taunted](scc.v1:mcdm.heroes.v1/condition/taunted) instead."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "I can't draw a bead on them with that infernal bird flapping in my face!",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.condor.level-1/flurry-of-wings"
+          ]
+        },
+        "name": "Flurry of Wings",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "While the condor is [flying](scc.v1:mcdm.heroes.v1/movement/fly) and has a speed greater than 0, ranged strikes against them take a bane."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.condor.level-1/moving-target"
+          ]
+        },
+        "name": "Moving Target",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/condor",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Condor",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Alertness"
+    ],
+    "speed": 7,
+    "stability": 0,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/deinonychus.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 3 + the deinonychus's Might score, and if they have M < AVERAGE, they are [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) until the end of their next turn.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "A target who has M < STRONG is [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The deinonychus kicks their prey, then slashes them with wicked claws.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.deinonychus.level-1/terrible-claws"
+          ]
+        },
+        "name": "Terrible Claws",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the deinonychus deals damage to a [bleeding](scc.v1:mcdm.heroes.v1/condition/bleeding) creature, they gain 1 surge."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.deinonychus.level-1/blood-frenzy"
+          ]
+        },
+        "name": "Blood Frenzy",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/deinonychus",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Deinonychus",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Track"
+    ],
+    "speed": 7,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/drake.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "1 or 2 cube within 1",
+        "effects": [
+          {
+            "effect": "The target takes damage of the drake's attuned damage type (see [Elementally Attuned](scc.v1:mcdm.beastheart.v1/feature.companion.beastheart.drake.level-1/elementally-attuned)) equal to the drake's Might score.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 or 2 Ferocity",
+            "effect": "This ability affects a 3 cube (if you spend 1 ferocity) or a 4 cube (if you spend 2 ferocity) within 1."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The drake exhales a blast of flesh-melting energy.",
+        "keywords": [
+          "Area",
+          "Companion",
+          "Magic"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.drake.level-1/drake-breath"
+          ]
+        },
+        "name": "Drake Breath",
+        "target": "Each creature in the area",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "When you gain this companion, you choose their attuned damage type from acid, cold, corruption, fire, lightning, poison, or sonic. The drake's attuned damage type affects their other features."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.drake.level-1/elementally-attuned"
+          ]
+        },
+        "name": "Elementally Attuned",
+        "type": "feature"
+      },
+      {
+        "effects": [
+          {
+            "effect": "You have immunity 3 to the drake's attuned damage type."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.drake.level-1/shared-scales"
+          ]
+        },
+        "name": "Shared Scales",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Attuned damage type 3 (see Elementally Attuned)"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Companion",
+      "Dragon"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/drake",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "movement": "Fly",
+    "name": "Drake",
+    "organization": "Companion",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Intimidate"
+    ],
+    "speed": 5,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/elemental-spark.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes lightning damage equal to 2 + the spark's Might score.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "The distance increases to melee 5."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "An arc of lightning crackles from the spark.",
+        "keywords": [
+          "Companion",
+          "Magic",
+          "Melee"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.elemental-spark.level-1/static-shock"
+          ]
+        },
+        "name": "Static Shock",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The first time on a turn that you or the spark deal lightning damage, you gain 1 surge."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.elemental-spark.level-1/electric-surge"
+          ]
+        },
+        "name": "Electric Surge",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Lightning 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Companion",
+      "Elemental"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/elemental-spark",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Elemental Spark",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Magic"
+    ],
+    "speed": 7,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/gummy-ball.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes acid damage equal to 3 + the ball's Might score, and if they have A < AVERAGE, the ball moves into the target's space. If the target completely fits within the ball's space, the target is [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the ball.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "A target [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) this way takes acid damage equal to the ball's Might score at the end of each of the ball's turns."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "With a sickening squelch, the ball oozes around their hapless prey.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.gummy-ball.level-1/absorb"
+          ]
+        },
+        "name": "Absorb",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The ball can occupy another creature's space. While occupying a creature's space, the ball has line of effect to that creature. If the creature completely fits within the ball's space, the creature has line of effect only to the ball and creatures outside the ball don't have line of effect to the creature. The ball's space is [difficult terrain](scc.v1:mcdm.heroes.v1/movement/difficult-terrain)."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.gummy-ball.level-1/gelatinous"
+          ]
+        },
+        "name": "Gelatinous",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Acid 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Companion",
+      "Ooze"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/gummy-ball",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Gummy Ball",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1L",
+    "skills": [
+      "Sneak"
+    ],
+    "speed": 5,
+    "stability": 2,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/hellhound.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1 or Ranged 2",
+        "effects": [
+          {
+            "effect": "The target takes fire damage equal to 3 + the hellhound's Might score.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "This ability gains a bonus to either its damage or distance equal to the hellhound's Intuition score."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The hellhound exhales infernal flames.",
+        "keywords": [
+          "Companion",
+          "Magic",
+          "Melee",
+          "Ranged"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.hellhound.level-1/fire-breath"
+          ]
+        },
+        "name": "Fire Breath",
+        "target": "One creature or object",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "You have fire immunity equal to the hellhound's fire immunity."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.hellhound.level-1/hellish-pact"
+          ]
+        },
+        "name": "Hellish Pact",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Fire 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Companion",
+      "Infernal"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/hellhound",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Hellhound",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Intimidate"
+    ],
+    "speed": 7,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/lightbender.json": {
+    "agility": 1,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 3 + the lightbender's Might score, and if they have M < AVERAGE, they are dazzled until the end of their next turn. A dazzled creature has line of effect only within 1 square.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "A dazzled creature also takes a bane on strikes."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The lightbender swings their tail, sending gouts of sparks in their foe's face.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.lightbender.level-1/sparking-tail-whip"
+          ]
+        },
+        "name": "Sparking Tail Whip",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Any effect on the lightbender that would be ended by a saving throw instead ends automatically at the end of their next turn."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.lightbender.level-1/avoidance"
+          ]
+        },
+        "name": "Avoidance",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Beast",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/lightbender",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Lightbender",
+    "organization": "Companion",
+    "presence": 2,
+    "reason": -1,
+    "role": "",
+    "size": "1L",
+    "skills": [
+      "Hide"
+    ],
+    "speed": 7,
+    "stability": 2,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/panther.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 3 + the panther's Might score, and if they have M < AVERAGE, they are knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone).",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "The panther can jump up to a number of squares equal to their speed before using this ability. If they jump at least 1 square in this way, a target who has M < STRONG is knocked [prone](scc.v1:mcdm.heroes.v1/condition/prone)."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The panther bunches up, then uncoils into a deadly leap.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.panther.level-1/pounce"
+          ]
+        },
+        "name": "Pounce",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the panther takes the Advance move action or the Charge action, they can [jump](scc.v1:mcdm.heroes.v1/movement/jump) up to a number of squares equal to their speed in any direction, including vertically, as part of this movement."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.panther.level-1/mighty-spring"
+          ]
+        },
+        "name": "Mighty Spring",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/panther",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Panther",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Sneak"
+    ],
+    "speed": 7,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/spider.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Ranged 5",
+        "effects": [
+          {
+            "effect": "If the target has M < AVERAGE, they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) until the end of their next turn.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "If the target has M < STRONG, they are [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) (save ends)."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The spider fires a ball of sticky silk.",
+        "keywords": [
+          "Companion",
+          "Ranged",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.spider.level-1/web-shot"
+          ]
+        },
+        "name": "Web Shot",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "Whenever the spider makes a strike against a [restrained](scc.v1:mcdm.heroes.v1/condition/restrained) creature, the spider deals extra poison damage equal to twice their Intuition score."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.spider.level-1/come-into-my-parlor"
+          ]
+        },
+        "name": "Come Into My Parlor",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/spider",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "movement": "Climb",
+    "name": "Spider",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Sneak"
+    ],
+    "speed": 5,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/sporeling.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes poison damage equal to 3 + the sporeling's Might score, and the sporeling is invisible to the target until the end of the sporeling's next turn or they deal damage to the target.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "If the target has M < STRONG, they are [dazed](scc.v1:mcdm.heroes.v1/condition/dazed) until the end of their next turn."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "The sporeling breathes a cloud of disorienting fumes.",
+        "keywords": [
+          "Companion",
+          "Melee"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.sporeling.level-1/spore-puff"
+          ]
+        },
+        "name": "Spore Puff",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The sporeling can end their movement in an ally's space. While occupying an ally's space, the sporeling has cover."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.sporeling.level-1/skulker"
+          ]
+        },
+        "name": "Skulker",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "immunities": [
+      "Poison 3"
+    ],
+    "intuition": 2,
+    "keywords": [
+      "Beast",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/sporeling",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Sporeling",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1S",
+    "skills": [
+      "Track"
+    ],
+    "speed": 5,
+    "stability": 0,
+    "stamina": "= yours",
+    "type": "statblock"
+  },
+  "en/unified/json/monster/companion/beastheart/statblock/wolf.json": {
+    "agility": 2,
+    "ev": "",
+    "features": [
+      {
+        "ability_type": "Signature Ability",
+        "distance": "Melee 1",
+        "effects": [
+          {
+            "effect": "The target takes damage equal to 3 + the wolf's Might score, and if they have M < AVERAGE, they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the wolf.",
+            "name": "Effect"
+          },
+          {
+            "cost": "Spend 1 Ferocity",
+            "effect": "If the target has M < STRONG, they are [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) by the wolf."
+          }
+        ],
+        "feature_type": "ability",
+        "flavor": "With an unnerving growl, the wolf sinks powerful teeth into their quarry.",
+        "keywords": [
+          "Companion",
+          "Melee",
+          "Weapon"
+        ],
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.ability.companion.beastheart.wolf.level-1/clamping-jaws"
+          ]
+        },
+        "name": "Clamping Jaws",
+        "target": "One enemy",
+        "type": "feature",
+        "usage": "Maneuver"
+      },
+      {
+        "effects": [
+          {
+            "effect": "The wolf can move at full speed while they have a creature [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed), no matter the [grabbed](scc.v1:mcdm.heroes.v1/condition/grabbed) creature's size."
+          }
+        ],
+        "feature_type": "feature",
+        "metadata": {
+          "scc": [
+            "mcdm.beastheart.v1/feature.companion.beastheart.wolf.level-1/retriever"
+          ]
+        },
+        "name": "Retriever",
+        "type": "feature"
+      }
+    ],
+    "free_strike": "1 + M",
+    "intuition": 2,
+    "keywords": [
+      "Animal",
+      "Companion"
+    ],
+    "level": 1,
+    "metadata": {
+      "scc": "mcdm.beastheart.v1/monster.companion.beastheart.statblock/wolf",
+      "source": "mcdm.beastheart.v1"
+    },
+    "might": 2,
+    "name": "Wolf",
+    "organization": "Companion",
+    "presence": 1,
+    "reason": -1,
+    "role": "",
+    "size": "1M",
+    "skills": [
+      "Track"
+    ],
+    "speed": 7,
+    "stability": 1,
+    "stamina": "= yours",
+    "type": "statblock"
+  }
+}
